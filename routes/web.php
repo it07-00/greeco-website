@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\CourseController;
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -25,7 +26,12 @@ Route::view('/goi-dich-vu', 'pages.pricing-plans')->name('pricing-plans');
 
 // Dịch vụ (Lĩnh vực hoạt động)
 Route::get('/dich-vu', [ServiceController::class, 'index'])->name('services.index');
-Route::view('/dich-vu/dao-tao-va-boi-duong', 'services.dao-tao')->name('services.dao-tao');
+Route::get('/dao-tao-va-boi-duong', [CourseController::class, 'index'])->name('services.dao-tao');
+Route::get('/dao-tao-va-boi-duong/{slug}', [CourseController::class, 'show'])->name('services.course-detail');
+
+// Redirects for backward compatibility
+Route::redirect('/dich-vu/dao-tao-va-boi-duong', '/dao-tao-va-boi-duong', 301);
+Route::redirect('/dich-vu/dao-tao-va-boi-duong/{slug}', '/dao-tao-va-boi-duong/{slug}', 301);
 Route::view('/dich-vu/tu-van', 'services.tu-van')->name('services.tu-van');
 Route::view('/dich-vu/du-an', 'services.du-an')->name('services.du-an');
 Route::view('/dich-vu/nghien-cuu', 'services.nghien-cuu')->name('services.nghien-cuu');

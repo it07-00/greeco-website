@@ -31,6 +31,12 @@ class ContactController extends Controller
 
         Contact::create($data);
 
+        if ($request->input('_return') === 'training') {
+            return redirect()
+                ->to(route('services.dao-tao').'#tu-van-dao-tao')
+                ->with('success', 'Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất.');
+        }
+
         return back()->with('success', 'Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất.');
     }
 }

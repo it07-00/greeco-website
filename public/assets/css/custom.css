@@ -25,6 +25,30 @@ All rules are structured logically into categorized sections:
     padding: 0;
 }
 
+/* MDB ripple JavaScript is bundled without its companion CSS. */
+.ripple-surface {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple-wave {
+    position: absolute !important;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.24);
+    opacity: 0.45;
+    transform: scale(0);
+    transition-property: transform, opacity;
+}
+
+.ripple-wave.active {
+    opacity: 0;
+    transform: scale(1);
+}
+
 .max-h-50px {
     max-height: 50px;
 }
@@ -1665,5 +1689,53 @@ blockquote .blockquote-footer {
 @media only screen and (max-width: 767px) {
     .project-card-custom {
         height: 280px !important;
+    }
+}
+
+/* ==========================================================================
+   Header Main Menu Spacing & Wrapping Fixes
+   ========================================================================== */
+@media only screen and (min-width: 992px) {
+    /* Reduce container padding on medium desktops to reclaim space */
+    .container-fluid.px-custom {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+    
+    /* Decrease margin and size slightly on desktops to avoid double line wrapping */
+    #mainmenu > li {
+        margin-right: 12px !important;
+    }
+    #mainmenu > li > a {
+        font-size: 12px !important;
+        padding-right: 4px !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .container-fluid.px-custom {
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+    }
+    #mainmenu > li {
+        margin-right: 14px !important;
+    }
+    #mainmenu > li > a {
+        font-size: 13px !important;
+        padding-right: 6px !important;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .container-fluid.px-custom {
+        padding-left: 80px !important;
+        padding-right: 80px !important;
+    }
+    #mainmenu > li {
+        margin-right: 18px !important;
+    }
+    #mainmenu > li > a {
+        font-size: 13px !important;
+        padding-right: 8px !important;
     }
 }

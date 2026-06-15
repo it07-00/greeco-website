@@ -1,172 +1,581 @@
 @php
-    $seoTitle = 'Đào tạo & Bồi dưỡng Chuyên môn - Viện GREECO';
-    $seoDescription = 'Đào tạo chuyên môn về Hệ thống quản lý ISO, HSE, Kiểm kê khí nhà kính, ESG, Chuỗi cung ứng bền vững, Trách nhiệm xã hội và Công trình xanh.';
+    $seoTitle = 'Đào tạo & Bồi dưỡng Chuyên môn Bền vững - Viện GREECO';
+    $seoDescription = 'Viện GREECO cung cấp các chương trình đào tạo và bồi dưỡng chuyên sâu, thực tiễn từ cơ bản đến nâng cao. Đội ngũ chuyên gia của chúng tôi hỗ trợ doanh nghiệp xây dựng năng lực nội tại, chuẩn hóa hệ thống quản lý và đáp ứng các tiêu chuẩn xuất khẩu khắt khe về phát triển bền vững và trung hòa carbon.';
     $canonical = route('services.dao-tao');
-    
+    $ogImage = asset('assets/images/services/iso-9001-course.png');
+
     $breadcrumbs = [
         ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Lĩnh vực', 'url' => route('services.index')],
-        ['name' => 'Đào tạo & Bồi dưỡng', 'url' => route('services.dao-tao')]
+        ['name' => 'Đào tạo & Bồi dưỡng', 'url' => route('services.dao-tao')],
     ];
 @endphp
 
 @extends('layouts.app')
 
+@push('styles')
+    <style>
+        .academy-catalog-page {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .academy-hero-banner {
+            background: linear-gradient(135deg, #0f2c28 0%, #173d37 100%) !important;
+            color: #ffffff !important;
+            padding: 9.5rem 0 5.5rem !important;
+            position: relative;
+            text-align: center;
+        }
+
+        .search-box-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-box-input {
+            border: 2px solid #008f79;
+            border-radius: 50px;
+            padding: 14px 25px;
+            width: 100%;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-box-btn {
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            background: #008f79;
+            border: none;
+            color: #ffffff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: background 0.2s ease;
+        }
+
+        .search-box-btn:hover {
+            background: #007463;
+        }
+
+        .stat-item {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+        }
+
+        .stat-icon {
+            font-size: 1.8rem;
+            color: #00ffca;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .category-box {
+            display: flex;
+            flex-column: true;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+
+        .category-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-color: #008f79;
+        }
+
+        .category-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        .course-catalog-card {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .course-catalog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .course-card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%;
+            /* 16:9 aspect ratio */
+        }
+
+        .course-card-img-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .course-catalog-card:hover .course-card-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .course-tag-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .course-rating-stars i {
+            color: #ffc107;
+            font-size: 0.85rem;
+        }
+
+        .instructor-avatar-card {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-bubble {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            position: relative;
+        }
+
+        .newsletter-section {
+            background: linear-gradient(135deg, #102a26 0%, #163d37 100%) !important;
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 50px 40px;
+        }
+
+        .btn-register-now {
+            background: #008f79;
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 10px 24px;
+            border: none;
+            transition: background 0.2s ease;
+        }
+
+        .btn-register-now:hover {
+            background: #007463;
+            color: #ffffff;
+        }
+    </style>
+@endpush
 
 @section('content')
-    <x-schema.breadcrumb :items="$breadcrumbs" />
-    <x-schema.service 
-        name="Đào tạo & Bồi dưỡng Chuyên môn" 
-        description="Đào tạo chuyên môn về Hệ thống quản lý ISO, HSE, Kiểm kê khí nhà kính, ESG, Chuỗi cung ứng bền vững, Trách nhiệm xã hội và Công trình xanh." 
-        :url="$canonical" 
-    />
+    <div class="academy-catalog-page">
+        <!-- Hero Section -->
+        <section class="academy-hero-banner">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3 text-white">Nâng cao năng lực Phát triển bền vững</h1>
+                <p class="lead text-white-50 max-width-600 mx-auto mb-4">
+                    Các khóa học chất lượng cao về ISO, HSE, ESG, Carbon giúp bạn và doanh nghiệp bứt phá trong kỷ nguyên
+                    xanh.
+                </p>
 
-    <div class="no-bottom no-top" id="content">
-        <div id="top"></div>
+                <!-- Search box -->
+                <div class="search-box-wrapper mb-5">
+                    <form action="#" method="GET" id="search-courses-form">
+                        <input type="text" class="search-box-input" placeholder="Tìm khóa học bạn quan tâm..."
+                            id="search-input">
+                        <button type="submit" class="search-box-btn" aria-label="Tìm kiếm"><i
+                                class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
 
-        <section id="subheader" class="relative">
-            <div class="container relative z-index-1000">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <ul class="crumb">
-                           <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                            <li><a href="{{ route('services.index') }}">Lĩnh vực</a></li>
-                            <li class="active">Đào tạo & Bồi dưỡng</li>
-                        </ul>
-                        <h1 class="text-uppercase">Đào tạo & Bồi dưỡng</h1>
-                        <p class="col-lg-10">Đào tạo và bồi dưỡng chuyên môn sâu rộng về các tiêu chuẩn phát triển bền vững và giảm phát thải.</p>
+                <!-- 4 Quick Stats -->
+                <div class="row row-cols-2 row-cols-lg-4 g-4 mt-2 justify-content-center">
+                    <div class="col">
+                        <div class="stat-item">
+                            <span class="stat-icon"><i class="fa-solid fa-user-tie"></i></span>
+                            <strong>Giảng viên chuyên gia</strong>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="stat-item">
+                            <span class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+                            <strong>Nội dung thực tiễn</strong>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="stat-item">
+                            <span class="stat-icon"><i class="fa-solid fa-clock"></i></span>
+                            <strong>Học mọi lúc mọi nơi</strong>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="stat-item">
+                            <span class="stat-icon"><i class="fa-solid fa-award"></i></span>
+                            <strong>Chứng chỉ uy tín</strong>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section>
-            <div class="container">
-                <div class="row g-4 gx-5">
-                    <div class="col-lg-3">
-                        <div class="me-lg-3">
-                            <a href="{{ route('services.dao-tao') }}" class="bg-color text-light d-block p-3 px-4 rounded-10px mb-3 relative"><h4 class="mb-0">Đào tạo & Bồi dưỡng</h4><i class="icofont-long-arrow-right absolute abs-middle fs-24 end-20px"></i></a>
-                            <a href="{{ route('services.tu-van') }}" class="bg-light d-block p-3 px-4 rounded-10px mb-3"><h4 class="mb-0">Dịch vụ Tư vấn</h4></a>
-                            <a href="{{ route('services.du-an') }}" class="bg-light d-block p-3 px-4 rounded-10px mb-3"><h4 class="mb-0">Phát triển Dự án</h4></a>
-                            <a href="{{ route('services.nghien-cuu') }}" class="bg-light d-block p-3 px-4 rounded-10px mb-3"><h4 class="mb-0">Nghiên cứu và Chuyển giao Công nghệ</h4></a>
-                            <a href="{{ route('services.hoi-thao') }}" class="bg-light d-block p-3 px-4 rounded-10px mb-3"><h4 class="mb-0">Hội thảo & Truyền thông</h4></a>
+        <!-- Course Categories -->
+        <section class="py-5">
+            <div class="container py-lg-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h2 class="academy-heading fw-bold fs-4 mb-0">Danh mục khóa học</h2>
+                    <a href="#chuong-trinh-dao-tao" class="text-success fw-bold text-decoration-none small">Xem tất cả</a>
+                </div>
+
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+                    @foreach ($categories as $cat)
+                        <div class="col">
+                            <a href="#chuong-trinh-dao-tao" class="category-box h-100" data-filter="{{ $cat->name }}">
+                                <div class="category-icon-wrapper"
+                                    style="background-color: {{ $cat->bg }}; color: {{ $cat->color }};">
+                                    <i class="fa-solid {{ $cat->icon }}"></i>
+                                </div>
+                                <strong class="academy-heading small text-dark">{{ $cat->name }}</strong>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Courses Section -->
+        <section class="py-5 bg-white" id="chuong-trinh-dao-tao">
+            <div class="container py-lg-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h2 class="academy-heading fw-bold fs-4 mb-0">Khóa học nổi bật</h2>
+                    <a href="#tu-van-dao-tao" class="text-success fw-bold text-decoration-none small">Yêu cầu chương trình
+                        riêng</a>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="courses-catalog-grid">
+                    @foreach ($programs as $program)
+                        <div class="col course-catalog-item" data-category="{{ $program['tag'] }}">
+                            <article class="course-catalog-card h-100 d-flex flex-column">
+                                <div class="course-card-img-wrapper">
+                                    @if(isset($program['slug']))
+                                        <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}">
+                                    @else
+                                            <a href="#tu-van-dao-tao" class="scroll-to-inquiry"
+                                                data-inquiry-topic="{{ $program['title'] }}">
+                                        @endif
+                                            <img src="{{ asset($program['image']) }}" alt="{{ $program['title'] }}">
+                                        </a>
+                                        <span class="badge course-tag-badge {{ $program['badge_color'] }} text-white">
+                                            {{ $program['tag'] }}
+                                        </span>
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <h3 class="academy-heading fs-6 fw-bold mb-2">
+                                        @if(isset($program['slug']))
+                                            <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}"
+                                                class="text-reset text-decoration-none">
+                                                {{ $program['title'] }}
+                                            </a>
+                                        @else
+                                            <a href="#tu-van-dao-tao" class="text-reset text-decoration-none scroll-to-inquiry"
+                                                data-inquiry-topic="{{ $program['title'] }}">
+                                                {{ $program['title'] }}
+                                            </a>
+                                        @endif
+                                    </h3>
+                                    <p class="text-secondary small mb-3 flex-grow-1"
+                                        style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                        {{ $program['description'] }}
+                                    </p>
+                                    <div class="text-secondary small mb-3">Viện GREECO</div>
+
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <span class="course-rating-stars"><i class="fa-solid fa-star"></i></span>
+                                        <small class="fw-bold text-dark">{{ $program['rating'] }}</small>
+                                        <small class="text-secondary">({{ $program['rating_count'] }})</small>
+                                    </div>
+
+                                    <div class="d-flex align-items-center justify-content-between mt-auto pt-3 border-top">
+                                        <div>
+                                            <strong class="text-success fs-5 d-block">{{ $program['price'] }}</strong>
+                                            <small
+                                                class="text-secondary text-decoration-line-through">{{ $program['original_price'] }}</small>
+                                        </div>
+                                        @if(isset($program['slug']))
+                                            <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}"
+                                                class="btn btn-sm btn-register-now">
+                                                Xem chi tiết
+                                            </a>
+                                        @else
+                                            <a href="#tu-van-dao-tao" class="btn btn-sm btn-outline-success scroll-to-inquiry"
+                                                data-inquiry-topic="{{ $program['title'] }}">
+                                                Đăng ký tư vấn
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <!-- Instructors Section -->
+        <section class="py-5 bg-light">
+            <div class="container py-lg-4 text-center">
+                <h2 class="academy-heading fw-bold fs-4 mb-5">Giảng viên tiêu biểu</h2>
+                <div class="row justify-content-center g-4">
+                    @foreach ($instructors as $inst)
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card border-0 shadow-sm p-4 h-100 bg-white rounded-3">
+                                <img src="{{ asset($inst['image']) }}" alt="{{ $inst['name'] }}"
+                                    class="instructor-avatar-card mx-auto mb-3">
+                                <h3 class="academy-heading fs-6 fw-bold mb-1">{{ $inst['name'] }}</h3>
+                                <p class="text-success small mb-0">{{ $inst['role'] }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-5 bg-white">
+            <div class="container py-lg-4 max-width-800">
+                <h2 class="academy-heading fw-bold fs-4 text-center mb-5">Học viên nói gì về GREECO</h2>
+                <div class="testimonial-bubble mx-auto mb-4">
+                    <p class="text-secondary italic mb-4">
+                        "Khóa học rất thực tế, giảng viên giàu kinh nghiệm, hỗ trợ nhiệt tình. Chứng chỉ của GREECO giúp ích
+                        rất nhiều cho công việc của tôi."
+                    </p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="academy-icon-sm" style="width: 40px; height: 40px;"><i
+                                    class="fa-solid fa-user"></i></span>
+                            <div class="text-start">
+                                <strong class="d-block academy-heading small">Nguyễn Hoàng Nam</strong>
+                                <small class="text-secondary" style="font-size: 0.75rem;">Chuyên viên QHSE</small>
+                            </div>
+                        </div>
+                        <div class="course-rating-stars">
+                            @for ($i = 0; $i < 5; $i++)
+                                <i class="fa-solid fa-star"></i>
+                            @endfor
+                            <small class="fw-bold text-dark ms-2">5.0</small>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
 
-                    <div class="col-lg-9">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <h2><span class="id-color-2">Đào tạo & Bồi dưỡng</span> Chuyên môn Bền vững</h2>
-                                <p class="lead">Viện GREECO cung cấp các chương trình đào tạo và bồi dưỡng chuyên sâu, thực tiễn từ cơ bản đến nâng cao. Đội ngũ chuyên gia của chúng tôi hỗ trợ doanh nghiệp xây dựng năng lực nội tại, chuẩn hóa hệ thống quản lý và đáp ứng các tiêu chuẩn xuất khẩu khắt khe về phát triển bền vững và trung hòa carbon.</p>
-                            </div>
+        <!-- Inquiry Form & Newsletter Section -->
+        <section class="py-5 bg-light" id="tu-van-dao-tao">
+            <div class="container py-lg-4">
+                <div class="newsletter-section">
+                    <div class="row align-items-center g-5">
+                        <div class="col-lg-6">
+                            <h2 class="text-white fw-bold mb-3">Đăng ký nhận thông tin khóa học mới nhất</h2>
+                            <p class="text-white-50 mb-0">
+                                Nhập email của bạn để nhận thông tin ưu đãi và các khóa học mới cập nhật từ Viện GREECO.
+                            </p>
                         </div>
+                        <div class="col-lg-6">
+                            <form method="POST" action="{{ route('contact.store') }}" id="newsletter-form">
+                                @csrf
+                                <input type="hidden" name="_return" value="training">
+                                <input type="hidden" name="subject" value="Đăng ký nhận bản tin Khóa học">
+                                <input type="hidden" name="message"
+                                    value="Đăng ký nhận bản tin Khóa học từ trang Đào tạo & Bồi dưỡng">
 
-                        <div class="spacer-double"></div>
-
-                        <div class="row g-4">
-                            <!-- Subcategory 1 -->
-                            <div class="col-lg-12">
-                                <div class="p-4 rounded-10px training-card mb-3">
-                                    <h4 class="id-color-2 mb-2"><i class="fa-solid fa-gears me-2"></i>Hệ thống quản lý ISO và cải tiến doanh nghiệp</h4>
-                                    <p class="mb-3">Cung cấp các khóa đào tạo từ nhận thức chung đến chuyên viên đánh giá nội bộ, giúp doanh nghiệp chuẩn hóa quy trình và nâng cao năng lực vận hành:</p>
-                                    <ul class="ul-style-2 mb-0">
-                                        <li><strong>ISO 9001:2015:</strong> Xây dựng Hệ thống Quản lý Chất lượng hiệu quả.</li>
-                                        <li><strong>ISO 14001:2015:</strong> Thiết lập Hệ thống Quản lý Môi trường chuẩn quốc tế.</li>
-                                        <li><strong>ISO 45001:2018:</strong> Xây dựng Hệ thống Quản lý An toàn và Sức khỏe Nghề nghiệp.</li>
-                                        <li><strong>ISO 50001:2018:</strong> Thiết lập Hệ thống Quản lý Năng lượng bền vững.</li>
-                                        <li><strong>ISO 46001:2019:</strong> Xây dựng Hệ thống Quản lý Hiệu quả Sử dụng Nước tối ưu.</li>
-                                    </ul>
+                                <div class="input-group">
+                                    <input type="email" class="form-control py-3 px-4 rounded-start"
+                                        placeholder="Nhập email của bạn..." name="email" required>
+                                    <button class="btn btn-success px-4 rounded-end fw-bold" type="submit">Đăng ký</button>
                                 </div>
-                            </div>
-                            
-                            <!-- Subcategory 2 -->
-                            <div class="col-lg-12">
-                                <div class="p-4 rounded-10px training-card mb-3">
-                                    <h4 class="id-color-2 mb-2"><i class="fa-solid fa-shield-halved me-2"></i>An toàn – Sức khỏe – Môi trường, HSE</h4>
-                                    <p class="mb-3">Trang bị kiến thức và kỹ năng thực tiễn để kiểm soát rủi ro, bảo vệ sức khỏe người lao động và giảm thiểu tai nạn lao động:</p>
-                                    <ul class="ul-style-2 mb-0">
-                                        <li>Đánh giá Rủi ro An toàn – Sức khỏe – Môi trường toàn diện.</li>
-                                        <li>Quản lý Hóa chất an toàn và hiệu quả trong Doanh nghiệp.</li>
-                                        <li>Điều tra Sự cố và Phân tích Nguyên nhân Gốc rễ (Root Cause Analysis – RCA).</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Subcategory 3 -->
-                            <div class="col-lg-12">
-                                <div class="p-4 rounded-10px training-card mb-3">
-                                    <h4 class="id-color-2 mb-2"><i class="fa-solid fa-cloud-sun me-2"></i>Kiểm kê khí nhà kính và quản lý carbon</h4>
-                                    <p class="mb-3">Đầu ngành cùng mục tiêu giảm phát thải của quốc gia và quốc tế, đào tạo chuyên sâu về kỹ thuật kiểm kê và định lượng carbon:</p>
-                                    <ul class="ul-style-2 mb-0">
-                                        <li>Kiểm kê Khí nhà kính theo Nghị định 06/2022/NĐ-CP của Chính phủ.</li>
-                                        <li>Kiểm kê Khí nhà kính chuẩn hóa quốc tế theo tiêu chuẩn ISO 14064-1:2018.</li>
-                                        <li>Hướng dẫn Định lượng Khí nhà kính theo ISO 14069:2013.</li>
-                                        <li>Đào tạo phương pháp Greenhouse Gas Protocol (GHG Protocol).</li>
-                                        <li>Tính toán Vết Carbon của Sản phẩm theo ISO 14067:2018.</li>
-                                        <li>PAS 2060:2014 – Hướng dẫn Chứng nhận Trung hòa Carbon.</li>
-                                        <li>ISO 14068-1:2023 – Tiêu chuẩn mới về Trung hòa Carbon.</li>
-                                        <li>Verified Carbon Standard, VCS – Tiêu chuẩn Carbon đã được Xác minh.</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Subcategory 4 -->
-                            <div class="col-lg-12">
-                                <div class="p-4 rounded-10px training-card mb-3">
-                                    <h4 class="id-color-2 mb-2"><i class="fa-solid fa-chart-line me-2"></i>ESG và phát triển bền vững</h4>
-                                    <p class="mb-3">Nâng cao nhận thức và năng lực tích hợp tiêu chuẩn ESG vào chiến lược kinh doanh dài hạn của doanh nghiệp:</p>
-                                    <ul class="ul-style-2 mb-0">
-                                        <li><strong>Environmental, Social and Governance, ESG:</strong> Môi trường, Xã hội và Quản trị.</li>
-                                        <li><strong>Global Reporting Initiative, GRI:</strong> Sáng kiến Báo cáo Toàn cầu.</li>
-                                        <li><strong>Science Based Targets initiative, SBTi:</strong> Sáng kiến Mục tiêu Dựa trên Cơ sở Khoa học.</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Subcategory 5 -->
-                            <div class="col-lg-12">
-                                <div class="p-4 rounded-10px training-card mb-3">
-                                    <h4 class="id-color-2 mb-2"><i class="fa-solid fa-arrows-spin me-2"></i>Chuỗi cung ứng bền vững và kinh tế tuần hoàn</h4>
-                                    <p class="mb-3">Hỗ trợ doanh nghiệp hội nhập chuỗi cung ứng toàn cầu thông qua các tiêu chuẩn tuần hoàn và truy xuất nguồn gốc:</p>
-                                    <ul class="ul-style-2 mb-0">
-                                        <li>Chứng nhận Bền vững và Carbon Quốc tế: ISCC PLUS, ISCC EU, ISCC CORSIA.</li>
-                                        <li><strong>Global Recycled Standard, GRS:</strong> Tiêu chuẩn Tái chế Toàn cầu.</li>
-                                        <li><strong>EN 15343:</strong> Truy xuất nguồn gốc và xác định hàm lượng nhựa tái chế trong sản phẩm nhựa.</li>
-                                        <li><strong>Cradle to Cradle Certified®:</strong> Tiêu chuẩn Thiết kế Sản phẩm Tuần hoàn.</li>
-                                        <li><strong>Higg Facility Environmental Module, Higg FEM:</strong> Đánh giá tác động môi trường tại nhà máy.</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Subcategory 6 -->
-                            <div class="col-lg-12">
-                                <div class="p-4 rounded-10px training-card mb-3">
-                                    <h4 class="id-color-2 mb-2"><i class="fa-solid fa-users me-2"></i>Trách nhiệm xã hội và đánh giá chuỗi cung ứng</h4>
-                                    <p class="mb-3">Hướng dẫn tuân thủ các quy tắc đạo đức kinh doanh, bảo vệ quyền lợi người lao động và trách nhiệm xã hội:</p>
-                                    <ul class="ul-style-2 mb-0">
-                                        <li>Đánh giá Nhà cung cấp (Supplier Audit) theo chuẩn mực quốc tế.</li>
-                                        <li><strong>Social Accountability 8000, SA8000:</strong> Tiêu chuẩn Trách nhiệm Xã hội.</li>
-                                        <li><strong>SMETA (Sedex Members Ethical Trade Audit):</strong> Đánh giá đạo đức kinh doanh trong chuỗi cung ứng.</li>
-                                        <li><strong>Business Social Compliance Initiative, BSCI:</strong> Bộ Tiêu chuẩn Tuân thủ Trách nhiệm Xã hội trong Kinh doanh.</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Subcategory 7 -->
-                            <div class="col-lg-12">
-                                <div class="p-4 rounded-10px training-card mb-3">
-                                    <h4 class="id-color-2 mb-2"><i class="fa-solid fa-building-wheat me-2"></i>Công trình xanh và sản phẩm bền vững</h4>
-                                    <p class="mb-3">Xây dựng giải pháp kỹ thuật cho công trình xây dựng và sản phẩm đạt chứng chỉ sinh thái:</p>
-                                    <ul class="ul-style-2 mb-0">
-                                        <li><strong>Leadership in Energy and Environmental Design, LEED:</strong> Hệ thống Đánh giá Công trình Xanh của Hoa Kỳ.</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            </form>
                         </div>
+                    </div>
+                </div>
 
+                <!-- Inquiry Box Form below for detailed requests -->
+                <div class="card border-0 shadow mt-5">
+                    <div class="card-body p-4 p-md-5">
+                        @if(session('success'))
+                            <div class="alert alert-success" role="alert">
+                                <i class="fa-solid fa-circle-check me-2"></i>{{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Vui lòng kiểm tra lại thông tin.</strong>
+                            </div>
+                        @endif
+
+                        <h3 class="academy-heading fs-4 fw-bold mb-2">Yêu cầu tư vấn chương trình chi tiết</h3>
+                        <p class="text-secondary small mb-4">
+                            Điền thông tin bên dưới, GREECO sẽ liên hệ để trao đổi nhu cầu đào tạo cụ thể của cá nhân hoặc
+                            doanh nghiệp.
+                        </p>
+
+                        <form method="post" action="{{ route('contact.store') }}" class="row g-3">
+                            @csrf
+                            <input type="hidden" name="_return" value="training">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small" for="academy_inquiry_name">Họ và tên</label>
+                                <input class="form-control @error('name') is-invalid @enderror" id="academy_inquiry_name"
+                                    name="name" type="text" value="{{ old('name') }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small" for="academy_inquiry_phone">Số điện thoại</label>
+                                <input class="form-control @error('phone') is-invalid @enderror" id="academy_inquiry_phone"
+                                    name="phone" type="tel" value="{{ old('phone') }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small" for="academy_inquiry_email">Email</label>
+                                <input class="form-control @error('email') is-invalid @enderror" id="academy_inquiry_email"
+                                    name="email" type="email" value="{{ old('email') }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small" for="academy_inquiry_subject">Chương trình quan
+                                    tâm</label>
+                                <input class="form-control academy-inquiry-subject" id="academy_inquiry_subject"
+                                    name="subject" type="text" value="{{ old('subject', 'Tư vấn chương trình đào tạo') }}">
+                                <small class="form-text text-secondary" id="academy_inquiry_selection" aria-live="polite">
+                                    Nội dung này sẽ tự cập nhật khi bạn chọn một chương trình hoặc danh mục phía trên.
+                                </small>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small" for="academy_inquiry_message">Nhu cầu cụ thể của
+                                    doanh nghiệp</label>
+                                <textarea class="form-control" id="academy_inquiry_message" name="message" rows="4"
+                                    placeholder="Ví dụ: số lượng học viên, hình thức mong muốn, thời gian dự kiến..."></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-success w-100 py-3 fw-bold" type="submit">Gửi yêu cầu tư vấn</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var inquirySubject = document.getElementById('academy_inquiry_subject');
+            var inquirySelection = document.getElementById('academy_inquiry_selection');
+
+            // Quick search filter logic
+            var searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function () {
+                    var query = searchInput.value.toLowerCase().trim();
+                    var cards = document.querySelectorAll('.course-catalog-item');
+                    cards.forEach(function (card) {
+                        var title = card.querySelector('h3').textContent.toLowerCase();
+                        var desc = card.querySelector('p').textContent.toLowerCase();
+                        if (title.indexOf(query) !== -1 || desc.indexOf(query) !== -1) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Category filter click handler
+            var categoryLinks = document.querySelectorAll('.category-box');
+            categoryLinks.forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    var filterVal = link.getAttribute('data-filter');
+
+                    // Pre-fill search with category
+                    if (searchInput) {
+                        searchInput.value = filterVal;
+                        searchInput.dispatchEvent(new Event('input'));
+                    }
+
+                    // Update inquiry subject
+                    if (inquirySubject) {
+                        inquirySubject.value = 'Tư vấn chương trình: ' + filterVal;
+                    }
+                    if (inquirySelection) {
+                        inquirySelection.textContent = 'Đã chọn danh mục: ' + filterVal;
+                    }
+                });
+            });
+
+            // Smooth scrolling logic for catalog scroll-to-inquiry links
+            document.querySelectorAll('.scroll-to-inquiry, a[href^="#"]').forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    var href = link.getAttribute('href');
+                    if (!href || href === '#' || href.indexOf('#') === -1) return;
+
+                    var target = document.querySelector(href.substring(href.indexOf('#')));
+                    var topic = link.getAttribute('data-inquiry-topic');
+
+                    if (inquirySubject && topic) {
+                        inquirySubject.value = topic;
+                    }
+                    if (inquirySelection && topic) {
+                        inquirySelection.textContent = 'Đã chọn khóa học: ' + topic;
+                    }
+
+                    if (!target) return;
+
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+
+                    var header = document.querySelector('header');
+                    var headerHeight = header ? header.offsetHeight : 90;
+                    var elementPosition = target.getBoundingClientRect().top;
+                    var offsetPosition = elementPosition + (window.pageYOffset || document.documentElement.scrollTop) - headerHeight - 20;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    window.history.replaceState(null, '', href);
+                });
+            });
+        });
+    </script>
+@endpush

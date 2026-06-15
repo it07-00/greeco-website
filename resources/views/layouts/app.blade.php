@@ -33,6 +33,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+    @stack('vendor-styles')
+
     <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/webfonts/fa-solid-900.woff2') }}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ versioned_asset('assets/fonts/icofont/fonts/icofont.woff2') }}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome4/fonts/fontawesome-webfont.woff2') }}" as="font" type="font/woff2" crossorigin>
@@ -48,7 +50,6 @@
     <link href="{{ versioned_asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bootstrap">
     <link rel="preload" href="{{ versioned_asset('assets/css/plugins.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="{{ versioned_asset('assets/css/plugins.css') }}" rel="stylesheet" type="text/css"></noscript>
-    @stack('vendor-styles')
     <script>
         window.addEventListener('load', function() {
             var fonts = [

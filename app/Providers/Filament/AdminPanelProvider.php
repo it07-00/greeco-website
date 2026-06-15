@@ -60,4 +60,12 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+
+    public function boot(): void
+    {
+        \Filament\Support\Facades\FilamentView::registerRenderHook(
+            \Filament\View\PanelsRenderHook::HEAD_END,
+            fn (): string => '<link rel="stylesheet" href="' . asset('assets/fonts/fontawesome6/css/all.min.css') . '">',
+        );
+    }
 }

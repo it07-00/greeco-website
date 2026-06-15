@@ -302,8 +302,6 @@
                         <h1 class="display-5 fw-bold mb-3 text-white">{{ $course->title }}</h1>
                         <p class="lead text-white-50 mb-4">{{ $course->description }}</p>
                         <div class="d-flex flex-wrap gap-4 align-items-center mb-2">
-                            <span class="course-rating"><i class="fa-solid fa-star me-2"></i><strong>{{ $course->rating }}</strong> ({{ $course->rating_count }} đánh giá)</span>
-                            <span class="text-white-50"><i class="fa-solid fa-user-graduate me-2"></i>{{ $course->rating_count * 4 + 12 }} học viên</span>
                             <span class="text-white-50"><i class="fa-solid fa-building me-2"></i>Viện GREECO</span>
                         </div>
                     </div>
@@ -331,9 +329,7 @@
                                 <button class="nav-link" id="instructor-tab" data-bs-toggle="tab" data-bs-target="#instructor-content" type="button" role="tab" aria-controls="instructor-content" aria-selected="false">Giảng viên</button>
                             </li>
                         @endif
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-content" type="button" role="tab" aria-controls="reviews-content" aria-selected="false">Đánh giá</button>
-                        </li>
+
                     </ul>
 
                     <!-- Tab Panes -->
@@ -406,7 +402,6 @@
                                                         aria-controls="collapse-{{ $index }}"
                                                     >
                                                         <span class="academy-heading mb-0">{{ $chapter['title'] }}</span>
-                                                        <span class="text-secondary small ms-auto me-3">{{ $chapter['progress'] ?? '' }}</span>
                                                     </button>
                                                 </h4>
                                                 <div 
@@ -419,14 +414,12 @@
                                                             @foreach ($chapter['lessons'] as $lesson)
                                                                 <div class="lesson-item d-flex align-items-center justify-content-between py-3 px-4 border-bottom">
                                                                     <div class="lesson-title-wrapper d-flex align-items-center gap-2">
-                                                                        @if (!empty($lesson['completed']))
-                                                                            <i class="fa-solid fa-circle-check text-success" title="Đã hoàn thành"></i>
-                                                                        @else
-                                                                            <i class="fa-regular fa-circle text-muted"></i>
-                                                                        @endif
+                                                                        <i class="fa-regular fa-circle-play text-muted" style="font-size: 14px;"></i>
                                                                         <span class="text-secondary small">{{ $lesson['title'] }}</span>
                                                                     </div>
-                                                                    <span class="text-secondary small">{{ $lesson['duration'] }}</span>
+                                                                    @if(!empty($lesson['duration']))
+                                                                        <span class="text-secondary small">{{ $lesson['duration'] }}</span>
+                                                                    @endif
                                                                 </div>
                                                             @endforeach
                                                         @endif
@@ -462,85 +455,7 @@
                             </div>
                         @endif
 
-                        <!-- Tab Content: Đánh giá -->
-                        <div class="tab-pane fade" id="reviews-content" role="tabpanel" aria-labelledby="reviews-tab">
-                            <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-3">
-                                <h3 class="academy-heading fs-4 fw-bold mb-4">Phản hồi từ học viên</h3>
-                                <div class="row g-4 align-items-center mb-4">
-                                    <div class="col-md-4 text-center border-end">
-                                        <div class="display-3 fw-bold academy-green mb-2">{{ $course->rating }}</div>
-                                        <div class="course-rating mb-2">
-                                            @for ($i = 0; $i < 5; $i++)
-                                                <i class="fa-solid fa-star"></i>
-                                            @endfor
-                                        </div>
-                                        <small class="text-secondary d-block">{{ $course->rating_count }} đánh giá học viên</small>
-                                    </div>
-                                    <div class="col-md-8">
-                                        @foreach ([
-                                            ['stars' => 5, 'percent' => 92],
-                                            ['stars' => 4, 'percent' => 6],
-                                            ['stars' => 3, 'percent' => 2],
-                                            ['stars' => 2, 'percent' => 0],
-                                            ['stars' => 1, 'percent' => 0]
-                                        ] as $row)
-                                            <div class="rating-bar-wrapper">
-                                                <div class="d-flex align-items-center gap-1 text-secondary" style="width: 40px; flex-shrink: 0; font-size: 0.85rem;">
-                                                    <span>{{ $row['stars'] }}</span>
-                                                    <i class="fa-solid fa-star text-warning small"></i>
-                                                </div>
-                                                <div class="rating-bar">
-                                                    <div class="rating-bar-fill" style="width: {{ $row['percent'] }}%"></div>
-                                                </div>
-                                                <small class="text-secondary" style="width: 35px; text-align: right; flex-shrink: 0;">{{ $row['percent'] }}%</small>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
 
-                                <hr class="my-4">
-
-                                <div class="review-item mb-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <div class="d-flex align-items-center gap-3">
-                                            <span class="academy-icon-sm" style="width: 36px; height: 36px;"><i class="fa-solid fa-user"></i></span>
-                                            <div>
-                                                <strong class="d-block academy-heading">Trần Minh Tuấn</strong>
-                                                <small class="text-secondary">Học viên khóa K24 - Ban ISO doanh nghiệp</small>
-                                            </div>
-                                        </div>
-                                        <div class="course-rating">
-                                            @for ($i = 0; $i < 5; $i++)
-                                                <i class="fa-solid fa-star"></i>
-                                            @endfor
-                                        </div>
-                                    </div>
-                                    <p class="text-secondary small">
-                                        "Khóa học rất chi tiết và thực tế. Giảng viên hướng dẫn tận tình, bài tập thực hành thiết kế Process Map và Turtle Diagram vô cùng hữu ích để tôi áp dụng trực tiếp cho hệ thống của công ty mình. Tài liệu và biểu mẫu ISO đi kèm đầy đủ."
-                                    </p>
-                                </div>
-
-                                <div class="review-item">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <div class="d-flex align-items-center gap-3">
-                                            <span class="academy-icon-sm" style="width: 36px; height: 36px;"><i class="fa-solid fa-user"></i></span>
-                                            <div>
-                                                <strong class="d-block academy-heading">Nguyễn Thị Thanh</strong>
-                                                <small class="text-secondary">Quản lý Chất lượng QA/QC</small>
-                                            </div>
-                                        </div>
-                                        <div class="course-rating">
-                                            @for ($i = 0; $i < 5; $i++)
-                                                <i class="fa-solid fa-star"></i>
-                                            @endfor
-                                        </div>
-                                    </div>
-                                    <p class="text-secondary small">
-                                        "Bài giảng được thiết kế rất khoa học và logic, giảng viên phân tích kỹ các lỗi thường gặp trong quá trình vận hành ISO để chúng tôi phòng tránh. Rất khuyến khích các cán bộ QA/QC tham gia học."
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 

@@ -328,12 +328,6 @@
                                     </p>
                                     <div class="text-secondary small mb-3">Viện GREECO</div>
 
-                                    <div class="d-flex align-items-center gap-2 mb-3">
-                                        <span class="course-rating-stars"><i class="fa-solid fa-star"></i></span>
-                                        <small class="fw-bold text-dark">{{ $program['rating'] }}</small>
-                                        <small class="text-secondary">({{ $program['rating_count'] }})</small>
-                                    </div>
-
                                     <div class="d-flex align-items-center justify-content-between mt-auto pt-3 border-top">
                                         <div>
                                             <strong class="text-success fs-5 d-block">{{ $program['price'] }}</strong>

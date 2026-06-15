@@ -19,8 +19,6 @@ class Course extends Model
         'image',
         'tag',
         'badge_color',
-        'rating',
-        'rating_count',
         'price',
         'original_price',
         'discount',
@@ -36,7 +34,6 @@ class Course extends Model
     protected $casts = [
         'curriculum' => 'array',
         'is_active' => 'boolean',
-        'rating' => 'float',
     ];
 
     public function category(): BelongsTo

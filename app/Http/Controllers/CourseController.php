@@ -33,8 +33,6 @@ class CourseController extends Controller
                 'tag' => $course->tag,
                 'category_name' => $course->category?->name,
                 'badge_color' => $course->badge_color ?? 'bg-success',
-                'rating' => $course->rating,
-                'rating_count' => $course->rating_count,
                 'price' => $course->price,
                 'original_price' => $course->original_price,
                 'discount' => $course->discount,

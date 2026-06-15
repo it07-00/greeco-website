@@ -27,7 +27,7 @@ class TrainingAcademyPageTest extends TestCase
             ->assertDontSee('Tiến độ học tập')
             ->assertSee('<header class="transparent scroll-light">', false)
             ->assertSee('<footer class="footer-light">', false)
-            ->assertSee('assets/css/custom-v2.css', false);
+            ->assertSee('assets/css/custom.css', false);
     }
 
     public function test_training_inquiry_returns_to_the_inline_form(): void

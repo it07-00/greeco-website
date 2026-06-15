@@ -287,7 +287,7 @@
             <div class="container py-lg-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h2 class="academy-heading fw-bold fs-4 mb-0">Khóa học nổi bật</h2>
-                    <a href="#tu-van-dao-tao" class="text-success fw-bold text-decoration-none small">Yêu cầu chương trình
+                    <a href="{{ route('contact') }}?message={{ urlencode('Tôi muốn yêu cầu tư vấn thiết kế chương trình đào tạo riêng cho doanh nghiệp.') }}" class="text-success fw-bold text-decoration-none small">Yêu cầu chương trình
                         riêng</a>
                 </div>
 
@@ -299,9 +299,8 @@
                                     @if(isset($program['slug']))
                                         <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}">
                                     @else
-                                            <a href="#tu-van-dao-tao" class="scroll-to-inquiry"
-                                                data-inquiry-topic="{{ $program['title'] }}">
-                                        @endif
+                                        <a href="{{ route('contact') }}?message={{ urlencode('Tôi muốn đăng ký tư vấn về khóa học: ' . $program['title']) }}">
+                                    @endif
                                             <img src="{{ asset($program['image']) }}" alt="{{ $program['title'] }}">
                                         </a>
                                         <span class="badge course-tag-badge {{ $program['badge_color'] }} text-white">
@@ -316,8 +315,8 @@
                                                 {{ $program['title'] }}
                                             </a>
                                         @else
-                                            <a href="#tu-van-dao-tao" class="text-reset text-decoration-none scroll-to-inquiry"
-                                                data-inquiry-topic="{{ $program['title'] }}">
+                                            <a href="{{ route('contact') }}?message={{ urlencode('Tôi muốn đăng ký tư vấn về khóa học: ' . $program['title']) }}"
+                                                class="text-reset text-decoration-none">
                                                 {{ $program['title'] }}
                                             </a>
                                         @endif
@@ -340,33 +339,14 @@
                                                 Xem chi tiết
                                             </a>
                                         @else
-                                            <a href="#tu-van-dao-tao" class="btn btn-sm btn-outline-success scroll-to-inquiry"
-                                                data-inquiry-topic="{{ $program['title'] }}">
+                                            <a href="{{ route('contact') }}?message={{ urlencode('Tôi muốn đăng ký tư vấn về khóa học: ' . $program['title']) }}"
+                                                class="btn btn-sm btn-outline-success">
                                                 Đăng ký tư vấn
                                             </a>
                                         @endif
                                     </div>
                                 </div>
                             </article>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-
-        <!-- Instructors Section -->
-        <section class="py-5 bg-light">
-            <div class="container py-lg-4 text-center">
-                <h2 class="academy-heading fw-bold fs-4 mb-5">Giảng viên tiêu biểu</h2>
-                <div class="row justify-content-center g-4">
-                    @foreach ($instructors as $inst)
-                        <div class="col-md-4 col-lg-3">
-                            <div class="card border-0 shadow-sm p-4 h-100 bg-white rounded-3">
-                                <img src="{{ asset($inst['image']) }}" alt="{{ $inst['name'] }}"
-                                    class="instructor-avatar-card mx-auto mb-3">
-                                <h3 class="academy-heading fs-6 fw-bold mb-1">{{ $inst['name'] }}</h3>
-                                <p class="text-success small mb-0">{{ $inst['role'] }}</p>
-                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -402,106 +382,12 @@
             </div>
         </section>
 
-        <!-- Inquiry Form & Newsletter Section -->
-        <section class="py-5 bg-light" id="tu-van-dao-tao">
-            <div class="container py-lg-4">
-                <div class="newsletter-section">
-                    <div class="row align-items-center g-5">
-                        <div class="col-lg-6">
-                            <h2 class="text-white fw-bold mb-3">Đăng ký nhận thông tin khóa học mới nhất</h2>
-                            <p class="text-white-50 mb-0">
-                                Nhập email của bạn để nhận thông tin ưu đãi và các khóa học mới cập nhật từ Viện GREECO.
-                            </p>
-                        </div>
-                        <div class="col-lg-6">
-                            <form method="POST" action="{{ route('contact.store') }}" id="newsletter-form">
-                                @csrf
-                                <input type="hidden" name="_return" value="training">
-                                <input type="hidden" name="subject" value="Đăng ký nhận bản tin Khóa học">
-                                <input type="hidden" name="message"
-                                    value="Đăng ký nhận bản tin Khóa học từ trang Đào tạo & Bồi dưỡng">
-
-                                <div class="input-group">
-                                    <input type="email" class="form-control py-3 px-4 rounded-start"
-                                        placeholder="Nhập email của bạn..." name="email" required>
-                                    <button class="btn btn-success px-4 rounded-end fw-bold" type="submit">Đăng ký</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Inquiry Box Form below for detailed requests -->
-                <div class="card border-0 shadow mt-5">
-                    <div class="card-body p-4 p-md-5">
-                        @if(session('success'))
-                            <div class="alert alert-success" role="alert">
-                                <i class="fa-solid fa-circle-check me-2"></i>{{ session('success') }}
-                            </div>
-                        @endif
-
-                        @if($errors->any())
-                            <div class="alert alert-danger" role="alert">
-                                <strong>Vui lòng kiểm tra lại thông tin.</strong>
-                            </div>
-                        @endif
-
-                        <h3 class="academy-heading fs-4 fw-bold mb-2">Yêu cầu tư vấn chương trình chi tiết</h3>
-                        <p class="text-secondary small mb-4">
-                            Điền thông tin bên dưới, GREECO sẽ liên hệ để trao đổi nhu cầu đào tạo cụ thể của cá nhân hoặc
-                            doanh nghiệp.
-                        </p>
-
-                        <form method="post" action="{{ route('contact.store') }}" class="row g-3">
-                            @csrf
-                            <input type="hidden" name="_return" value="training">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small" for="academy_inquiry_name">Họ và tên</label>
-                                <input class="form-control @error('name') is-invalid @enderror" id="academy_inquiry_name"
-                                    name="name" type="text" value="{{ old('name') }}" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small" for="academy_inquiry_phone">Số điện thoại</label>
-                                <input class="form-control @error('phone') is-invalid @enderror" id="academy_inquiry_phone"
-                                    name="phone" type="tel" value="{{ old('phone') }}">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-bold small" for="academy_inquiry_email">Email</label>
-                                <input class="form-control @error('email') is-invalid @enderror" id="academy_inquiry_email"
-                                    name="email" type="email" value="{{ old('email') }}">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-bold small" for="academy_inquiry_subject">Chương trình quan
-                                    tâm</label>
-                                <input class="form-control academy-inquiry-subject" id="academy_inquiry_subject"
-                                    name="subject" type="text" value="{{ old('subject', 'Tư vấn chương trình đào tạo') }}">
-                                <small class="form-text text-secondary" id="academy_inquiry_selection" aria-live="polite">
-                                    Nội dung này sẽ tự cập nhật khi bạn chọn một chương trình hoặc danh mục phía trên.
-                                </small>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-bold small" for="academy_inquiry_message">Nhu cầu cụ thể của
-                                    doanh nghiệp</label>
-                                <textarea class="form-control" id="academy_inquiry_message" name="message" rows="4"
-                                    placeholder="Ví dụ: số lượng học viên, hình thức mong muốn, thời gian dự kiến..."></textarea>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-success w-100 py-3 fw-bold" type="submit">Gửi yêu cầu tư vấn</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 @endsection
 
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var inquirySubject = document.getElementById('academy_inquiry_subject');
-            var inquirySelection = document.getElementById('academy_inquiry_selection');
-
             // Prevent search form submission reload
             var searchForm = document.getElementById('search-courses-form');
             if (searchForm) {
@@ -568,14 +454,6 @@
                     // Apply filter
                     filterCourses();
 
-                    // Update inquiry subject
-                    if (inquirySubject) {
-                        inquirySubject.value = 'Tư vấn chương trình: ' + (activeCategory === 'all' ? '' : activeCategory);
-                    }
-                    if (inquirySelection) {
-                        inquirySelection.textContent = activeCategory === 'all' ? '' : ('Đã chọn danh mục: ' + activeCategory);
-                    }
-
                     // Scroll smoothly to course catalog section
                     var target = document.getElementById('chuong-trinh-dao-tao');
                     if (target) {
@@ -605,47 +483,8 @@
                         searchInput.value = '';
                     }
                     filterCourses();
-
-                    if (inquirySubject) inquirySubject.value = '';
-                    if (inquirySelection) inquirySelection.textContent = '';
                 });
             }
-
-            // Smooth scrolling logic for catalog scroll-to-inquiry links
-            document.querySelectorAll('.scroll-to-inquiry, a[href^="#"]').forEach(function (link) {
-                link.addEventListener('click', function (event) {
-                    var href = link.getAttribute('href');
-                    if (!href || href === '#' || href.indexOf('#') === -1) return;
-
-                    var target = document.querySelector(href.substring(href.indexOf('#')));
-                    var topic = link.getAttribute('data-inquiry-topic');
-
-                    if (inquirySubject && topic) {
-                        inquirySubject.value = topic;
-                    }
-                    if (inquirySelection && topic) {
-                        inquirySelection.textContent = 'Đã chọn khóa học: ' + topic;
-                    }
-
-                    if (!target) return;
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                    event.stopImmediatePropagation();
-
-                    var header = document.querySelector('header');
-                    var headerHeight = header ? header.offsetHeight : 90;
-                    var elementPosition = target.getBoundingClientRect().top;
-                    var offsetPosition = elementPosition + (window.pageYOffset || document.documentElement.scrollTop) - headerHeight - 20;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    window.history.replaceState(null, '', href);
-                });
-            });
         });
     </script>
 @endpush

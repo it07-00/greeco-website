@@ -140,7 +140,7 @@
                                 <div class="field-set mb-4">
                                     <textarea name="message" id="message" class="form-control"
                                         placeholder="Nội dung tin nhắn / Yêu cầu tư vấn"
-                                        required>{{ old('message') }}</textarea>
+                                        required>{{ old('message', request('message')) }}</textarea>
                                 </div>
 
                                 <div id="submit" class="text-end">

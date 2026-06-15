@@ -39,16 +39,7 @@ class CourseController extends Controller
             ];
         });
 
-        // Instructors list can be derived from active courses with instructors
-        $instructors = $courses->whereNotNull('instructor_name')->map(function ($course) {
-            return [
-                'name' => $course->instructor_name,
-                'role' => $course->instructor_role,
-                'image' => $course->instructor_image ?? 'assets/images/team/team-1.jpg',
-            ];
-        })->unique('name')->values()->toArray();
-
-        return view('training.index', compact('categories', 'programs', 'instructors'));
+        return view('training.index', compact('categories', 'programs'));
     }
 
     /**

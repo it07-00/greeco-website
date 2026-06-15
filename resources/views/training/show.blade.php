@@ -311,6 +311,11 @@
 
         <!-- Course Body Grid -->
         <main class="container py-5">
+            @if(session('success'))
+                <div class="alert alert-success mb-4" role="alert">
+                    <i class="fa-solid fa-circle-check me-2"></i>{{ session('success') }}
+                </div>
+            @endif
             <div class="row g-4">
                 <!-- Main Content (Left Column) -->
                 <div class="col-lg-8">

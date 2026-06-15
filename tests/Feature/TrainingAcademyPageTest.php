@@ -24,9 +24,6 @@ class TrainingAcademyPageTest extends TestCase
             ->assertSee('ISO 9001:2015')
             ->assertSee('class="btn btn-sm btn-register-now"', false)
             ->assertSee('Xem chi tiết')
-            ->assertSee('id="tu-van-dao-tao"', false)
-            ->assertSee('name="subject"', false)
-            ->assertSee('action="' . route('contact.store') . '"', false)
             ->assertDontSee('Tiến độ học tập')
             ->assertSee('<header class="transparent scroll-light">', false)
             ->assertSee('<footer class="footer-light">', false)
@@ -35,16 +32,17 @@ class TrainingAcademyPageTest extends TestCase
 
     public function test_training_inquiry_returns_to_the_inline_form(): void
     {
-        $response = $this->post(route('contact.store'), [
-            '_return' => 'training',
-            'name' => 'Nguyễn Văn A',
-            'email' => 'a@example.com',
-            'phone' => '0900000000',
-            'subject' => 'Hệ thống quản lý ISO',
-            'message' => 'Cần tư vấn chương trình đào tạo in-house.',
-        ]);
+        $response = $this->from(route('services.dao-tao'))
+            ->post(route('contact.store'), [
+                '_return' => 'training',
+                'name' => 'Nguyễn Văn A',
+                'email' => 'a@example.com',
+                'phone' => '0900000000',
+                'subject' => 'Hệ thống quản lý ISO',
+                'message' => 'Cần tư vấn chương trình đào tạo in-house.',
+            ]);
 
-        $response->assertRedirect(route('services.dao-tao') . '#tu-van-dao-tao');
+        $response->assertRedirect(route('services.dao-tao'));
 
         $this->assertDatabaseHas((new Contact())->getTable(), [
             'name' => 'Nguyễn Văn A',

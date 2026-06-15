@@ -35,10 +35,10 @@
 
     @stack('vendor-styles')
 
-    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/webfonts/fa-solid-900.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ versioned_asset('assets/fonts/icofont/fonts/icofont.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome4/fonts/fontawesome-webfont.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/webfonts/fa-brands-400.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('assets/fonts/fontawesome6/webfonts/fa-solid-900.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('assets/fonts/icofont/fonts/icofont.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('assets/fonts/fontawesome4/fonts/fontawesome-webfont.woff2') }}?v=4.6.3" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('assets/fonts/fontawesome6/webfonts/fa-brands-400.woff2') }}" as="font" type="font/woff2" crossorigin>
 
     <link rel="preload" href="{{ versioned_asset('assets/css/bootstrap.min.css') }}" as="style">
     <link rel="preload" href="{{ versioned_asset('assets/css/style.css') }}" as="style">

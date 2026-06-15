@@ -1708,44 +1708,71 @@ blockquote .blockquote-footer {
 @media only screen and (min-width: 992px) {
     /* Reduce container padding on medium desktops to reclaim space */
     .container-fluid.px-custom {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    header div#logo {
+        max-width: 220px !important;
+    }
+    header div#logo .logo-text-wrap img {
+        max-height: 44px !important;
+    }
+    #mainmenu > li {
+        margin-right: 6px !important;
+    }
+    #mainmenu > li > a {
+        font-size: 11px !important;
+        padding-right: 2px !important;
+    }
+    header .menu_side_area a.btn-line {
+        padding: 6px 14px !important;
+        font-size: 11px !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+    .container-fluid.px-custom {
         padding-left: 30px !important;
         padding-right: 30px !important;
     }
-    
-    /* Decrease margin and size slightly on desktops to avoid double line wrapping */
+    header div#logo {
+        max-width: 270px !important;
+    }
+    header div#logo .logo-text-wrap img {
+        max-height: 52px !important;
+    }
     #mainmenu > li {
-        margin-right: 12px !important;
+        margin-right: 10px !important;
     }
     #mainmenu > li > a {
         font-size: 12px !important;
         padding-right: 4px !important;
     }
-}
-
-@media only screen and (min-width: 1200px) {
-    .container-fluid.px-custom {
-        padding-left: 50px !important;
-        padding-right: 50px !important;
-    }
-    #mainmenu > li {
-        margin-right: 14px !important;
-    }
-    #mainmenu > li > a {
-        font-size: 13px !important;
-        padding-right: 6px !important;
+    header .menu_side_area a.btn-line {
+        padding: 8px 18px !important;
+        font-size: 12px !important;
     }
 }
 
 @media only screen and (min-width: 1400px) {
     .container-fluid.px-custom {
-        padding-left: 80px !important;
-        padding-right: 80px !important;
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+    }
+    header div#logo {
+        max-width: 320px !important;
+    }
+    header div#logo .logo-text-wrap img {
+        max-height: 60px !important;
     }
     #mainmenu > li {
-        margin-right: 18px !important;
+        margin-right: 16px !important;
     }
     #mainmenu > li > a {
         font-size: 13px !important;
-        padding-right: 8px !important;
+        padding-right: 6px !important;
     }
 }

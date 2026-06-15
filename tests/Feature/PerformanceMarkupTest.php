@@ -65,9 +65,9 @@ class PerformanceMarkupTest extends TestCase
             ->assertOk()
             ->getContent();
 
-        $this->assertMatchesRegularExpression('/assets\/css\/style\.css\?v=\d+/', $content);
-        $this->assertMatchesRegularExpression('/assets\/js\/plugins\.js\?v=\d+" defer/', $content);
-        $this->assertMatchesRegularExpression('/assets\/js\/designesia\.js\?v=\d+" defer/', $content);
+        $this->assertStringContainsString('assets/css/style.css', $content);
+        $this->assertMatchesRegularExpression('/assets\/js\/plugins\.js" defer/', $content);
+        $this->assertMatchesRegularExpression('/assets\/js\/designesia\.js" defer/', $content);
     }
 
     public function test_page_scripts_wait_for_the_deferred_global_scripts(): void

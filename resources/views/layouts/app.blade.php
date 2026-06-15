@@ -42,7 +42,7 @@
 
     <link rel="preload" href="{{ asset('assets/css/bootstrap.min.css') }}" as="style">
     <link rel="preload" href="{{ asset('assets/css/style.css') }}" as="style">
-    <link rel="preload" href="{{ asset('assets/css/custom.css') }}" as="style">
+    <link rel="preload" href="{{ asset('assets/css/custom-v2.css') }}" as="style">
 
     @stack('preloads')
 
@@ -69,7 +69,7 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/css/coloring.css') }}" rel="stylesheet" type="text/css">
     <link id="colors" href="{{ asset('assets/css/colors/scheme-01.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/custom-v2.css') }}" rel="stylesheet" type="text/css">
     
     @stack('styles')
 </head>

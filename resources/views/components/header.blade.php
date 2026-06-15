@@ -64,7 +64,7 @@
                             <li><a class="menu-item" href="{{ route('home') }}">Trang chủ</a></li>
                             <li><a class="menu-item" href="{{ route('about') }}">Giới thiệu</a>
                                 <ul>
-                                    <li><a href="{{ route('about') }}">Về chúng tôi</a></li>
+                                    <li><a href="{{ route('about') }}">Giới thiệu</a></li>
                                     <li><a href="{{ route('team') }}">Ban lãnh đạo & Chuyên gia</a></li>
                                     <li><a href="{{ route('capability-profile') }}">Hồ sơ năng lực</a></li>
                                     <li><a href="{{ route('gallery') }}">Thư viện ảnh</a></li>

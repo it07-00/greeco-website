@@ -246,8 +246,8 @@ header .menu_side_area a.btn-line:hover {
 
 /* Clean minimal subheader design – premium academic palette */
 #subheader {
-    background: #F7F5EF !important; /* warm ivory */
-    padding: 120px 0 35px !important;
+    background: linear-gradient(135deg, #102a26 0%, #122f2b 100%) !important;
+    padding: 140px 0 55px !important;
     border-bottom: 0 !important;
     overflow: hidden;
     position: relative;
@@ -263,8 +263,8 @@ header .menu_side_area a.btn-line:hover {
 }
 
 #subheader h1 {
-    color: #0B1F33 !important; /* deep navy */
-    font-size: 28px !important;
+    color: #ffffff !important;
+    font-size: 32px !important;
     font-weight: 700 !important;
     line-height: 1.3em !important;
     margin-bottom: 0 !important;
@@ -273,7 +273,7 @@ header .menu_side_area a.btn-line:hover {
 
 #subheader p,
 #subheader .lead {
-    color: #334155 !important; /* slate */
+    color: rgba(255, 255, 255, 0.75) !important;
     font-size: 15px !important;
     line-height: 1.6 !important;
     margin-top: 8px !important;
@@ -281,23 +281,33 @@ header .menu_side_area a.btn-line:hover {
 }
 
 #subheader .crumb {
-    margin-bottom: 6px !important;
-    color: #7A869A !important;
+    margin-bottom: 12px !important;
+    color: rgba(255, 255, 255, 0.6) !important;
     font-size: 14px !important;
 }
 
 #subheader .crumb a {
-    color: #2E8B57 !important; /* organic green link */
+    color: rgba(255, 255, 255, 0.8) !important;
     text-decoration: none !important;
     font-weight: 500 !important;
+    transition: color 0.2s ease;
 }
 
 #subheader .crumb a:hover {
-    color: #1B5E3A !important;
+    color: #00ffca !important;
+}
+
+#subheader .crumb li:after {
+    content: "/" !important;
+    font-family: inherit !important;
+    font-size: 14px !important;
+    margin: 0 8px !important;
+    color: rgba(255, 255, 255, 0.4) !important;
 }
 
 #subheader .crumb li.active {
-    color: #7A869A !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
 }
 
 /* Hide theme subheader background overlays, parallax, and watermarks */
@@ -312,10 +322,10 @@ header .menu_side_area a.btn-line:hover {
 
 @media (max-width: 991px) {
     #subheader {
-        padding: 130px 0 25px !important; /* Prevents mobile fixed header overlapping titles */
+        padding: 120px 0 35px !important; /* Prevents mobile fixed header overlapping titles */
     }
     #subheader h1 {
-        font-size: 20px !important;
+        font-size: 22px !important;
     }
     #subheader p,
     #subheader .lead {

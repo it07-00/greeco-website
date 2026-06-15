@@ -98,6 +98,13 @@
             border-color: #008f79;
         }
 
+        .category-box.active {
+            border-color: #008f79 !important;
+            background-color: #f0fdfa !important;
+            box-shadow: 0 8px 20px rgba(0, 143, 121, 0.1) !important;
+            transform: translateY(-3px);
+        }
+
         .category-icon-wrapper {
             width: 50px;
             height: 50px;
@@ -256,10 +263,10 @@
             <div class="container py-lg-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h2 class="academy-heading fw-bold fs-4 mb-0">Danh mục khóa học</h2>
-                    <a href="#chuong-trinh-dao-tao" class="text-success fw-bold text-decoration-none small">Xem tất cả</a>
+                    <a href="#chuong-trinh-dao-tao" id="clear-category-filter" class="text-success fw-bold text-decoration-none small">Xem tất cả</a>
                 </div>
 
-                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
                     @foreach ($categories as $cat)
                         <div class="col">
                             <a href="#chuong-trinh-dao-tao" class="category-box h-100" data-filter="{{ $cat->name }}">
@@ -286,7 +293,7 @@
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="courses-catalog-grid">
                     @foreach ($programs as $program)
-                        <div class="col course-catalog-item" data-category="{{ $program['tag'] }}">
+                        <div class="col course-catalog-item" data-category="{{ $program['category_name'] }}">
                             <article class="course-catalog-card h-100 d-flex flex-column">
                                 <div class="course-card-img-wrapper">
                                     @if(isset($program['slug']))
@@ -501,21 +508,45 @@
             var inquirySubject = document.getElementById('academy_inquiry_subject');
             var inquirySelection = document.getElementById('academy_inquiry_selection');
 
-            // Quick search filter logic
+            // Prevent search form submission reload
+            var searchForm = document.getElementById('search-courses-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                });
+            }
+
+            var activeCategory = 'all';
             var searchInput = document.getElementById('search-input');
+
+            function filterCourses() {
+                var query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                var cards = document.querySelectorAll('.course-catalog-item');
+                
+                cards.forEach(function (card) {
+                    var title = card.querySelector('h3').textContent.toLowerCase();
+                    var descEl = card.querySelector('p');
+                    var desc = descEl ? descEl.textContent.toLowerCase() : '';
+                    var cardCategory = card.getAttribute('data-category');
+                    
+                    // Match category
+                    var matchesCategory = (activeCategory === 'all' || cardCategory === activeCategory);
+                    
+                    // Match search query
+                    var matchesSearch = (title.indexOf(query) !== -1 || desc.indexOf(query) !== -1);
+                    
+                    if (matchesCategory && matchesSearch) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Quick search filter logic
             if (searchInput) {
                 searchInput.addEventListener('input', function () {
-                    var query = searchInput.value.toLowerCase().trim();
-                    var cards = document.querySelectorAll('.course-catalog-item');
-                    cards.forEach(function (card) {
-                        var title = card.querySelector('h3').textContent.toLowerCase();
-                        var desc = card.querySelector('p').textContent.toLowerCase();
-                        if (title.indexOf(query) !== -1 || desc.indexOf(query) !== -1) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
+                    filterCourses();
                 });
             }
 
@@ -523,23 +554,68 @@
             var categoryLinks = document.querySelectorAll('.category-box');
             categoryLinks.forEach(function (link) {
                 link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
                     var filterVal = link.getAttribute('data-filter');
 
-                    // Pre-fill search with category
-                    if (searchInput) {
-                        searchInput.value = filterVal;
-                        searchInput.dispatchEvent(new Event('input'));
+                    if (activeCategory === filterVal) {
+                        // Toggle off if clicking the already active category
+                        activeCategory = 'all';
+                        link.classList.remove('active');
+                    } else {
+                        // Set new active category
+                        activeCategory = filterVal;
+                        categoryLinks.forEach(function (item) {
+                            item.classList.remove('active');
+                        });
+                        link.classList.add('active');
                     }
+
+                    // Apply filter
+                    filterCourses();
 
                     // Update inquiry subject
                     if (inquirySubject) {
-                        inquirySubject.value = 'Tư vấn chương trình: ' + filterVal;
+                        inquirySubject.value = 'Tư vấn chương trình: ' + (activeCategory === 'all' ? '' : activeCategory);
                     }
                     if (inquirySelection) {
-                        inquirySelection.textContent = 'Đã chọn danh mục: ' + filterVal;
+                        inquirySelection.textContent = activeCategory === 'all' ? '' : ('Đã chọn danh mục: ' + activeCategory);
+                    }
+
+                    // Scroll smoothly to course catalog section
+                    var target = document.getElementById('chuong-trinh-dao-tao');
+                    if (target) {
+                        var header = document.querySelector('header');
+                        var headerHeight = header ? header.offsetHeight : 90;
+                        var elementPosition = target.getBoundingClientRect().top;
+                        var offsetPosition = elementPosition + (window.pageYOffset || document.documentElement.scrollTop) - headerHeight - 20;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
                     }
                 });
             });
+
+            // Clear category filter link click handler
+            var clearFilterLink = document.getElementById('clear-category-filter');
+            if (clearFilterLink) {
+                clearFilterLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    activeCategory = 'all';
+                    categoryLinks.forEach(function (item) {
+                        item.classList.remove('active');
+                    });
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+                    filterCourses();
+
+                    if (inquirySubject) inquirySubject.value = '';
+                    if (inquirySelection) inquirySelection.textContent = '';
+                });
+            }
 
             // Smooth scrolling logic for catalog scroll-to-inquiry links
             document.querySelectorAll('.scroll-to-inquiry, a[href^="#"]').forEach(function (link) {

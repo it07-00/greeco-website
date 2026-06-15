@@ -28,7 +28,7 @@
                             <h5>Giới thiệu</h5>
                             <ul>
                                 <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                                <li><a href="{{ route('about') }}">Về chúng tôi</a></li>
+                                <li><a href="{{ route('about') }}">Giới thiệu</a></li>
                                 <li><a href="{{ route('capability-profile') }}">Hồ sơ năng lực</a></li>
                                 <li><a href="{{ route('services.index') }}">Lĩnh vực hoạt động</a></li>
                                 <li><a href="{{ route('projects.index') }}">Dự án nghiên cứu</a></li>

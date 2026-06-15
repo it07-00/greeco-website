@@ -13,7 +13,7 @@
     <link rel="preload" as="image" href="{{ $lcpBannerImage }}" fetchpriority="high">
 @endpush
 
-@push('vendor-styles')dđd
+@push('vendor-styles')
     <link href="{{ versioned_asset('assets/css/swiper.css') }}" rel="stylesheet" type="text/css">
 @endpush
 

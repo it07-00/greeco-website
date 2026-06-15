@@ -18,6 +18,7 @@ class CourseController extends Controller
             ->get();
 
         $courses = Course::query()
+            ->with('category')
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();
@@ -30,6 +31,7 @@ class CourseController extends Controller
                 'description' => $course->description,
                 'image' => $course->image ?? 'assets/images/services/iso-9001-course.png',
                 'tag' => $course->tag,
+                'category_name' => $course->category?->name,
                 'badge_color' => $course->badge_color ?? 'bg-success',
                 'rating' => $course->rating,
                 'rating_count' => $course->rating_count,

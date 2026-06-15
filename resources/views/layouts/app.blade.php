@@ -50,26 +50,13 @@
     <link href="{{ versioned_asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bootstrap">
     <link rel="preload" href="{{ versioned_asset('assets/css/plugins.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="{{ versioned_asset('assets/css/plugins.css') }}" rel="stylesheet" type="text/css"></noscript>
-    <script>
-        window.addEventListener('load', function() {
-            var fonts = [
-                "{{ versioned_asset('assets/fonts/fontawesome4/css/font-awesome.css') }}",
-                "{{ versioned_asset('assets/fonts/fontawesome6/css/fontawesome.css') }}",
-                "{{ versioned_asset('assets/fonts/fontawesome6/css/brands.css') }}",
-                "{{ versioned_asset('assets/fonts/fontawesome6/css/solid.css') }}",
-                "{{ versioned_asset('assets/fonts/elegant_font/HTML_CSS/style.css') }}",
-                "{{ versioned_asset('assets/fonts/et-line-font/style.css') }}",
-                "{{ versioned_asset('assets/fonts/icofont/icofont.min.css') }}"
-            ];
-            fonts.forEach(function(href) {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = href;
-                link.type = 'text/css';
-                document.head.appendChild(link);
-            });
-        });
-    </script>
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome4/css/font-awesome.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/css/fontawesome.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/css/brands.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/css/solid.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/elegant_font/HTML_CSS/style.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/et-line-font/style.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/icofont/icofont.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
         <link href="{{ versioned_asset('assets/fonts/fontawesome4/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ versioned_asset('assets/fonts/fontawesome6/css/fontawesome.css') }}" rel="stylesheet" type="text/css">

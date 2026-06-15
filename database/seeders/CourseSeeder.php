@@ -67,7 +67,10 @@ class CourseSeeder extends Seeder
 
         $categories = [];
         foreach ($categoriesData as $catData) {
-            $categories[$catData['slug']] = CourseCategory::create($catData);
+            $categories[$catData['slug']] = CourseCategory::updateOrCreate(
+                ['slug' => $catData['slug']],
+                $catData
+            );
         }
 
         // 2. Seed Courses (Only titles, categories, and price set to 'Liên hệ')
@@ -117,7 +120,10 @@ class CourseSeeder extends Seeder
         ];
 
         foreach ($coursesData as $courseData) {
-            Course::create($courseData);
+            Course::updateOrCreate(
+                ['slug' => $courseData['slug']],
+                $courseData
+            );
         }
     }
 }

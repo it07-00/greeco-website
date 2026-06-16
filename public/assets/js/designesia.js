@@ -664,21 +664,23 @@
          });
 
          jQuery('.owl-custom-nav').each(function() {
-             var owl = $('.owl-custom-nav').next();
-             var ow = parseInt(owl.css("height"), 10);
-             $(this).css("margin-top", (ow / 2) - 25);
-             owl.owlCarousel();
-             // Custom Navigation Events
-             $(".btn-next").on("click", function() {
-                 owl.trigger('owl.next');
-             });
-             $(".btn-prev").on("click", function() {
-                 owl.trigger('owl.prev');
-             });
-         });
+               var $nav = $(this);
+               var target = $nav.data('target');
+               var owl = target ? $(target) : $nav.next();
+               if (owl.length) {
+                   // Custom Navigation Events
+                   $nav.find(".btn-next").off("click").on("click", function(e) {
+                       e.preventDefault();
+                       owl.trigger('next.owl.carousel');
+                   });
+                   $nav.find(".btn-prev").off("click").on("click", function(e) {
+                       e.preventDefault();
+                       owl.trigger('prev.owl.carousel');
+                   });
+               }
+           });
 
-
-         // custom navigation for slider
+           // custom navigation for slider
          var ows = $('#custom-owl-slider');
          var arr = $('.owl-slider-nav');
          var doc_height = $(window).innerHeight();
@@ -1631,19 +1633,23 @@
         });
 
             function owlnavcenter(){
-             jQuery('.owl-custom-nav').each(function () {
-                 var owl = $($(this).data('target'));
-
-                 owl.owlCarousel();
-
-                 // Custom Navigation Events
-                 $(".btn-next").on("click", function () {
-                     owl.trigger('next.owl.carousel');
-                 });
-                 $(".btn-prev").on("click", function () {
-                     owl.trigger('prev.owl.carousel');
-                 });
-             });
+              jQuery('.owl-custom-nav').each(function() {
+                  var $nav = $(this);
+                  var target = $nav.data('target');
+                  var owl = target ? $(target) : $nav.next();
+                  if (owl.length) {
+                      owl.owlCarousel();
+                      // Custom Navigation Events
+                      $nav.find(".btn-next").off("click").on("click", function(e) {
+                          e.preventDefault();
+                          owl.trigger('next.owl.carousel');
+                      });
+                      $nav.find(".btn-prev").off("click").on("click", function(e) {
+                          e.preventDefault();
+                          owl.trigger('prev.owl.carousel');
+                      });
+                  }
+              });
             }
             
             owlnavcenter();

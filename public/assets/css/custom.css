@@ -1702,6 +1702,25 @@ blockquote .blockquote-footer {
     }
 }
 
+/* Full-screen height for /du-an page gallery carousel */
+#gallery-carousel .project-card-custom {
+    height: calc(100vh - 58px) !important;
+}
+
+@media only screen and (min-width: 992px) {
+    #gallery-carousel .project-card-custom {
+        height: calc(100vh - 90px) !important;
+    }
+}
+
+
+/* Fix Chrome passive event listener intervention on owl carousel touch events */
+.owl-carousel,
+.owl-carousel .owl-stage {
+    touch-action: pan-y;
+}
+
+
 /* ==========================================================================
    Header Main Menu Spacing & Wrapping Fixes
    ========================================================================== */
@@ -1776,3 +1795,17 @@ blockquote .blockquote-footer {
         padding-right: 6px !important;
     }
 }
+
+/* Prevent layout flash for owl carousel before JS initialization */
+.owl-carousel:not(.owl-loaded) {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.owl-carousel.owl-loaded {
+    opacity: 1;
+    max-height: none;
+    overflow: visible;
+}
+

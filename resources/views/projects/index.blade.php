@@ -18,7 +18,6 @@
         <div id="top"></div>
         
         <section class="p-0 relative">
-            <div class="de-gradient-edge-top dark z-3"></div>
             <div class="container-fluid relative z-2">
                 <div class="row g-0">
                     <div class="col-lg-12">

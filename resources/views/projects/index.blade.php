@@ -1,7 +1,13 @@
 @php
+    $pageNumber = max((int) request()->query('page', 1), 1);
     $seoTitle = 'Dự án & Nghiên cứu Khoa học - Viện GREECO';
     $seoDescription = 'Các dự án ứng dụng và chuyển giao công nghệ xanh tiêu biểu của Viện GREECO.';
-    $canonical = route('projects.index');
+    if ($pageNumber > 1) {
+        $seoTitle .= ' - Trang ' . $pageNumber;
+    }
+    $canonical = route('projects.index', array_filter([
+        'page' => $pageNumber > 1 ? $pageNumber : null,
+    ]));
     
     $breadcrumbs = [
         ['name' => 'Trang chủ', 'url' => route('home')],
@@ -11,11 +17,24 @@
 
 @extends('layouts.app')
 
+@if($projects->previousPageUrl())
+    @push('seo')
+        <link rel="prev" href="{{ $projects->previousPageUrl() }}">
+    @endpush
+@endif
+
+@if($projects->nextPageUrl())
+    @push('seo')
+        <link rel="next" href="{{ $projects->nextPageUrl() }}">
+    @endpush
+@endif
+
 @section('content')
     <x-schema.breadcrumb :items="$breadcrumbs" />
 
     <div class="no-bottom no-top" id="content">
         <div id="top"></div>
+        <h1 class="visually-hidden">Dự án & Nghiên cứu Khoa học</h1>
         
         <section class="p-0 relative">
             <div class="container-fluid relative z-2">

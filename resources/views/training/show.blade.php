@@ -1,13 +1,16 @@
 @php
-    $seoTitle = $course->title . ' - Viện GREECO';
-    $seoDescription = $course->description;
-    $canonical = route('services.course-detail', ['slug' => $course->slug]);
-    $ogImage = asset($course->image ?? 'assets/images/services/iso-9001-course.png');
+    $seoTitle = $course->meta_title ?: $course->title . ' - Viện GREECO';
+    $seoDescription = $course->meta_description ?: ($course->description ?: 'Thông tin chương trình đào tạo ' . $course->title . ' tại Viện GREECO.');
+    $canonical = $course->canonical_url ?: route('services.course-detail', ['slug' => $course->slug]);
+    $ogImage = $course->og_image
+        ? asset('storage/' . $course->og_image)
+        : asset($course->image ?? 'assets/images/services/iso-9001-course.png');
+    $indexable = $course->is_indexable;
 
     $breadcrumbs = [
         ['name' => 'Trang chủ', 'url' => route('home')],
         ['name' => 'Đào tạo & Bồi dưỡng', 'url' => route('services.dao-tao')],
-        ['name' => $course->title, 'url' => '#'],
+        ['name' => $course->title, 'url' => $canonical],
     ];
 @endphp
 
@@ -278,6 +281,9 @@
 @endpush
 
 @section('content')
+    <x-schema.breadcrumb :items="$breadcrumbs" />
+    <x-schema.course :course="$course" :url="$canonical" :image="$ogImage" />
+
     <div class="academy-page course-detail-page">
         <!-- Course Header Header -->
         <section class="course-header">

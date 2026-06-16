@@ -8,6 +8,18 @@
         ['name' => 'Trang chủ', 'url' => route('home')],
         ['name' => 'Đào tạo & Bồi dưỡng', 'url' => route('services.dao-tao')],
     ];
+
+    $courseListSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'ItemList',
+        'name' => 'Chương trình đào tạo GREECO',
+        'itemListElement' => collect($programs)->values()->map(fn ($program, $index) => [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'name' => $program['title'],
+            'url' => route('services.course-detail', ['slug' => $program['slug']]),
+        ])->all(),
+    ];
 @endphp
 
 @extends('layouts.app')
@@ -208,6 +220,9 @@
 @endpush
 
 @section('content')
+    <x-schema.breadcrumb :items="$breadcrumbs" />
+    <x-schema.json-ld :data="$courseListSchema" />
+
     <div class="academy-catalog-page">
         <!-- Hero Section -->
         <section class="academy-hero-banner">

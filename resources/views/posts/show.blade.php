@@ -24,6 +24,8 @@
         :description="$seoDescription"
         :image="$post->thumbnail ? asset('storage/' . $post->thumbnail) : asset('assets/images/background/8.webp')"
         :publishDate="$post->published_at ? $post->published_at->toIso8601String() : now()->toIso8601String()"
+        :modifiedDate="$post->updated_at->toIso8601String()"
+        :url="$canonical"
     />
 
     <div class="no-bottom no-top" id="content">
@@ -38,7 +40,7 @@
                             <li><a href="{{ route('posts.index') }}">Tin tức</a></li>
                             <li class="active">Tin tức chi tiết</li>
                         </ul>
-                        <h1 class="text-uppercase">Tin tức</h1>
+                        <p class="text-uppercase h1 mb-0">Tin tức</p>
                     </div>
                 </div>
             </div>

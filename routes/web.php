@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SitemapController;
-use App\Http\Controllers\CourseController;
+use Illuminate\Support\Facades\Route;
 
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -52,3 +52,8 @@ Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.stor
 
 // Sitemap.xml
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+// Generic CMS pages must stay last so explicit public routes keep priority.
+Route::get('/{page:slug}', [PageController::class, 'show'])
+    ->where('page', '^(?!admin$|login$|register$|dashboard$|assets$|build$|storage$).+')
+    ->name('pages.show');

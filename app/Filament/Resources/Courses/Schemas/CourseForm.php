@@ -2,13 +2,14 @@
 
 namespace App\Filament\Resources\Courses\Schemas;
 
+use App\Support\OptimizedImageUpload;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
@@ -57,6 +58,30 @@ class CourseForm
                                     ->default('bg-success'),
                             ]),
 
+                        Tab::make('SEO')
+                            ->schema([
+                                TextInput::make('meta_title')
+                                    ->label('Meta Title')
+                                    ->maxLength(255),
+                                Textarea::make('meta_description')
+                                    ->label('Meta Description')
+                                    ->rows(3),
+                                TextInput::make('meta_keywords')
+                                    ->label('Meta Keywords'),
+                                TextInput::make('canonical_url')
+                                    ->label('Canonical URL'),
+                                OptimizedImageUpload::configure(
+                                    FileUpload::make('og_image')->label('Ảnh chia sẻ Facebook/Zalo'),
+                                    1600,
+                                    900,
+                                )
+                                    ->disk('public')
+                                    ->directory('seo/og-images'),
+                                Toggle::make('is_indexable')
+                                    ->label('Cho Google index')
+                                    ->default(true),
+                            ]),
+
                         Tab::make('Học phí & Giảng viên')
                             ->schema([
                                 TextInput::make('price')
@@ -90,7 +115,7 @@ class CourseForm
                                         TextInput::make('title')
                                             ->label('Tên chương (Ví dụ: Chương 1: Tổng quan...)')
                                             ->required(),
-                                                                        Repeater::make('lessons')
+                                        Repeater::make('lessons')
                                             ->label('Danh sách bài học')
                                             ->schema([
                                                 TextInput::make('title')
@@ -99,7 +124,7 @@ class CourseForm
                                                 TextInput::make('duration')
                                                     ->label('Thời lượng bài học (Ví dụ: 15:30)'),
                                             ])
-                                            ->columnSpanFull()
+                                            ->columnSpanFull(),
                                     ])
                                     ->columnSpanFull(),
                             ]),

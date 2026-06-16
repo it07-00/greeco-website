@@ -17,6 +17,11 @@ class Course extends Model
         'description',
         'content',
         'image',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'canonical_url',
+        'og_image',
         'tag',
         'badge_color',
         'price',
@@ -27,12 +32,14 @@ class Course extends Model
         'instructor_image',
         'instructor_description',
         'curriculum',
+        'is_indexable',
         'is_active',
         'sort_order',
     ];
 
     protected $casts = [
         'curriculum' => 'array',
+        'is_indexable' => 'boolean',
         'is_active' => 'boolean',
     ];
 

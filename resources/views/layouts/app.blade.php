@@ -24,6 +24,7 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v={{ $faviconVersion }}">
 
     <x-seo :title="$seoTitle ?? 'Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO'" :description="$seoDescription ?? 'Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) - Đơn vị hàng đầu về chuyển giao công nghệ xanh, kinh tế tuần hoàn và ứng phó biến đổi khí hậu.'" :canonical="$canonical ?? url()->current()" :image="$ogImage ?? asset('assets/images/logo-greeco.png')" :indexable="$indexable ?? true" />
+    @stack('seo')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link

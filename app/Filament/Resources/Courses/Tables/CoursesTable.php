@@ -51,6 +51,10 @@ class CoursesTable
                     ->label('Chức danh')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('is_indexable')
+                    ->label('Google index')
+                    ->boolean()
+                    ->sortable(),
                 IconColumn::make('is_active')
                     ->label('Hiển thị')
                     ->boolean()

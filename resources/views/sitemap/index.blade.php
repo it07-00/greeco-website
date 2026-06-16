@@ -1,38 +1,20 @@
 {!! '<?xml version="1.0" encoding="UTF-8"?>' !!}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    @foreach ($staticRoutes as $staticRoute)
     <url>
-        <loc>{{ url('/') }}</loc>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
+        <loc>{{ route($staticRoute['route']) }}</loc>
+        <changefreq>{{ $staticRoute['changefreq'] }}</changefreq>
+        <priority>{{ $staticRoute['priority'] }}</priority>
     </url>
-    <url>
-        <loc>{{ route('contact') }}</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>{{ route('capability-profile') }}</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>{{ route('library') }}</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
-    </url>
+    @endforeach
     @foreach ($pages as $page)
     <url>
-        <loc>{{ $page->slug === 'gioi-thieu' ? route('about') : url('/' . $page->slug) }}</loc>
+        <loc>{{ route('pages.show', $page) }}</loc>
         <lastmod>{{ $page->updated_at->toAtomString() }}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     @endforeach
-    <url>
-        <loc>{{ route('services.index') }}</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
     @foreach ($services as $service)
     <url>
         <loc>{{ route('services.show', $service) }}</loc>
@@ -41,11 +23,14 @@
         <priority>0.8</priority>
     </url>
     @endforeach
+    @foreach ($courses as $course)
     <url>
-        <loc>{{ route('posts.index') }}</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
+        <loc>{{ route('services.course-detail', ['slug' => $course->slug]) }}</loc>
+        <lastmod>{{ $course->updated_at->toAtomString() }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
+    @endforeach
     @foreach ($posts as $post)
     <url>
         <loc>{{ route('posts.show', $post) }}</loc>
@@ -54,11 +39,6 @@
         <priority>0.7</priority>
     </url>
     @endforeach
-    <url>
-        <loc>{{ route('projects.index') }}</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
     @foreach ($projects as $project)
     <url>
         <loc>{{ route('projects.show', $project) }}</loc>

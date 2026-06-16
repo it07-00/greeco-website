@@ -1,7 +1,22 @@
 @php
-    $seoTitle = 'Tin tức & Sự kiện - Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO';
-    $seoDescription = 'Cập nhật tin tức, sự kiện mới nhất về kinh tế xanh, biến đổi khí hậu và chuyển đổi phát triển bền vững tại Việt Nam.';
-    $canonical = route('posts.index');
+    $pageNumber = max((int) request()->query('page', 1), 1);
+    $hasActiveTag = filled($activeTag);
+    $seoTitle = $hasActiveTag
+        ? 'Tin tức về ' . $activeTag . ' - Viện GREECO'
+        : 'Tin tức & Sự kiện - Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO';
+    $seoDescription = $hasActiveTag
+        ? 'Các bài viết, tin tức và góc nhìn chuyên gia của Viện GREECO về ' . $activeTag . '.'
+        : 'Cập nhật tin tức, sự kiện mới nhất về kinh tế xanh, biến đổi khí hậu và chuyển đổi phát triển bền vững tại Việt Nam.';
+
+    if ($pageNumber > 1) {
+        $seoTitle .= ' - Trang ' . $pageNumber;
+    }
+
+    $canonicalParams = array_filter([
+        'tag' => $hasActiveTag ? $activeTag : null,
+        'page' => $pageNumber > 1 ? $pageNumber : null,
+    ]);
+    $canonical = route('posts.index', $canonicalParams);
     
     $breadcrumbs = [
         ['name' => 'Trang chủ', 'url' => route('home')],
@@ -11,6 +26,17 @@
 
 @extends('layouts.app')
 
+@if($posts->previousPageUrl())
+    @push('seo')
+        <link rel="prev" href="{{ $posts->previousPageUrl() }}">
+    @endpush
+@endif
+
+@if($posts->nextPageUrl())
+    @push('seo')
+        <link rel="next" href="{{ $posts->nextPageUrl() }}">
+    @endpush
+@endif
 
 @section('content')
     <x-schema.breadcrumb :items="$breadcrumbs" />

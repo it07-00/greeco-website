@@ -165,13 +165,16 @@
             width: 40px;
             height: 40px;
             border-radius: 8px;
-            background: rgba(0, 143, 121, 0.1);
-            color: #008f79;
+            background: #f1f5f9;
+            color: #0f172a;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
             flex-shrink: 0;
+        }
+        .course-detail-page .academy-heading {
+            color: #0f172a !important;
         }
 
         /* Bootstrap Accordion custom styling overrides */
@@ -497,19 +500,19 @@
                                 <h4 class="academy-heading fs-6 fw-bold mb-3">Khóa học bao gồm:</h4>
                                 <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
                                     <li class="d-flex align-items-center gap-3 text-secondary small">
-                                        <i class="fa-solid fa-circle-play text-success fs-6" style="width: 20px;"></i>
+                                        <i class="fa-solid fa-circle-play text-dark fs-6" style="width: 20px;"></i>
                                         <span>{{ $totalLessons ?: 12 }} bài giảng học trực tuyến chất lượng</span>
                                     </li>
                                     <li class="d-flex align-items-center gap-3 text-secondary small">
-                                        <i class="fa-solid fa-mobile-screen-button text-success fs-6" style="width: 20px;"></i>
+                                        <i class="fa-solid fa-mobile-screen-button text-dark fs-6" style="width: 20px;"></i>
                                         <span>Học tập linh hoạt trên điện thoại & máy tính</span>
                                     </li>
                                     <li class="d-flex align-items-center gap-3 text-secondary small">
-                                        <i class="fa-solid fa-download text-success fs-6" style="width: 20px;"></i>
+                                        <i class="fa-solid fa-download text-dark fs-6" style="width: 20px;"></i>
                                         <span>Biểu mẫu tài liệu học thực tế</span>
                                     </li>
                                     <li class="d-flex align-items-center gap-3 text-secondary small">
-                                        <i class="fa-solid fa-award text-success fs-6" style="width: 20px;"></i>
+                                        <i class="fa-solid fa-award text-dark fs-6" style="width: 20px;"></i>
                                         <span>Cấp chứng nhận hoàn thành uy tín</span>
                                     </li>
                                 </ul>

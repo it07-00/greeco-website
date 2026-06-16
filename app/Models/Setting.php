@@ -9,6 +9,8 @@ class Setting extends Model
 {
     use HasFactory;
 
+    protected static $cachedSettings = null;
+
     protected $fillable = [
         'key',
         'value',
@@ -39,8 +41,12 @@ class Setting extends Model
                 'description' => 'Tên chính thức của website/thương hiệu hiển thị trên thanh trình duyệt và SEO.',
             ],
             'phone' => [
-                'label' => 'Số điện thoại hotline',
-                'description' => 'Hotline liên hệ hiển thị ở Header, Footer và nút gọi nhanh.',
+                'label' => 'Số điện thoại hotline 1',
+                'description' => 'Hotline chính hiển thị ở Header, Footer và nút gọi nhanh.',
+            ],
+            'phone_2' => [
+                'label' => 'Số điện thoại hotline 2 (Tùy chọn)',
+                'description' => 'Hotline phụ hiển thị ở Footer, trang Liên hệ và menu gọi nhanh.',
             ],
             'email' => [
                 'label' => 'Địa chỉ email',
@@ -197,6 +203,7 @@ class Setting extends Model
     protected static function booted()
     {
         static::saved(function ($setting) {
+            self::clearCache();
             if ($setting->key === 'favicon') {
                 $value = $setting->value;
                 if ($value) {
@@ -312,6 +319,10 @@ class Setting extends Model
                 }
             }
         });
+
+        static::deleted(function ($setting) {
+            self::clearCache();
+        });
     }
 
     private static function wrapPngInIco($pngData, $width, $height)
@@ -336,10 +347,14 @@ class Setting extends Model
 
     public static function getValue(string $key, $default = null)
     {
-        static $settings = null;
-        if ($settings === null) {
-            $settings = self::pluck('value', 'key');
+        if (self::$cachedSettings === null) {
+            self::$cachedSettings = self::pluck('value', 'key');
         }
-        return $settings->get($key) ?? $default;
+        return self::$cachedSettings->get($key) ?? $default;
+    }
+
+    public static function clearCache(): void
+    {
+        self::$cachedSettings = null;
     }
 }

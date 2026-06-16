@@ -737,6 +737,7 @@ class DatabaseSeeder extends Seeder
         $settingsData = [
             ['key' => 'site_name', 'value' => 'Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO', 'type' => 'text', 'group' => 'general'],
             ['key' => 'phone', 'value' => '09369 96390', 'type' => 'text', 'group' => 'contact'],
+            ['key' => 'phone_2', 'value' => '', 'type' => 'text', 'group' => 'contact'],
             ['key' => 'email', 'value' => 'info@greeco.vn', 'type' => 'text', 'group' => 'contact'],
             ['key' => 'address', 'value' => '150 Đường 38-CL, Phường Cát Lái, TP. HCM', 'type' => 'text', 'group' => 'contact'],
             ['key' => 'work_hours', 'value' => 'Thứ 2 - Thứ 7: 08:00 - 17:00', 'type' => 'text', 'group' => 'contact'],

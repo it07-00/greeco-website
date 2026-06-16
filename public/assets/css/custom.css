@@ -575,6 +575,69 @@ footer.footer-light .subfooter a:hover {
     }
 }
 
+/* Multi-phone button and submenu dropdown */
+.multi-phone-btn {
+    cursor: pointer;
+}
+
+.multi-phone-btn::before {
+    /* Ensure default tooltip behaves normally until hovered/active */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.multi-phone-btn:hover::before,
+.multi-phone-btn.active::before {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.phone-submenu {
+    position: absolute;
+    bottom: 52px;
+    right: 0;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: max-content;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1020;
+}
+
+.multi-phone-btn:hover .phone-submenu,
+.multi-phone-btn.active .phone-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.phone-submenu .submenu-item {
+    display: flex;
+    align-items: center;
+    background: #2ecc71;
+    color: #ffffff !important;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.phone-submenu .submenu-item:hover {
+    background: #27ae60;
+    transform: translateY(-1px);
+}
+
 @media (max-width: 991px) {
     .floating-contact-buttons {
         bottom: 20px; /* shift down to fit layout on mobile screens */

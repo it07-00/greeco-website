@@ -91,6 +91,8 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
         @php
             $rawPhone = setting('phone', '09369 96390');
             $cleanPhone = preg_replace('/\D/', '', $rawPhone);
+            $rawPhone2 = setting('phone_2');
+            $cleanPhone2 = $rawPhone2 ? preg_replace('/\D/', '', $rawPhone2) : null;
 
             $zaloUrl = setting('zalo_url');
             if (!$zaloUrl) {
@@ -108,6 +110,7 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
             }
         @endphp
         <div class="floating-contact-buttons">
+            <!-- DEBUG: rawPhone2={{ var_export($rawPhone2, true) }} cleanPhone2={{ var_export($cleanPhone2, true) }} -->
             <a href="{{ $messengerUrl }}" target="_blank" rel="noopener noreferrer" class="contact-btn messenger-btn"
                 data-tooltip="Chat Messenger" aria-label="Messenger">
                 <i class="fa-brands fa-facebook-messenger"></i>
@@ -122,11 +125,26 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
                         fill="#0068ff" text-anchor="middle">Z</text>
                 </svg>
             </a>
-            <a href="tel:{{ $cleanPhone }}" class="contact-btn phone-btn" data-tooltip="Gọi điện thoại"
-                aria-label="Gọi điện thoại">
-                <span class="pulse-ring"></span>
-                <i class="fa-solid fa-phone"></i>
-            </a>
+            @if($cleanPhone2)
+                <div class="contact-btn phone-btn multi-phone-btn" data-tooltip="Gọi điện thoại" aria-label="Gọi điện thoại" tabindex="0">
+                    <span class="pulse-ring"></span>
+                    <i class="fa-solid fa-phone"></i>
+                    <div class="phone-submenu">
+                        <a href="tel:{{ $cleanPhone }}" class="submenu-item">
+                            <i class="fa-solid fa-phone-volume me-2"></i> Hotline 1: {{ $rawPhone }}
+                        </a>
+                        <a href="tel:{{ $cleanPhone2 }}" class="submenu-item">
+                            <i class="fa-solid fa-phone-volume me-2"></i> Hotline 2: {{ $rawPhone2 }}
+                        </a>
+                    </div>
+                </div>
+            @else
+                <a href="tel:{{ $cleanPhone }}" class="contact-btn phone-btn" data-tooltip="Gọi điện thoại"
+                    aria-label="Gọi điện thoại">
+                    <span class="pulse-ring"></span>
+                    <i class="fa-solid fa-phone"></i>
+                </a>
+            @endif
         </div>
 
         <x-header />
@@ -147,6 +165,27 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
     <script src="{{ asset('assets/js/designesia.js') }}" defer></script>
 
     @stack('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var multiPhoneBtn = document.querySelector('.multi-phone-btn');
+            if (multiPhoneBtn) {
+                // Toggle active class on click for touch support
+                multiPhoneBtn.addEventListener('click', function(e) {
+                    if (e.target.closest('.submenu-item')) {
+                        return; // Let the link click go through
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                });
+                
+                // Close menu if clicked outside
+                document.addEventListener('click', function() {
+                    multiPhoneBtn.classList.remove('active');
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

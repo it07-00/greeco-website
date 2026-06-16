@@ -56,8 +56,15 @@ class CourseForm
                                     ->directory('courses'),
                                 TextInput::make('tag')
                                     ->label('Nhãn nổi bật (Ví dụ: BÁN CHẠY, HOT, MỚI)'),
-                                TextInput::make('badge_color')
-                                    ->label('Màu sắc nhãn (Ví dụ: bg-success, bg-danger, bg-info)')
+                                Select::make('badge_color')
+                                    ->label('Màu sắc nhãn')
+                                    ->options([
+                                        'bg-success' => 'Xanh lá (Success)',
+                                        'bg-danger' => 'Đỏ (Danger)',
+                                        'bg-info' => 'Xanh dương (Info)',
+                                        'bg-warning' => 'Vàng (Warning)',
+                                        'bg-primary' => 'Xanh lá thương hiệu (Primary)',
+                                    ])
                                     ->default('bg-success'),
                             ]),
 

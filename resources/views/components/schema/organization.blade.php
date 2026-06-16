@@ -8,7 +8,9 @@
         'logo' => setting('logo_dark') ? asset('storage/' . setting('logo_dark')) : asset('assets/images/logo-greeco.png'),
         'contactPoint' => [
             '@type' => 'ContactPoint',
-            'telephone' => setting('phone', '09369 96390'),
+            'telephone' => setting('phone_2') 
+                ? [setting('phone', '09369 96390'), setting('phone_2')] 
+                : setting('phone', '09369 96390'),
             'contactType' => 'customer service',
             'areaServed' => 'VN',
             'availableLanguage' => ['Vietnamese'],

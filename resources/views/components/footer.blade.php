@@ -81,6 +81,10 @@
                             <div class="fw-bold text-dark"><i class="icofont-phone me-2 id-color-2"></i>Hotline</div>
                             <a href="tel:{{ str_replace(' ', '', setting('phone', '0936996390')) }}"
                                 class="text-dark text-decoration-none hover-underline d-block">{{ setting('phone', '09369 96390') }}</a>
+                            @if(setting('phone_2'))
+                                <a href="tel:{{ str_replace(' ', '', setting('phone_2')) }}"
+                                    class="text-dark text-decoration-none hover-underline d-block mt-1">{{ setting('phone_2') }}</a>
+                            @endif
                         </div>
                     </div>
 

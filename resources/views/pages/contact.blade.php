@@ -81,6 +81,9 @@
                                             <div class="contact-text-group">
                                                 <span class="contact-label">Điện thoại liên hệ</span>
                                                 <a href="tel:{{ str_replace(' ', '', setting('phone', '0936996390')) }}" class="contact-value text-decoration-none hover-underline text-white">{{ setting('phone', '09369 96390') }}</a>
+                                                @if(setting('phone_2'))
+                                                    <a href="tel:{{ str_replace(' ', '', setting('phone_2')) }}" class="contact-value text-decoration-none hover-underline text-white d-block mt-1">{{ setting('phone_2') }}</a>
+                                                @endif
                                             </div>
                                         </div>
 

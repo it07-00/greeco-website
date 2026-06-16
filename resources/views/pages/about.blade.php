@@ -74,7 +74,7 @@
                         <div class="col-sm-6">
                           <div class="row g-4">
                             <div class="col-lg-12">
-                              <img src="{{ asset('assets/images/misc/3.webp') }}" width="1024" height="1024" class="w-100 rounded-1 wow zoomIn"
+                              <img src="{{ asset('assets/images/misc/3.webp') }}" width="1024" height="1024" class="w-100 rounded-1 wow zoomIn about-journey-img"
                                 alt="GREECO project development" loading="lazy" decoding="async" />
                             </div>
                             <div class="col-lg-12">
@@ -108,7 +108,7 @@
                               </div>
                             </div>
                             <div class="col-lg-12">
-                              <img src="{{ asset('assets/images/misc/4.webp') }}" width="1024" height="1024" class="w-100 rounded-1 wow zoomIn"
+                              <img src="{{ asset('assets/images/misc/4.webp') }}" width="1024" height="1024" class="w-100 rounded-1 wow zoomIn about-journey-img"
                                 alt="GREECO partner network" loading="lazy" decoding="async" />
                             </div>
                           </div>

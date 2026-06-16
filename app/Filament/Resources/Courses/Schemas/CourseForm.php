@@ -47,9 +47,12 @@ class CourseForm
                                 RichEditor::make('content')
                                     ->label('Nội dung chi tiết khóa học')
                                     ->columnSpanFull(),
-                                FileUpload::make('image')
-                                    ->label('Hình ảnh đại diện khóa học')
-                                    ->image()
+                                OptimizedImageUpload::configure(
+                                    FileUpload::make('image')->label('Hình ảnh đại diện khóa học'),
+                                    1200,
+                                    1200,
+                                )
+                                    ->disk('public')
                                     ->directory('courses'),
                                 TextInput::make('tag')
                                     ->label('Nhãn nổi bật (Ví dụ: BÁN CHẠY, HOT, MỚI)'),
@@ -97,9 +100,12 @@ class CourseForm
                                 TextInput::make('instructor_role')
                                     ->label('Vai trò/Chức danh giảng viên')
                                     ->placeholder('Ví dụ: Chuyên gia cấp cao về ISO & ESG'),
-                                FileUpload::make('instructor_image')
-                                    ->label('Ảnh đại diện giảng viên')
-                                    ->image()
+                                OptimizedImageUpload::configure(
+                                    FileUpload::make('instructor_image')->label('Ảnh đại diện giảng viên'),
+                                    400,
+                                    400,
+                                )
+                                    ->disk('public')
                                     ->directory('instructors'),
                                 Textarea::make('instructor_description')
                                     ->label('Mô tả/Tiểu sử giảng viên')

@@ -49,6 +49,8 @@
                         <h2 class="text-uppercase text-white wow fadeInUp" data-wow-delay=".2s">Giới thiệu Năng lực
                             <img src="{{ asset('assets/images/logo-text-white-cropped.png') }}"
                                  alt="GREECO"
+                                 width="678"
+                                 height="222"
                                  class="inline-logo-profile">
                             <span class="text-mint">Profile</span></h2>
                         <p class="wow fadeInUp text-white-80">Hồ sơ năng lực (Capability Profile) của Viện Nghiên cứu và Phát triển Kinh

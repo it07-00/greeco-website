@@ -191,7 +191,7 @@
         </section>
 
         <section class="jarallax text-light relative">
-            <img src="{{ asset('assets/images/background/8.webp') }}" class="jarallax-img"
+            <img src="{{ asset('assets/images/background/8.webp') }}" width="1024" height="1024" class="jarallax-img"
                 loading="lazy" decoding="async"
                 alt="Hành trình phát triển GREECO">
             <div class="de-overlay" style="background: linear-gradient(90deg, rgba(30, 31, 34, 0.85) 0%, rgba(30, 31, 34, 0.45) 100%);"></div>
@@ -233,7 +233,7 @@
                                     <div class="col-lg-12">
                                         <div class="rounded-1 relative bg-blur p-4">
                                             <img src="{{ setting('icon_journey_tree') ? asset('storage/' . setting('icon_journey_tree')) : asset('assets/images/icons/tree.png') }}"
-                                                loading="lazy" decoding="async"
+                                                width="512" height="512" loading="lazy" decoding="async"
                                                 class="abs abs-middle w-60px" alt="Dự án thành công icon">
                                             <div class="de_count ps-80 wow fadeInUp">
                                                 <h2 class="mb-0 fs-32"><span class="timer" data-to="550"
@@ -250,7 +250,7 @@
                                     <div class="col-lg-12">
                                         <div class="rounded-1 relative bg-blur p-4">
                                             <img src="{{ setting('icon_journey_happy') ? asset('storage/' . setting('icon_journey_happy')) : asset('assets/images/icons/happy.png') }}"
-                                                loading="lazy" decoding="async"
+                                                width="512" height="512" loading="lazy" decoding="async"
                                                 class="abs abs-middle w-60px" alt="Doanh nghiệp đồng hành icon">
                                             <div class="de_count ps-80 wow fadeInUp">
                                                 <h2 class="mb-0 fs-32"><span class="timer" data-to="850"
@@ -287,7 +287,7 @@
 
 
     <section class="jarallax text-light relative">
-        <img src="{{ asset('assets/images/background/11.webp') }}" class="jarallax-img" alt="Dịch vụ khoa học GREECO"
+        <img src="{{ asset('assets/images/background/11.webp') }}" width="1024" height="1024" class="jarallax-img" alt="Dịch vụ khoa học GREECO"
             loading="lazy" decoding="async">
         <div class="de-overlay" style="background: rgba(30, 31, 34, 0.90);"></div>
         <div class="container relative z-2">
@@ -394,7 +394,8 @@
                             <div class="rounded-1 bg-light overflow-hidden blog-post-card">
                                 <div class="row g-2 h-100">
                                     <div class="col-sm-6">
-                                        <div class="blog-post-img-container relative" data-bgimage="url({{ $postImg }})">
+                                        <div class="blog-post-img-container relative">
+                                            <img src="{{ $postImg }}" width="1024" height="1024" class="blog-post-img" alt="{{ $post->title }}" loading="lazy" decoding="async">
                                             <div class="abs start-0 top-0 bg-color-2 text-white p-3 pb-2 m-3 text-center fw-600 rounded-5px">
                                                 <div class="fs-36 mb-0">{{ $day }}</div>
                                                 <span>{{ $monthStr }}</span>
@@ -502,7 +503,7 @@
     </section>
 
     <section class="jarallax text-light relative">
-        <img src="{{ asset('assets/images/background/4.webp') }}" class="jarallax-img" alt="Đánh giá đối tác GREECO"
+        <img src="{{ asset('assets/images/background/4.webp') }}" width="1024" height="1024" class="jarallax-img" alt="Đánh giá đối tác GREECO"
             loading="lazy" decoding="async">
         <div class="de-overlay"></div>
         <div class="container relative z-2">

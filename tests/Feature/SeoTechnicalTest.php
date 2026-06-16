@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Course;
 use App\Models\Page;
 use App\Models\Post;
+use App\Models\PostCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -193,7 +194,14 @@ class SeoTechnicalTest extends TestCase
 
     public function test_post_detail_has_single_h1(): void
     {
+        $category = PostCategory::query()->create([
+            'name' => 'Góc nhìn chuyên gia',
+            'slug' => 'goc-nhin-chuyen-gia',
+            'is_active' => true,
+        ]);
+
         $post = Post::query()->create([
+            'post_category_id' => $category->id,
             'title' => 'Một tiêu đề bài viết chuẩn SEO',
             'slug' => 'mot-tieu-de-bai-viet-chuan-seo',
             'excerpt' => 'Tóm tắt bài viết.',
@@ -208,5 +216,36 @@ class SeoTechnicalTest extends TestCase
             ->getContent();
 
         $this->assertSame(1, preg_match_all('/<h1\b/i', $content));
+        $this->assertStringContainsString('<p class="text-uppercase h1 mb-0">'.e($category->name).'</p>', $content);
+        $this->assertStringNotContainsString('<p class="text-uppercase h1 mb-0">Tin tức</p>', $content);
+    }
+
+    public function test_post_detail_meta_uses_compact_items_without_pipe_separator(): void
+    {
+        $category = PostCategory::query()->create([
+            'name' => 'Tin tức & Sự kiện',
+            'slug' => 'tin-tuc-su-kien',
+            'is_active' => true,
+        ]);
+
+        $post = Post::query()->create([
+            'post_category_id' => $category->id,
+            'title' => 'Bài viết có meta gọn',
+            'slug' => 'bai-viet-co-meta-gon',
+            'excerpt' => 'Tóm tắt bài viết.',
+            'content' => '<p>Nội dung bài viết.</p>',
+            'is_published' => true,
+            'is_indexable' => true,
+            'published_at' => now()->setDate(2026, 6, 15),
+        ]);
+
+        $content = $this->get(route('posts.show', $post))
+            ->assertOk()
+            ->getContent();
+
+        $this->assertStringContainsString('class="post-detail-meta mb-3"', $content);
+        $this->assertStringContainsString('class="post-detail-meta__item"', $content);
+        $this->assertStringContainsString('datetime="2026-06-15"', $content);
+        $this->assertStringNotContainsString('<span class="mx-2">|</span>', $content);
     }
 }

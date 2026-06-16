@@ -74,14 +74,14 @@
                         <div class="col-sm-6">
                           <div class="row g-4">
                             <div class="col-lg-12">
-                              <img src="{{ asset('assets/images/misc/3.webp') }}" class="w-100 rounded-1 wow zoomIn"
-                                alt="GREECO project development" />
+                              <img src="{{ asset('assets/images/misc/3.webp') }}" width="1024" height="1024" class="w-100 rounded-1 wow zoomIn"
+                                alt="GREECO project development" loading="lazy" decoding="async" />
                             </div>
                             <div class="col-lg-12">
                               <div class="rounded-1 relative bg-color-2 text-light p-4">
                                 <img
                                   src="{{ setting('icon_journey_tree') ? asset('storage/' . setting('icon_journey_tree')) : asset('assets/images/icons/tree.png') }}"
-                                  class="abs abs-middle w-60px" alt="icon tree" />
+                                  width="512" height="512" class="abs abs-middle w-60px" alt="icon tree" loading="lazy" decoding="async" />
                                 <div class="de_count ps-80 wow fadeInUp">
                                   <h2 class="mb-0 fs-32">
                                     <span class="timer" data-to="550" data-speed="3000"></span>+
@@ -98,7 +98,7 @@
                               <div class="rounded-1 relative bg-color-2 text-light p-4">
                                 <img
                                   src="{{ setting('icon_journey_happy') ? asset('storage/' . setting('icon_journey_happy')) : asset('assets/images/icons/happy.png') }}"
-                                  class="abs abs-middle w-60px" alt="icon partner" />
+                                  width="512" height="512" class="abs abs-middle w-60px" alt="icon partner" loading="lazy" decoding="async" />
                                 <div class="de_count ps-80 wow fadeInUp">
                                   <h2 class="mb-0 fs-32">
                                     <span class="timer" data-to="850" data-speed="3000"></span>+
@@ -108,8 +108,8 @@
                               </div>
                             </div>
                             <div class="col-lg-12">
-                              <img src="{{ asset('assets/images/misc/4.webp') }}" class="w-100 rounded-1 wow zoomIn"
-                                alt="GREECO partner network" />
+                              <img src="{{ asset('assets/images/misc/4.webp') }}" width="1024" height="1024" class="w-100 rounded-1 wow zoomIn"
+                                alt="GREECO partner network" loading="lazy" decoding="async" />
                             </div>
                           </div>
                         </div>
@@ -154,8 +154,8 @@
                                     </div>
                                   </div>
                                 </div>
-                                <img src="{{ asset('assets/images/team/1.webp') }}" class="w-100 rounded-10px"
-                                  alt="GS. TS. Lâm Hoài Nam" />
+                                <img src="{{ asset('assets/images/team/1.webp') }}" width="500" height="600" class="w-100 rounded-10px"
+                                  alt="GS. TS. Lâm Hoài Nam" loading="lazy" decoding="async" />
                               </div>
                             </div>
                             <!-- team end -->
@@ -177,8 +177,8 @@
                                     </div>
                                   </div>
                                 </div>
-                                <img src="{{ asset('assets/images/team/2.webp') }}" class="w-100 rounded-10px"
-                                  alt="PGS. TS. Trần Thị Mai" />
+                                <img src="{{ asset('assets/images/team/2.webp') }}" width="500" height="600" class="w-100 rounded-10px"
+                                  alt="PGS. TS. Trần Thị Mai" loading="lazy" decoding="async" />
                               </div>
                             </div>
                             <!-- team end -->
@@ -200,8 +200,8 @@
                                     </div>
                                   </div>
                                 </div>
-                                <img src="{{ asset('assets/images/team/3.webp') }}" class="w-100 rounded-10px"
-                                  alt="TS. Phạm Hoàng Nam" />
+                                <img src="{{ asset('assets/images/team/3.webp') }}" width="500" height="600" class="w-100 rounded-10px"
+                                  alt="TS. Phạm Hoàng Nam" loading="lazy" decoding="async" />
                               </div>
                             </div>
                             <!-- team end -->
@@ -223,8 +223,8 @@
                                     </div>
                                   </div>
                                 </div>
-                                <img src="{{ asset('assets/images/team/4.webp') }}" class="w-100 rounded-10px"
-                                  alt="ThS. Lê Thị Thu Hương" />
+                                <img src="{{ asset('assets/images/team/4.webp') }}" width="500" height="600" class="w-100 rounded-10px"
+                                  alt="ThS. Lê Thị Thu Hương" loading="lazy" decoding="async" />
                               </div>
                             </div>
                             <!-- team end -->
@@ -246,8 +246,8 @@
                                     </div>
                                   </div>
                                 </div>
-                                <img src="{{ asset('assets/images/team/5.webp') }}" class="w-100 rounded-10px"
-                                  alt="ThS. Nguyễn Minh Triết" />
+                                <img src="{{ asset('assets/images/team/5.webp') }}" width="500" height="600" class="w-100 rounded-10px"
+                                  alt="ThS. Nguyễn Minh Triết" loading="lazy" decoding="async" />
                               </div>
                             </div>
                             <!-- team end -->
@@ -269,8 +269,8 @@
                                     </div>
                                   </div>
                                 </div>
-                                <img src="{{ asset('assets/images/team/6.webp') }}" class="w-100 rounded-10px"
-                                  alt="Bà Hoàng Anh Thư" />
+                                <img src="{{ asset('assets/images/team/6.webp') }}" width="500" height="600" class="w-100 rounded-10px"
+                                  alt="Bà Hoàng Anh Thư" loading="lazy" decoding="async" />
                               </div>
                             </div>
                             <!-- team end -->

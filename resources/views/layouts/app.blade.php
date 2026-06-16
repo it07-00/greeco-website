@@ -25,22 +25,13 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
 
     <x-seo :title="$seoTitle ?? 'Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO'" :description="$seoDescription ?? 'Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) - Đơn vị hàng đầu về chuyển giao công nghệ xanh, kinh tế tuần hoàn và ứng phó biến đổi khí hậu.'" :canonical="$canonical ?? url()->current()" :image="$ogImage ?? asset('assets/images/logo-greeco.png')" :indexable="$indexable ?? true" />
     @stack('seo')
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
 
     @stack('vendor-styles')
 
-    <link rel="preload" href="{{ asset('assets/fonts/fontawesome6/webfonts/fa-solid-900.woff2') }}" as="font"
-        type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('assets/fonts/icofont/fonts/icofont.woff2') }}" as="font" type="font/woff2"
-        crossorigin>
-    <link rel="preload" href="{{ asset('assets/fonts/fontawesome4/fonts/fontawesome-webfont.woff2') }}?v=4.6.3"
-        as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('assets/fonts/fontawesome6/webfonts/fa-brands-400.woff2') }}" as="font"
-        type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('assets/fonts/be-vietnam-pro/BeVietnamPro-Regular.ttf') }}" as="font"
+        type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ asset('assets/fonts/be-vietnam-pro/BeVietnamPro-Bold.ttf') }}" as="font"
+        type="font/ttf" crossorigin>
 
     <link rel="preload" href="{{ asset('assets/css/bootstrap.min.css') }}" as="style">
     <link rel="preload" href="{{ asset('assets/css/style.css') }}" as="style">
@@ -79,8 +70,14 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
         <link href="{{ asset('assets/fonts/icofont/icofont.min.css') }}" rel="stylesheet" type="text/css">
     </noscript>
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/css/coloring.css') }}" rel="stylesheet" type="text/css">
-    <link id="colors" href="{{ asset('assets/css/colors/scheme-01.css') }}" rel="stylesheet" type="text/css">
+    <link rel="preload" href="{{ asset('assets/css/coloring.css') }}" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" id="colors" href="{{ asset('assets/css/colors/scheme-01.css') }}" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="{{ asset('assets/css/coloring.css') }}" rel="stylesheet" type="text/css">
+        <link id="colors-noscript" href="{{ asset('assets/css/colors/scheme-01.css') }}" rel="stylesheet" type="text/css">
+    </noscript>
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css">
 
     @stack('styles')
@@ -131,10 +128,6 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
                 <i class="fa-solid fa-phone"></i>
             </a>
         </div>
-
-        <!-- preloader begin -->
-        <div id="de-loader"></div>
-        <!-- preloader end -->
 
         <x-header />
 

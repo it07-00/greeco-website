@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <img src="{{ asset('assets/images/team/1.webp') }}" class="w-100 rounded-10px" alt="GS. TS. Lâm Hoài Nam">
+                            <img src="{{ asset('assets/images/team/1.webp') }}" width="500" height="600" class="w-100 rounded-10px" alt="GS. TS. Lâm Hoài Nam" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <!-- team end -->
@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <img src="{{ asset('assets/images/team/2.webp') }}" class="w-100 rounded-10px" alt="PGS. TS. Trần Thị Mai">
+                            <img src="{{ asset('assets/images/team/2.webp') }}" width="500" height="600" class="w-100 rounded-10px" alt="PGS. TS. Trần Thị Mai" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <!-- team end -->
@@ -87,7 +87,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <img src="{{ asset('assets/images/team/3.webp') }}" class="w-100 rounded-10px" alt="TS. Phạm Hoàng Nam">
+                            <img src="{{ asset('assets/images/team/3.webp') }}" width="500" height="600" class="w-100 rounded-10px" alt="TS. Phạm Hoàng Nam" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <!-- team end -->
@@ -106,7 +106,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <img src="{{ asset('assets/images/team/4.webp') }}" class="w-100 rounded-10px" alt="ThS. Lê Thị Thu Hương">
+                            <img src="{{ asset('assets/images/team/4.webp') }}" width="500" height="600" class="w-100 rounded-10px" alt="ThS. Lê Thị Thu Hương" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <!-- team end -->
@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <img src="{{ asset('assets/images/team/5.webp') }}" class="w-100 rounded-10px" alt="ThS. Nguyễn Minh Triết">
+                            <img src="{{ asset('assets/images/team/5.webp') }}" width="500" height="600" class="w-100 rounded-10px" alt="ThS. Nguyễn Minh Triết" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <!-- team end -->
@@ -144,7 +144,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <img src="{{ asset('assets/images/team/6.webp') }}" class="w-100 rounded-10px" alt="Bà Hoàng Anh Thư">
+                            <img src="{{ asset('assets/images/team/6.webp') }}" width="500" height="600" class="w-100 rounded-10px" alt="Bà Hoàng Anh Thư" loading="lazy" decoding="async">
                         </div>
                     </div>
                     <!-- team end -->

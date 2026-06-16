@@ -41,11 +41,11 @@
                             <a class="service-category-link" href="{{ $category['url'] }}" aria-label="Xem chi tiết {{ $category['name'] }}">
                                 <div class="bg-color text-light rounded-1 overflow-hidden h-100 d-flex flex-column">
                                     <div class="hover relative overflow-hidden text-light text-center">
-                                        <img src="{{ $category['image'] }}" width="1024" height="1024" class="hover-scale-1-1 w-100" style="height: auto;" alt="{{ $category['name'] }}">
+                                        <img src="{{ $category['image'] }}" width="1024" height="1024" class="hover-scale-1-1 w-100" style="height: auto;" alt="{{ $category['name'] }}" loading="lazy" decoding="async">
                                         <div class="abs w-100 px-4 hover-op-1 z-4 hover-mt-40 abs-centered">
                                             <span class="btn-line">Xem chi tiết</span>
                                         </div>
-                                        <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="abs abs-centered w-20" style="height: auto;" alt="GREECO Icon">
+                                        <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="abs abs-centered w-20" style="height: auto;" alt="GREECO Icon" loading="lazy" decoding="async">
                                         <div class="abs bg-color z-2 top-0 w-100 h-100 hover-op-1"></div>
                                         <div class="abs z-2 bottom-0 mb-3 w-100 text-center hover-op-0">
                                             <h4 class="mb-3">{{ $category['name'] }}</h4>
@@ -64,11 +64,11 @@
         </section>
 
         <section class="jarallax pt80 pb80 relative text-light">
-            <img src="{{ asset('assets/images/background/3.webp') }}" class="jarallax-img" alt="Tư vấn chuyên sâu GREECO">
+            <img src="{{ asset('assets/images/background/3.webp') }}" width="1024" height="1024" class="jarallax-img" alt="Tư vấn chuyên sâu GREECO" loading="lazy" decoding="async">
             <div class="container relative z-2">
                 <div class="row">
                     <div class="col-lg-8">
-                        <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="w-60px mb-4" style="height: auto;" alt="GREECO logo icon">
+                        <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="w-60px mb-4" style="height: auto;" alt="GREECO logo icon" loading="lazy" decoding="async">
                         <h2 class="text-uppercase mb-4">Hành động ngay vì tương lai bền vững – Liên hệ với GREECO để được tư vấn chuyên sâu</h2>
                         <a class="btn-main" href="{{ route('contact') }}">Liên hệ ngay</a>
                     </div>

@@ -12,6 +12,7 @@
         ['name' => 'Tin tức', 'url' => route('posts.index')],
         ['name' => $post->title, 'url' => $canonical]
     ];
+    $subheaderLabel = $post->category?->name ?? 'Chi tiết bài viết';
 @endphp
 
 @extends('layouts.app')
@@ -38,9 +39,9 @@
                         <ul class="crumb">
                             <li><a href="{{ route('home') }}">Trang chủ</a></li>
                             <li><a href="{{ route('posts.index') }}">Tin tức</a></li>
-                            <li class="active">Tin tức chi tiết</li>
+                            <li class="active">Chi tiết bài viết</li>
                         </ul>
-                        <p class="text-uppercase h1 mb-0">Tin tức</p>
+                        <p class="text-uppercase h1 mb-0">{{ $subheaderLabel }}</p>
                     </div>
                 </div>
             </div>
@@ -53,10 +54,16 @@
                         <div class="blog-read">
                             <h1 class="text-dark fs-36 fw-700 lh-1-3 mb-3">{{ $post->title }}</h1>
                             @if($post->published_at)
-                                <div class="post-meta mb-3 text-muted fs-14">
-                                    <i class="fa-regular fa-calendar-days me-2"></i>{{ $post->published_at->format('d/m/Y') }}
+                                <div class="post-detail-meta mb-3">
+                                    <time class="post-detail-meta__item" datetime="{{ $post->published_at->toDateString() }}">
+                                        <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
+                                        <span>{{ $post->published_at->format('d/m/Y') }}</span>
+                                    </time>
                                     @if($post->category)
-                                        <span class="mx-2">|</span><i class="fa-regular fa-folder-open me-2"></i>{{ $post->category->name }}
+                                        <span class="post-detail-meta__item">
+                                            <i class="fa-regular fa-folder-open" aria-hidden="true"></i>
+                                            <span>{{ $post->category->name }}</span>
+                                        </span>
                                     @endif
                                 </div>
                             @endif

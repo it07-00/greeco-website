@@ -5,7 +5,7 @@
 	'use strict';
 
     var rtl_mode = 'off'; // on - for enable RTL, off - for deactive RTL
-    var preloader = 'on'; // on - for enable preloader, off - for disable preloader
+    var preloader = 'off'; // on - for enable preloader, off - for disable preloader
     var header_autoshow = "off"; // on - for enable fixed header, off - for disable fixed header
     var topbar = "on"; // on - for enable fixed topbar, off - for disable fixed topbar
     var show_scroll_to_top = "on"; // on - for enable scroll to top button
@@ -898,24 +898,16 @@
       * custom background
       * --------------------------------------------------*/
      function custom_bg() {
-         $("body,div,section,span,form,img").css('background-color', function() {
-            if ($(this).is('[data-bgcolor]')) {
-                jQuery(this).addClass("bgcustom");
-            }
+         $('[data-bgcolor]').addClass("bgcustom").css('background-color', function() {
              return jQuery(this).data('bgcolor');
          });
-         $("body,div,section").css('background', function() {
-            if ($(this).is('[data-bgimage]')) {
-                jQuery(this).addClass("bgcustom");
-            }
-             return jQuery(this).data('bgimage');
-         });
-         $("body,div,section").css('background-size', function() {
-             return 'cover';
-         });
 
-         $("body,div,section").css('background-repeat', function() {
-             return 'no-repeat';
+         $('[data-bgimage]').addClass("bgcustom").css({
+             background: function() {
+                 return jQuery(this).data('bgimage');
+             },
+             'background-size': 'cover',
+             'background-repeat': 'no-repeat'
          });
      }
      /* --------------------------------------------------

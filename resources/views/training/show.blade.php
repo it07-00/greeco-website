@@ -449,7 +449,7 @@
                                 <div class="instructor-card border shadow-sm rounded-3 bg-white p-4 mb-4">
                                     <h3 class="academy-heading fs-4 fw-bold mb-4">Giảng viên hướng dẫn</h3>
                                     <div class="d-flex flex-column flex-sm-row gap-4 align-items-start">
-                                        <img src="{{ asset($course->instructor_image ?? 'assets/images/team/team-1.jpg') }}" alt="{{ $course->instructor_name }}" class="instructor-avatar">
+                                        <img src="{{ asset($course->instructor_image ?? 'assets/images/team/team-1.jpg') }}" width="160" height="160" alt="{{ $course->instructor_name }}" class="instructor-avatar" loading="lazy" decoding="async">
                                         <div>
                                             <h4 class="academy-heading fs-5 fw-bold mb-1">{{ $course->instructor_name }}</h4>
                                             <p class="text-success small mb-3">{{ $course->instructor_role }}</p>
@@ -474,7 +474,7 @@
                 <div class="col-lg-4">
                     <aside class="course-sidebar">
                         <div class="course-sidebar-video" data-bs-toggle="modal" data-bs-target="#checkout-modal">
-                            <img src="{{ asset($course->image ?? 'assets/images/services/iso-9001-course.png') }}" alt="{{ $course->title }} Course preview">
+                            <img src="{{ asset($course->image ?? 'assets/images/services/iso-9001-course.png') }}" width="1024" height="1024" alt="{{ $course->title }} Course preview" loading="lazy" decoding="async">
                             @if($course->tag)
                                 <span class="video-label">{{ $course->tag }}</span>
                             @endif

@@ -38,7 +38,7 @@
                     <div class="col-lg-4 col-sm-6 wow fadeInRight" data-wow-delay=".0s" >
                         <div class="relative bg-light p-30 pb-70 rounded-1 h-100">
                             <div class="text-center mb-3">
-                                <img src="{{ asset('assets/images/logo-icon-color.webp') }}" class="w-80px mb-3" alt="GREECO Logo icon">
+                                <img src="{{ asset('assets/images/logo-icon-color.webp') }}" width="166" height="214" class="w-80px mb-3" alt="GREECO Logo icon" loading="lazy" decoding="async">
                                 <h4>Gói Đào tạo ESG</h4>
                                 <div class="spacer-30"></div>
                                 <div class="fw-bold">
@@ -67,10 +67,10 @@
 
                     <div class="col-lg-4 col-sm-6 wow fadeInRight" data-wow-delay=".3s" >
                         <div class="relative overflow-hidden bg-light p-30 pb-70 rounded-1 h-100 jarallax text-light">
-                            <img src="{{ asset('assets/images/misc/5.webp') }}" class="jarallax-img" alt="Gói đánh giá carbon GREECO">
+                            <img src="{{ asset('assets/images/misc/5.webp') }}" width="1024" height="1024" class="jarallax-img" alt="Gói đánh giá carbon GREECO" loading="lazy" decoding="async">
                             <div class="de-overlay op-5"></div>
                             <div class="text-center mb-3 relative z-2">
-                                <img src="{{ asset('assets/images/logo-icon-color.webp') }}" class="w-80px mb-3" alt="GREECO Logo icon">
+                                <img src="{{ asset('assets/images/logo-icon-color.webp') }}" width="166" height="214" class="w-80px mb-3" alt="GREECO Logo icon" loading="lazy" decoding="async">
                                 <h4>Gói Đánh giá Carbon</h4>
                                 <div class="spacer-30"></div>
                                 <div class="fw-bold">
@@ -99,7 +99,7 @@
                     <div class="col-lg-4 col-sm-6 wow fadeInRight" data-wow-delay=".6s" >
                         <div class="relative bg-light p-30 pb-70 rounded-1 h-100">
                             <div class="text-center mb-3">
-                                <img src="{{ asset('assets/images/logo-icon-color.webp') }}" class="w-80px mb-3" alt="GREECO Logo icon">
+                                <img src="{{ asset('assets/images/logo-icon-color.webp') }}" width="166" height="214" class="w-80px mb-3" alt="GREECO Logo icon" loading="lazy" decoding="async">
                                 <h4>Gói Chuyển giao Xanh</h4>
                                 <div class="spacer-30"></div>
                                 <div class="fw-bold">

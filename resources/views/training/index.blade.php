@@ -316,7 +316,7 @@
                                     @else
                                         <a href="{{ route('contact') }}?message={{ urlencode('Tôi muốn đăng ký tư vấn về khóa học: ' . $program['title']) }}">
                                     @endif
-                                            <img src="{{ asset($program['image']) }}" alt="{{ $program['title'] }}">
+                                            <img src="{{ asset($program['image']) }}" width="1024" height="1024" alt="{{ $program['title'] }}" loading="lazy" decoding="async">
                                         </a>
                                         <span class="badge course-tag-badge {{ $program['badge_color'] }} text-white">
                                             {{ $program['tag'] }}

@@ -42,7 +42,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/1.webp') }}" class="img-fluid hover-scale-1-2" alt="Hoạt động nghiên cứu thực địa">
+                                <img src="{{ asset('assets/images/gallery/1.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Hoạt động nghiên cứu thực địa" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>
@@ -54,7 +54,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/2.webp') }}" class="img-fluid hover-scale-1-2" alt="Hội thảo khoa học">
+                                <img src="{{ asset('assets/images/gallery/2.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Hội thảo khoa học" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>
@@ -66,7 +66,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/3.webp') }}" class="img-fluid hover-scale-1-2" alt="Đào tạo doanh nghiệp">
+                                <img src="{{ asset('assets/images/gallery/3.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Đào tạo doanh nghiệp" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>
@@ -78,7 +78,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/4.webp') }}" class="img-fluid hover-scale-1-2" alt="Hội nghị phát triển bền vững">
+                                <img src="{{ asset('assets/images/gallery/4.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Hội nghị phát triển bền vững" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>
@@ -90,7 +90,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/5.webp') }}" class="img-fluid hover-scale-1-2" alt="Chuyển giao công nghệ xanh">
+                                <img src="{{ asset('assets/images/gallery/5.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Chuyển giao công nghệ xanh" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>
@@ -102,7 +102,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/6.webp') }}" class="img-fluid hover-scale-1-2" alt="Khảo sát môi trường thực tế">
+                                <img src="{{ asset('assets/images/gallery/6.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Khảo sát môi trường thực tế" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>
@@ -114,7 +114,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/7.webp') }}" class="img-fluid hover-scale-1-2" alt="Lớp học ESG và Net Zero">
+                                <img src="{{ asset('assets/images/gallery/7.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Lớp học ESG và Net Zero" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>
@@ -126,7 +126,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/8.webp') }}" class="img-fluid hover-scale-1-2" alt="Ký kết hợp tác công nghệ">
+                                <img src="{{ asset('assets/images/gallery/8.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Ký kết hợp tác công nghệ" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>
@@ -138,7 +138,7 @@
                                     <h4 class="mb-0 hover-scale-in-3">View</h4>
                                 </div> 
                                 <div class="absolute w-100 h-100 top-0 bg-dark hover-op-05"></div>
-                                <img src="{{ asset('assets/images/gallery/9.webp') }}" class="img-fluid hover-scale-1-2" alt="Thực nghiệm kỹ thuật hóa học">
+                                <img src="{{ asset('assets/images/gallery/9.webp') }}" width="1024" height="1024" class="img-fluid hover-scale-1-2" alt="Thực nghiệm kỹ thuật hóa học" loading="lazy" decoding="async">
                             </div>
                         </a>
                     </div>

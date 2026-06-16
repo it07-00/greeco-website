@@ -54,7 +54,7 @@
                                         <div class="relative">
                                             <div class="hover project-card-custom overflow-hidden text-light">
                                                 <a href="{{ route('projects.show', $project) }}" class="abs w-100 h-100 z-5"></a>
-                                                <img src="{{ $projectImg }}" class="hover-scale-1-1 w-100" alt="{{ $project->title }}">
+                                                <img src="{{ $projectImg }}" width="1024" height="1024" class="hover-scale-1-1 w-100" alt="{{ $project->title }}" loading="lazy" decoding="async">
                                                 <div class="abs bottom-0 mb-4 w-100 text-center px-4 hover-op-1 z-4 hover-mt-40">
                                                     <div class="mb-3">{{ Str::limit($project->excerpt, 120) }}</div>
                                                 </div>
@@ -67,7 +67,7 @@
                                                 </div>
                                                 <div class="gradient-trans-dark-top abs w-100 h-50 top-0 op-6"></div>
                                                 <div class="w-40px abs end-0 bottom-0 m-4">
-                                                    <img src="{{ asset('assets/images/misc/right-arrow.webp') }}" class="w-100" alt="Right arrow">
+                                                    <img src="{{ asset('assets/images/misc/right-arrow.webp') }}" width="512" height="258" class="w-100" alt="Right arrow" loading="lazy" decoding="async">
                                                 </div>
                                             </div>
                                         </div>

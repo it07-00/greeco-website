@@ -47,7 +47,7 @@ Table of content:
 * media query
 */
 
-/*
+/* Self-hosted Be Vietnam Pro fonts; avoids render-blocking Google Fonts requests. */
 @font-face {
   font-family: 'Be Vietnam Pro';
   src: url('../fonts/be-vietnam-pro/BeVietnamPro-Thin.ttf') format('truetype');
@@ -174,7 +174,6 @@ Table of content:
   font-style: italic;
   font-display: swap;
 }
-*/
 
 /* ================================================== */
 

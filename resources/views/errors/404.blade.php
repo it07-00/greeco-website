@@ -11,7 +11,7 @@
         <div id="top"></div>
 
         <section id="section-404" class="error-page-section text-light relative jarallax">
-            <img src="{{ asset('assets/images/background/8.webp') }}" class="jarallax-img" alt="404 Background">
+            <img src="{{ asset('assets/images/background/8.webp') }}" width="1024" height="1024" class="jarallax-img" alt="404 Background" loading="eager" decoding="async" fetchpriority="high">
             <div class="error-page-overlay de-overlay"></div>
             <div class="container relative z-index-1000">
                 <div class="row align-items-center justify-content-center text-center">

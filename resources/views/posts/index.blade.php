@@ -75,7 +75,8 @@
                                 <div class="rounded-1 bg-light overflow-hidden blog-post-card">
                                     <div class="row g-2 h-100">
                                         <div class="col-sm-6">
-                                            <div class="blog-post-img-container relative" data-bgimage="url({{ $postImg }})">
+                                            <div class="blog-post-img-container relative">
+                                                <img src="{{ $postImg }}" width="1024" height="1024" class="blog-post-img" alt="{{ $post->title }}" loading="lazy" decoding="async">
                                                 <div class="abs start-0 top-0 bg-color-2 text-white p-3 pb-2 m-3 text-center fw-600 rounded-5px">
                                                     <div class="fs-36 mb-0">{{ $day }}</div>
                                                     <span>{{ $monthStr }}</span>

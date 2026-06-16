@@ -19,10 +19,19 @@ class SettingForm
             ->components([
                 Section::make('Cấu hình hệ thống')
                     ->schema([
+                        \Filament\Forms\Components\Placeholder::make('label_placeholder')
+                            ->label('Tên cấu hình')
+                            ->content(fn ($record) => $record ? $record->label : '-')
+                            ->visible(fn ($record) => $record !== null),
+                        \Filament\Forms\Components\Placeholder::make('description_placeholder')
+                            ->label('Mô tả ý nghĩa')
+                            ->content(fn ($record) => $record ? $record->description : '-')
+                            ->visible(fn ($record) => $record !== null),
                         TextInput::make('key')
-                            ->label('Khóa (Key)')
+                            ->label('Khóa kỹ thuật (Key)')
                             ->required()
                             ->maxLength(255)
+                            ->disabled(fn ($context) => $context === 'edit')
                             ->unique(ignoreRecord: true),
                         Select::make('group')
                             ->label('Nhóm cấu hình')

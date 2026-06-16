@@ -1087,6 +1087,7 @@ section[style*="background"] a.btn-main.btn-line {
 /* Inline GREECO Logo on Profile page */
 .inline-logo-profile {
     height: 1.05em;
+    width: auto;
     vertical-align: middle;
     margin-top: -6px;
     margin-left: 2px;

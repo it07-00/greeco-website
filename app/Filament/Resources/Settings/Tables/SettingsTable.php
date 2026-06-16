@@ -18,9 +18,15 @@ class SettingsTable
                     ->label('ID')
                     ->sortable(),
                 TextColumn::make('key')
-                    ->label('Khóa (Key)')
+                    ->label('Tên cấu hình')
+                    ->state(fn ($record) => $record->label)
+                    ->description(fn ($record) => $record->key)
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('description')
+                    ->label('Mô tả ý nghĩa')
+                    ->state(fn ($record) => $record->description)
+                    ->wrap(),
                 TextColumn::make('group')
                     ->label('Nhóm')
                     ->badge()

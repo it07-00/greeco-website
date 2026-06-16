@@ -29,7 +29,7 @@ class CourseController extends Controller
                 'title' => $course->title,
                 'slug' => $course->slug,
                 'description' => $course->description,
-                'image' => $course->image ?? 'assets/images/services/iso-9001-course.png',
+                'image' => $course->image ? \Illuminate\Support\Facades\Storage::url($course->image) : asset('assets/images/services/iso-9001-course.png'),
                 'tag' => $course->tag,
                 'category_name' => $course->category?->name,
                 'badge_color' => $course->badge_color ?? 'bg-success',

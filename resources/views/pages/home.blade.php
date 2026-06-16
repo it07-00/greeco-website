@@ -198,12 +198,10 @@
             <div class="container relative z-1">
                 <div class="row g-4 gx-5 align-items-center">
                     <div class="col-lg-6">
-                        <div class="subtitle wow fadeInUp mb-3">Hành trình phát triển</div>
-                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">Kiến tạo Giá trị Kinh tế Xanh <span
-                                class="id-color-2">từ năm 2019</span></h2>
-                        <p class="wow fadeInUp">Được thành lập bởi đội ngũ nhà khoa học, chuyên gia tâm huyết, Viện GREECO
-                            đã và đang khẳng định vị thế tiên phong trong tư vấn chiến lược chuyển đổi xanh, thực hiện
-                            nghiên cứu thực chứng và hỗ trợ cộng đồng doanh nghiệp đạt mục tiêu phát triển bền vững.</p>
+                        <div class="subtitle wow fadeInUp mb-3">{{ setting('journey_subtitle', 'Hành trình phát triển') }}</div>
+                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">{{ setting('journey_title_1', 'Kiến tạo Giá trị Kinh tế Xanh') }} <span
+                                class="id-color-2">{{ setting('journey_title_2', 'từ năm 2019') }}</span></h2>
+                        <p class="wow fadeInUp">{{ setting('journey_desc', 'Được thành lập bởi đội ngũ nhà khoa học, chuyên gia tâm huyết, Viện GREECO đã và đang khẳng định vị thế tiên phong trong tư vấn chiến lược chuyển đổi xanh, thực hiện nghiên cứu thực chứng và hỗ trợ cộng đồng doanh nghiệp đạt mục tiêu phát triển bền vững.') }}</p>
                         <a class="btn-main btn-line wow fadeInUp" href="{{ route('projects.index') }}"
                             data-wow-delay=".6s">Dự án nghiên cứu</a>
                     </div>
@@ -214,7 +212,7 @@
                                 <div class="row g-4">
                                     <div class="col-lg-12">
                                         <div class="text-center p-4 bg-blur rounded-1">
-                                            <h4 class="mb-1 fs-24">Uy tín & Khoa học</h4>
+                                            <h4 class="mb-1 fs-24">{{ setting('journey_box1_title', 'Uy tín & Khoa học') }}</h4>
                                             <div class="de-rating-ext fs-18">
                                                 <div class="d-stars">
                                                     <i class="fa fa-star"></i>
@@ -223,7 +221,7 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <div class="fs-15 mb-2">Đánh giá từ đối tác chiến lược</div>
+                                                <div class="fs-15 mb-2">{{ setting('journey_box1_desc', 'Đánh giá từ đối tác chiến lược') }}</div>
                                                 <img src="{{ asset('assets/images/misc/trustpilot.webp') }}" width="600" height="148" class="w-120px"
                                                     style="height: auto;" loading="lazy" decoding="async"
                                                     alt="Trustpilot rating GREECO">
@@ -236,9 +234,9 @@
                                                 width="512" height="512" loading="lazy" decoding="async"
                                                 class="abs abs-middle w-60px" alt="Dự án thành công icon">
                                             <div class="de_count ps-80 wow fadeInUp">
-                                                <h2 class="mb-0 fs-32"><span class="timer" data-to="550"
+                                                <h2 class="mb-0 fs-32"><span class="timer" data-to="{{ setting('journey_box2_count', '550') }}"
                                                         data-speed="3000"></span>+</h2>
-                                                <span class="op-7">Dự án tư vấn thành công</span>
+                                                <span class="op-7">{{ setting('journey_box2_desc', 'Dự án tư vấn thành công') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -253,15 +251,15 @@
                                                 width="512" height="512" loading="lazy" decoding="async"
                                                 class="abs abs-middle w-60px" alt="Doanh nghiệp đồng hành icon">
                                             <div class="de_count ps-80 wow fadeInUp">
-                                                <h2 class="mb-0 fs-32"><span class="timer" data-to="850"
+                                                <h2 class="mb-0 fs-32"><span class="timer" data-to="{{ setting('journey_box3_count', '850') }}"
                                                         data-speed="3000"></span>+</h2>
-                                                <span class="op-7">Doanh nghiệp đồng hành</span>
+                                                <span class="op-7">{{ setting('journey_box3_desc', 'Doanh nghiệp đồng hành') }}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="text-center p-4 bg-blur rounded-1">
-                                            <h4 class="mb-1 fs-24">Xếp hạng 4.8/5</h4>
+                                            <h4 class="mb-1 fs-24">{{ setting('journey_box4_title', 'Xếp hạng 4.8/5') }}</h4>
                                             <div class="de-rating-ext fs-18">
                                                 <div class="d-stars">
                                                     <i class="fa fa-star"></i>
@@ -270,7 +268,7 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <div class="fs-15 mb-2">Khảo sát chất lượng dịch vụ</div>
+                                                <div class="fs-15 mb-2">{{ setting('journey_box4_desc', 'Khảo sát chất lượng dịch vụ') }}</div>
                                                 <img src="{{ asset('assets/images/misc/google.webp') }}" width="600" height="148" class="w-120px"
                                                     style="height: auto;" loading="lazy" decoding="async"
                                                     alt="Google review GREECO">
@@ -512,10 +510,8 @@
                     <div class="owl-single-dots owl-carousel owl-theme">
                         <div class="item">
                             <i class="icofont-quote-left fs-40 mb-4 wow fadeInUp id-color-2"></i>
-                            <h3 class="mb-4 wow fadeInUp fs-32">Chúng tôi đánh giá rất cao sự chuyên nghiệp và kiến thức
-                                chuyên sâu của Viện GREECO trong việc tư vấn lộ trình Net Zero và ESG. Giải pháp của Viện
-                                rất thiết thực, hiệu quả và dễ dàng tích hợp vào hệ thống của chúng tôi.</h3>
-                            <span>ThS. Lê Hoàng Nam</span>
+                            <h3 class="mb-4 wow fadeInUp fs-32">{{ setting('testimonial_content', 'Chúng tôi đánh giá rất cao sự chuyên nghiệp và kiến thức chuyên sâu của Viện GREECO trong việc tư vấn lộ trình Net Zero và ESG. Giải pháp của Viện rất thiết thực, hiệu quả và dễ dàng tích hợp vào hệ thống của chúng tôi.') }}</h3>
+                            <span>{{ setting('testimonial_author', 'ThS. Lê Hoàng Nam') }}</span>
                         </div>
                     </div>
                 </div>

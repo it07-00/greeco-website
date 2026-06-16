@@ -4,7 +4,7 @@
     $canonical = $course->canonical_url ?: route('services.course-detail', ['slug' => $course->slug]);
     $ogImage = $course->og_image
         ? asset('storage/' . $course->og_image)
-        : asset($course->image ?? 'assets/images/services/iso-9001-course.png');
+        : ($course->image ? asset('storage/' . $course->image) : asset('assets/images/services/iso-9001-course.png'));
     $indexable = $course->is_indexable;
 
     $breadcrumbs = [
@@ -118,7 +118,8 @@
             transition: color 0.25s ease;
         }
         .course-detail-page .nav-tabs .nav-link.active {
-            color: #008f79 !important;
+            color: #006354 !important;
+            font-weight: 700;
         }
         .course-detail-page .nav-tabs .nav-link.active::after {
             content: '';
@@ -127,7 +128,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background-color: #008f79;
+            background-color: #006354;
             border-radius: 3px 3px 0 0;
         }
 
@@ -169,8 +170,8 @@
             padding: 16px 20px;
         }
         .course-detail-page .accordion-button:not(.collapsed) {
-            background-color: #f1f5f9 !important;
-            color: #008f79 !important;
+            background-color: #e6f4f1 !important;
+            color: #006354 !important;
         }
         .course-detail-page .accordion-button::after {
             background-size: 1rem;
@@ -328,16 +329,16 @@
                     <!-- Bootstrap 5 Native Nav Tabs -->
                     <ul class="nav nav-tabs mb-4" id="courseDetailTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="intro-tab" data-bs-toggle="tab" data-bs-target="#intro-content" type="button" role="tab" aria-controls="intro-content" aria-selected="true">Giới thiệu</button>
+                            <a class="nav-link active" id="intro-tab" data-bs-toggle="tab" href="#intro-content" role="tab" aria-controls="intro-content" aria-selected="true">Giới thiệu</a>
                         </li>
                         @if(!empty($chapters))
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="curriculum-tab" data-bs-toggle="tab" data-bs-target="#curriculum-content" type="button" role="tab" aria-controls="curriculum-content" aria-selected="false">Nội dung khóa học</button>
+                                <a class="nav-link" id="curriculum-tab" data-bs-toggle="tab" href="#curriculum-content" role="tab" aria-controls="curriculum-content" aria-selected="false">Nội dung khóa học</a>
                             </li>
                         @endif
                         @if($course->instructor_name)
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="instructor-tab" data-bs-toggle="tab" data-bs-target="#instructor-content" type="button" role="tab" aria-controls="instructor-content" aria-selected="false">Giảng viên</button>
+                                <a class="nav-link" id="instructor-tab" data-bs-toggle="tab" href="#instructor-content" role="tab" aria-controls="instructor-content" aria-selected="false">Giảng viên</a>
                             </li>
                         @endif
 
@@ -425,11 +426,11 @@
                                                             @foreach ($chapter['lessons'] as $lesson)
                                                                 <div class="lesson-item d-flex align-items-center justify-content-between py-3 px-4 border-bottom">
                                                                     <div class="lesson-title-wrapper d-flex align-items-center gap-2">
-                                                                        <i class="fa-regular fa-circle-play text-muted" style="font-size: 14px;"></i>
-                                                                        <span class="text-secondary small">{{ $lesson['title'] }}</span>
+                                                                        <i class="fa-solid fa-circle-play" style="color: #006354; font-size: 15px;"></i>
+                                                                        <span class="text-dark fw-bold" style="font-size: 0.95rem;">{{ $lesson['title'] }}</span>
                                                                     </div>
                                                                     @if(!empty($lesson['duration']))
-                                                                        <span class="text-secondary small">{{ $lesson['duration'] }}</span>
+                                                                        <span class="fw-bold" style="color: #006354; font-size: 0.85rem;">{{ $lesson['duration'] }}</span>
                                                                     @endif
                                                                 </div>
                                                             @endforeach
@@ -449,7 +450,7 @@
                                 <div class="instructor-card border shadow-sm rounded-3 bg-white p-4 mb-4">
                                     <h3 class="academy-heading fs-4 fw-bold mb-4">Giảng viên hướng dẫn</h3>
                                     <div class="d-flex flex-column flex-sm-row gap-4 align-items-start">
-                                        <img src="{{ asset($course->instructor_image ?? 'assets/images/team/team-1.jpg') }}" width="160" height="160" alt="{{ $course->instructor_name }}" class="instructor-avatar" loading="lazy" decoding="async">
+                                        <img src="{{ $course->instructor_image ? asset('storage/' . $course->instructor_image) : asset('assets/images/team/team-1.jpg') }}" width="160" height="160" alt="{{ $course->instructor_name }}" class="instructor-avatar" loading="lazy" decoding="async">
                                         <div>
                                             <h4 class="academy-heading fs-5 fw-bold mb-1">{{ $course->instructor_name }}</h4>
                                             <p class="text-success small mb-3">{{ $course->instructor_role }}</p>
@@ -474,7 +475,7 @@
                 <div class="col-lg-4">
                     <aside class="course-sidebar">
                         <div class="course-sidebar-video" data-bs-toggle="modal" data-bs-target="#checkout-modal">
-                            <img src="{{ asset($course->image ?? 'assets/images/services/iso-9001-course.png') }}" width="1024" height="1024" alt="{{ $course->title }} Course preview" loading="lazy" decoding="async">
+                            <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('assets/images/services/iso-9001-course.png') }}" width="1024" height="1024" alt="{{ $course->title }} Course preview" loading="lazy" decoding="async">
                             @if($course->tag)
                                 <span class="video-label">{{ $course->tag }}</span>
                             @endif

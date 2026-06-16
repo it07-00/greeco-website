@@ -14,7 +14,15 @@ class PageController extends Controller
             ->where('is_active', true)
             ->firstOrFail();
 
-        return view('pages.about', compact('page'));
+        $teamMembers = \App\Models\TeamMember::where('is_active', true)->orderBy('order_column')->get();
+
+        return view('pages.about', compact('page', 'teamMembers'));
+    }
+
+    public function team()
+    {
+        $teamMembers = \App\Models\TeamMember::where('is_active', true)->orderBy('order_column')->get();
+        return view('pages.team', compact('teamMembers'));
     }
 
     public function show(Page $page)

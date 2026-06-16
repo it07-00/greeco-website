@@ -56,11 +56,11 @@
                   <div class="row g-4 gx-5 align-items-center">
                     <div class="col-lg-6">
                       <div class="subtitle wow fadeInUp mb-3">
-                        Hành trình phát triển
+                        {{ setting('journey_subtitle', 'Hành trình phát triển') }}
                       </div>
                       <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">
-                        Kiến tạo Giá trị
-                        <span class="id-color-2">Kinh tế Xanh</span> từ năm 2019
+                        {{ setting('journey_title_1', 'Kiến tạo Giá trị Kinh tế Xanh') }}
+                        <span class="id-color-2">{{ setting('journey_title_2', 'từ năm 2019') }}</span>
                       </h2>
                       <div class="wow fadeInUp">
                         {!! $page->content !!}
@@ -84,9 +84,9 @@
                                   width="512" height="512" class="abs abs-middle w-60px" alt="icon tree" loading="lazy" decoding="async" />
                                 <div class="de_count ps-80 wow fadeInUp">
                                   <h2 class="mb-0 fs-32">
-                                    <span class="timer" data-to="550" data-speed="3000"></span>+
+                                    <span class="timer" data-to="{{ setting('journey_box2_count', '550') }}" data-speed="3000"></span>+
                                   </h2>
-                                  <span class="op-7">Dự án hoàn thành</span>
+                                  <span class="op-7">{{ setting('about_box1_desc', 'Dự án hoàn thành') }}</span>
                                 </div>
                               </div>
                             </div>
@@ -101,9 +101,9 @@
                                   width="512" height="512" class="abs abs-middle w-60px" alt="icon partner" loading="lazy" decoding="async" />
                                 <div class="de_count ps-80 wow fadeInUp">
                                   <h2 class="mb-0 fs-32">
-                                    <span class="timer" data-to="850" data-speed="3000"></span>+
+                                    <span class="timer" data-to="{{ setting('journey_box3_count', '850') }}" data-speed="3000"></span>+
                                   </h2>
-                                  <span class="op-7">Đối tác tin cậy</span>
+                                  <span class="op-7">{{ setting('about_box2_desc', 'Đối tác tin cậy') }}</span>
                                 </div>
                               </div>
                             </div>
@@ -137,143 +137,32 @@
                           <a class="btn-prev"></a>
 
                           <div id="project-single-carousel" class="owl-3-cols owl-carousel owl-theme">
+                            @foreach($teamMembers as $member)
                             <!-- team begin -->
                             <div class="item">
-                              <div class="relative">
+                              <div class="relative team-member-card">
                                 <div class="abs bottom-0 w-100">
                                   <div
                                     class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
                                     <div>
-                                      <h4 class="mb-0">GS. TS. Lâm Hoài Nam</h4>
-                                      <p class="mb-0">Chủ tịch Hội đồng Khoa học</p>
+                                      <h4 class="mb-0">{{ $member->name }}</h4>
+                                      <p class="mb-0">{{ $member->role }}</p>
                                     </div>
                                     <div class="text-end">
                                       <a
-                                        href="{{ setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
+                                        href="{{ $member->facebook_url ?? setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
                                           class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
                                     </div>
                                   </div>
                                 </div>
-                                <img src="{{ asset('assets/images/team/1.webp') }}" width="500" height="600" class="w-100 rounded-10px"
-                                  alt="GS. TS. Lâm Hoài Nam" loading="lazy" decoding="async" />
-                              </div>
-                            </div>
-                            <!-- team end -->
-
-                            <!-- team begin -->
-                            <div class="item">
-                              <div class="relative">
-                                <div class="abs bottom-0 w-100">
-                                  <div
-                                    class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
-                                    <div>
-                                      <h4 class="mb-0">PGS. TS. Trần Thị Mai</h4>
-                                      <p class="mb-0">Phó Viện trưởng / Chuyên gia ESG</p>
-                                    </div>
-                                    <div class="text-end">
-                                      <a
-                                        href="{{ setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
-                                          class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
-                                    </div>
-                                  </div>
+                                <div class="team-member-img-wrap rounded-10px overflow-hidden">
+                                  <img src="{{ $member->image ? asset(str_starts_with($member->image, 'assets') ? $member->image : 'storage/' . $member->image) : asset('assets/images/team/1.webp') }}" width="500" height="600" class="w-100 h-100 object-fit-cover"
+                                    alt="{{ $member->name }}" loading="lazy" decoding="async" />
                                 </div>
-                                <img src="{{ asset('assets/images/team/2.webp') }}" width="500" height="600" class="w-100 rounded-10px"
-                                  alt="PGS. TS. Trần Thị Mai" loading="lazy" decoding="async" />
                               </div>
                             </div>
                             <!-- team end -->
-
-                            <!-- team begin -->
-                            <div class="item">
-                              <div class="relative">
-                                <div class="abs bottom-0 w-100">
-                                  <div
-                                    class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
-                                    <div>
-                                      <h4 class="mb-0">TS. Phạm Hoàng Nam</h4>
-                                      <p class="mb-0">Trưởng phòng Nghiên cứu Công nghệ Xanh</p>
-                                    </div>
-                                    <div class="text-end">
-                                      <a
-                                        href="{{ setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
-                                          class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <img src="{{ asset('assets/images/team/3.webp') }}" width="500" height="600" class="w-100 rounded-10px"
-                                  alt="TS. Phạm Hoàng Nam" loading="lazy" decoding="async" />
-                              </div>
-                            </div>
-                            <!-- team end -->
-
-                            <!-- team begin -->
-                            <div class="item">
-                              <div class="relative">
-                                <div class="abs bottom-0 w-100">
-                                  <div
-                                    class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
-                                    <div>
-                                      <h4 class="mb-0">ThS. Lê Thị Thu Hương</h4>
-                                      <p class="mb-0">Chuyên gia Đánh giá Carbon & Khí hậu</p>
-                                    </div>
-                                    <div class="text-end">
-                                      <a
-                                        href="{{ setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
-                                          class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <img src="{{ asset('assets/images/team/4.webp') }}" width="500" height="600" class="w-100 rounded-10px"
-                                  alt="ThS. Lê Thị Thu Hương" loading="lazy" decoding="async" />
-                              </div>
-                            </div>
-                            <!-- team end -->
-
-                            <!-- team begin -->
-                            <div class="item">
-                              <div class="relative">
-                                <div class="abs bottom-0 w-100">
-                                  <div
-                                    class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
-                                    <div>
-                                      <h4 class="mb-0">ThS. Nguyễn Minh Triết</h4>
-                                      <p class="mb-0">Chuyên viên Chuyển giao Công nghệ</p>
-                                    </div>
-                                    <div class="text-end">
-                                      <a
-                                        href="{{ setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
-                                          class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <img src="{{ asset('assets/images/team/5.webp') }}" width="500" height="600" class="w-100 rounded-10px"
-                                  alt="ThS. Nguyễn Minh Triết" loading="lazy" decoding="async" />
-                              </div>
-                            </div>
-                            <!-- team end -->
-
-                            <!-- team begin -->
-                            <div class="item">
-                              <div class="relative">
-                                <div class="abs bottom-0 w-100">
-                                  <div
-                                    class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
-                                    <div>
-                                      <h4 class="mb-0">Bà Hoàng Anh Thư</h4>
-                                      <p class="mb-0">Thư ký Hội đồng Chuyên gia</p>
-                                    </div>
-                                    <div class="text-end">
-                                      <a
-                                        href="{{ setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
-                                          class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <img src="{{ asset('assets/images/team/6.webp') }}" width="500" height="600" class="w-100 rounded-10px"
-                                  alt="Bà Hoàng Anh Thư" loading="lazy" decoding="async" />
-                              </div>
-                            </div>
-                            <!-- team end -->
+                            @endforeach
                           </div>
                         </div>
                       </div>

@@ -12,6 +12,15 @@
         ['name' => 'Đào tạo & Bồi dưỡng', 'url' => route('services.dao-tao')],
         ['name' => $course->title, 'url' => $canonical],
     ];
+
+    $totalLessons = 0;
+    if (!empty($chapters)) {
+        foreach ($chapters as $chapter) {
+            if (!empty($chapter['lessons'])) {
+                $totalLessons += count($chapter['lessons']);
+            }
+        }
+    }
 @endphp
 
 @extends('layouts.app')
@@ -134,9 +143,14 @@
 
         .course-feature-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin-bottom: 30px;
+        }
+        @media (max-width: 767px) {
+            .course-feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
         .course-feature-item {
             background: #ffffff;
@@ -361,17 +375,10 @@
                                 <h3 class="academy-heading fs-4 fw-bold mb-3 mt-4">Thông số khóa học</h3>
                                 <div class="course-feature-grid">
                                     <div class="course-feature-item">
-                                        <div class="course-feature-icon"><i class="fa-solid fa-clock"></i></div>
-                                        <div>
-                                            <small class="text-secondary d-block">Thời lượng</small>
-                                            <strong class="academy-heading">16 giờ học</strong>
-                                        </div>
-                                    </div>
-                                    <div class="course-feature-item">
                                         <div class="course-feature-icon"><i class="fa-solid fa-book-open"></i></div>
                                         <div>
                                             <small class="text-secondary d-block">Số bài học</small>
-                                            <strong class="academy-heading">32 bài giảng</strong>
+                                            <strong class="academy-heading">{{ $totalLessons ?: 12 }} bài giảng</strong>
                                         </div>
                                     </div>
                                     <div class="course-feature-item">
@@ -491,7 +498,7 @@
                                 <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
                                     <li class="d-flex align-items-center gap-3 text-secondary small">
                                         <i class="fa-solid fa-circle-play text-success fs-6" style="width: 20px;"></i>
-                                        <span>12 giờ video học trực tuyến chất lượng</span>
+                                        <span>{{ $totalLessons ?: 12 }} bài giảng học trực tuyến chất lượng</span>
                                     </li>
                                     <li class="d-flex align-items-center gap-3 text-secondary small">
                                         <i class="fa-solid fa-mobile-screen-button text-success fs-6" style="width: 20px;"></i>

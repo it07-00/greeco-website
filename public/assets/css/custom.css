@@ -2095,9 +2095,14 @@ blockquote .blockquote-footer {
     padding-top: 15px;
 }
 
+.post-toc-list li {
+    margin-bottom: 6px !important;
+}
+
 .post-toc-link {
     transition: all 0.2s ease;
     color: #000000 !important;
+    line-height: 1.45 !important;
 }
 
 .post-toc-link span.fw-semibold {

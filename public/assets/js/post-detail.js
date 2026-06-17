@@ -197,7 +197,38 @@ document.addEventListener('DOMContentLoaded', function () {
     if (copyBtn) {
         copyBtn.addEventListener('click', function () {
             const url = this.getAttribute('data-url');
-            navigator.clipboard.writeText(url).then(function () {
+            
+            function copyToClipboard(text) {
+                if (navigator.clipboard && window.isSecureContext) {
+                    return navigator.clipboard.writeText(text);
+                } else {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    const yPosition = window.pageYOffset || document.documentElement.scrollTop;
+                    textArea.style.position = "absolute";
+                    textArea.style.top = yPosition + "px";
+                    textArea.style.left = "-9999px";
+                    textArea.style.opacity = "0";
+                    document.body.appendChild(textArea);
+                    textArea.focus({ preventScroll: true });
+                    textArea.select();
+                    return new Promise((resolve, reject) => {
+                        try {
+                            const successful = document.execCommand('copy');
+                            if (successful) {
+                                resolve();
+                            } else {
+                                reject(new Error('execCommand failed'));
+                            }
+                        } catch (err) {
+                            reject(err);
+                        }
+                        document.body.removeChild(textArea);
+                    });
+                }
+            }
+
+            copyToClipboard(url).then(function () {
                 copyBtn.classList.add('show-tooltip');
                 setTimeout(function () {
                     copyBtn.classList.remove('show-tooltip');

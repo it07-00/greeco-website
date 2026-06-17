@@ -1753,7 +1753,7 @@
              }
          })
          jQuery("a.btn").on("click", function(evn) {
-             if (this.href.indexOf('#') === -1) {
+             if (this.href.indexOf('#') !== -1 && this.hash !== "") {
                  evn.preventDefault();
                  jQuery('html,body').scrollTo(this.hash, this.hash);
              }
@@ -1818,7 +1818,7 @@
           * We target all a tags inside the nav, and apply the scrollto.js to it.
           */
          $("#homepage nav a, .scroll-to").on("click", function(evn) {
-             if (this.href.indexOf('#') === -1) {
+             if (this.href.indexOf('#') !== -1 && this.hash !== "") {
                  evn.preventDefault();
                  jQuery('html,body').scrollTo(this.hash, this.hash);
              }

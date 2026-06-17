@@ -192,6 +192,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // Run scrollSpy once on load to highlight if page loads with a hash
     scrollSpy();
 
+    // Smooth scroll to hash on page load if present (helps with dynamic heading IDs)
+    if (window.location.hash) {
+        setTimeout(function() {
+            const targetId = decodeURIComponent(window.location.hash.substring(1));
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                const header = document.querySelector('header');
+                const headerOffset = header ? header.offsetHeight + 35 : 125;
+                const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                const offsetPosition = elementPosition - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }, 500); // Wait for DOM generation and styling to settle
+    }
+
     // Copy Share Link logic
     const copyBtn = document.getElementById('copy-share-link');
     if (copyBtn) {

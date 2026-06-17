@@ -2097,10 +2097,9 @@ blockquote .blockquote-footer {
 
 .post-toc-link {
     transition: all 0.2s ease;
+    color: #000000 !important;
 }
 
-.post-toc-link:hover,
-.post-toc-link.active,
 .post-toc-link span.fw-semibold {
     color: #000000 !important;
 }

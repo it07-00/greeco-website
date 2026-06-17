@@ -345,8 +345,10 @@
                                     <div class="d-flex align-items-center justify-content-between mt-auto pt-3 border-top">
                                         <div>
                                             <strong class="text-success fs-5 d-block">{{ $program['price'] }}</strong>
-                                            <small
-                                                class="text-secondary text-decoration-line-through">{{ $program['original_price'] }}</small>
+                                            @if(!empty($program['original_price']))
+                                                <small
+                                                    class="text-secondary text-decoration-line-through">{{ $program['original_price'] }}</small>
+                                            @endif
                                         </div>
                                         @if(isset($program['slug']))
                                             <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}"

@@ -74,9 +74,32 @@
                         <div class="service-content">
                             {!! $service->content !!}
                         </div>
+
+                        <div class="border-top pt-3 mt-4 d-flex align-items-center gap-3 flex-wrap">
+                            <span class="fw-bold text-dark"><i class="fa-solid fa-share-nodes me-2"></i>Chia sẻ dịch vụ:</span>
+                            <div class="d-flex gap-2">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-facebook" title="Chia sẻ lên Facebook">
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode($canonical) }}&text={{ urlencode($service->name) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-twitter" title="Chia sẻ lên Twitter / X">
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                                <a href="https://sp.zalo.me/share_widget/detail?url={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-zalo" title="Chia sẻ lên Zalo">
+                                    <span class="zalo-share-icon">Z</span>
+                                </a>
+                                <button class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-copy position-relative" id="copy-share-link" data-url="{{ $canonical }}" title="Sao chép liên kết">
+                                    <i class="fa-solid fa-link"></i>
+                                    <span class="copy-tooltip" id="copy-tooltip">Đã sao chép!</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/post-detail.js') }}" defer></script>
+@endpush

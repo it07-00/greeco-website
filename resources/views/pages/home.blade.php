@@ -299,7 +299,7 @@
             </div>
             <div class="row justify-content-center g-lg-4 gx-lg-5 wow fadeInUp">
                 <div class="col-xl-8">
-                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center">
+                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
                             <h5 class="mb-1 text-white">Tư vấn Kiểm kê Khí nhà kính</h5>
                             <p class="mb-0 op-7 fs-14">Xác định phát thải carbon cấp cơ sở và xây dựng báo cáo giảm phát thải.</p>
@@ -309,7 +309,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center">
+                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
                             <h5 class="mb-1 text-white">Đánh giá tác động môi trường (ĐTM)</h5>
                             <p class="mb-0 op-7 fs-14">Khảo sát hiện trạng và thực hiện hồ sơ pháp lý ĐTM toàn diện.</p>
@@ -319,7 +319,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center">
+                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
                             <h5 class="mb-1 text-white">Tư vấn dự án Tín chỉ Carbon</h5>
                             <p class="mb-0 op-7 fs-14">Khảo sát khả thi, đăng ký và theo dõi phát hành chứng chỉ carbon.</p>
@@ -329,7 +329,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center">
+                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
                             <h5 class="mb-1 text-white">Xây dựng Mô hình Kinh tế Tuần hoàn</h5>
                             <p class="mb-0 op-7 fs-14">Tư vấn giải pháp giảm thiểu rác thải, tuần hoàn tài nguyên tối ưu.</p>
@@ -339,7 +339,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center">
+                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
                             <h5 class="mb-1 text-white">Đào tạo và lập báo cáo ESG</h5>
                             <p class="mb-0 op-7 fs-14">Nâng cao năng lực và hướng dẫn lập báo cáo ESG chuẩn GRI cho doanh nghiệp.</p>
@@ -349,7 +349,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center">
+                    <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
                             <h5 class="mb-1 text-white">Chuyển giao công nghệ xử lý nước & rác</h5>
                             <p class="mb-0 op-7 fs-14">Giải pháp kỹ thuật hiện đại cho xử lý nước thải và rác thải hữu cơ.</p>

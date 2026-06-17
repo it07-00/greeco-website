@@ -481,13 +481,13 @@ footer.footer-light .subfooter a:hover {
     flex-direction: column;
     gap: 12px;
     align-items: center;
-    bottom: 75px;
+    bottom: 90px;
     transition: bottom 0.3s ease;
 }
 
 .contact-btn {
-    width: 45px;
-    height: 45px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -506,11 +506,13 @@ footer.footer-light .subfooter a:hover {
 }
 
 .contact-btn i {
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .contact-btn svg {
     display: block;
+    width: 30px !important;
+    height: 30px !important;
 }
 
 .phone-btn {
@@ -640,8 +642,14 @@ footer.footer-light .subfooter a:hover {
 
 @media (max-width: 991px) {
     .floating-contact-buttons {
-        bottom: 20px; /* shift down to fit layout on mobile screens */
+        bottom: 30px; /* shift down to fit layout on mobile screens */
         right: 15px;
+    }
+
+    /* Shift contact buttons up on mobile if the bottom action bar is active */
+    body.has-mobile-bottom-bar .floating-contact-buttons,
+    body:has(.mobile-bottom-bar) .floating-contact-buttons {
+        bottom: 110px !important;
     }
 }
 
@@ -2016,4 +2024,166 @@ blockquote .blockquote-footer {
 
 .team-member-card .abs {
     z-index: 2;
+}
+
+/* ==========================================================================
+   7.9. Table of Contents & Social Sharing
+   ========================================================================== */
+/* Table of Contents custom additions */
+.post-toc-container {
+    border-left: 4px solid #000000 !important;
+}
+
+.post-toc-title-icon {
+    color: #000000 !important;
+}
+
+#toc-toggle-btn {
+    color: #000000 !important;
+}
+
+#toc-toggle-btn:hover {
+    color: #333333 !important;
+}
+
+.post-toc-list {
+    margin-top: 15px;
+    border-top: 1px solid #dee2e6;
+    padding-top: 15px;
+}
+
+.post-toc-link {
+    transition: all 0.2s ease;
+}
+
+.post-toc-link:hover,
+.post-toc-link.active,
+.post-toc-link span.fw-semibold {
+    color: #000000 !important;
+}
+
+.post-toc-link:hover {
+    transform: translateX(4px);
+}
+
+.post-toc-link.active {
+    font-weight: 700;
+}
+
+/* Mobile spacing & alignment for TOC and consultation rows */
+@media (max-width: 767px) {
+    .consult-item-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .consult-item-row .text-end {
+        text-align: left !important;
+        margin-top: 10px;
+    }
+}
+
+/* Jarallax Fallback Rules for Mobile (when JS disables parallax) */
+.jarallax {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.jarallax > .jarallax-img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: -2 !important;
+}
+
+.jarallax > .de-overlay {
+    z-index: -1 !important;
+}
+
+.post-text [id],
+.service-content [id],
+.project-content [id] {
+    scroll-margin-top: 120px; /* Offset for sticky header */
+}
+
+/* Social Share Button custom hover states */
+.share-btn {
+    width: 38px;
+    height: 38px;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.95rem;
+}
+
+.share-btn:hover {
+    color: #ffffff !important;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.share-facebook:hover {
+    background-color: #1877f2 !important;
+    border-color: #1877f2 !important;
+}
+
+.share-twitter:hover {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+.share-zalo {
+    font-weight: 700;
+}
+
+.zalo-share-icon {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+.share-zalo:hover {
+    background-color: #0068ff !important;
+    border-color: #0068ff !important;
+}
+
+.share-copy:hover {
+    background-color: #006354 !important;
+    border-color: #006354 !important;
+}
+
+/* Tooltip for copy link success */
+.copy-tooltip {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background-color: #0f172a;
+    color: #ffffff;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+.copy-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px;
+    border-style: solid;
+    border-color: #0f172a transparent transparent transparent;
+}
+
+.share-copy.show-tooltip .copy-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }

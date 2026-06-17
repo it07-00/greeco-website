@@ -31,23 +31,7 @@
             padding-bottom: 80px;
             background-color: #f8fafc;
         }
-        .academy-page .course-header {
-            background: linear-gradient(135deg, #102a26 0%, #122f2b 100%) !important;
-            color: #ffffff !important;
-            padding: 10.5rem 0 4.5rem !important;
-            position: relative;
-        }
-        .course-header .breadcrumb-item a,
-        .course-header .breadcrumb-item {
-            color: rgba(255, 255, 255, 0.7) !important;
-        }
-        .course-header .breadcrumb-item.active {
-            color: #ffffff !important;
-        }
-        .course-header .breadcrumb-item + .breadcrumb-item::before {
-            color: rgba(255, 255, 255, 0.4) !important;
-        }
-        .course-badge {
+        #subheader .course-badge {
             background: rgba(0, 143, 121, 0.2);
             color: #00ffca;
             border: 1px solid rgba(0, 143, 121, 0.4);
@@ -55,6 +39,8 @@
             padding: 4px 12px;
             border-radius: 50px;
             display: inline-block;
+            margin-top: 12px;
+            margin-bottom: 5px;
         }
         .course-rating i {
             color: #ffc107 !important;
@@ -304,29 +290,26 @@
 
     <div class="academy-page course-detail-page">
         <!-- Course Header Header -->
-        <section class="course-header">
-            <div class="container">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-3">
-                        @foreach ($breadcrumbs as $index => $crumb)
-                            @if ($index === count($breadcrumbs) - 1)
-                                <li class="breadcrumb-item active" aria-current="page">{{ $crumb['name'] }}</li>
-                            @else
-                                <li class="breadcrumb-item"><a href="{{ $crumb['url'] }}">{{ $crumb['name'] }}</a></li>
-                            @endif
-                        @endforeach
-                    </ol>
-                </nav>
-
-                <div class="row align-items-center">
-                    <div class="col-lg-8">
+        <section id="subheader" class="relative">
+            <div class="container relative z-index-1000">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="crumb">
+                            @foreach ($breadcrumbs as $index => $crumb)
+                                @if ($index === count($breadcrumbs) - 1)
+                                    <li class="active">{{ $crumb['name'] }}</li>
+                                @else
+                                    <li><a href="{{ $crumb['url'] }}">{{ $crumb['name'] }}</a></li>
+                                @endif
+                            @endforeach
+                        </ul>
                         @if($course->tag)
                             <span class="course-badge mb-3"><i class="fa-solid fa-fire me-2"></i>{{ $course->tag }}</span>
                         @endif
-                        <h1 class="display-5 fw-bold mb-3 text-white">{{ $course->title }}</h1>
-                        <p class="lead text-white-50 mb-4">{{ $course->description }}</p>
-                        <div class="d-flex flex-wrap gap-4 align-items-center mb-2">
-                            <span class="text-white-50"><i class="fa-solid fa-building me-2"></i>Viện GREECO</span>
+                        <h1 class="text-uppercase">{{ $course->title }}</h1>
+                        <p class="col-lg-10 lead">{{ $course->description }}</p>
+                        <div class="d-flex flex-wrap gap-4 align-items-center mt-3 mb-2 text-white-50">
+                            <span><i class="fa-solid fa-building me-2"></i>Viện GREECO</span>
                         </div>
                     </div>
                 </div>
@@ -595,7 +578,8 @@
                 });
             }
 
-
+            // Add body class for shifting floating buttons up
+            document.body.classList.add('has-mobile-bottom-bar');
         });
     </script>
 @endpush

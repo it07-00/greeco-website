@@ -33,7 +33,7 @@ class CourseController extends Controller
                 'tag' => $course->tag,
                 'category_name' => $course->category?->name,
                 'badge_color' => $course->badge_color ?? 'bg-success',
-                'price' => $course->price,
+                'price' => !empty($course->price) ? $course->price : 'Liên hệ',
                 'original_price' => $course->original_price,
                 'discount' => $course->discount,
             ];

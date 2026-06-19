@@ -13,6 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::table('courses', function (Blueprint $table) {
+            $table->string('title', 500)->change();
+            $table->string('slug', 500)->change();
+        });
+
         Schema::disableForeignKeyConstraints();
         Course::truncate();
         CourseCategory::truncate();

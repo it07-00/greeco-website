@@ -71,7 +71,11 @@ class TrainingAcademyPageTest extends TestCase
             ->assertSee('Pagination Course 01')
             ->assertSee('Pagination Course 09')
             ->assertDontSee('Pagination Course 10')
-            ->assertSee('page=2', false);
+            ->assertSee('page=2', false)
+            ->assertSee('aria-label="Phân trang khóa học"', false)
+            ->assertDontSee('pagination.next', false)
+            ->assertDontSee('Showing 1 to', false)
+            ->assertDontSee('w-5 h-5', false);
 
         $this->assertSame(9, substr_count($response->getContent(), 'class="col course-catalog-item"'));
 

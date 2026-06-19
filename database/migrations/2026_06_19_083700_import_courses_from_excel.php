@@ -1962,11 +1962,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 1",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan về HSE trong doanh nghiệp",
+                                                                        "title": "Chuyên đề 1 – Tổng quan về HSE trong doanh nghiệp",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2010,11 +2006,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 2",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện mối nguy và đánh giá rủi ro",
+                                                                        "title": "Chuyên đề 2 – Nhận diện mối nguy và đánh giá rủi ro",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2086,11 +2078,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra hiện trường và Safety Patrol",
+                                                                        "title": "Chuyên đề 3 – Kiểm tra hiện trường và Safety Patrol",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2147,11 +2135,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 4",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý máy móc thiết bị",
+                                                                        "title": "Chuyên đề 4 – Quản lý máy móc thiết bị",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2183,11 +2167,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 5",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý hóa chất",
+                                                                        "title": "Chuyên đề 5 – Quản lý hóa chất",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2235,11 +2215,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 6",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý sức khỏe nghề nghiệp",
+                                                                        "title": "Chuyên đề 6 – Quản lý sức khỏe nghề nghiệp",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2271,11 +2247,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 7",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điều tra tai nạn lao động",
+                                                                        "title": "Chuyên đề 7 – Điều tra tai nạn lao động",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2336,11 +2308,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 8",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý môi trường",
+                                                                        "title": "Chuyên đề 8 – Quản lý môi trường",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2392,11 +2360,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 9",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ứng phó khẩn cấp",
+                                                                        "title": "Chuyên đề 9 – Ứng phó khẩn cấp",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2436,11 +2400,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 10",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng chuyên nghiệp của HSE Officer",
+                                                                        "title": "Chuyên đề 10 – Kỹ năng chuyên nghiệp của HSE Officer",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2501,11 +2461,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 1",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bài học từ các thảm họa công nghiệp trên thế giới",
+                                                                        "title": "Chuyên đề 1 – Bài học từ các thảm họa công nghiệp trên thế giới",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2557,11 +2513,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 2",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan Process Safety Management (PSM)",
+                                                                        "title": "Chuyên đề 2 – Tổng quan Process Safety Management (PSM)",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2625,11 +2577,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò lãnh đạo trong quản lý rủi ro thảm họa",
+                                                                        "title": "Chuyên đề 3 – Vai trò lãnh đạo trong quản lý rủi ro thảm họa",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2670,11 +2618,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 4",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Culture – Văn hóa an toàn là gì?",
+                                                                        "title": "Chuyên đề 4 – Safety Culture – Văn hóa an toàn là gì?",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2718,11 +2662,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 5",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hành vi lãnh đạo ảnh hưởng đến văn hóa an toàn",
+                                                                        "title": "Chuyên đề 5 – Hành vi lãnh đạo ảnh hưởng đến văn hóa an toàn",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2754,11 +2694,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 6",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm giải trình về an toàn (Safety Accountability)",
+                                                                        "title": "Chuyên đề 6 – Trách nhiệm giải trình về an toàn (Safety Accountability)",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2803,11 +2739,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 7",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các công cụ lãnh đạo an toàn hiện đại",
+                                                                        "title": "Chuyên đề 7 – Các công cụ lãnh đạo an toàn hiện đại",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2867,11 +2799,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 8",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng chiến lược văn hóa an toàn",
+                                                                        "title": "Chuyên đề 8 – Xây dựng chiến lược văn hóa an toàn",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2903,11 +2831,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 9",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cam kết lãnh đạo và kế hoạch hành động",
+                                                                        "title": "Chuyên đề 9 – Cam kết lãnh đạo và kế hoạch hành động",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -2972,11 +2896,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 1",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò lãnh đạo trong quản lý an toàn",
+                                                                        "title": "Chuyên đề 1 – Vai trò lãnh đạo trong quản lý an toàn",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3004,11 +2924,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 2",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý Near Miss",
+                                                                        "title": "Chuyên đề 2 – Quản lý Near Miss",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3060,11 +2976,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điều tra Near Miss",
+                                                                        "title": "Chuyên đề 3 – Điều tra Near Miss",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3105,11 +3017,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 4",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan BBS",
+                                                                        "title": "Chuyên đề 4 – Tổng quan BBS",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3133,11 +3041,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 5",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết kế chương trình BBS",
+                                                                        "title": "Chuyên đề 5 – Thiết kế chương trình BBS",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3177,11 +3081,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 6",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng Safety Coaching",
+                                                                        "title": "Chuyên đề 6 – Kỹ năng Safety Coaching",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3218,11 +3118,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 7",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Life Saving Rules",
+                                                                        "title": "Chuyên đề 7 – Life Saving Rules",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3286,11 +3182,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 8",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workplace Safety Field Inspection (WSFI)",
+                                                                        "title": "Chuyên đề 8 – Workplace Safety Field Inspection (WSFI)",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3339,11 +3231,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 9",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích công việc và nhận diện nguy cơ",
+                                                                        "title": "Chuyên đề 9 – Phân tích công việc và nhận diện nguy cơ",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3359,11 +3247,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 10",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành JHA",
+                                                                        "title": "Chuyên đề 10 – Thực hành JHA",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3415,11 +3299,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 11",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Permit To Work liên kết JHA",
+                                                                        "title": "Chuyên đề 11 – Permit To Work liên kết JHA",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3444,11 +3324,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 12",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá rủi ro nâng cao",
+                                                                        "title": "Chuyên đề 12 – Đánh giá rủi ro nâng cao",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3472,11 +3348,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 13",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập KPI an toàn chủ động",
+                                                                        "title": "Chuyên đề 13 – Thiết lập KPI an toàn chủ động",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3508,11 +3380,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 14",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Roadmap HSE 12 tháng",
+                                                                        "title": "Chuyên đề 14 – Xây dựng Roadmap HSE 12 tháng",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -3562,12 +3430,8 @@ return new class extends Migration
                         "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1</p>\n<p>KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2</p>\n<p>ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)</p>\n<p>GIAI ĐOẠN 3</p>\n<p>XÂY DỰNG HỆ THỐNG HIGG FSLM</p>\n<p>GIAI ĐOẠN 4</p>\n<p>TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU</p>\n<p>GIAI ĐOẠN 5</p>\n<p>TỰ ĐÁNH GIÁ HIGG FSLM</p>\n<p>GIAI ĐOẠN 6</p>\n<p>PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG</p>\n",
                         "curriculum": [
                                     {
-                                                "title": "GIAI ĐOẠN 1",
+                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Tổng quan Cascale và Higg Index.",
                                                                         "duration": ""
@@ -3615,12 +3479,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 2",
+                                                "title": "GIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Đánh giá hiện trạng hệ thống quản lý lao động và trách nhiệm xã hội:",
                                                                         "duration": ""
@@ -3784,12 +3644,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 3",
+                                                "title": "GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG HIGG FSLM",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "XÂY DỰNG HỆ THỐNG HIGG FSLM",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Xây dựng và chuẩn hóa:",
                                                                         "duration": ""
@@ -3881,21 +3737,12 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 4",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU",
-                                                                        "duration": ""
-                                                            }
-                                                ]
+                                                "title": "GIAI ĐOẠN 4 – TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU",
+                                                "lessons": []
                                     },
                                     {
-                                                "title": "Mô-đun 1",
+                                                "title": "Mô-đun 1 – Quản lý lao động",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "Quản lý lao động",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Tuyển dụng.",
                                                                         "duration": ""
@@ -3915,12 +3762,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "Mô-đun 2",
+                                                "title": "Mô-đun 2 – Tiền lương và thời giờ làm việc",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "Tiền lương và thời giờ làm việc",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Kiểm soát bảng công.",
                                                                         "duration": ""
@@ -3940,12 +3783,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "Mô-đun 3",
+                                                "title": "Mô-đun 3 – Sức khỏe và an toàn nghề nghiệp",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "Sức khỏe và an toàn nghề nghiệp",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Đánh giá rủi ro.",
                                                                         "duration": ""
@@ -3969,12 +3808,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "Mô-đun 4",
+                                                "title": "Mô-đun 4 – Quan hệ lao động",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "Quan hệ lao động",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Khiếu nại.",
                                                                         "duration": ""
@@ -4006,12 +3841,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 5",
+                                                "title": "GIAI ĐOẠN 5 – TỰ ĐÁNH GIÁ HIGG FSLM",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "TỰ ĐÁNH GIÁ HIGG FSLM",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Hướng dẫn thực hiện Self-Assessment.",
                                                                         "duration": ""
@@ -4055,12 +3886,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 6",
+                                                "title": "GIAI ĐOẠN 6 – PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Đánh giá thử toàn bộ hệ thống.",
                                                                         "duration": ""
@@ -4114,24 +3941,16 @@ return new class extends Migration
             },
             {
                         "category_slug": "hse",
-                        "title": "XÂY DỰNG TẦM NHÌN – SỨ MỆNH – CHIẾN LƯỢC HSE\nTỪ QUẢN LÝ HSE ĐẾN LÃNH ĐẠO HSE XUẤT SẮC",
+                        "title": "XÂY DỰNG TẦM NHÌN – SỨ MỆNH – CHIẾN LƯỢC HSE – TỪ QUẢN LÝ HSE ĐẾN LÃNH ĐẠO HSE XUẤT SẮC",
                         "slug": "xay-dung-tam-nhin-su-menh-chien-luoc-hse-tu-quan-ly-hse-den-lanh-dao-hse-xuat-sac",
                         "description": "PHẦN 1\nHSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP\nChuyên đề 1\nTừ HSE Compliance đến HSE Excellence\nChuyên đề 2\nĐánh giá mức độ trưởng thành của hệ thống HSE\nPHẦN 2\nXÂY DỰNG TẦM NHÌN HSE\nChuyên đề 3\nHSE Vision – Tầm nhìn HSE\nPHẦN 3\nXÂY DỰNG SỨ MỆNH HSE\nChuyên đề 4\nHSE Mission – Sứ mệnh HSE\nPHẦN 4\nXÂY DỰNG GIÁ TRỊ CỐT LÕI HSE\nChuyên đề 5\nHSE Core Values\nPHẦN 5\nXÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 6\nHSE Strategic Planning\nChuyên đề 7\nXác định các trụ cột chiến lược\nPHẦN 6\nXÂY DỰNG KPI VÀ MỤC TIÊU HSE\nChuyên đề 8\nThiết lập mục tiêu HSE\nPHẦN 7\nXÂY DỰNG ROADMAP HSE 3 NĂM\nChuyên đề 9\nHSE Transformation Roadmap\nPHẦN 8\nCAM KẾT LÃNH ĐẠO\nChuyên đề 10\nLeadership Commitment Workshop",
                         "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>PHẦN 1</p>\n<p>HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP</p>\n<p>Chuyên đề 1</p>\n<p>Từ HSE Compliance đến HSE Excellence</p>\n<p>Chuyên đề 2</p>\n<p>Đánh giá mức độ trưởng thành của hệ thống HSE</p>\n<p>PHẦN 2</p>\n<p>XÂY DỰNG TẦM NHÌN HSE</p>\n<p>Chuyên đề 3</p>\n<p>HSE Vision – Tầm nhìn HSE</p>\n<p>PHẦN 3</p>\n<p>XÂY DỰNG SỨ MỆNH HSE</p>\n<p>Chuyên đề 4</p>\n<p>HSE Mission – Sứ mệnh HSE</p>\n<p>PHẦN 4</p>\n<p>XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE</p>\n<p>Chuyên đề 5</p>\n<p>HSE Core Values</p>\n<p>PHẦN 5</p>\n<p>XÂY DỰNG CHIẾN LƯỢC HSE</p>\n<p>Chuyên đề 6</p>\n<p>HSE Strategic Planning</p>\n<p>Chuyên đề 7</p>\n<p>Xác định các trụ cột chiến lược</p>\n<p>PHẦN 6</p>\n<p>XÂY DỰNG KPI VÀ MỤC TIÊU HSE</p>\n<p>Chuyên đề 8</p>\n<p>Thiết lập mục tiêu HSE</p>\n<p>PHẦN 7</p>\n<p>XÂY DỰNG ROADMAP HSE 3 NĂM</p>\n<p>Chuyên đề 9</p>\n<p>HSE Transformation Roadmap</p>\n<p>PHẦN 8</p>\n<p>CAM KẾT LÃNH ĐẠO</p>\n<p>Chuyên đề 10</p>\n<p>Leadership Commitment Workshop</p>\n",
                         "curriculum": [
                                     {
-                                                "title": "PHẦN 1",
+                                                "title": "PHẦN 1 – HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP",
                                                 "lessons": [
                                                             {
-                                                                        "title": "HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 1",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Từ HSE Compliance đến HSE Excellence",
+                                                                        "title": "Chuyên đề 1 – Từ HSE Compliance đến HSE Excellence",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4167,11 +3986,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 2",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá mức độ trưởng thành của hệ thống HSE",
+                                                                        "title": "Chuyên đề 2 – Đánh giá mức độ trưởng thành của hệ thống HSE",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4209,18 +4024,10 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "PHẦN 2",
+                                                "title": "PHẦN 2 – XÂY DỰNG TẦM NHÌN HSE",
                                                 "lessons": [
                                                             {
-                                                                        "title": "XÂY DỰNG TẦM NHÌN HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "HSE Vision – Tầm nhìn HSE",
+                                                                        "title": "Chuyên đề 3 – HSE Vision – Tầm nhìn HSE",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4274,18 +4081,10 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "PHẦN 3",
+                                                "title": "PHẦN 3 – XÂY DỰNG SỨ MỆNH HSE",
                                                 "lessons": [
                                                             {
-                                                                        "title": "XÂY DỰNG SỨ MỆNH HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 4",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "HSE Mission – Sứ mệnh HSE",
+                                                                        "title": "Chuyên đề 4 – HSE Mission – Sứ mệnh HSE",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4335,18 +4134,10 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "PHẦN 4",
+                                                "title": "PHẦN 4 – XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE",
                                                 "lessons": [
                                                             {
-                                                                        "title": "XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 5",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "HSE Core Values",
+                                                                        "title": "Chuyên đề 5 – HSE Core Values",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4396,18 +4187,10 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "PHẦN 5",
+                                                "title": "PHẦN 5 – XÂY DỰNG CHIẾN LƯỢC HSE",
                                                 "lessons": [
                                                             {
-                                                                        "title": "XÂY DỰNG CHIẾN LƯỢC HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 6",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "HSE Strategic Planning",
+                                                                        "title": "Chuyên đề 6 – HSE Strategic Planning",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4427,11 +4210,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 7",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định các trụ cột chiến lược",
+                                                                        "title": "Chuyên đề 7 – Xác định các trụ cột chiến lược",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4439,51 +4218,27 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Trụ cột 1",
+                                                                        "title": "Trụ cột 1 – Lãnh đạo và văn hóa an toàn.",
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Lãnh đạo và văn hóa an toàn.",
+                                                                        "title": "Trụ cột 2 – Quản lý rủi ro.",
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Trụ cột 2",
+                                                                        "title": "Trụ cột 3 – Năng lực và nhận thức.",
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Quản lý rủi ro.",
+                                                                        "title": "Trụ cột 4 – Hiệu suất môi trường.",
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Trụ cột 3",
+                                                                        "title": "Trụ cột 5 – Sức khỏe nghề nghiệp.",
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Năng lực và nhận thức.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 4",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hiệu suất môi trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 5",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Sức khỏe nghề nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 6",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Số hóa và chuyển đổi HSE.",
+                                                                        "title": "Trụ cột 6 – Số hóa và chuyển đổi HSE.",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4497,18 +4252,10 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "PHẦN 6",
+                                                "title": "PHẦN 6 – XÂY DỰNG KPI VÀ MỤC TIÊU HSE",
                                                 "lessons": [
                                                             {
-                                                                        "title": "XÂY DỰNG KPI VÀ MỤC TIÊU HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 8",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập mục tiêu HSE",
+                                                                        "title": "Chuyên đề 8 – Thiết lập mục tiêu HSE",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4582,18 +4329,10 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "PHẦN 7",
+                                                "title": "PHẦN 7 – XÂY DỰNG ROADMAP HSE 3 NĂM",
                                                 "lessons": [
                                                             {
-                                                                        "title": "XÂY DỰNG ROADMAP HSE 3 NĂM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 9",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "HSE Transformation Roadmap",
+                                                                        "title": "Chuyên đề 9 – HSE Transformation Roadmap",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4655,18 +4394,10 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "PHẦN 8",
+                                                "title": "PHẦN 8 – CAM KẾT LÃNH ĐẠO",
                                                 "lessons": [
                                                             {
-                                                                        "title": "CAM KẾT LÃNH ĐẠO",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 10",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Leadership Commitment Workshop",
+                                                                        "title": "Chuyên đề 10 – Leadership Commitment Workshop",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -4991,11 +4722,7 @@ return new class extends Migration
                                                 "title": "Nội dung chi tiết",
                                                 "lessons": [
                                                             {
-                                                                        "title": "Chuyên đề 1",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan FSC",
+                                                                        "title": "Chuyên đề 1 – Tổng quan FSC",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -5011,11 +4738,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 2",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "10 Nguyên tắc FSC",
+                                                                        "title": "Chuyên đề 2 – 10 Nguyên tắc FSC",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -5063,11 +4786,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "FSC và Phát triển bền vững",
+                                                                        "title": "Chuyên đề 3 – FSC và Phát triển bền vững",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -5091,11 +4810,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 4",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "FSC và Chuỗi cung ứng",
+                                                                        "title": "Chuyên đề 4 – FSC và Chuỗi cung ứng",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -5115,11 +4830,7 @@ return new class extends Migration
                                                                         "duration": ""
                                                             },
                                                             {
-                                                                        "title": "Chuyên đề 5",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "FSC và Doanh nghiệp",
+                                                                        "title": "Chuyên đề 5 – FSC và Doanh nghiệp",
                                                                         "duration": ""
                                                             },
                                                             {
@@ -5164,12 +4875,8 @@ return new class extends Migration
                         "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1</p>\n<p>KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2</p>\n<p>ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)</p>\n<p>GIAI ĐOẠN 3</p>\n<p>XÂY DỰNG HỆ THỐNG FSC CoC</p>\n<p>GIAI ĐOẠN 4</p>\n<p>TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU</p>\n<p>GIAI ĐOẠN 5</p>\n<p>ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN</p>\n",
                         "curriculum": [
                                     {
-                                                "title": "GIAI ĐOẠN 1",
+                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Tổng quan FSC.",
                                                                         "duration": ""
@@ -5225,12 +4932,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 2",
+                                                "title": "GIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Đánh giá hệ thống hiện tại.",
                                                                         "duration": ""
@@ -5282,12 +4985,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 3",
+                                                "title": "GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG FSC CoC",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "XÂY DỰNG HỆ THỐNG FSC CoC",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Xây dựng:",
                                                                         "duration": ""
@@ -5359,12 +5058,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 4",
+                                                "title": "GIAI ĐOẠN 4 – TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Quản lý nhà cung cấp FSC.",
                                                                         "duration": ""
@@ -5416,12 +5111,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "GIAI ĐOẠN 5",
+                                                "title": "GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Đào tạo đánh giá viên nội bộ.",
                                                                         "duration": ""
@@ -6208,9 +5899,9 @@ return new class extends Migration
         foreach ($coursesData as $courseData) {
             $catSlug = $courseData['category_slug'];
             unset($courseData['category_slug']);
-            
+
             $courseData['course_category_id'] = $categories[$catSlug]->id;
-            
+
             Course::create($courseData);
         }
     }

@@ -1,8 +1,18 @@
 @php
+    $pageNumber = max((int) request()->query('page', 1), 1);
     $seoTitle = 'Đào tạo & Bồi dưỡng Chuyên môn Bền vững - Viện GREECO';
     $seoDescription = 'Viện GREECO cung cấp các chương trình đào tạo và bồi dưỡng chuyên sâu, thực tiễn từ cơ bản đến nâng cao. Đội ngũ chuyên gia của chúng tôi hỗ trợ doanh nghiệp xây dựng năng lực nội tại, chuẩn hóa hệ thống quản lý và đáp ứng các tiêu chuẩn xuất khẩu khắt khe về phát triển bền vững và trung hòa carbon.';
-    $canonical = route('services.dao-tao');
+    if ($pageNumber > 1) {
+        $seoTitle .= ' - Trang ' . $pageNumber;
+    }
+
+    $canonicalParams = array_filter([
+        'page' => $pageNumber > 1 ? $pageNumber : null,
+    ]);
+    $canonical = route('services.dao-tao', $canonicalParams);
     $ogImage = asset('assets/images/services/iso-9001-course.png');
+    $programItems = collect($programs->items());
+    $firstCoursePosition = $programs->firstItem() ?? 1;
 
     $breadcrumbs = [
         ['name' => 'Trang chủ', 'url' => route('home')],
@@ -13,9 +23,9 @@
         '@context' => 'https://schema.org',
         '@type' => 'ItemList',
         'name' => 'Chương trình đào tạo GREECO',
-        'itemListElement' => collect($programs)->values()->map(fn ($program, $index) => [
+        'itemListElement' => $programItems->values()->map(fn ($program, $index) => [
             '@type' => 'ListItem',
-            'position' => $index + 1,
+            'position' => $firstCoursePosition + $index,
             'name' => $program['title'],
             'url' => route('services.course-detail', ['slug' => $program['slug']]),
         ])->all(),
@@ -23,6 +33,18 @@
 @endphp
 
 @extends('layouts.app')
+
+@if($programs->previousPageUrl())
+    @push('seo')
+        <link rel="prev" href="{{ $programs->previousPageUrl() }}">
+    @endpush
+@endif
+
+@if($programs->nextPageUrl())
+    @push('seo')
+        <link rel="next" href="{{ $programs->nextPageUrl() }}">
+    @endpush
+@endif
 
 @push('styles')
     <style>
@@ -270,6 +292,12 @@
                         </div>
                     </div>
                 </div>
+
+                @if($programs->hasPages())
+                    <div class="mt-5 d-flex justify-content-center">
+                        {{ $programs->fragment('chuong-trinh-dao-tao')->links() }}
+                    </div>
+                @endif
             </div>
         </section>
 

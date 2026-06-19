@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseCategory;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -21,19 +21,20 @@ class CourseController extends Controller
             ->with('category')
             ->where('is_active', true)
             ->orderBy('sort_order')
-            ->get();
+            ->paginate(9)
+            ->withQueryString();
 
         // Map to the existing structure for views
-        $programs = $courses->map(function ($course) {
+        $programs = $courses->through(function (Course $course) {
             return [
                 'title' => $course->title,
                 'slug' => $course->slug,
                 'description' => $course->description,
-                'image' => $course->image ? \Illuminate\Support\Facades\Storage::url($course->image) : asset('assets/images/services/iso-9001-course.png'),
+                'image' => $course->image ? Storage::url($course->image) : asset('assets/images/services/iso-9001-course.png'),
                 'tag' => $course->tag,
                 'category_name' => $course->category?->name,
                 'badge_color' => $course->badge_color ?? 'bg-success',
-                'price' => !empty($course->price) ? $course->price : 'Liên hệ',
+                'price' => ! empty($course->price) ? $course->price : 'Liên hệ',
                 'original_price' => $course->original_price,
                 'discount' => $course->discount,
             ];

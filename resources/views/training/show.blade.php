@@ -391,7 +391,7 @@
                                 <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-3">
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <h3 class="academy-heading fs-4 fw-bold mb-0">Chương trình học</h3>
-                                        <button class="btn btn-sm btn-outline-secondary" id="toggle-all-curriculum">Mở rộng tất cả</button>
+                                        <button class="btn btn-sm btn-outline-secondary" id="toggle-all-curriculum">Thu gọn tất cả</button>
                                     </div>
 
                                     <div class="accordion accordion-flush" id="curriculumAccordion">
@@ -399,11 +399,11 @@
                                             <div class="accordion-item border rounded-3 mb-2 overflow-hidden bg-white">
                                                 <h4 class="accordion-header" id="heading-{{ $index }}">
                                                     <button 
-                                                        class="accordion-button d-flex align-items-center justify-content-between py-3 px-4 bg-light text-dark fw-bold {{ $index < 2 ? '' : 'collapsed' }}" 
+                                                        class="accordion-button d-flex align-items-center justify-content-between py-3 px-4 bg-light text-dark fw-bold" 
                                                         type="button" 
                                                         data-bs-toggle="collapse" 
                                                         data-bs-target="#collapse-{{ $index }}" 
-                                                        aria-expanded="{{ $index < 2 ? 'true' : 'false' }}" 
+                                                        aria-expanded="true" 
                                                         aria-controls="collapse-{{ $index }}"
                                                     >
                                                         <span class="academy-heading mb-0">{{ $chapter['title'] }}</span>
@@ -411,7 +411,7 @@
                                                 </h4>
                                                 <div 
                                                     id="collapse-{{ $index }}" 
-                                                    class="accordion-collapse collapse {{ $index < 2 ? 'show' : '' }}" 
+                                                    class="accordion-collapse collapse show" 
                                                     aria-labelledby="heading-{{ $index }}"
                                                 >
                                                     <div class="accordion-body p-0">
@@ -560,7 +560,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Expand/collapse all accordion chapters logic using Bootstrap 5 Collapse Instance
             var toggleAllBtn = document.getElementById('toggle-all-curriculum');
-            var allExpanded = false;
+            var allExpanded = true;
             
             if (toggleAllBtn) {
                 toggleAllBtn.addEventListener('click', function () {

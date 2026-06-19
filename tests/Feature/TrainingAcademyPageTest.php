@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Contact;
+use App\Models\Course;
 use Database\Seeders\CourseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -44,10 +45,40 @@ class TrainingAcademyPageTest extends TestCase
 
         $response->assertRedirect(route('services.dao-tao'));
 
-        $this->assertDatabaseHas((new Contact())->getTable(), [
+        $this->assertDatabaseHas((new Contact)->getTable(), [
             'name' => 'Nguyễn Văn A',
             'subject' => 'Hệ thống quản lý ISO',
         ]);
+    }
+
+    public function test_training_page_paginates_courses_nine_per_page(): void
+    {
+        foreach (range(1, 10) as $index) {
+            Course::query()->create([
+                'title' => sprintf('Pagination Course %02d', $index),
+                'slug' => sprintf('pagination-course-%02d', $index),
+                'description' => 'Course used to verify academy catalog pagination.',
+                'price' => 'Lien he',
+                'is_active' => true,
+                'sort_order' => -100 + $index,
+            ]);
+        }
+
+        $response = $this->get(route('services.dao-tao'));
+
+        $response
+            ->assertOk()
+            ->assertSee('Pagination Course 01')
+            ->assertSee('Pagination Course 09')
+            ->assertDontSee('Pagination Course 10')
+            ->assertSee('page=2', false);
+
+        $this->assertSame(9, substr_count($response->getContent(), 'class="col course-catalog-item"'));
+
+        $this->get(route('services.dao-tao', ['page' => 2]))
+            ->assertOk()
+            ->assertSee('Pagination Course 10')
+            ->assertDontSee('Pagination Course 01');
     }
 
     public function test_old_training_urls_redirect_to_new_ones(): void

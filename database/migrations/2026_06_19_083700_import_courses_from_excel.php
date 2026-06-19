@@ -5467,8 +5467,8 @@ return new class extends Migration
             },
             {
                         "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "International Sustainability and Carbon Certification PLUS (ISCC PLUS)/International Sustainability and Carbon Certification EU (ISCC EU)/International Sustainability and Carbon Certification CORSIA (ISCC CORSIA)/Global Recycled Standard (GRS) – Tiêu chuẩn Tái chế Toàn cầu",
-                        "slug": "international-sustainability-and-carbon-certification-plus-iscc-plus-international-sustainability-and-carbon-certification-eu-iscc-eu-international-sustainability-and-carbon-certification-corsia-iscc-corsia-global-recycled-standard-grs-tieu-chuan-tai-che-toan-cau",
+                        "title": "ISCC (PLUS/EU/CORSIA) & GRS – Tiêu chuẩn Tái chế Toàn cầu",
+                        "slug": "iscc-plus-eu-corsia-grs-tieu-chuan-tai-che-toan-cau",
                         "description": "",
                         "content": "",
                         "curriculum": [],

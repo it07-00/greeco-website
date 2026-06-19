@@ -104,6 +104,21 @@ class SeoTechnicalTest extends TestCase
             'is_indexable' => false,
         ]);
 
+        $post = Post::query()->create([
+            'title' => 'Sitemap post updated date',
+            'slug' => 'sitemap-post-updated-date',
+            'excerpt' => 'Post used to verify sitemap lastmod.',
+            'content' => '<p>Post content.</p>',
+            'is_published' => true,
+            'is_indexable' => true,
+            'published_at' => now()->setDate(2026, 6, 10)->setTime(8, 0),
+        ]);
+
+        $post->timestamps = false;
+        $post->forceFill([
+            'updated_at' => now()->setDate(2026, 6, 18)->setTime(12, 30),
+        ])->save();
+
         $content = $this->get(route('sitemap'))
             ->assertOk()
             ->assertHeader('Content-Type', 'text/xml; charset=UTF-8')
@@ -113,6 +128,8 @@ class SeoTechnicalTest extends TestCase
         $this->assertStringContainsString('<loc>'.route('services.dao-tao').'</loc>', $content);
         $this->assertStringContainsString('<loc>'.route('services.course-detail', ['slug' => $course->slug]).'</loc>', $content);
         $this->assertStringContainsString('<loc>'.route('pages.show', ['page' => 'tam-nhin-thu-nghiem']).'</loc>', $content);
+        $this->assertStringContainsString('<loc>'.route('posts.show', $post).'</loc>', $content);
+        $this->assertStringContainsString('<lastmod>'.$post->updated_at->toAtomString().'</lastmod>', $content);
         $this->assertStringNotContainsString('khong-index', $content);
         $this->assertStringNotContainsString('khoa-dao-tao-noi-bo', $content);
         $this->assertSame(1, substr_count($content, '<loc>'.route('about').'</loc>'));
@@ -190,6 +207,79 @@ class SeoTechnicalTest extends TestCase
         $article = $schemas->firstWhere('@type', 'Article');
 
         $this->assertSame($post->title, $article['headline']);
+    }
+
+    public function test_posts_index_renders_collection_page_item_list_json_ld(): void
+    {
+        $post = Post::query()->create([
+            'title' => 'SEO item list post',
+            'slug' => 'seo-item-list-post',
+            'excerpt' => 'Excerpt for item list schema.',
+            'content' => '<p>Post content.</p>',
+            'thumbnail' => 'posts/item-list.jpg',
+            'is_published' => true,
+            'is_indexable' => true,
+            'published_at' => now()->setDate(2026, 6, 12),
+        ]);
+
+        $content = $this->get(route('posts.index'))
+            ->assertOk()
+            ->getContent();
+
+        preg_match_all('#<script type="application/ld\+json">\s*(.*?)\s*</script>#s', $content, $matches);
+
+        $schemas = collect($matches[1])->map(fn (string $json): array => json_decode($json, true));
+        $collectionPage = $schemas->firstWhere('@type', 'CollectionPage');
+
+        $this->assertIsArray($collectionPage);
+        $this->assertSame('vi-VN', $collectionPage['inLanguage']);
+        $this->assertSame('ItemList', $collectionPage['mainEntity']['@type']);
+        $this->assertSame(1, $collectionPage['mainEntity']['numberOfItems']);
+        $this->assertSame($post->title, $collectionPage['mainEntity']['itemListElement'][0]['item']['headline']);
+        $this->assertSame(route('posts.show', $post), $collectionPage['mainEntity']['itemListElement'][0]['url']);
+    }
+
+    public function test_post_detail_renders_complete_article_seo_metadata(): void
+    {
+        $category = PostCategory::query()->create([
+            'name' => 'ESG',
+            'slug' => 'esg',
+            'is_active' => true,
+        ]);
+
+        $post = Post::query()->create([
+            'post_category_id' => $category->id,
+            'title' => 'Complete article SEO',
+            'slug' => 'complete-article-seo',
+            'excerpt' => 'Default article excerpt.',
+            'content' => '<p>Post content.</p>',
+            'meta_title' => 'Complete article SEO title',
+            'meta_description' => 'Complete article SEO description.',
+            'tags' => ['ESG', 'Net Zero'],
+            'is_published' => true,
+            'is_indexable' => true,
+            'published_at' => now()->setDate(2026, 6, 12)->setTime(9, 0),
+        ]);
+
+        $content = $this->get(route('posts.show', $post))
+            ->assertOk()
+            ->assertSee('<meta property="og:type" content="article">', false)
+            ->assertSee('<meta property="article:published_time" content="'.$post->published_at->toIso8601String().'">', false)
+            ->assertSee('<meta property="article:modified_time" content="'.$post->updated_at->toIso8601String().'">', false)
+            ->assertSee('<meta property="article:section" content="ESG">', false)
+            ->assertSee('<meta property="article:tag" content="ESG">', false)
+            ->assertSee('<meta property="article:tag" content="Net Zero">', false)
+            ->getContent();
+
+        preg_match_all('#<script type="application/ld\+json">\s*(.*?)\s*</script>#s', $content, $matches);
+
+        $schemas = collect($matches[1])->map(fn (string $json): array => json_decode($json, true));
+        $article = $schemas->firstWhere('@type', 'Article');
+
+        $this->assertSame(route('posts.show', $post).'#article', $article['@id']);
+        $this->assertSame('vi-VN', $article['inLanguage']);
+        $this->assertSame('ESG', $article['articleSection']);
+        $this->assertSame('ESG, Net Zero', $article['keywords']);
     }
 
     public function test_post_detail_has_single_h1(): void

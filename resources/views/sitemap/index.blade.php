@@ -34,7 +34,7 @@
     @foreach ($posts as $post)
     <url>
         <loc>{{ route('posts.show', $post) }}</loc>
-        <lastmod>{{ ($post->published_at ?? $post->updated_at)->toAtomString() }}</lastmod>
+        <lastmod>{{ $post->updated_at->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>

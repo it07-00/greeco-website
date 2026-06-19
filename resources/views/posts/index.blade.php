@@ -40,6 +40,12 @@
 
 @section('content')
     <x-schema.breadcrumb :items="$breadcrumbs" />
+    <x-schema.post-list
+        :items="$posts"
+        :name="$seoTitle"
+        :description="$seoDescription"
+        :url="$canonical"
+    />
 
     <div class="no-bottom no-top" id="content">
         <div id="top"></div>

@@ -5,22 +5,42 @@
     'publishDate' => null,
     'modifiedDate' => null,
     'url' => null,
+    'section' => null,
+    'tags' => [],
 ])
 
 @php
     $articleUrl = $url ?? url()->current();
     $publishedAt = $publishDate ?? now()->toIso8601String();
+    $imageUrl = $image ?? asset('assets/images/og-default.jpg');
+    $tags = collect(is_iterable($tags) ? $tags : [])
+        ->filter(fn ($tag) => filled($tag))
+        ->map(fn ($tag) => trim($tag))
+        ->values();
 
     $schema = [
         '@context' => 'https://schema.org',
         '@type' => 'Article',
+        '@id' => $articleUrl . '#article',
         'mainEntityOfPage' => [
             '@type' => 'WebPage',
             '@id' => $articleUrl,
         ],
+        'url' => $articleUrl,
+        'inLanguage' => 'vi-VN',
+        'isPartOf' => [
+            '@type' => 'WebSite',
+            '@id' => url('/') . '#website',
+            'name' => setting('site_name', config('app.name')),
+            'url' => url('/'),
+        ],
         'headline' => $headline,
         'description' => $description,
-        'image' => $image ?? asset('assets/images/og-default.jpg'),
+        'image' => [
+            '@type' => 'ImageObject',
+            'url' => $imageUrl,
+        ],
+        'thumbnailUrl' => $imageUrl,
         'datePublished' => $publishedAt,
         'dateModified' => $modifiedDate ?? $publishedAt,
         'author' => [
@@ -40,6 +60,14 @@
             ],
         ],
     ];
+
+    if (filled($section)) {
+        $schema['articleSection'] = $section;
+    }
+
+    if ($tags->isNotEmpty()) {
+        $schema['keywords'] = $tags->implode(', ');
+    }
 @endphp
 
 <x-schema.json-ld :data="$schema" />

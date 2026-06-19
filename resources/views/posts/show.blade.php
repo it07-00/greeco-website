@@ -6,6 +6,11 @@
         ? asset('storage/' . $post->og_image)
         : asset('assets/images/og-default.jpg');
     $indexable = $post->is_indexable;
+    $seoType = 'article';
+    $seoPublishedTime = $post->published_at?->toIso8601String();
+    $seoModifiedTime = $post->updated_at->toIso8601String();
+    $seoSection = $post->category?->name;
+    $seoTags = $post->tags ?? [];
     
     $breadcrumbs = [
         ['name' => 'Trang chủ', 'url' => route('home')],
@@ -27,6 +32,8 @@
         :publishDate="$post->published_at ? $post->published_at->toIso8601String() : now()->toIso8601String()"
         :modifiedDate="$post->updated_at->toIso8601String()"
         :url="$canonical"
+        :section="$seoSection"
+        :tags="$seoTags"
     />
 
     <div class="no-bottom no-top" id="content">

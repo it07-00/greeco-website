@@ -4,6 +4,7 @@ use App\Models\Course;
 use App\Models\CourseCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 return new class extends Migration
 {
@@ -12,5853 +13,51 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Disable foreign key checks to safely clear existing training records
         Schema::disableForeignKeyConstraints();
         Course::truncate();
         CourseCategory::truncate();
         Schema::enableForeignKeyConstraints();
 
-        // 1. Seed Categories
-        $categoriesData = json_decode('[
-            {
-                        "name": "Hệ thống quản lý ISO và cải tiến doanh nghiệp",
-                        "slug": "iso",
-                        "icon": "fa-certificate",
-                        "color": "#008f79",
-                        "bg": "#e6f4f1",
-                        "sort_order": 1
-            },
-            {
-                        "name": "An toàn – Sức khỏe – Môi trường (HSE)",
-                        "slug": "hse",
-                        "icon": "fa-shield-heart",
-                        "color": "#1f487e",
-                        "bg": "#e8eef5",
-                        "sort_order": 2
-            },
-            {
-                        "name": "Kiểm kê khí nhà kính và quản lý carbon",
-                        "slug": "carbon",
-                        "icon": "fa-cloud",
-                        "color": "#03a9f4",
-                        "bg": "#e1f5fe",
-                        "sort_order": 3
-            },
-            {
-                        "name": "ESG và phát triển bền vững",
-                        "slug": "esg",
-                        "icon": "fa-leaf",
-                        "color": "#4caf50",
-                        "bg": "#edf7ed",
-                        "sort_order": 4
-            },
-            {
-                        "name": "Chuỗi cung ứng bền vững và kinh tế tuần hoàn",
-                        "slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "icon": "fa-globe",
-                        "color": "#009688",
-                        "bg": "#e0f2f1",
-                        "sort_order": 5
-            },
-            {
-                        "name": "Công trình xanh và sản phẩm bền vững",
-                        "slug": "cong-trinh-xanh-va-san-pham-ben-vung",
-                        "icon": "fa-building-shield",
-                        "color": "#607d8b",
-                        "bg": "#eceff1",
-                        "sort_order": 6
-            }
-]', true);
-
         $categories = [];
-        foreach ($categoriesData as $catData) {
-            $categories[$catData['slug']] = CourseCategory::create($catData);
+        foreach ($this->categoriesData() as $categoryData) {
+            $categories[$categoryData['slug']] = CourseCategory::create($categoryData);
         }
 
-        // 2. Seed Courses
-        $coursesData = json_decode('[
-            {
-                        "category_slug": "iso",
-                        "title": "Xây dựng Hệ thống Quản lý Chất lượng ISO 9001:2015",
-                        "slug": "xay-dung-he-thong-quan-ly-chat-luong-iso-9001-2015",
-                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU</p>\n<p>GIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG</p>\n<p>GIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ</p>\n<p>GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thành lập Ban ISO",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch triển khai",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân công vai trò và trách nhiệm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo nhận thức ISO 9001:2015",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng chính sách chất lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng mục tiêu chất lượng",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xây dựng quy trình quản lý",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng SOP (Standard Operating Procedure – Quy trình thao tác chuẩn)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng hướng dẫn công việc",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng biểu mẫu quản lý",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập hệ thống kiểm soát tài liệu và hồ sơ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập KPI chất lượng",
-                                                                        "duration": "04 – 05 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Hướng dẫn áp dụng quy trình",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn sử dụng biểu mẫu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching áp dụng thực tế tại hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát hồ sơ và tài liệu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi việc áp dụng hệ thống",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn kiểm soát sản phẩm không phù hợp",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đào tạo Internal Auditor ISO 9001:2015",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng đánh giá nội bộ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng viết báo cáo đánh giá",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Root Cause Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "CAPA Management",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thực hiện Internal Audit",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hành động khắc phục",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Họp xem xét lãnh đạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hoàn thiện hồ sơ hệ thống",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuẩn bị đánh giá chứng nhận ISO 9001:2015",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 1
-            },
-            {
-                        "category_slug": "iso",
-                        "title": "Xây dựng Hệ thống Quản lý Môi trường ISO 14001:2015",
-                        "slug": "xay-dung-he-thong-quan-ly-moi-truong-iso-14001-2015",
-                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU</p>\n<p>GIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG</p>\n<p>GIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ</p>\n<p>GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thành lập Ban ISO",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch triển khai",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân công vai trò và trách nhiệm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo nhận thức ISO 14001:2015",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng chính sách môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng mục tiêu môi trường",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xây dựng quy trình quản lý môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng SOP (Standard Operating Procedure – Quy trình thao tác chuẩn)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng hướng dẫn công việc",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng biểu mẫu quản lý môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập hệ thống kiểm soát tài liệu và hồ sơ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập KPI môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng ma trận khía cạnh và tác động môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng danh mục yêu cầu pháp luật môi trường",
-                                                                        "duration": "04 – 05 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Hướng dẫn áp dụng quy trình môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn nhận diện khía cạnh môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn kiểm soát chất thải",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn quản lý hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn kiểm soát sự cố môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching áp dụng thực tế tại hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát hồ sơ và tài liệu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi việc áp dụng hệ thống",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đào tạo Internal Auditor ISO 14001:2015",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng đánh giá nội bộ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng viết báo cáo đánh giá",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Root Cause Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "CAPA Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá tuân thủ pháp luật môi trường",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thực hiện Internal Audit",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hành động khắc phục",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Họp xem xét lãnh đạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hoàn thiện hồ sơ hệ thống",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuẩn bị đánh giá chứng nhận ISO 14001:2015",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 2
-            },
-            {
-                        "category_slug": "iso",
-                        "title": "Xây dựng Hệ thống Quản lý An toàn và Sức khỏe Nghề nghiệp ISO 45001:2018",
-                        "slug": "xay-dung-he-thong-quan-ly-an-toan-va-suc-khoe-nghe-nghiep-iso-45001-2018",
-                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU</p>\n<p>GIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG</p>\n<p>GIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ</p>\n<p>GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thành lập Ban ISO",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch triển khai",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân công vai trò và trách nhiệm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo nhận thức ISO 45001:2018",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng chính sách an toàn và sức khỏe nghề nghiệp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng mục tiêu an toàn",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xây dựng quy trình quản lý an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng SOP (Standard Operating Procedure – Quy trình thao tác chuẩn)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng hướng dẫn công việc an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng biểu mẫu quản lý an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập hệ thống kiểm soát tài liệu và hồ sơ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập KPI an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng ma trận nhận diện mối nguy và đánh giá rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng danh mục yêu cầu pháp luật an toàn lao động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng quy trình ứng phó tình huống khẩn cấp",
-                                                                        "duration": "04 – 05 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Hướng dẫn áp dụng quy trình an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn nhận diện mối nguy và đánh giá rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn kiểm soát nhà thầu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn kiểm soát công việc nguy hiểm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn điều tra tai nạn và sự cố",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn kiểm soát hóa chất và thiết bị",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching áp dụng thực tế tại hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát hồ sơ và tài liệu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi việc áp dụng hệ thống",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đào tạo Internal Auditor ISO 45001:2018",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng đánh giá nội bộ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng viết báo cáo đánh giá",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Root Cause Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "CAPA Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá tuân thủ pháp luật an toàn lao động",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thực hiện Internal Audit",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hành động khắc phục",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Họp xem xét lãnh đạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hoàn thiện hồ sơ hệ thống",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuẩn bị đánh giá chứng nhận ISO 45001:2018",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 3
-            },
-            {
-                        "category_slug": "iso",
-                        "title": "Xây dựng Hệ thống Quản lý Năng lượng ISO 50001:2018",
-                        "slug": "xay-dung-he-thong-quan-ly-nang-luong-iso-50001-2018",
-                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – ĐÁNH GIÁ NĂNG LƯỢNG VÀ XÁC ĐỊNH SEU\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NĂNG LƯỢNG\nGIAI ĐOẠN 4 – TRIỂN KHAI ÁP DỤNG VÀ ĐÀO TẠO\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2 – ĐÁNH GIÁ NĂNG LƯỢNG VÀ XÁC ĐỊNH SEU</p>\n<p>GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NĂNG LƯỢNG</p>\n<p>GIAI ĐOẠN 4 – TRIỂN KHAI ÁP DỤNG VÀ ĐÀO TẠO</p>\n<p>GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thành lập Ban Energy Team",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch triển khai",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân công vai trò và trách nhiệm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo nhận thức ISO 50001:2018",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan về quản lý năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan về Energy Performance",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan về GHG và Carbon Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng chính sách năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng mục tiêu năng lượng",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 2 – ĐÁNH GIÁ NĂNG LƯỢNG VÀ XÁC ĐỊNH SEU",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thu thập dữ liệu năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích sử dụng năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định Significant Energy Use (SEU)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hiệu suất thiết bị",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hệ thống điện",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hệ thống khí nén",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hệ thống hơi",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá động cơ và thiết bị tiêu thụ năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Energy Review",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NĂNG LƯỢNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xây dựng quy trình quản lý năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng SOP vận hành năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập Energy Baseline",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập Energy Performance Indicator (EnPI)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập hệ thống giám sát năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng KPI năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch tiết kiệm năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập hệ thống quản lý dữ liệu năng lượng",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 4 – TRIỂN KHAI ÁP DỤNG VÀ ĐÀO TẠO",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Hướng dẫn áp dụng hệ thống ISO 50001",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo kiểm soát vận hành năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo quản lý dữ liệu năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo Internal Auditor ISO 50001",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hiệu quả áp dụng thực tế",
-                                                                        "duration": "02 – 03 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thực hiện Internal Audit",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hành động khắc phục",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Họp xem xét lãnh đạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Rà soát hệ thống năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hoàn thiện hồ sơ chứng nhận",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuẩn bị đánh giá chứng nhận ISO 50001:2018",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 4
-            },
-            {
-                        "category_slug": "iso",
-                        "title": "Xây dựng Hệ thống Quản lý Hiệu quả Sử dụng Nước ISO 46001:2019",
-                        "slug": "xay-dung-he-thong-quan-ly-hieu-qua-su-dung-nuoc-iso-46001-2019",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 5
-            },
-            {
-                        "category_slug": "hse",
-                        "title": "Đánh giá Rủi ro An toàn – Sức khỏe – Môi trường",
-                        "slug": "danh-gia-rui-ro-an-toan-suc-khoe-moi-truong",
-                        "description": "NGÀY 1 – NHẬN DIỆN MỐI NGUY VÀ ĐÁNH GIÁ RỦI RO\nNGÀY 2 – KIỂM SOÁT RỦI RO VÀ TRIỂN KHAI THỰC TẾ",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>NGÀY 1 – NHẬN DIỆN MỐI NGUY VÀ ĐÁNH GIÁ RỦI RO</p>\n<p>NGÀY 2 – KIỂM SOÁT RỦI RO VÀ TRIỂN KHAI THỰC TẾ</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "NGÀY 1 – NHẬN DIỆN MỐI NGUY VÀ ĐÁNH GIÁ RỦI RO",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "PHẦN 1 – TỔNG QUAN VỀ ĐÁNH GIÁ RỦI RO",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm Hazard và Risk",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tư duy phòng ngừa trong công tác an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Risk-Based Thinking",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tai nạn và nguyên nhân tai nạn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Yêu cầu pháp luật liên quan",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Yêu cầu ISO 45001 và ISO 14001",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của đánh giá rủi ro trong doanh nghiệp",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 2 – NHẬN DIỆN MỐI NGUY",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phương pháp nhận diện mối nguy",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện mối nguy theo công việc",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện mối nguy theo thiết bị",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện mối nguy theo khu vực",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện hành vi không an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện điều kiện không an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện tác động môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các nhóm mối nguy chính",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cơ học",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điện",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cháy nổ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tiếng ồn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhiệt",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ergonomic",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Làm việc trên cao",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Không gian hạn chế",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết bị nâng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xe nâng và giao thông nội bộ",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 3 – PHƯƠNG PHÁP ĐÁNH GIÁ RỦI RO",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định khả năng xảy ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định mức độ hậu quả",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định mức độ rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ma trận đánh giá rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân loại mức độ rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định mức độ chấp nhận rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các phương pháp áp dụng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "HIRA (Hazard Identification and Risk Assessment)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "JSA (Job Safety Analysis)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "What-if Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Checklist Method",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bowtie Concept",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 4 – THỰC HÀNH NHẬN DIỆN MỐI NGUY",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành nhận diện mối nguy tại hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành đánh giá rủi ro theo công việc",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích tình huống tai nạn thực tế",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thảo luận nhóm và trình bày kết quả",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 2 – KIỂM SOÁT RỦI RO VÀ TRIỂN KHAI THỰC TẾ",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "PHẦN 5 – BIỆN PHÁP KIỂM SOÁT RỦI RO",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hierarchy of Controls",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Elimination",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Substitution",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Engineering Control",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Administrative Control",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "PPE (Personal Protective Equipment – Phương tiện bảo vệ cá nhân)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập biện pháp kiểm soát",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát kỹ thuật",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát hành chính",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "SOP an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Permit To Work",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lockout Tagout",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Biển báo và cảnh báo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra và giám sát",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 6 – ĐÁNH GIÁ RỦI RO TRONG CÁC CÔNG VIỆC NGUY HIỂM",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Làm việc trên cao",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hot Work",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Không gian hạn chế",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điện",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết bị nâng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất nguy hiểm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xe nâng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bảo trì máy móc",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhà thầu thi công",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 7 – ĐIỀU TRA TAI NẠN VÀ ROOT CAUSE ANALYSIS",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình điều tra tai nạn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thu thập bằng chứng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích nguyên nhân trực tiếp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích nguyên nhân gốc rễ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "5 Why",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Fishbone Diagram",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập CAPA",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 8 – TRIỂN KHAI HỆ THỐNG ĐÁNH GIÁ RỦI RO TẠI DOANH NGHIỆP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập Risk Assessment Procedure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập Risk Register",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cập nhật đánh giá rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá rủi ro theo thay đổi",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hành động kiểm soát",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tích hợp với ISO 45001 và ISO 14001",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 9 – THỰC HÀNH VÀ ĐÁNH GIÁ CUỐI KHÓA",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thực hành đánh giá rủi ro theo nhóm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trình bày kết quả",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching và góp ý",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra cuối khóa",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng kết đào tạo",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 6
-            },
-            {
-                        "category_slug": "hse",
-                        "title": "Quản lý Hóa chất trong Doanh nghiệp",
-                        "slug": "quan-ly-hoa-chat-trong-doanh-nghiep",
-                        "description": "NGÀY 1 – TỔNG QUAN VỀ QUẢN LÝ HÓA CHẤT VÀ NHẬN DIỆN RỦI RO\nNGÀY 2 – KIỂM SOÁT HÓA CHẤT VÀ ỨNG PHÓ SỰ CỐ",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>NGÀY 1 – TỔNG QUAN VỀ QUẢN LÝ HÓA CHẤT VÀ NHẬN DIỆN RỦI RO</p>\n<p>NGÀY 2 – KIỂM SOÁT HÓA CHẤT VÀ ỨNG PHÓ SỰ CỐ</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "NGÀY 1 – TỔNG QUAN VỀ QUẢN LÝ HÓA CHẤT VÀ NHẬN DIỆN RỦI RO",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "PHẦN 1 – TỔNG QUAN VỀ QUẢN LÝ HÓA CHẤT",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan về hóa chất trong doanh nghiệp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nguy cơ và tác động của hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các sự cố hóa chất điển hình",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Yêu cầu pháp luật liên quan",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Yêu cầu ISO 14001 và ISO 45001 liên quan đến hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò và trách nhiệm trong quản lý hóa chất",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 2 – NHẬN DIỆN MỐI NGUY HÓA CHẤT",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân loại hóa chất nguy hiểm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện mối nguy hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tính chất vật lý và hóa học nguy hiểm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất cháy nổ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất ăn mòn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất độc hại",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất phản ứng mạnh",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tác động sức khỏe nghề nghiệp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tác động môi trường",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 3 – SDS VÀ GHS",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cấu trúc SDS",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cách đọc SDS",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhãn GHS",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Pictogram cảnh báo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Signal Word",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hazard Statement",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Precautionary Statement",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Yêu cầu ghi nhãn hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành đọc SDS",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện nhãn GHS",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích thông tin hóa chất thực tế",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 4 – ĐÁNH GIÁ RỦI RO HÓA CHẤT",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện rủi ro hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá mức độ rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Exposure Assessment",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Risk Matrix",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Biện pháp kiểm soát hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hierarchy of Controls",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành đánh giá rủi ro hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thảo luận tình huống thực tế",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching hiện trường",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 2 – KIỂM SOÁT HÓA CHẤT VÀ ỨNG PHÓ SỰ CỐ",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "PHẦN 5 – QUẢN LÝ LƯU TRỮ VÀ SỬ DỤNG HÓA CHẤT",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nguyên tắc lưu trữ hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân khu hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tương thích hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Secondary Containment",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý tồn kho hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát cấp phát hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý hóa chất hết hạn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát nhà thầu hóa chất",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 6 – KIỂM SOÁT PHƠI NHIỄM VÀ PPE",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đường phơi nhiễm hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát phơi nhiễm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thông gió và hút cục bộ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "PPE (Personal Protective Equipment – Phương tiện bảo vệ cá nhân)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Eyewash và Safety Shower",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Monitoring hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra sức khỏe nghề nghiệp",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 7 – ỨNG PHÓ SỰ CỐ HÓA CHẤT",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình ứng phó sự cố hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Spill Control",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Sự cố rò rỉ hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cháy nổ hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Sơ cứu phơi nhiễm hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Emergency Response",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điều tra sự cố hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành ứng phó sự cố hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành xử lý spill kit",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thảo luận tình huống thực tế",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 8 – XÂY DỰNG HỆ THỐNG QUẢN LÝ HÓA CHẤT",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chemical Management Procedure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chemical Register",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chemical Approval Process",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Risk Assessment",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Inspection Checklist",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chemical Audit",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tích hợp với ISO 14001 và ISO 45001",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Ôn tập nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra cuối khóa",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá năng lực học viên",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng kết chương trình đào tạo",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 7
-            },
-            {
-                        "category_slug": "hse",
-                        "title": "Điều tra Sự cố và Phân tích Nguyên nhân Gốc rễ (Root Cause Analysis – RCA)",
-                        "slug": "dieu-tra-su-co-va-phan-tich-nguyen-nhan-goc-re-root-cause-analysis-rca",
-                        "description": "NGÀY 1 – TỔNG QUAN ĐIỀU TRA SỰ CỐ VÀ PHÂN TÍCH NGUYÊN NHÂN\nPHẦN 1 – TỔNG QUAN VỀ ĐIỀU TRA SỰ CỐ VÀ RCA\nPHẦN 2 – QUY TRÌNH ĐIỀU TRA SỰ CỐ\nPHẦN 3 – CÁC PHƯƠNG PHÁP PHÂN TÍCH NGUYÊN NHÂN GỐC RỄ\nPHẦN 4 – HUMAN FACTOR VÀ HÀNH VI TRONG SỰ CỐ\nNGÀY 2 – THIẾT LẬP GIẢI PHÁP VÀ TRIỂN KHAI THỰC TẾ\nPHẦN 5 – THIẾT LẬP HÀNH ĐỘNG KHẮC PHỤC VÀ PHÒNG NGỪA\nPHẦN 6 – RCA TRONG CÁC HOẠT ĐỘNG DOANH NGHIỆP\nPHẦN 7 – XÂY DỰNG HỆ THỐNG ĐIỀU TRA SỰ CỐ TẠI DOANH NGHIỆP\nPHẦN 8 – WORKSHOP THỰC HÀNH RCA\nPHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>NGÀY 1 – TỔNG QUAN ĐIỀU TRA SỰ CỐ VÀ PHÂN TÍCH NGUYÊN NHÂN</p>\n<p>PHẦN 1 – TỔNG QUAN VỀ ĐIỀU TRA SỰ CỐ VÀ RCA</p>\n<p>PHẦN 2 – QUY TRÌNH ĐIỀU TRA SỰ CỐ</p>\n<p>PHẦN 3 – CÁC PHƯƠNG PHÁP PHÂN TÍCH NGUYÊN NHÂN GỐC RỄ</p>\n<p>PHẦN 4 – HUMAN FACTOR VÀ HÀNH VI TRONG SỰ CỐ</p>\n<p>NGÀY 2 – THIẾT LẬP GIẢI PHÁP VÀ TRIỂN KHAI THỰC TẾ</p>\n<p>PHẦN 5 – THIẾT LẬP HÀNH ĐỘNG KHẮC PHỤC VÀ PHÒNG NGỪA</p>\n<p>PHẦN 6 – RCA TRONG CÁC HOẠT ĐỘNG DOANH NGHIỆP</p>\n<p>PHẦN 7 – XÂY DỰNG HỆ THỐNG ĐIỀU TRA SỰ CỐ TẠI DOANH NGHIỆP</p>\n<p>PHẦN 8 – WORKSHOP THỰC HÀNH RCA</p>\n<p>PHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "NGÀY 1 – TỔNG QUAN ĐIỀU TRA SỰ CỐ VÀ PHÂN TÍCH NGUYÊN NHÂN",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "PHẦN 1 – TỔNG QUAN VỀ ĐIỀU TRA SỰ CỐ VÀ RCA",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm Incident, Accident và Near Miss",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tầm quan trọng của điều tra sự cố",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chi phí ẩn của tai nạn và sự cố",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nguyên tắc điều tra sự cố",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm Root Cause Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Direct Cause và Root Cause",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tư duy phòng ngừa và cải tiến liên tục",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 2 – QUY TRÌNH ĐIỀU TRA SỰ CỐ",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình điều tra sự cố",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thu thập bằng chứng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thu thập thông tin hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phỏng vấn nhân chứng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chụp hình và lưu hồ sơ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định chuỗi sự kiện",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích điều kiện và hành vi",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Timeline sự cố",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 3 – CÁC PHƯƠNG PHÁP PHÂN TÍCH NGUYÊN NHÂN GỐC RỄ",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "5 Why Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Fishbone Diagram",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Fault Tree Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Barrier Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cause and Effect Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Human Factor Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành phân tích tình huống sự cố",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Fishbone Diagram",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành 5 Why",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thảo luận nhóm và trình bày kết quả",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 4 – HUMAN FACTOR VÀ HÀNH VI TRONG SỰ CỐ",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Human Error",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Unsafe Behavior",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Unsafe Condition",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Organizational Failure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Leadership Failure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Communication Failure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Work Pressure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Fatigue",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Culture",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 2 – THIẾT LẬP GIẢI PHÁP VÀ TRIỂN KHAI THỰC TẾ",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "PHẦN 5 – THIẾT LẬP HÀNH ĐỘNG KHẮC PHỤC VÀ PHÒNG NGỪA",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "CAPA (Corrective and Preventive Action)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập hành động hiệu quả",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát tái diễn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hiệu quả hành động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá tính bền vững của giải pháp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập CAPA cho tình huống thực tế",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hiệu lực hành động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thảo luận nhóm",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 6 – RCA TRONG CÁC HOẠT ĐỘNG DOANH NGHIỆP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "RCA trong tai nạn lao động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "RCA trong lỗi chất lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "RCA trong sự cố môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "RCA trong sự cố thiết bị",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "RCA trong Near Miss",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "RCA trong hoạt động sản xuất",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 7 – XÂY DỰNG HỆ THỐNG ĐIỀU TRA SỰ CỐ TẠI DOANH NGHIỆP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Incident Investigation Procedure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập Incident Reporting System",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập RCA Team",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý hồ sơ điều tra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi xu hướng sự cố",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tích hợp RCA với ISO 45001 và ISO 9001",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 8 – WORKSHOP THỰC HÀNH RCA",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Phân tích Case Study thực tế",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điều tra tình huống mô phỏng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Timeline sự cố",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hiện RCA theo nhóm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trình bày kết quả và coaching",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Ôn tập nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra cuối khóa",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá năng lực học viên",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng kết chương trình đào tạo",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 8
-            },
-            {
-                        "category_slug": "hse",
-                        "title": "Phát triển năng lực cán bộ An toàn – Sức khỏe – Môi trường (HSE OFFICER)",
-                        "slug": "phat-trien-nang-luc-can-bo-an-toan-suc-khoe-moi-truong-hse-officer",
-                        "description": "NGÀY 01 – NỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO\nChuyên đề 1 – Tổng quan về HSE trong doanh nghiệp\nChuyên đề 2 – Nhận diện mối nguy và đánh giá rủi ro\nChuyên đề 3 – Kiểm tra hiện trường và Safety Patrol\nNGÀY 02 – QUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP\nChuyên đề 4 – Quản lý máy móc thiết bị\nChuyên đề 5 – Quản lý hóa chất\nChuyên đề 6 – Quản lý sức khỏe nghề nghiệp\nChuyên đề 7 – Điều tra tai nạn lao động\nNGÀY 03 – QUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER\nChuyên đề 8 – Quản lý môi trường\nChuyên đề 9 – Ứng phó khẩn cấp\nChuyên đề 10 – Kỹ năng chuyên nghiệp của HSE Officer",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>NGÀY 01 – NỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO</strong></p>\n<p>Chuyên đề 1 – Tổng quan về HSE trong doanh nghiệp</p>\n<p>Chuyên đề 2 – Nhận diện mối nguy và đánh giá rủi ro</p>\n<p>Chuyên đề 3 – Kiểm tra hiện trường và Safety Patrol</p>\n<p><strong>NGÀY 02 – QUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP</strong></p>\n<p>Chuyên đề 4 – Quản lý máy móc thiết bị</p>\n<p>Chuyên đề 5 – Quản lý hóa chất</p>\n<p>Chuyên đề 6 – Quản lý sức khỏe nghề nghiệp</p>\n<p>Chuyên đề 7 – Điều tra tai nạn lao động</p>\n<p><strong>NGÀY 03 – QUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER</strong></p>\n<p>Chuyên đề 8 – Quản lý môi trường</p>\n<p>Chuyên đề 9 – Ứng phó khẩn cấp</p>\n<p>Chuyên đề 10 – Kỹ năng chuyên nghiệp của HSE Officer</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "NGÀY 01 – NỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 1 – Tổng quan về HSE trong doanh nghiệp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của HSE Officer.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm pháp lý của doanh nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm của cán bộ HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hệ thống quản lý HSE hiện đại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan ISO 14001.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan ISO 45001.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan SMETA.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan BSCI.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các yêu cầu khách hàng thường gặp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 2 – Nhận diện mối nguy và đánh giá rủi ro",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm mối nguy.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm rủi ro.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân loại mối nguy.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bao gồm:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối nguy cơ học.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối nguy điện.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối nguy hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối nguy tiếng ồn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối nguy bụi.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối nguy nhiệt.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối nguy công thái học.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối nguy giao thông nội bộ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng bảng nhận diện mối nguy.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng ma trận đánh giá rủi ro.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành đánh giá rủi ro thực tế.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 3 – Kiểm tra hiện trường và Safety Patrol",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phương pháp kiểm tra hiện trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quan sát hành vi không an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điều kiện không an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng giao tiếp với người lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng ghi nhận bằng chứng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng lập biên bản.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Walk.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Observation.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Near Miss Reporting.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 02 – QUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 4 – Quản lý máy móc thiết bị",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát thiết bị có yêu cầu nghiêm ngặt.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm định thiết bị.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bảo trì phòng ngừa.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khóa và gắn thẻ (LOTO).",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Che chắn máy.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "An toàn điện.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 5 – Quản lý hóa chất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hệ thống GHS.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhãn hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phiếu SDS.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá rủi ro hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kho hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ứng phó tràn đổ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "PPE đối với hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra nhãn hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá khu vực lưu trữ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 6 – Quản lý sức khỏe nghề nghiệp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bệnh nghề nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quan trắc môi trường lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khám sức khỏe định kỳ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khám bệnh nghề nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý lao động nữ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý lao động chưa thành niên.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 7 – Điều tra tai nạn lao động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm tai nạn lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Near Miss.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Incident.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Root Cause Analysis.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các công cụ:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "5 Why.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Fishbone Diagram.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Corrective Action Plan.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích tình huống thực tế.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lập báo cáo điều tra.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 03 – QUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 8 – Quản lý môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khía cạnh môi trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tác động môi trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chất thải nguy hại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chất thải thông thường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nước thải.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khí thải.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tiếng ồn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tiết kiệm năng lượng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nhận diện khía cạnh môi trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá mức độ tác động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 9 – Ứng phó khẩn cấp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cháy nổ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tràn đổ hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tai nạn lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mất điện.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiên tai.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kịch bản ứng phó.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổ chức diễn tập.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 10 – Kỹ năng chuyên nghiệp của HSE Officer",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng đào tạo nội bộ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng thuyết trình.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng viết báo cáo.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng lập KPI.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng xây dựng chương trình HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng làm việc với cơ quan chức năng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng làm việc với khách hàng đánh giá.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 9
-            },
-            {
-                        "category_slug": "hse",
-                        "title": "LÃNH ĐẠO AN TOÀN – XÂY DỰNG VĂN HÓA AN TOÀN VÀ QUẢN LÝ RỦI RO THẢM HỌA",
-                        "slug": "lanh-dao-an-toan-xay-dung-van-hoa-an-toan-va-quan-ly-rui-ro-tham-hoa",
-                        "description": "NGÀY 01 – PROCESS SAFETY MANAGEMENT (PSM)\nLÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA\nChuyên đề 1 – Bài học từ các thảm họa công nghiệp trên thế giới\nPhân tích các vụ việc điển hình:\nChuyên đề 2 – Tổng quan Process Safety Management (PSM)\nChuyên đề 3 – Vai trò lãnh đạo trong quản lý rủi ro thảm họa\nNGÀY 02 – XÂY DỰNG VĂN HÓA AN TOÀN\nChuyên đề 4 – Safety Culture – Văn hóa an toàn là gì?\nChuyên đề 5 – Hành vi lãnh đạo ảnh hưởng đến văn hóa an toàn\nChuyên đề 6 – Trách nhiệm giải trình về an toàn (Safety Accountability)\nNGÀY 03 – TỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG\nChuyên đề 7 – Các công cụ lãnh đạo an toàn hiện đại\nChuyên đề 8 – Xây dựng chiến lược văn hóa an toàn\nChuyên đề 9 – Cam kết lãnh đạo và kế hoạch hành động",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>NGÀY 01 – PROCESS SAFETY MANAGEMENT (PSM)</strong></p>\n<p>LÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA</p>\n<p>Chuyên đề 1 – Bài học từ các thảm họa công nghiệp trên thế giới</p>\n<p>Phân tích các vụ việc điển hình:</p>\n<p>Chuyên đề 2 – Tổng quan Process Safety Management (PSM)</p>\n<p>Chuyên đề 3 – Vai trò lãnh đạo trong quản lý rủi ro thảm họa</p>\n<p><strong>NGÀY 02 – XÂY DỰNG VĂN HÓA AN TOÀN</strong></p>\n<p>Chuyên đề 4 – Safety Culture – Văn hóa an toàn là gì?</p>\n<p>Chuyên đề 5 – Hành vi lãnh đạo ảnh hưởng đến văn hóa an toàn</p>\n<p>Chuyên đề 6 – Trách nhiệm giải trình về an toàn (Safety Accountability)</p>\n<p><strong>NGÀY 03 – TỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG</strong></p>\n<p>Chuyên đề 7 – Các công cụ lãnh đạo an toàn hiện đại</p>\n<p>Chuyên đề 8 – Xây dựng chiến lược văn hóa an toàn</p>\n<p>Chuyên đề 9 – Cam kết lãnh đạo và kế hoạch hành động</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "NGÀY 01 – PROCESS SAFETY MANAGEMENT (PSM)",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "LÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 1 – Bài học từ các thảm họa công nghiệp trên thế giới",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích các vụ việc điển hình:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bhopal – Ấn Độ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Piper Alpha – Vương quốc Anh.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Texas City – Hoa Kỳ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Deepwater Horizon.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Beirut Explosion.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các sự cố cháy nổ lớn tại Việt Nam.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung trọng tâm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vì sao doanh nghiệp thất bại?",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của lãnh đạo trong các thảm họa.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các dấu hiệu cảnh báo bị bỏ qua.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chi phí thực sự của một tai nạn nghiêm trọng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 2 – Tổng quan Process Safety Management (PSM)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm PSM.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Sự khác biệt giữa:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "An toàn nghề nghiệp\tAn toàn quá trình",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tai nạn cá nhân\tSự cố thảm họa",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tác động cục bộ\tTác động quy mô lớn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mất ngày công\tMất nhà máy",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chấn thương\tTử vong hàng loạt",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các yếu tố cốt lõi của PSM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Leadership Commitment.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Risk Management.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Asset Integrity.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Management of Change.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Emergency Preparedness.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Incident Investigation.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Process Safety Information.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 3 – Vai trò lãnh đạo trong quản lý rủi ro thảm họa",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Risk Governance.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Risk Appetite.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Risk Ownership.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Leadership Visibility.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Accountability.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá mức độ trưởng thành của hệ thống PSM hiện tại.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 02 – XÂY DỰNG VĂN HÓA AN TOÀN",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 4 – Safety Culture – Văn hóa an toàn là gì?",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các cấp độ trưởng thành văn hóa an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mô hình Bradley Curve.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mô hình Hudson Safety Culture.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Từ \"Compliance\" đến \"Commitment\".",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hiện trạng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Doanh nghiệp đang ở cấp độ nào?",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Reactive.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Dependent.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Independent.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Interdependent.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 5 – Hành vi lãnh đạo ảnh hưởng đến văn hóa an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Những hành vi lãnh đạo tạo nên văn hóa an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Những hành vi lãnh đạo phá hủy văn hóa an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quyền lực của người quản lý tuyến đầu.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Leadership Walkthrough.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Gemba Walk.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tự đánh giá phong cách lãnh đạo an toàn của từng học viên.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 6 – Trách nhiệm giải trình về an toàn (Safety Accountability)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khác biệt giữa Responsibility và Accountability.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm của Tổng Giám đốc.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm của Giám đốc nhà máy.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm của Quản lý cấp trung.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm của Giám sát.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Accountability Matrix.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety KPI Cascade.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 03 – TỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 7 – Các công cụ lãnh đạo an toàn hiện đại",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Near Miss Management.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Observation.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Life Saving Rules.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Walk.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Management Safety Tour.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Leadership Field Visit.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "High Risk Activity Review.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng hệ thống KPI chủ động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bao gồm:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Near Miss Reporting Rate.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Walk Completion.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Action Closure Rate.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Training Completion Rate.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "High Risk Audit Score.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 8 – Xây dựng chiến lược văn hóa an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Vision.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Mission.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Strategic Plan.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Communication Campaign.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Employee Engagement.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Roadmap Văn hóa An toàn 12 tháng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 9 – Cam kết lãnh đạo và kế hoạch hành động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thảo luận:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các rào cản hiện tại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các cơ hội cải tiến.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các mục tiêu ưu tiên.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kết quả cuối khóa",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mỗi lãnh đạo xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cam kết an toàn cá nhân.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch hành động 90 ngày.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch cải tiến 12 tháng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chương trình hiện diện lãnh đạo tại hiện trường.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 10
-            },
-            {
-                        "category_slug": "hse",
-                        "title": "XÂY DỰNG VĂN HÓA AN TOÀN VÀ QUẢN LÝ RỦI RO CHỦ ĐỘNG CHO QUẢN LÝ VỀ AN TOÀN",
-                        "slug": "xay-dung-van-hoa-an-toan-va-quan-ly-rui-ro-chu-dong-cho-quan-ly-ve-an-toan",
-                        "description": "NGÀY 01 – XÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS\nChuyên đề 1 – Vai trò lãnh đạo trong quản lý an toàn\nChuyên đề 2 – Quản lý Near Miss\nChuyên đề 3 – Điều tra Near Miss\nNGÀY 02 – BEHAVIOR BASED SAFETY (BBS)\nChuyên đề 4 – Tổng quan BBS\nChuyên đề 5 – Thiết kế chương trình BBS\nChuyên đề 6 – Kỹ năng Safety Coaching\nNGÀY 03 – LIFE SAVING RULES (LSR) VÀ WSFI\nChuyên đề 7 – Life Saving Rules\nChuyên đề 8 – Workplace Safety Field Inspection (WSFI)\nNGÀY 04 – JOB HAZARD ANALYSIS (JHA)\nChuyên đề 9 – Phân tích công việc và nhận diện nguy cơ\nChuyên đề 10 – Thực hành JHA\nChuyên đề 11 – Permit To Work liên kết JHA\nNGÀY 05 – ĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 12 – Đánh giá rủi ro nâng cao\nChuyên đề 13 – Thiết lập KPI an toàn chủ động\nChuyên đề 14 – Xây dựng Roadmap HSE 12 tháng",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>NGÀY 01 – XÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS</strong></p>\n<p>Chuyên đề 1 – Vai trò lãnh đạo trong quản lý an toàn</p>\n<p>Chuyên đề 2 – Quản lý Near Miss</p>\n<p>Chuyên đề 3 – Điều tra Near Miss</p>\n<p><strong>NGÀY 02 – BEHAVIOR BASED SAFETY (BBS)</strong></p>\n<p>Chuyên đề 4 – Tổng quan BBS</p>\n<p>Chuyên đề 5 – Thiết kế chương trình BBS</p>\n<p>Chuyên đề 6 – Kỹ năng Safety Coaching</p>\n<p><strong>NGÀY 03 – LIFE SAVING RULES (LSR) VÀ WSFI</strong></p>\n<p>Chuyên đề 7 – Life Saving Rules</p>\n<p>Chuyên đề 8 – Workplace Safety Field Inspection (WSFI)</p>\n<p><strong>NGÀY 04 – JOB HAZARD ANALYSIS (JHA)</strong></p>\n<p>Chuyên đề 9 – Phân tích công việc và nhận diện nguy cơ</p>\n<p>Chuyên đề 10 – Thực hành JHA</p>\n<p>Chuyên đề 11 – Permit To Work liên kết JHA</p>\n<p><strong>NGÀY 05 – ĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE</strong></p>\n<p>Chuyên đề 12 – Đánh giá rủi ro nâng cao</p>\n<p>Chuyên đề 13 – Thiết lập KPI an toàn chủ động</p>\n<p>Chuyên đề 14 – Xây dựng Roadmap HSE 12 tháng</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "NGÀY 01 – XÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 1 – Vai trò lãnh đạo trong quản lý an toàn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Từ quản lý an toàn sang lãnh đạo an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mô hình Bradley Curve.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Culture Maturity.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các cấp độ trưởng thành văn hóa an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của lãnh đạo tuyến đầu.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 2 – Quản lý Near Miss",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung đào tạo:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm Near Miss.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mối liên hệ giữa Near Miss và tai nạn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mô hình Heinrich Pyramid.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các loại Near Miss phổ biến.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình báo cáo Near Miss.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình Near Miss.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phiếu báo cáo Near Miss.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "KPI Near Miss.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chương trình thưởng khuyến khích báo cáo.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 3 – Điều tra Near Miss",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Công cụ áp dụng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "5 Why.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Fishbone Diagram.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Root Cause Analysis.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Corrective Action Plan.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điều tra 05 tình huống Near Miss thực tế.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 02 – BEHAVIOR BASED SAFETY (BBS)",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 4 – Tổng quan BBS",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hành vi ảnh hưởng đến tai nạn như thế nào.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mô hình ABC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Human Factors.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Unsafe Act.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Unsafe Condition.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 5 – Thiết kế chương trình BBS",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định Critical Behaviors.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Checklist BBS.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân công Observer.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phương pháp thu thập dữ liệu.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết kế:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "BBS Observation Card.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "BBS KPI.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Dashboard BBS.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 6 – Kỹ năng Safety Coaching",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quan sát hành vi.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phản hồi tích cực.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching tại hiện trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Giao tiếp với người lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Role Play BBS Coaching.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 03 – LIFE SAVING RULES (LSR) VÀ WSFI",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 7 – Life Saving Rules",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm Life Saving Rules.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các hành vi có nguy cơ tử vong.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các nguyên nhân gây tai nạn nghiêm trọng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng bộ LSR",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bao gồm:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khóa và gắn thẻ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Làm việc trên cao.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Không gian hạn chế.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Điện.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xe nâng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết bị nâng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bộ 10 – 12 Life Saving Rules cho nhà máy.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 8 – Workplace Safety Field Inspection (WSFI)",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khác biệt giữa Audit và Inspection.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phương pháp WSFI.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ thuật quan sát hiện trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng phát hiện nguy cơ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Checklist WSFI.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lịch WSFI.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "KPI WSFI.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 04 – JOB HAZARD ANALYSIS (JHA)",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 9 – Phân tích công việc và nhận diện nguy cơ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm JHA.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khi nào cần JHA.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các bước thực hiện JHA.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 10 – Thực hành JHA",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hiện JHA cho:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xe nâng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Làm việc trên cao.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bảo trì máy.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hàn cắt.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Không gian hạn chế.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Biểu mẫu JHA.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình JHA.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ma trận phê duyệt JHA.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 11 – Permit To Work liên kết JHA",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Giấy phép làm việc.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát công việc nguy hiểm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm các bên.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 05 – ĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 12 – Đánh giá rủi ro nâng cao",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "ISO 45001 Risk Based Thinking.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ma trận rủi ro.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "HIRA (Hazard Identification and Risk Assessment).",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "ALARP Principle.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Risk Register.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 13 – Thiết lập KPI an toàn chủ động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "KPI đề xuất:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Near Miss Rate.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "BBS Observation.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "JHA Completion.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "WSFI Closure Rate.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Action Closure Rate.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Training Completion.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 14 – Xây dựng Roadmap HSE 12 tháng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop nhóm:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch Near Miss.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch BBS.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch JHA.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch WSFI.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch đào tạo.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch cải tiến văn hóa an toàn.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 11
-            },
-            {
-                        "category_slug": "hse",
-                        "title": "XÂY DỰNG HỆ THỐNG QUẢN LÝ LAO ĐỘNG VÀ TRÁCH NHIỆM XÃ HỘI THEO YÊU CẦU CASCALE",
-                        "slug": "xay-dung-he-thong-quan-ly-lao-dong-va-trach-nhiem-xa-hoi-theo-yeu-cau-cascale",
-                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG HIGG FSLM\nGIAI ĐOẠN 4 – TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU\nGIAI ĐOẠN 5 – TỰ ĐÁNH GIÁ HIGG FSLM\nGIAI ĐOẠN 6 – PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</strong></p>\n<p><strong>GIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)</strong></p>\n<p><strong>GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG HIGG FSLM</strong></p>\n<p><strong>GIAI ĐOẠN 4 – TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU</strong></p>\n<p><strong>GIAI ĐOẠN 5 – TỰ ĐÁNH GIÁ HIGG FSLM</strong></p>\n<p><strong>GIAI ĐOẠN 6 – PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG</strong></p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Tổng quan Cascale và Higg Index.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan Higg FSLM.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mục tiêu và lợi ích của Higg FSLM.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cấu trúc đánh giá Higg FSLM.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của các bộ phận.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thành lập nhóm triển khai.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch thực hiện.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch triển khai.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ đào tạo nhận thức.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ban triển khai Higg FSLM.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đánh giá hiện trạng hệ thống quản lý lao động và trách nhiệm xã hội:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản trị và hệ thống quản lý",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mục tiêu.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trách nhiệm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Truyền thông.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá nội bộ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tuyển dụng và lao động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tuyển dụng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hợp đồng lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lao động thời vụ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lao động chưa thành niên.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tiền lương và phúc lợi",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lương tối thiểu.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Làm thêm giờ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phụ cấp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phúc lợi.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bảo hiểm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thời giờ làm việc",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chấm công.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tăng ca.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nghỉ phép.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ngày nghỉ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quan hệ lao động",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khiếu nại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đối thoại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Công đoàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đại diện người lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Sức khỏe và an toàn nghề nghiệp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá rủi ro.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "PPE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Máy móc thiết bị.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "PCCC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ứng phó khẩn cấp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Báo cáo Gap Assessment.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Danh mục điểm chưa phù hợp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch cải tiến.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG HIGG FSLM",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xây dựng và chuẩn hóa:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách trách nhiệm xã hội.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách nhân quyền.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách chống phân biệt đối xử.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách chống quấy rối.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách an toàn sức khỏe nghề nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình tuyển dụng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình quản lý hồ sơ nhân sự.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình khiếu nại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình đối thoại người lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình đánh giá rủi ro.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình quản lý nhà thầu.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình quản lý nhà cung cấp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình điều tra sự cố.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình hành động khắc phục.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bộ tài liệu Higg FSLM.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bộ quy trình quản lý lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bộ biểu mẫu quản lý.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 4 – TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "Mô-đun 1 – Quản lý lao động",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Tuyển dụng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hợp đồng lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ nhân sự.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lao động chưa thành niên.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "Mô-đun 2 – Tiền lương và thời giờ làm việc",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Kiểm soát bảng công.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát bảng lương.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý tăng ca.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phúc lợi.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "Mô-đun 3 – Sức khỏe và an toàn nghề nghiệp",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đánh giá rủi ro.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "PPE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hóa chất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tai nạn lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "PCCC.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "Mô-đun 4 – Quan hệ lao động",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Khiếu nại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đối thoại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Truyền thông nội bộ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ đào tạo.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ triển khai.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ vận hành thực tế.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 5 – TỰ ĐÁNH GIÁ HIGG FSLM",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Hướng dẫn thực hiện Self-Assessment.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thu thập bằng chứng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá mức độ trưởng thành.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chấm điểm theo từng phần.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân tích kết quả.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch cải tiến.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Báo cáo Self-Assessment.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bảng điểm Higg FSLM.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch cải tiến.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 6 – PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đánh giá thử toàn bộ hệ thống.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phỏng vấn người lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra hồ sơ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra hiện trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Rà soát điểm chưa phù hợp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn khắc phục.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuẩn bị hồ sơ khách hàng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Báo cáo Pre-Assessment.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Danh mục hồ sơ sẵn sàng đánh giá.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch hành động cuối cùng.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 12
-            },
-            {
-                        "category_slug": "hse",
-                        "title": "XÂY DỰNG TẦM NHÌN – SỨ MỆNH – CHIẾN LƯỢC HSE – TỪ QUẢN LÝ HSE ĐẾN LÃNH ĐẠO HSE XUẤT SẮC",
-                        "slug": "xay-dung-tam-nhin-su-menh-chien-luoc-hse-tu-quan-ly-hse-den-lanh-dao-hse-xuat-sac",
-                        "description": "PHẦN 1 – HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP\nChuyên đề 1 – Từ HSE Compliance đến HSE Excellence\nChuyên đề 2 – Đánh giá mức độ trưởng thành của hệ thống HSE\nPHẦN 2 – XÂY DỰNG TẦM NHÌN HSE\nChuyên đề 3 – HSE Vision – Tầm nhìn HSE\nPHẦN 3 – XÂY DỰNG SỨ MỆNH HSE\nChuyên đề 4 – HSE Mission – Sứ mệnh HSE\nPHẦN 4 – XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE\nChuyên đề 5 – HSE Core Values\nPHẦN 5 – XÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 6 – HSE Strategic Planning\nChuyên đề 7 – Xác định các trụ cột chiến lược\nPHẦN 6 – XÂY DỰNG KPI VÀ MỤC TIÊU HSE\nChuyên đề 8 – Thiết lập mục tiêu HSE\nPHẦN 7 – XÂY DỰNG ROADMAP HSE 3 NĂM\nChuyên đề 9 – HSE Transformation Roadmap\nPHẦN 8 – CAM KẾT LÃNH ĐẠO\nChuyên đề 10 – Leadership Commitment Workshop",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>PHẦN 1 – HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP</strong></p>\n<p>Chuyên đề 1 – Từ HSE Compliance đến HSE Excellence</p>\n<p>Chuyên đề 2 – Đánh giá mức độ trưởng thành của hệ thống HSE</p>\n<p><strong>PHẦN 2 – XÂY DỰNG TẦM NHÌN HSE</strong></p>\n<p>Chuyên đề 3 – HSE Vision – Tầm nhìn HSE</p>\n<p><strong>PHẦN 3 – XÂY DỰNG SỨ MỆNH HSE</strong></p>\n<p>Chuyên đề 4 – HSE Mission – Sứ mệnh HSE</p>\n<p><strong>PHẦN 4 – XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE</strong></p>\n<p>Chuyên đề 5 – HSE Core Values</p>\n<p><strong>PHẦN 5 – XÂY DỰNG CHIẾN LƯỢC HSE</strong></p>\n<p>Chuyên đề 6 – HSE Strategic Planning</p>\n<p>Chuyên đề 7 – Xác định các trụ cột chiến lược</p>\n<p><strong>PHẦN 6 – XÂY DỰNG KPI VÀ MỤC TIÊU HSE</strong></p>\n<p>Chuyên đề 8 – Thiết lập mục tiêu HSE</p>\n<p><strong>PHẦN 7 – XÂY DỰNG ROADMAP HSE 3 NĂM</strong></p>\n<p>Chuyên đề 9 – HSE Transformation Roadmap</p>\n<p><strong>PHẦN 8 – CAM KẾT LÃNH ĐẠO</strong></p>\n<p>Chuyên đề 10 – Leadership Commitment Workshop</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "PHẦN 1 – HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 1 – Từ HSE Compliance đến HSE Excellence",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Sự khác biệt giữa doanh nghiệp tuân thủ và doanh nghiệp xuất sắc về HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xu hướng quản trị HSE trên thế giới.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của HSE trong ESG.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của HSE trong phát triển bền vững.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của HSE trong chuỗi cung ứng toàn cầu.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chi phí hữu hình và vô hình của tai nạn lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hiện trạng HSE của doanh nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 2 – Đánh giá mức độ trưởng thành của hệ thống HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mô hình đánh giá:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Reactive.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Dependent.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Independent.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Interdependent.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định doanh nghiệp đang ở cấp độ nào.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định khoảng cách cần cải thiện.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 2 – XÂY DỰNG TẦM NHÌN HSE",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 3 – HSE Vision – Tầm nhìn HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm tầm nhìn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của tầm nhìn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đặc điểm của một tầm nhìn hiệu quả.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tầm nhìn HSE của các tập đoàn hàng đầu thế giới.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ví dụ tham khảo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Zero Harm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Everyone Goes Home Safe Every Day.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety is Our Value.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng dự thảo tầm nhìn HSE cho doanh nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bản dự thảo Tầm nhìn HSE.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 3 – XÂY DỰNG SỨ MỆNH HSE",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 4 – HSE Mission – Sứ mệnh HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm sứ mệnh.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của sứ mệnh.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cách xây dựng sứ mệnh tạo động lực.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đối tượng được bảo vệ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Giá trị doanh nghiệp tạo ra.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cam kết đối với người lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cam kết đối với cộng đồng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bản dự thảo Sứ mệnh HSE.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 4 – XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 5 – HSE Core Values",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các giá trị cốt lõi thường gặp:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety First.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Respect for People.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Accountability.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Integrity.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Continuous Improvement.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Zero Tolerance for Unsafe Acts.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng bộ giá trị cốt lõi HSE riêng của doanh nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bộ giá trị cốt lõi HSE.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 5 – XÂY DỰNG CHIẾN LƯỢC HSE",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 6 – HSE Strategic Planning",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Khái niệm chiến lược HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chiến lược 3 năm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chiến lược 5 năm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mô hình Balanced Scorecard cho HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 7 – Xác định các trụ cột chiến lược",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 1 – Lãnh đạo và văn hóa an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 2 – Quản lý rủi ro.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 3 – Năng lực và nhận thức.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 4 – Hiệu suất môi trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 5 – Sức khỏe nghề nghiệp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Trụ cột 6 – Số hóa và chuyển đổi HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bản đồ chiến lược HSE.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 6 – XÂY DỰNG KPI VÀ MỤC TIÊU HSE",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 8 – Thiết lập mục tiêu HSE",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "KPI dẫn dắt (Leading Indicators).",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "KPI kết quả (Lagging Indicators).",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ví dụ KPI",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Near Miss Reporting.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "BBS Observation.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "JHA Completion.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Safety Walk.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "WSFI.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Closure Rate.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "LTIFR.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "TRIR.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng KPI cho:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ban lãnh đạo.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Sản xuất.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 7 – XÂY DỰNG ROADMAP HSE 3 NĂM",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 9 – HSE Transformation Roadmap",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Năm 1",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây nền tảng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Năm 2",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuẩn hóa hệ thống.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Năm 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Văn hóa an toàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mục tiêu năm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch năm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Dự án ưu tiên.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ngân sách HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Roadmap HSE 3 năm.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 8 – CAM KẾT LÃNH ĐẠO",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 10 – Leadership Commitment Workshop",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ban lãnh đạo cùng xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tuyên bố cam kết HSE.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cam kết trách nhiệm giải trình.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chương trình Leadership Safety Walk.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chương trình Safety Culture Campaign.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 13
-            },
-            {
-                        "category_slug": "carbon",
-                        "title": "Kiểm kê Khí nhà kính theo Nghị định 06/2022/NĐ-CP",
-                        "slug": "kiem-ke-khi-nha-kinh-theo-nghi-dinh-06-2022-nd-cp",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 14
-            },
-            {
-                        "category_slug": "carbon",
-                        "title": "Kiểm kê Khí nhà kính theo ISO 14064-1:2018",
-                        "slug": "kiem-ke-khi-nha-kinh-theo-iso-14064-1-2018",
-                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – XÁC ĐỊNH NGUỒN PHÁT THẢI VÀ THU THẬP DỮ LIỆU\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG TÍNH TOÁN PHÁT THẢI\nGIAI ĐOẠN 4 – XÂY DỰNG HỆ THỐNG TÀI LIỆU VÀ BÁO CÁO\nGIAI ĐOẠN 5 – ĐÀO TẠO VÀ HOÀN THIỆN HỆ THỐNG",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2 – XÁC ĐỊNH NGUỒN PHÁT THẢI VÀ THU THẬP DỮ LIỆU</p>\n<p>GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG TÍNH TOÁN PHÁT THẢI</p>\n<p>GIAI ĐOẠN 4 – XÂY DỰNG HỆ THỐNG TÀI LIỆU VÀ BÁO CÁO</p>\n<p>GIAI ĐOẠN 5 – ĐÀO TẠO VÀ HOÀN THIỆN HỆ THỐNG</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thành lập Ban GHG",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch triển khai",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân công vai trò và trách nhiệm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo nhận thức ISO 14064-1:2018",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan về biến đổi khí hậu và khí nhà kính",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan Scope 1, Scope 2 và Scope 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan ESG và Carbon Management",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 2 – XÁC ĐỊNH NGUỒN PHÁT THẢI VÀ THU THẬP DỮ LIỆU",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xác định Organizational Boundary",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định Operational Boundary",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định nguồn phát thải Scope 1",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định nguồn phát thải Scope 2",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xác định nguồn phát thải Scope 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập danh mục nguồn phát thải",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thu thập Activity Data",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Data Collection System",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá chất lượng dữ liệu",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG TÍNH TOÁN PHÁT THẢI",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xây dựng phương pháp tính toán phát thải",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Áp dụng Emission Factor",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập bảng tính GHG",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tính toán Scope 1",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tính toán Scope 2",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tính toán Scope 3",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra và rà soát dữ liệu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng hệ thống quản lý dữ liệu GHG",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 4 – XÂY DỰNG HỆ THỐNG TÀI LIỆU VÀ BÁO CÁO",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xây dựng GHG Procedure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng SOP thu thập dữ liệu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Data Management Procedure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Risk and Opportunity Assessment",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng Quality Management Plan",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng báo cáo kiểm kê khí nhà kính",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng hồ sơ phục vụ xác minh",
-                                                                        "duration": "02 – 03 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 5 – ĐÀO TẠO VÀ HOÀN THIỆN HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đào tạo đội ngũ thực hiện GHG",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo quản lý dữ liệu phát thải",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo kiểm soát chất lượng dữ liệu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn chuẩn bị xác minh",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Rà soát và hoàn thiện hệ thống",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching thực tế tại doanh nghiệp",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 15
-            },
-            {
-                        "category_slug": "carbon",
-                        "title": "Hướng dẫn Định lượng Khí nhà kính theo ISO 14069:2013",
-                        "slug": "huong-dan-dinh-luong-khi-nha-kinh-theo-iso-14069-2013",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 16
-            },
-            {
-                        "category_slug": "carbon",
-                        "title": "Greenhouse Gas Protocol (GHG Protocol)",
-                        "slug": "greenhouse-gas-protocol-ghg-protocol",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 17
-            },
-            {
-                        "category_slug": "carbon",
-                        "title": "Tính toán Vết Carbon của Sản phẩm theo ISO 14067:2018",
-                        "slug": "tinh-toan-vet-carbon-cua-san-pham-theo-iso-14067-2018",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 18
-            },
-            {
-                        "category_slug": "carbon",
-                        "title": "PAS 2060:2014 – Chứng nhận Trung hòa Carbon",
-                        "slug": "pas-2060-2014-chung-nhan-trung-hoa-carbon",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 19
-            },
-            {
-                        "category_slug": "carbon",
-                        "title": "ISO 14068-1:2023 – Trung hòa Carbon",
-                        "slug": "iso-14068-1-2023-trung-hoa-carbon",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 20
-            },
-            {
-                        "category_slug": "carbon",
-                        "title": "Verified Carbon Standard (VCS) – Tiêu chuẩn Carbon đã được Xác minh",
-                        "slug": "verified-carbon-standard-vcs-tieu-chuan-carbon-da-duoc-xac-minh",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 21
-            },
-            {
-                        "category_slug": "esg",
-                        "title": "Environmental, Social and Governance (ESG) – Môi trường, Xã hội và Quản trị",
-                        "slug": "environmental-social-and-governance-esg-moi-truong-xa-hoi-va-quan-tri",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 22
-            },
-            {
-                        "category_slug": "esg",
-                        "title": "Global Reporting Initiative (GRI) – Sáng kiến Báo cáo Toàn cầu",
-                        "slug": "global-reporting-initiative-gri-sang-kien-bao-cao-toan-cau",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 23
-            },
-            {
-                        "category_slug": "esg",
-                        "title": "QUẢN LÝ NGUỒN CUNG ỨNG RỪNG BỀN VỮNG VÀ TRÁCH NHIỆM",
-                        "slug": "quan-ly-nguon-cung-ung-rung-ben-vung-va-trach-nhiem",
-                        "description": "Chuyên đề 1 – Tổng quan FSC\nChuyên đề 2 – 10 Nguyên tắc FSC\nChuyên đề 3 – FSC và Phát triển bền vững\nChuyên đề 4 – FSC và Chuỗi cung ứng\nChuyên đề 5 – FSC và Doanh nghiệp",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>Chuyên đề 1 – Tổng quan FSC</p>\n<p>Chuyên đề 2 – 10 Nguyên tắc FSC</p>\n<p>Chuyên đề 3 – FSC và Phát triển bền vững</p>\n<p>Chuyên đề 4 – FSC và Chuỗi cung ứng</p>\n<p>Chuyên đề 5 – FSC và Doanh nghiệp</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "Nội dung chi tiết",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Chuyên đề 1 – Tổng quan FSC",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lịch sử hình thành FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Cơ cấu tổ chức FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hệ thống chứng nhận FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 2 – 10 Nguyên tắc FSC",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bao gồm:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tuân thủ pháp luật.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quyền người lao động.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quyền cộng đồng địa phương.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quan hệ với người dân bản địa.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lợi ích từ rừng.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Giá trị môi trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch quản lý.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Giám sát.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Giá trị bảo tồn cao.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hiện các hoạt động quản lý.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 3 – FSC và Phát triển bền vững",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "ESG.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kinh tế tuần hoàn.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Truy xuất nguồn gốc.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bảo tồn đa dạng sinh học.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý tài nguyên thiên nhiên.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 4 – FSC và Chuỗi cung ứng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý nhà cung cấp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Truy xuất nguồn gốc.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá rủi ro nguồn cung.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tuyên bố FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuyên đề 5 – FSC và Doanh nghiệp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Lợi ích thương mại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Yêu cầu khách hàng quốc tế.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "FSC và các thị trường xuất khẩu.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "FSC và chiến lược phát triển bền vững.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 24
-            },
-            {
-                        "category_slug": "esg",
-                        "title": "Science Based Targets initiative (SBTi) – Sáng kiến Mục tiêu Dựa trên Cơ sở Khoa học",
-                        "slug": "science-based-targets-initiative-sbti-sang-kien-muc-tieu-dua-tren-co-so-khoa-hoc",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 25
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "HỆ THỐNG QUẢN LÝ CHUỖI HÀNH TRÌNH SẢN PHẨM FSC",
-                        "slug": "he-thong-quan-ly-chuoi-hanh-trinh-san-pham-fsc",
-                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG FSC CoC\nGIAI ĐOẠN 4 – TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</strong></p>\n<p><strong>GIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)</strong></p>\n<p><strong>GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG FSC CoC</strong></p>\n<p><strong>GIAI ĐOẠN 4 – TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU</strong></p>\n<p><strong>GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN</strong></p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Tổng quan FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan FSC CoC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Các loại chứng nhận FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "FSC 100%.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "FSC Mix.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "FSC Recycled.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Yêu cầu khách hàng và thị trường.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò và trách nhiệm các bộ phận.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thành lập nhóm triển khai FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch triển khai.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ đào tạo nhận thức.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Ban triển khai FSC.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đánh giá hệ thống hiện tại.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá nhà cung cấp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá quản lý kho.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá truy xuất nguồn gốc.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá quản lý hồ sơ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hoạt động sản xuất.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá ghi nhãn sản phẩm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá năng lực nhân sự.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Báo cáo GAP.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Danh mục điểm chưa phù hợp.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kế hoạch hành động.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG FSC CoC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Xây dựng:",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mục tiêu FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình mua hàng FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình tiếp nhận nguyên liệu FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình quản lý kho FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình truy xuất nguồn gốc.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình sản xuất sản phẩm FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình bán hàng FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình quản lý tuyên bố FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình quản lý nhãn FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình kiểm soát hồ sơ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quy trình đánh giá nội bộ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Bộ tài liệu FSC CoC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Biểu mẫu FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Danh mục hồ sơ kiểm soát.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 4 – TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Quản lý nhà cung cấp FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra chứng chỉ FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát hóa đơn và chứng từ FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát tồn kho FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý sản xuất sản phẩm FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý tuyên bố FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quản lý nhãn FSC.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Truy xuất nguồn gốc sản phẩm.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ đào tạo.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ vận hành thực tế.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ truy xuất nguồn gốc.",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đào tạo đánh giá viên nội bộ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hiện đánh giá nội bộ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hành động khắc phục.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xem xét của lãnh đạo.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuẩn bị đánh giá chứng nhận.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đầu ra",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Báo cáo đánh giá nội bộ.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "CAPA Plan.",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hồ sơ sẵn sàng chứng nhận",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 26
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "ISCC (PLUS/EU/CORSIA) & GRS – Tiêu chuẩn Tái chế Toàn cầu",
-                        "slug": "iscc-plus-eu-corsia-grs-tieu-chuan-tai-che-toan-cau",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 27
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "EN 15343 – Truy xuất nguồn gốc và xác định hàm lượng nhựa tái chế trong sản phẩm nhựa",
-                        "slug": "en-15343-truy-xuat-nguon-goc-va-xac-dinh-ham-luong-nhua-tai-che-trong-san-pham-nhua",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 28
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "Cradle to Cradle Certified® – Tiêu chuẩn Thiết kế Sản phẩm Tuần hoàn",
-                        "slug": "cradle-to-cradle-certified-tieu-chuan-thiet-ke-san-pham-tuan-hoan",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 29
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "Higg Facility Environmental Module (Higg FEM)",
-                        "slug": "higg-facility-environmental-module-higg-fem",
-                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – THU THẬP DỮ LIỆU VÀ XÂY DỰNG HỆ THỐNG QUẢN LÝ\nGIAI ĐOẠN 3 – TRIỂN KHAI CÁC MODULE HIGG FEM\nGIAI ĐOẠN 4 – ĐÀO TẠO VÀ TRIỂN KHAI THỰC TẾ\nGIAI ĐOẠN 5 – RÀ SOÁT VÀ HOÀN THIỆN HỆ THỐNG",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2 – THU THẬP DỮ LIỆU VÀ XÂY DỰNG HỆ THỐNG QUẢN LÝ</p>\n<p>GIAI ĐOẠN 3 – TRIỂN KHAI CÁC MODULE HIGG FEM</p>\n<p>GIAI ĐOẠN 4 – ĐÀO TẠO VÀ TRIỂN KHAI THỰC TẾ</p>\n<p>GIAI ĐOẠN 5 – RÀ SOÁT VÀ HOÀN THIỆN HỆ THỐNG</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thành lập Ban Higg FEM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng kế hoạch triển khai",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân công vai trò và trách nhiệm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo nhận thức Higg FEM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan về Sustainability và ESG",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan cấu trúc Higg FEM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng quan Verification Process",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn sử dụng nền tảng Higg FEM",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 2 – THU THẬP DỮ LIỆU VÀ XÂY DỰNG HỆ THỐNG QUẢN LÝ",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Thu thập dữ liệu môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng hệ thống quản lý dữ liệu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát tài liệu và hồ sơ môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập KPI môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát dữ liệu tiêu thụ năng lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát dữ liệu nước",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát dữ liệu chất thải",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát dữ liệu khí thải",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm soát hóa chất",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 3 – TRIỂN KHAI CÁC MODULE HIGG FEM",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Environmental Management System",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chính sách môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Mục tiêu môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Legal Compliance",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Internal Audit",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Management Review",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Energy and GHG",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Energy Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "GHG Inventory",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Energy KPI",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Energy Saving Program",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Water Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Water Consumption",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Water Balance",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Water Reduction Program",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Wastewater Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Waste Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Waste Inventory",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Waste Segregation",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Waste Tracking",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hazardous Waste Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Air Emission",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Air Emission Inventory",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Air Pollution Control",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Monitoring and Reporting",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chemical Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chemical Inventory",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "SDS Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chemical Risk Assessment",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Spill Response",
-                                                                        "duration": "03 – 04 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 4 – ĐÀO TẠO VÀ TRIỂN KHAI THỰC TẾ",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Đào tạo đội ngũ thực hiện Higg FEM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo quản lý dữ liệu môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đào tạo kiểm soát hồ sơ",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Coaching hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn nhập dữ liệu Higg FEM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hướng dẫn chuẩn bị Verification",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hiệu quả áp dụng thực tế",
-                                                                        "duration": "02 – 03 ngày"
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "GIAI ĐOẠN 5 – RÀ SOÁT VÀ HOÀN THIỆN HỆ THỐNG",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Rà soát dữ liệu Higg FEM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra hồ sơ môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá mức độ đáp ứng Higg FEM",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hành động cải tiến",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Hoàn thiện hồ sơ Verification",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Chuẩn bị tiếp đoàn Verification",
-                                                                        "duration": "02 ngày"
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 30
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "Đánh giá Nhà cung cấp",
-                        "slug": "danh-gia-nha-cung-cap",
-                        "description": "NGÀY 1 – TỔNG QUAN VỀ ĐÁNH GIÁ NHÀ CUNG CẤP\nPHẦN 1 – TỔNG QUAN QUẢN LÝ NHÀ CUNG CẤP\nPHẦN 2 – HỆ THỐNG ĐÁNH GIÁ NHÀ CUNG CẤP\nPHẦN 3 – ĐÁNH GIÁ HỆ THỐNG NHÀ CUNG CẤP\nPHẦN 4 – KỸ NĂNG ĐÁNH GIÁ NHÀ CUNG CẤP\nNGÀY 2 – TRIỂN KHAI ĐÁNH GIÁ VÀ CẢI TIẾN NHÀ CUNG CẤP\nPHẦN 5 – ĐÁNH GIÁ HIỆN TRƯỜNG NHÀ CUNG CẤP\nPHẦN 6 – PHÂN TÍCH RỦI RO NHÀ CUNG CẤP\nPHẦN 7 – CAPA VÀ PHÁT TRIỂN NHÀ CUNG CẤP\nPHẦN 8 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NHÀ CUNG CẤP\nPHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>NGÀY 1 – TỔNG QUAN VỀ ĐÁNH GIÁ NHÀ CUNG CẤP</p>\n<p>PHẦN 1 – TỔNG QUAN QUẢN LÝ NHÀ CUNG CẤP</p>\n<p>PHẦN 2 – HỆ THỐNG ĐÁNH GIÁ NHÀ CUNG CẤP</p>\n<p>PHẦN 3 – ĐÁNH GIÁ HỆ THỐNG NHÀ CUNG CẤP</p>\n<p>PHẦN 4 – KỸ NĂNG ĐÁNH GIÁ NHÀ CUNG CẤP</p>\n<p>NGÀY 2 – TRIỂN KHAI ĐÁNH GIÁ VÀ CẢI TIẾN NHÀ CUNG CẤP</p>\n<p>PHẦN 5 – ĐÁNH GIÁ HIỆN TRƯỜNG NHÀ CUNG CẤP</p>\n<p>PHẦN 6 – PHÂN TÍCH RỦI RO NHÀ CUNG CẤP</p>\n<p>PHẦN 7 – CAPA VÀ PHÁT TRIỂN NHÀ CUNG CẤP</p>\n<p>PHẦN 8 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NHÀ CUNG CẤP</p>\n<p>PHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA</p>\n",
-                        "curriculum": [
-                                    {
-                                                "title": "NGÀY 1 – TỔNG QUAN VỀ ĐÁNH GIÁ NHÀ CUNG CẤP",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "PHẦN 1 – TỔNG QUAN QUẢN LÝ NHÀ CUNG CẤP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của nhà cung cấp trong chuỗi cung ứng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Rủi ro trong chuỗi cung ứng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Lifecycle Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tiêu chí lựa chọn nhà cung cấp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Yêu cầu khách hàng và tiêu chuẩn quốc tế",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Vai trò của Supplier Assessment",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 2 – HỆ THỐNG ĐÁNH GIÁ NHÀ CUNG CẤP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Evaluation Process",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Approval Process",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Risk Assessment",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Classification",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier KPI",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Approved Vendor List",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Xây dựng tiêu chí đánh giá nhà cung cấp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập bảng chấm điểm",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Phân loại nhà cung cấp",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 3 – ĐÁNH GIÁ HỆ THỐNG NHÀ CUNG CẤP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hệ thống quản lý chất lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá năng lực sản xuất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá kiểm soát chất lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá truy xuất nguồn gốc",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá năng lực giao hàng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá quản lý kho",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá quản lý thay đổi",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá quản lý rủi ro",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 4 – KỸ NĂNG ĐÁNH GIÁ NHÀ CUNG CẤP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng phỏng vấn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng quan sát hiện trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng đặt câu hỏi",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng thu thập bằng chứng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng viết báo cáo đánh giá",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kỹ năng giao tiếp với nhà cung cấp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành phỏng vấn",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thực hành đánh giá tình huống",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Workshop đánh giá nhà cung cấp",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "NGÀY 2 – TRIỂN KHAI ĐÁNH GIÁ VÀ CẢI TIẾN NHÀ CUNG CẤP",
-                                                "lessons": []
-                                    },
-                                    {
-                                                "title": "PHẦN 5 – ĐÁNH GIÁ HIỆN TRƯỜNG NHÀ CUNG CẤP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá hiện trường sản xuất",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá kiểm soát chất lượng",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá thiết bị và bảo trì",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá nhân sự và đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá quản lý nguyên vật liệu",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá an toàn và môi trường",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá kiểm soát sản phẩm không phù hợp",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 6 – PHÂN TÍCH RỦI RO NHÀ CUNG CẤP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Risk Matrix",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Quality Risk",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Delivery Risk",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Capacity Risk",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Compliance Risk",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "ESG Risk",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Business Continuity Risk",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Nội dung thực hành",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá rủi ro nhà cung cấp",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thiết lập Supplier Risk Register",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Thảo luận tình huống thực tế",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 7 – CAPA VÀ PHÁT TRIỂN NHÀ CUNG CẤP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier CAPA Management",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Root Cause Analysis",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Theo dõi hành động cải tiến",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Development Program",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Improvement Plan",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Performance Monitoring",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 8 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NHÀ CUNG CẤP",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Management Procedure",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier KPI Dashboard",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Audit Checklist",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Scorecard",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Supplier Monitoring System",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tích hợp với ISO 9001, ISO 14001 và ISO 45001",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    },
-                                    {
-                                                "title": "PHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA",
-                                                "lessons": [
-                                                            {
-                                                                        "title": "Ôn tập nội dung đào tạo",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Kiểm tra cuối khóa",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Đánh giá năng lực học viên",
-                                                                        "duration": ""
-                                                            },
-                                                            {
-                                                                        "title": "Tổng kết chương trình đào tạo",
-                                                                        "duration": ""
-                                                            }
-                                                ]
-                                    }
-                        ],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 31
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "Social Accountability 8000 (SA8000) – Tiêu chuẩn Trách nhiệm Xã hội",
-                        "slug": "social-accountability-8000-sa8000-tieu-chuan-trach-nhiem-xa-hoi",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 32
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "Sedex Members Ethical Trade Audit (SMETA)",
-                        "slug": "sedex-members-ethical-trade-audit-smeta",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 33
-            },
-            {
-                        "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
-                        "title": "Business Social Compliance Initiative (BSCI) – Bộ Tiêu chuẩn Tuân thủ Trách nhiệm Xã hội trong Kinh doanh",
-                        "slug": "business-social-compliance-initiative-bsci-bo-tieu-chuan-tuan-thu-trach-nhiem-xa-hoi-trong-kinh-doanh",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 34
-            },
-            {
-                        "category_slug": "cong-trinh-xanh-va-san-pham-ben-vung",
-                        "title": "Leadership in Energy and Environmental Design (LEED) – Hệ thống Đánh giá Công trình Xanh",
-                        "slug": "leadership-in-energy-and-environmental-design-leed-he-thong-danh-gia-cong-trinh-xanh",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 35
-            },
-            {
-                        "category_slug": "cong-trinh-xanh-va-san-pham-ben-vung",
-                        "title": "Environmental Product Declaration (EPD) – Tuyên bố Sản phẩm Môi trường",
-                        "slug": "environmental-product-declaration-epd-tuyen-bo-san-pham-moi-truong",
-                        "description": "",
-                        "content": "",
-                        "curriculum": [],
-                        "price": "Liên hệ",
-                        "is_active": true,
-                        "sort_order": 36
-            }
-]', true);
+        foreach ($this->coursesData() as $courseData) {
+            $category = $categories[$courseData['category_slug']]
+                ?? throw new RuntimeException("Missing course category [{$courseData['category_slug']}].");
 
-        foreach ($coursesData as $courseData) {
-            $catSlug = $courseData['category_slug'];
-            unset($courseData['category_slug']);
+            $title = $this->normalizeLine($courseData['title']);
+            $description = $this->normalizeMultiline($courseData['description'] ?? '');
+            $detail = $this->normalizeMultiline($courseData['detail'] ?? '');
+            $seoSource = $this->plainText($description !== '' ? $description : $detail);
 
-            $courseData['course_category_id'] = $categories[$catSlug]->id;
-
-            Course::create($courseData);
+            Course::create([
+                'course_category_id' => $category->id,
+                'title' => $title,
+                'slug' => $this->uniqueSlug($title),
+                'description' => $description,
+                'content' => $this->buildContent($description),
+                'image' => null,
+                'meta_title' => Str::limit($title.' | GREECO', 70, ''),
+                'meta_description' => Str::limit($seoSource !== '' ? $seoSource : $this->defaultMetaDescription($title), 160, ''),
+                'meta_keywords' => Str::limit($this->buildKeywords($title, $category->name), 250, ''),
+                'canonical_url' => null,
+                'og_image' => null,
+                'tag' => $category->name,
+                'badge_color' => 'bg-success',
+                'price' => 'Liên hệ',
+                'original_price' => null,
+                'discount' => null,
+                'instructor_name' => null,
+                'instructor_role' => null,
+                'instructor_image' => null,
+                'instructor_description' => null,
+                'curriculum' => $this->buildCurriculum($detail !== '' ? $detail : $description),
+                'is_indexable' => true,
+                'is_active' => true,
+                'sort_order' => (int) $courseData['sort_order'],
+            ]);
         }
     }
 
@@ -5871,5 +70,626 @@ return new class extends Migration
         Course::truncate();
         CourseCategory::truncate();
         Schema::enableForeignKeyConstraints();
+    }
+
+    private function uniqueSlug(string $title): string
+    {
+        $baseSlug = Str::slug($title);
+        $slug = $baseSlug;
+        $suffix = 2;
+
+        while (Course::query()->where('slug', $slug)->exists()) {
+            $slug = $baseSlug.'-'.$suffix;
+            $suffix++;
+        }
+
+        return $slug;
+    }
+
+    private function buildContent(string $description): string
+    {
+        if ($description === '') {
+            return '';
+        }
+
+        $paragraphs = array_map(
+            fn (string $line): string => '<p>'.e($line).'</p>',
+            $this->splitLines($description)
+        );
+
+        return '<h3><strong>'.$this->defaultChapterTitle().'</strong></h3>'.PHP_EOL.implode(PHP_EOL, $paragraphs).PHP_EOL;
+    }
+
+    private function buildCurriculum(string $source): array
+    {
+        $lines = $this->splitLines($source);
+        if ($lines === []) {
+            return [];
+        }
+
+        $chapterStyle = $this->detectChapterStyle($lines);
+        $chapters = [];
+        $currentChapter = null;
+
+        for ($index = 0, $lineCount = count($lines); $index < $lineCount; $index++) {
+            $line = $lines[$index];
+
+            if ($this->isSkippableLabel($line)) {
+                continue;
+            }
+
+            $inlineDuration = $this->extractInlineDuration($line);
+            if ($inlineDuration !== null) {
+                $currentChapter = $this->ensureChapter($currentChapter);
+                $currentChapter['lessons'][] = [
+                    'title' => $this->durationLabel(),
+                    'duration' => $inlineDuration,
+                ];
+
+                continue;
+            }
+
+            if ($this->isDurationLabel($line) && isset($lines[$index + 1]) && $this->isDurationValue($lines[$index + 1])) {
+                $currentChapter = $this->ensureChapter($currentChapter);
+                $currentChapter['lessons'][] = [
+                    'title' => $this->normalizeLine($line),
+                    'duration' => $this->normalizeLine($lines[$index + 1]),
+                ];
+                $index++;
+
+                continue;
+            }
+
+            if ($this->matchesChapterStyle($line, $chapterStyle)) {
+                if ($currentChapter !== null) {
+                    $chapters[] = $currentChapter;
+                }
+
+                [$title, $skipNext] = $this->composeMarkerTitle($line, $lines, $index);
+                $currentChapter = [
+                    'title' => $title,
+                    'lessons' => [],
+                ];
+                $index += $skipNext;
+
+                continue;
+            }
+
+            $currentChapter = $this->ensureChapter($currentChapter);
+
+            if ($this->isDurationValue($line)) {
+                $currentChapter['lessons'][] = [
+                    'title' => $this->durationTitle(),
+                    'duration' => $this->normalizeLine($line),
+                ];
+
+                continue;
+            }
+
+            [$lessonTitle, $skipNext] = $this->composeLessonTitle($line, $lines, $index);
+            $currentChapter['lessons'][] = ['title' => $lessonTitle];
+            $index += $skipNext;
+        }
+
+        if ($currentChapter !== null) {
+            $chapters[] = $currentChapter;
+        }
+
+        return array_values(array_filter($chapters, fn (array $chapter): bool => $chapter['title'] !== ''));
+    }
+
+    private function ensureChapter(?array $chapter): array
+    {
+        return $chapter ?? [
+            'title' => $this->defaultChapterTitle(),
+            'lessons' => [],
+        ];
+    }
+
+    /**
+     * @param  array<int, string>  $lines
+     */
+    private function detectChapterStyle(array $lines): string
+    {
+        foreach (['giai_doan', 'ngay', 'phan', 'chuyen_de'] as $style) {
+            foreach ($lines as $line) {
+                if ($this->markerType($line) === $style) {
+                    return $style;
+                }
+            }
+        }
+
+        return 'none';
+    }
+
+    private function matchesChapterStyle(string $line, string $chapterStyle): bool
+    {
+        return $chapterStyle !== 'none' && $this->markerType($line) === $chapterStyle;
+    }
+
+    private function markerType(string $line): ?string
+    {
+        $line = $this->asciiLine($line);
+
+        return match (true) {
+            (bool) preg_match('/^GIAI\s*DOAN\s+\d+/i', $line) => 'giai_doan',
+            (bool) preg_match('/^NGAY\s+\d+/i', $line) => 'ngay',
+            (bool) preg_match('/^PHAN\s+\d+/i', $line) => 'phan',
+            (bool) preg_match('/^Chuyen\s*de\s+\d+/i', $line) => 'chuyen_de',
+            default => null,
+        };
+    }
+
+    /**
+     * @param  array<int, string>  $lines
+     * @return array{0: string, 1: int}
+     */
+    private function composeMarkerTitle(string $line, array $lines, int $index): array
+    {
+        $line = $this->normalizeLine($line);
+
+        if (! $this->isBareMarker($line) || ! isset($lines[$index + 1])) {
+            return [$line, 0];
+        }
+
+        $nextLine = $this->normalizeLine($lines[$index + 1]);
+        if ($this->shouldNotMergeWithPreviousMarker($nextLine)) {
+            return [$line, 0];
+        }
+
+        return [$line.' – '.$nextLine, 1];
+    }
+
+    /**
+     * @param  array<int, string>  $lines
+     * @return array{0: string, 1: int}
+     */
+    private function composeLessonTitle(string $line, array $lines, int $index): array
+    {
+        $line = $this->normalizeLine($line);
+
+        if (! $this->isBareMarker($line) || ! isset($lines[$index + 1])) {
+            return [$line, 0];
+        }
+
+        $nextLine = $this->normalizeLine($lines[$index + 1]);
+        if ($this->shouldNotMergeWithPreviousMarker($nextLine)) {
+            return [$line, 0];
+        }
+
+        return [$line.' – '.$nextLine, 1];
+    }
+
+    private function shouldNotMergeWithPreviousMarker(string $line): bool
+    {
+        return $line === ''
+            || $this->markerType($line) !== null
+            || $this->isSkippableLabel($line)
+            || $this->isDurationValue($line)
+            || $this->isDurationLabel($line);
+    }
+
+    private function isBareMarker(string $line): bool
+    {
+        return (bool) preg_match('/^(GIAI\s*DOAN|NGAY|PHAN|Chuyen\s*de)\s+\d+$/i', $this->asciiLine($line));
+    }
+
+    private function isSkippableLabel(string $line): bool
+    {
+        return (bool) preg_match('/^Noi dung (dao tao|thuc hien|thuc hanh)\s*:?$/i', $this->asciiLine($line));
+    }
+
+    private function isDurationLabel(string $line): bool
+    {
+        return (bool) preg_match('/^Thoi gian du kien\s*:?$/i', $this->asciiLine($line));
+    }
+
+    private function extractInlineDuration(string $line): ?string
+    {
+        if (! preg_match('/^Thoi gian du kien\s*[:]\s*(.+)$/i', $this->asciiLine($line))) {
+            return null;
+        }
+
+        $parts = preg_split('/[:]/u', $line, 2);
+
+        return isset($parts[1]) ? $this->normalizeLine($parts[1]) : null;
+    }
+
+    private function isDurationValue(string $line): bool
+    {
+        return (bool) preg_match('/^\d+\s*(?:[-\x{2013}]\s*\d+\s*)?(?:ngay|buoi|gio|thang)(?:\s+.+)?$/iu', $this->asciiLine($line));
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function splitLines(string $value): array
+    {
+        $normalized = $this->normalizeMultiline($value);
+        if ($normalized === '') {
+            return [];
+        }
+
+        return array_values(array_filter(
+            array_map(fn (string $line): string => $this->normalizeLine($line), preg_split('/\R/u', $normalized) ?: []),
+            fn (string $line): bool => $line !== ''
+        ));
+    }
+
+    private function normalizeMultiline(string $value): string
+    {
+        $value = str_replace(["\r\n", "\r", "\u{00A0}"], ["\n", "\n", ' '], $value);
+        $lines = array_map(fn (string $line): string => $this->normalizeLine($line), explode("\n", $value));
+
+        return trim(implode("\n", array_filter($lines, fn (string $line): bool => $line !== '')));
+    }
+
+    private function normalizeLine(string $value): string
+    {
+        $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $value = str_replace(["\u{00A0}", '•', '·'], [' ', '', ''], $value);
+        $value = preg_replace('/^[\-+*]\s*/u', '', $value) ?? $value;
+        $value = preg_replace('/\s+/u', ' ', $value) ?? $value;
+
+        return trim($value);
+    }
+
+    private function asciiLine(string $value): string
+    {
+        return Str::ascii($this->normalizeLine($value));
+    }
+
+    private function plainText(string $value): string
+    {
+        return trim(preg_replace('/\s+/u', ' ', strip_tags($this->normalizeMultiline($value))) ?? '');
+    }
+
+    private function buildKeywords(string $title, string $categoryName): string
+    {
+        return implode(', ', array_unique(array_filter([
+            $title,
+            $categoryName,
+            'dao tao GREECO',
+            'dao tao phat trien ben vung',
+            'tu van doanh nghiep',
+        ])));
+    }
+
+    private function defaultMetaDescription(string $title): string
+    {
+        return html_entity_decode('Ch&#432;&#417;ng tr&#236;nh &#273;&#224;o t&#7841;o ', ENT_QUOTES | ENT_HTML5, 'UTF-8')
+            .$title
+            .html_entity_decode(' t&#7841;i Vi&#7879;n GREECO.', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    private function defaultChapterTitle(): string
+    {
+        return html_entity_decode('N&#7897;i dung &#273;&#224;o t&#7841;o', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    private function durationLabel(): string
+    {
+        return html_entity_decode('Th&#7901;i gian d&#7921; ki&#7871;n', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    private function durationTitle(): string
+    {
+        return html_entity_decode('Th&#7901;i l&#432;&#7907;ng', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    private function categoriesData(): array
+    {
+        return json_decode(<<<'JSON'
+[
+  {
+    "name": "Hệ thống quản lý ISO và cải tiến doanh nghiệp",
+    "slug": "iso",
+    "icon": "fa-certificate",
+    "color": "#008f79",
+    "bg": "#e6f4f1",
+    "sort_order": 1
+  },
+  {
+    "name": "An toàn – Sức khỏe – Môi trường (HSE)",
+    "slug": "hse",
+    "icon": "fa-shield-heart",
+    "color": "#1f487e",
+    "bg": "#e8eef5",
+    "sort_order": 2
+  },
+  {
+    "name": "Kiểm kê khí nhà kính và quản lý carbon",
+    "slug": "carbon",
+    "icon": "fa-cloud",
+    "color": "#03a9f4",
+    "bg": "#e1f5fe",
+    "sort_order": 3
+  },
+  {
+    "name": "ESG và phát triển bền vững",
+    "slug": "esg",
+    "icon": "fa-leaf",
+    "color": "#4caf50",
+    "bg": "#edf7ed",
+    "sort_order": 4
+  },
+  {
+    "name": "Chuỗi cung ứng bền vững và kinh tế tuần hoàn",
+    "slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "icon": "fa-globe",
+    "color": "#009688",
+    "bg": "#e0f2f1",
+    "sort_order": 5
+  },
+  {
+    "name": "Công trình xanh và sản phẩm bền vững",
+    "slug": "cong-trinh-xanh-va-san-pham-ben-vung",
+    "icon": "fa-building-shield",
+    "color": "#607d8b",
+    "bg": "#eceff1",
+    "sort_order": 6
+  }
+]
+JSON, true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    private function coursesData(): array
+    {
+        return json_decode(<<<'JSON'
+[
+  {
+    "category_slug": "iso",
+    "title": "Xây dựng Hệ thống Quản lý Chất lượng ISO 9001:2015",
+    "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
+    "detail": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nNội dung thực hiện\n• Thành lập Ban ISO\n• Xây dựng kế hoạch triển khai\n• Phân công vai trò và trách nhiệm\n• Đào tạo nhận thức ISO 9001:2015\n• Xây dựng chính sách chất lượng\n• Xây dựng mục tiêu chất lượng\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nNội dung thực hiện\n• Xây dựng quy trình quản lý\n• Xây dựng SOP (Standard Operating Procedure – Quy trình thao tác chuẩn)\n• Xây dựng hướng dẫn công việc\n• Xây dựng biểu mẫu quản lý\n• Thiết lập hệ thống kiểm soát tài liệu và hồ sơ\n• Thiết lập KPI chất lượng\nThời gian dự kiến\n04 – 05 ngày\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nNội dung thực hiện\n• Hướng dẫn áp dụng quy trình\n• Hướng dẫn sử dụng biểu mẫu\n• Coaching áp dụng thực tế tại hiện trường\n• Kiểm soát hồ sơ và tài liệu\n• Theo dõi việc áp dụng hệ thống\n• Hướng dẫn kiểm soát sản phẩm không phù hợp\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nNội dung thực hiện\n• Đào tạo Internal Auditor ISO 9001:2015\n• Kỹ năng đánh giá nội bộ\n• Kỹ năng viết báo cáo đánh giá\n• Root Cause Analysis\n• CAPA Management\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG\nNội dung thực hiện\n• Thực hiện Internal Audit\n• Theo dõi hành động khắc phục\n• Họp xem xét lãnh đạo\n• Hoàn thiện hồ sơ hệ thống\n• Chuẩn bị đánh giá chứng nhận ISO 9001:2015\nThời gian dự kiến\n02 ngày",
+    "sort_order": 1
+  },
+  {
+    "category_slug": "iso",
+    "title": "Xây dựng Hệ thống Quản lý Môi trường ISO 14001:2015",
+    "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
+    "detail": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nNội dung thực hiện\n• Thành lập Ban ISO\n• Xây dựng kế hoạch triển khai\n• Phân công vai trò và trách nhiệm\n• Đào tạo nhận thức ISO 14001:2015\n• Xây dựng chính sách môi trường\n• Xây dựng mục tiêu môi trường\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nNội dung thực hiện\n• Xây dựng quy trình quản lý môi trường\n• Xây dựng SOP (Standard Operating Procedure – Quy trình thao tác chuẩn)\n• Xây dựng hướng dẫn công việc\n• Xây dựng biểu mẫu quản lý môi trường\n• Thiết lập hệ thống kiểm soát tài liệu và hồ sơ\n• Thiết lập KPI môi trường\n• Xây dựng ma trận khía cạnh và tác động môi trường\n• Xây dựng danh mục yêu cầu pháp luật môi trường\nThời gian dự kiến\n04 – 05 ngày\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nNội dung thực hiện\n• Hướng dẫn áp dụng quy trình môi trường\n• Hướng dẫn nhận diện khía cạnh môi trường\n• Hướng dẫn kiểm soát chất thải\n• Hướng dẫn quản lý hóa chất\n• Hướng dẫn kiểm soát sự cố môi trường\n• Coaching áp dụng thực tế tại hiện trường\n• Kiểm soát hồ sơ và tài liệu\n• Theo dõi việc áp dụng hệ thống\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nNội dung thực hiện\n• Đào tạo Internal Auditor ISO 14001:2015\n• Kỹ năng đánh giá nội bộ\n• Kỹ năng viết báo cáo đánh giá\n• Root Cause Analysis\n• CAPA Management\n• Đánh giá tuân thủ pháp luật môi trường\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG\nNội dung thực hiện\n• Thực hiện Internal Audit\n• Theo dõi hành động khắc phục\n• Họp xem xét lãnh đạo\n• Hoàn thiện hồ sơ hệ thống\n• Chuẩn bị đánh giá chứng nhận ISO 14001:2015\nThời gian dự kiến\n02 ngày",
+    "sort_order": 2
+  },
+  {
+    "category_slug": "iso",
+    "title": "Xây dựng Hệ thống Quản lý An toàn và Sức khỏe Nghề nghiệp ISO 45001:2018",
+    "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
+    "detail": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nNội dung thực hiện\n• Thành lập Ban ISO\n• Xây dựng kế hoạch triển khai\n• Phân công vai trò và trách nhiệm\n• Đào tạo nhận thức ISO 45001:2018\n• Xây dựng chính sách an toàn và sức khỏe nghề nghiệp\n• Xây dựng mục tiêu an toàn\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 2 – XÂY DỰNG HỆ THỐNG TÀI LIỆU\nNội dung thực hiện\n• Xây dựng quy trình quản lý an toàn\n• Xây dựng SOP (Standard Operating Procedure – Quy trình thao tác chuẩn)\n• Xây dựng hướng dẫn công việc an toàn\n• Xây dựng biểu mẫu quản lý an toàn\n• Thiết lập hệ thống kiểm soát tài liệu và hồ sơ\n• Thiết lập KPI an toàn\n• Xây dựng ma trận nhận diện mối nguy và đánh giá rủi ro\n• Xây dựng danh mục yêu cầu pháp luật an toàn lao động\n• Xây dựng quy trình ứng phó tình huống khẩn cấp\nThời gian dự kiến\n04 – 05 ngày\nGIAI ĐOẠN 3 – TRIỂN KHAI ÁP DỤNG HỆ THỐNG\nNội dung thực hiện\n• Hướng dẫn áp dụng quy trình an toàn\n• Hướng dẫn nhận diện mối nguy và đánh giá rủi ro\n• Hướng dẫn kiểm soát nhà thầu\n• Hướng dẫn kiểm soát công việc nguy hiểm\n• Hướng dẫn điều tra tai nạn và sự cố\n• Hướng dẫn kiểm soát hóa chất và thiết bị\n• Coaching áp dụng thực tế tại hiện trường\n• Kiểm soát hồ sơ và tài liệu\n• Theo dõi việc áp dụng hệ thống\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 4 – ĐÀO TẠO ĐÁNH GIÁ NỘI BỘ\nNội dung thực hiện\n• Đào tạo Internal Auditor ISO 45001:2018\n• Kỹ năng đánh giá nội bộ\n• Kỹ năng viết báo cáo đánh giá\n• Root Cause Analysis\n• CAPA Management\n• Đánh giá tuân thủ pháp luật an toàn lao động\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG\nNội dung thực hiện\n• Thực hiện Internal Audit\n• Theo dõi hành động khắc phục\n• Họp xem xét lãnh đạo\n• Hoàn thiện hồ sơ hệ thống\n• Chuẩn bị đánh giá chứng nhận ISO 45001:2018\nThời gian dự kiến\n02 ngày",
+    "sort_order": 3
+  },
+  {
+    "category_slug": "iso",
+    "title": "Xây dựng Hệ thống Quản lý Năng lượng ISO 50001:2018",
+    "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – ĐÁNH GIÁ NĂNG LƯỢNG VÀ XÁC ĐỊNH SEU\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NĂNG LƯỢNG\nGIAI ĐOẠN 4 – TRIỂN KHAI ÁP DỤNG VÀ ĐÀO TẠO\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG",
+    "detail": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nNội dung thực hiện\n• Thành lập Ban Energy Team\n• Xây dựng kế hoạch triển khai\n• Phân công vai trò và trách nhiệm\n• Đào tạo nhận thức ISO 50001:2018\n• Tổng quan về quản lý năng lượng\n• Tổng quan về Energy Performance\n• Tổng quan về GHG và Carbon Management\n• Xây dựng chính sách năng lượng\n• Xây dựng mục tiêu năng lượng\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 2 – ĐÁNH GIÁ NĂNG LƯỢNG VÀ XÁC ĐỊNH SEU\nNội dung thực hiện\n• Thu thập dữ liệu năng lượng\n• Phân tích sử dụng năng lượng\n• Xác định Significant Energy Use (SEU)\n• Đánh giá hiệu suất thiết bị\n• Đánh giá hệ thống điện\n• Đánh giá hệ thống khí nén\n• Đánh giá hệ thống hơi\n• Đánh giá động cơ và thiết bị tiêu thụ năng lượng\n• Xây dựng Energy Review\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NĂNG LƯỢNG\nNội dung thực hiện\n• Xây dựng quy trình quản lý năng lượng\n• Xây dựng SOP vận hành năng lượng\n• Thiết lập Energy Baseline\n• Thiết lập Energy Performance Indicator (EnPI)\n• Thiết lập hệ thống giám sát năng lượng\n• Xây dựng KPI năng lượng\n• Xây dựng kế hoạch tiết kiệm năng lượng\n• Thiết lập hệ thống quản lý dữ liệu năng lượng\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 4 – TRIỂN KHAI ÁP DỤNG VÀ ĐÀO TẠO\nNội dung thực hiện\n• Hướng dẫn áp dụng hệ thống ISO 50001\n• Coaching hiện trường\n• Đào tạo kiểm soát vận hành năng lượng\n• Đào tạo quản lý dữ liệu năng lượng\n• Đào tạo Internal Auditor ISO 50001\n• Theo dõi hiệu quả áp dụng thực tế\nThời gian dự kiến\n02 – 03 ngày\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ HOÀN THIỆN HỆ THỐNG\nNội dung thực hiện\n• Thực hiện Internal Audit\n• Theo dõi hành động khắc phục\n• Họp xem xét lãnh đạo\n• Rà soát hệ thống năng lượng\n• Hoàn thiện hồ sơ chứng nhận\n• Chuẩn bị đánh giá chứng nhận ISO 50001:2018\nThời gian dự kiến\n02 ngày",
+    "sort_order": 4
+  },
+  {
+    "category_slug": "iso",
+    "title": "Xây dựng Hệ thống Quản lý Hiệu quả Sử dụng Nước ISO 46001:2019",
+    "description": "",
+    "detail": "",
+    "sort_order": 5
+  },
+  {
+    "category_slug": "hse",
+    "title": "Đánh giá Rủi ro An toàn – Sức khỏe – Môi trường",
+    "description": "NGÀY 1 – NHẬN DIỆN MỐI NGUY VÀ ĐÁNH GIÁ RỦI RO\nNGÀY 2 – KIỂM SOÁT RỦI RO VÀ TRIỂN KHAI THỰC TẾ",
+    "detail": "NGÀY 1 – NHẬN DIỆN MỐI NGUY VÀ ĐÁNH GIÁ RỦI RO\nPHẦN 1 – TỔNG QUAN VỀ ĐÁNH GIÁ RỦI RO\nNội dung đào tạo\n• Khái niệm Hazard và Risk\n• Tư duy phòng ngừa trong công tác an toàn\n• Risk-Based Thinking\n• Tai nạn và nguyên nhân tai nạn\n• Yêu cầu pháp luật liên quan\n• Yêu cầu ISO 45001 và ISO 14001\n• Vai trò của đánh giá rủi ro trong doanh nghiệp\nPHẦN 2 – NHẬN DIỆN MỐI NGUY\nNội dung đào tạo\n• Phương pháp nhận diện mối nguy\n• Nhận diện mối nguy theo công việc\n• Nhận diện mối nguy theo thiết bị\n• Nhận diện mối nguy theo khu vực\n• Nhận diện hành vi không an toàn\n• Nhận diện điều kiện không an toàn\n• Nhận diện tác động môi trường\nCác nhóm mối nguy chính\n• Cơ học\n• Điện\n• Hóa chất\n• Cháy nổ\n• Tiếng ồn\n• Nhiệt\n• Ergonomic\n• Làm việc trên cao\n• Không gian hạn chế\n• Thiết bị nâng\n• Xe nâng và giao thông nội bộ\nPHẦN 3 – PHƯƠNG PHÁP ĐÁNH GIÁ RỦI RO\nNội dung đào tạo\n• Xác định khả năng xảy ra\n• Xác định mức độ hậu quả\n• Xác định mức độ rủi ro\n• Ma trận đánh giá rủi ro\n• Phân loại mức độ rủi ro\n• Xác định mức độ chấp nhận rủi ro\nCác phương pháp áp dụng\n• HIRA (Hazard Identification and Risk Assessment)\n• JSA (Job Safety Analysis)\n• What-if Analysis\n• Checklist Method\n• Bowtie Concept\nPHẦN 4 – THỰC HÀNH NHẬN DIỆN MỐI NGUY\nNội dung thực hành\n• Thực hành nhận diện mối nguy tại hiện trường\n• Thực hành đánh giá rủi ro theo công việc\n• Phân tích tình huống tai nạn thực tế\n• Thảo luận nhóm và trình bày kết quả\nNGÀY 2 – KIỂM SOÁT RỦI RO VÀ TRIỂN KHAI THỰC TẾ\nPHẦN 5 – BIỆN PHÁP KIỂM SOÁT RỦI RO\nNội dung đào tạo\n• Hierarchy of Controls\n• Elimination\n• Substitution\n• Engineering Control\n• Administrative Control\n• PPE (Personal Protective Equipment – Phương tiện bảo vệ cá nhân)\nThiết lập biện pháp kiểm soát\n• Kiểm soát kỹ thuật\n• Kiểm soát hành chính\n• SOP an toàn\n• Permit To Work\n• Lockout Tagout\n• Biển báo và cảnh báo\n• Kiểm tra và giám sát\nPHẦN 6 – ĐÁNH GIÁ RỦI RO TRONG CÁC CÔNG VIỆC NGUY HIỂM\nNội dung đào tạo\n• Làm việc trên cao\n• Hot Work\n• Không gian hạn chế\n• Điện\n• Thiết bị nâng\n• Hóa chất nguy hiểm\n• Xe nâng\n• Bảo trì máy móc\n• Nhà thầu thi công\nPHẦN 7 – ĐIỀU TRA TAI NẠN VÀ ROOT CAUSE ANALYSIS\nNội dung đào tạo\n• Quy trình điều tra tai nạn\n• Thu thập bằng chứng\n• Phân tích nguyên nhân trực tiếp\n• Phân tích nguyên nhân gốc rễ\n• 5 Why\n• Fishbone Diagram\n• Thiết lập CAPA\nPHẦN 8 – TRIỂN KHAI HỆ THỐNG ĐÁNH GIÁ RỦI RO TẠI DOANH NGHIỆP\nNội dung đào tạo\n• Thiết lập Risk Assessment Procedure\n• Thiết lập Risk Register\n• Cập nhật đánh giá rủi ro\n• Đánh giá rủi ro theo thay đổi\n• Theo dõi hành động kiểm soát\n• Tích hợp với ISO 45001 và ISO 14001\nPHẦN 9 – THỰC HÀNH VÀ ĐÁNH GIÁ CUỐI KHÓA\nNội dung thực hiện\n• Thực hành đánh giá rủi ro theo nhóm\n• Trình bày kết quả\n• Coaching và góp ý\n• Kiểm tra cuối khóa\n• Tổng kết đào tạo",
+    "sort_order": 6
+  },
+  {
+    "category_slug": "hse",
+    "title": "Quản lý Hóa chất trong Doanh nghiệp",
+    "description": "NGÀY 1 – TỔNG QUAN VỀ QUẢN LÝ HÓA CHẤT VÀ NHẬN DIỆN RỦI RO\nNGÀY 2 – KIỂM SOÁT HÓA CHẤT VÀ ỨNG PHÓ SỰ CỐ",
+    "detail": "NGÀY 1 – TỔNG QUAN VỀ QUẢN LÝ HÓA CHẤT VÀ NHẬN DIỆN RỦI RO\nPHẦN 1 – TỔNG QUAN VỀ QUẢN LÝ HÓA CHẤT\nNội dung đào tạo\n• Tổng quan về hóa chất trong doanh nghiệp\n• Nguy cơ và tác động của hóa chất\n• Các sự cố hóa chất điển hình\n• Yêu cầu pháp luật liên quan\n• Yêu cầu ISO 14001 và ISO 45001 liên quan đến hóa chất\n• Vai trò và trách nhiệm trong quản lý hóa chất\nPHẦN 2 – NHẬN DIỆN MỐI NGUY HÓA CHẤT\nNội dung đào tạo\n• Phân loại hóa chất nguy hiểm\n• Nhận diện mối nguy hóa chất\n• Tính chất vật lý và hóa học nguy hiểm\n• Hóa chất cháy nổ\n• Hóa chất ăn mòn\n• Hóa chất độc hại\n• Hóa chất phản ứng mạnh\n• Tác động sức khỏe nghề nghiệp\n• Tác động môi trường\nPHẦN 3 – SDS VÀ GHS\nNội dung đào tạo\n• Cấu trúc SDS\n• Cách đọc SDS\n• Nhãn GHS\n• Pictogram cảnh báo\n• Signal Word\n• Hazard Statement\n• Precautionary Statement\n• Yêu cầu ghi nhãn hóa chất\nNội dung thực hành\n• Thực hành đọc SDS\n• Nhận diện nhãn GHS\n• Phân tích thông tin hóa chất thực tế\nPHẦN 4 – ĐÁNH GIÁ RỦI RO HÓA CHẤT\nNội dung đào tạo\n• Nhận diện rủi ro hóa chất\n• Đánh giá mức độ rủi ro\n• Exposure Assessment\n• Risk Matrix\n• Biện pháp kiểm soát hóa chất\n• Hierarchy of Controls\nNội dung thực hành\n• Thực hành đánh giá rủi ro hóa chất\n• Thảo luận tình huống thực tế\n• Coaching hiện trường\nNGÀY 2 – KIỂM SOÁT HÓA CHẤT VÀ ỨNG PHÓ SỰ CỐ\nPHẦN 5 – QUẢN LÝ LƯU TRỮ VÀ SỬ DỤNG HÓA CHẤT\nNội dung đào tạo\n• Nguyên tắc lưu trữ hóa chất\n• Phân khu hóa chất\n• Tương thích hóa chất\n• Secondary Containment\n• Quản lý tồn kho hóa chất\n• Kiểm soát cấp phát hóa chất\n• Quản lý hóa chất hết hạn\n• Kiểm soát nhà thầu hóa chất\nPHẦN 6 – KIỂM SOÁT PHƠI NHIỄM VÀ PPE\nNội dung đào tạo\n• Đường phơi nhiễm hóa chất\n• Kiểm soát phơi nhiễm\n• Thông gió và hút cục bộ\n• PPE (Personal Protective Equipment – Phương tiện bảo vệ cá nhân)\n• Eyewash và Safety Shower\n• Monitoring hóa chất\n• Kiểm tra sức khỏe nghề nghiệp\nPHẦN 7 – ỨNG PHÓ SỰ CỐ HÓA CHẤT\nNội dung đào tạo\n• Quy trình ứng phó sự cố hóa chất\n• Spill Control\n• Sự cố rò rỉ hóa chất\n• Cháy nổ hóa chất\n• Sơ cứu phơi nhiễm hóa chất\n• Emergency Response\n• Điều tra sự cố hóa chất\nNội dung thực hành\n• Thực hành ứng phó sự cố hóa chất\n• Thực hành xử lý spill kit\n• Thảo luận tình huống thực tế\nPHẦN 8 – XÂY DỰNG HỆ THỐNG QUẢN LÝ HÓA CHẤT\nNội dung đào tạo\n• Chemical Management Procedure\n• Chemical Register\n• Chemical Approval Process\n• Risk Assessment\n• Inspection Checklist\n• Chemical Audit\n• Tích hợp với ISO 14001 và ISO 45001\nPHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA\nNội dung thực hiện\n• Ôn tập nội dung đào tạo\n• Kiểm tra cuối khóa\n• Đánh giá năng lực học viên\n• Tổng kết chương trình đào tạo",
+    "sort_order": 7
+  },
+  {
+    "category_slug": "hse",
+    "title": "Điều tra Sự cố và Phân tích Nguyên nhân Gốc rễ (Root Cause Analysis – RCA)",
+    "description": "NGÀY 1 – TỔNG QUAN ĐIỀU TRA SỰ CỐ VÀ PHÂN TÍCH NGUYÊN NHÂN\nPHẦN 1 – TỔNG QUAN VỀ ĐIỀU TRA SỰ CỐ VÀ RCA\nPHẦN 2 – QUY TRÌNH ĐIỀU TRA SỰ CỐ\nPHẦN 3 – CÁC PHƯƠNG PHÁP PHÂN TÍCH NGUYÊN NHÂN GỐC RỄ\nPHẦN 4 – HUMAN FACTOR VÀ HÀNH VI TRONG SỰ CỐ\nNGÀY 2 – THIẾT LẬP GIẢI PHÁP VÀ TRIỂN KHAI THỰC TẾ\nPHẦN 5 – THIẾT LẬP HÀNH ĐỘNG KHẮC PHỤC VÀ PHÒNG NGỪA\nPHẦN 6 – RCA TRONG CÁC HOẠT ĐỘNG DOANH NGHIỆP\nPHẦN 7 – XÂY DỰNG HỆ THỐNG ĐIỀU TRA SỰ CỐ TẠI DOANH NGHIỆP\nPHẦN 8 – WORKSHOP THỰC HÀNH RCA\nPHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA",
+    "detail": "NGÀY 1 – TỔNG QUAN ĐIỀU TRA SỰ CỐ VÀ PHÂN TÍCH NGUYÊN NHÂN\nPHẦN 1 – TỔNG QUAN VỀ ĐIỀU TRA SỰ CỐ VÀ RCA\nNội dung đào tạo\n• Khái niệm Incident, Accident và Near Miss\n• Tầm quan trọng của điều tra sự cố\n• Chi phí ẩn của tai nạn và sự cố\n• Nguyên tắc điều tra sự cố\n• Khái niệm Root Cause Analysis\n• Direct Cause và Root Cause\n• Tư duy phòng ngừa và cải tiến liên tục\nPHẦN 2 – QUY TRÌNH ĐIỀU TRA SỰ CỐ\nNội dung đào tạo\n• Quy trình điều tra sự cố\n• Thu thập bằng chứng\n• Thu thập thông tin hiện trường\n• Phỏng vấn nhân chứng\n• Chụp hình và lưu hồ sơ\n• Xác định chuỗi sự kiện\n• Phân tích điều kiện và hành vi\n• Xây dựng Timeline sự cố\nPHẦN 3 – CÁC PHƯƠNG PHÁP PHÂN TÍCH NGUYÊN NHÂN GỐC RỄ\nNội dung đào tạo\n• 5 Why Analysis\n• Fishbone Diagram\n• Fault Tree Analysis\n• Barrier Analysis\n• Cause and Effect Analysis\n• Human Factor Analysis\nNội dung thực hành\n• Thực hành phân tích tình huống sự cố\n• Xây dựng Fishbone Diagram\n• Thực hành 5 Why\n• Thảo luận nhóm và trình bày kết quả\nPHẦN 4 – HUMAN FACTOR VÀ HÀNH VI TRONG SỰ CỐ\nNội dung đào tạo\n• Human Error\n• Unsafe Behavior\n• Unsafe Condition\n• Organizational Failure\n• Leadership Failure\n• Communication Failure\n• Work Pressure\n• Fatigue\n• Safety Culture\nNGÀY 2 – THIẾT LẬP GIẢI PHÁP VÀ TRIỂN KHAI THỰC TẾ\nPHẦN 5 – THIẾT LẬP HÀNH ĐỘNG KHẮC PHỤC VÀ PHÒNG NGỪA\nNội dung đào tạo\n• CAPA (Corrective and Preventive Action)\n• Thiết lập hành động hiệu quả\n• Kiểm soát tái diễn\n• Theo dõi hiệu quả hành động\n• Đánh giá tính bền vững của giải pháp\nNội dung thực hành\n• Thiết lập CAPA cho tình huống thực tế\n• Đánh giá hiệu lực hành động\n• Thảo luận nhóm\nPHẦN 6 – RCA TRONG CÁC HOẠT ĐỘNG DOANH NGHIỆP\nNội dung đào tạo\n• RCA trong tai nạn lao động\n• RCA trong lỗi chất lượng\n• RCA trong sự cố môi trường\n• RCA trong sự cố thiết bị\n• RCA trong Near Miss\n• RCA trong hoạt động sản xuất\nPHẦN 7 – XÂY DỰNG HỆ THỐNG ĐIỀU TRA SỰ CỐ TẠI DOANH NGHIỆP\nNội dung đào tạo\n• Xây dựng Incident Investigation Procedure\n• Thiết lập Incident Reporting System\n• Thiết lập RCA Team\n• Quản lý hồ sơ điều tra\n• Theo dõi xu hướng sự cố\n• Tích hợp RCA với ISO 45001 và ISO 9001\nPHẦN 8 – WORKSHOP THỰC HÀNH RCA\nNội dung thực hiện\n• Phân tích Case Study thực tế\n• Điều tra tình huống mô phỏng\n• Xây dựng Timeline sự cố\n• Thực hiện RCA theo nhóm\n• Trình bày kết quả và coaching\nPHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA\nNội dung thực hiện\n• Ôn tập nội dung đào tạo\n• Kiểm tra cuối khóa\n• Đánh giá năng lực học viên\n• Tổng kết chương trình đào tạo",
+    "sort_order": 8
+  },
+  {
+    "category_slug": "hse",
+    "title": "Phát triển năng lực cán bộ An toàn – Sức khỏe – Môi trường (HSE OFFICER)",
+    "description": "NGÀY 01\nNỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO\nChuyên đề 1\nTổng quan về HSE trong doanh nghiệp\nChuyên đề 2\nNhận diện mối nguy và đánh giá rủi ro\nChuyên đề 3\nKiểm tra hiện trường và Safety Patrol\nNGÀY 02\nQUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP\nChuyên đề 4\nQuản lý máy móc thiết bị\nChuyên đề 5\nQuản lý hóa chất\nChuyên đề 6\nQuản lý sức khỏe nghề nghiệp\nChuyên đề 7\nĐiều tra tai nạn lao động\nNGÀY 03\nQUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER\nChuyên đề 8\nQuản lý môi trường\nChuyên đề 9\nỨng phó khẩn cấp\nChuyên đề 10\nKỹ năng chuyên nghiệp của HSE Officer",
+    "detail": "NGÀY 01\nNỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO\nChuyên đề 1\nTổng quan về HSE trong doanh nghiệp\nNội dung đào tạo:\n• Vai trò của HSE Officer.\n• Trách nhiệm pháp lý của doanh nghiệp.\n• Trách nhiệm của cán bộ HSE.\n• Hệ thống quản lý HSE hiện đại.\n• Tổng quan ISO 14001.\n• Tổng quan ISO 45001.\n• Tổng quan SMETA.\n• Tổng quan BSCI.\n• Các yêu cầu khách hàng thường gặp.\nChuyên đề 2\nNhận diện mối nguy và đánh giá rủi ro\nNội dung đào tạo:\n• Khái niệm mối nguy.\n• Khái niệm rủi ro.\n• Phân loại mối nguy.\nBao gồm:\n• Mối nguy cơ học.\n• Mối nguy điện.\n• Mối nguy hóa chất.\n• Mối nguy tiếng ồn.\n• Mối nguy bụi.\n• Mối nguy nhiệt.\n• Mối nguy công thái học.\n• Mối nguy giao thông nội bộ.\nThực hành:\n• Xây dựng bảng nhận diện mối nguy.\n• Xây dựng ma trận đánh giá rủi ro.\n• Thực hành đánh giá rủi ro thực tế.\nChuyên đề 3\nKiểm tra hiện trường và Safety Patrol\nNội dung đào tạo:\n• Phương pháp kiểm tra hiện trường.\n• Quan sát hành vi không an toàn.\n• Điều kiện không an toàn.\n• Kỹ năng giao tiếp với người lao động.\n• Kỹ năng ghi nhận bằng chứng.\n• Kỹ năng lập biên bản.\nThực hành:\n• Safety Walk.\n• Safety Observation.\n• Near Miss Reporting.\nNGÀY 02\nQUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP\nChuyên đề 4\nQuản lý máy móc thiết bị\nNội dung đào tạo:\n• Kiểm soát thiết bị có yêu cầu nghiêm ngặt.\n• Kiểm định thiết bị.\n• Bảo trì phòng ngừa.\n• Khóa và gắn thẻ (LOTO).\n• Che chắn máy.\n• An toàn điện.\nChuyên đề 5\nQuản lý hóa chất\nNội dung đào tạo:\n• Hệ thống GHS.\n• Nhãn hóa chất.\n• Phiếu SDS.\n• Đánh giá rủi ro hóa chất.\n• Kho hóa chất.\n• Ứng phó tràn đổ.\n• PPE đối với hóa chất.\nThực hành:\n• Kiểm tra nhãn hóa chất.\n• Đánh giá khu vực lưu trữ.\nChuyên đề 6\nQuản lý sức khỏe nghề nghiệp\nNội dung đào tạo:\n• Bệnh nghề nghiệp.\n• Quan trắc môi trường lao động.\n• Khám sức khỏe định kỳ.\n• Khám bệnh nghề nghiệp.\n• Quản lý lao động nữ.\n• Quản lý lao động chưa thành niên.\nChuyên đề 7\nĐiều tra tai nạn lao động\nNội dung đào tạo:\n• Khái niệm tai nạn lao động.\n• Near Miss.\n• Incident.\n• Root Cause Analysis.\nCác công cụ:\n• 5 Why.\n• Fishbone Diagram.\n• Corrective Action Plan.\nThực hành:\n• Phân tích tình huống thực tế.\n• Lập báo cáo điều tra.\nNGÀY 03\nQUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER\nChuyên đề 8\nQuản lý môi trường\nNội dung đào tạo:\n• Khía cạnh môi trường.\n• Tác động môi trường.\n• Chất thải nguy hại.\n• Chất thải thông thường.\n• Nước thải.\n• Khí thải.\n• Tiếng ồn.\n• Tiết kiệm năng lượng.\nThực hành:\n• Nhận diện khía cạnh môi trường.\n• Đánh giá mức độ tác động.\nChuyên đề 9\nỨng phó khẩn cấp\nNội dung đào tạo:\n• Cháy nổ.\n• Tràn đổ hóa chất.\n• Tai nạn lao động.\n• Mất điện.\n• Thiên tai.\nThực hành:\n• Xây dựng kịch bản ứng phó.\n• Tổ chức diễn tập.\nChuyên đề 10\nKỹ năng chuyên nghiệp của HSE Officer\nNội dung đào tạo:\n• Kỹ năng đào tạo nội bộ.\n• Kỹ năng thuyết trình.\n• Kỹ năng viết báo cáo.\n• Kỹ năng lập KPI.\n• Kỹ năng xây dựng chương trình HSE.\n• Kỹ năng làm việc với cơ quan chức năng.\n• Kỹ năng làm việc với khách hàng đánh giá.",
+    "sort_order": 9
+  },
+  {
+    "category_slug": "hse",
+    "title": "LÃNH ĐẠO AN TOÀN – XÂY DỰNG VĂN HÓA AN TOÀN VÀ QUẢN LÝ RỦI RO THẢM HỌA",
+    "description": "NGÀY 01\nPROCESS SAFETY MANAGEMENT (PSM)\nLÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA\nChuyên đề 1\nBài học từ các thảm họa công nghiệp trên thế giới\nPhân tích các vụ việc điển hình:\nChuyên đề 2\nTổng quan Process Safety Management (PSM)\nChuyên đề 3\nVai trò lãnh đạo trong quản lý rủi ro thảm họa\nNGÀY 02\nXÂY DỰNG VĂN HÓA AN TOÀN\nChuyên đề 4\nSafety Culture – Văn hóa an toàn là gì?\nChuyên đề 5\nHành vi lãnh đạo ảnh hưởng đến văn hóa an toàn\nChuyên đề 6\nTrách nhiệm giải trình về an toàn (Safety Accountability)\nNGÀY 03\nTỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG\nChuyên đề 7\nCác công cụ lãnh đạo an toàn hiện đại\nChuyên đề 8\nXây dựng chiến lược văn hóa an toàn\nChuyên đề 9\nCam kết lãnh đạo và kế hoạch hành động",
+    "detail": "NGÀY 01\nPROCESS SAFETY MANAGEMENT (PSM)\nLÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA\nChuyên đề 1\nBài học từ các thảm họa công nghiệp trên thế giới\nPhân tích các vụ việc điển hình:\n• Bhopal – Ấn Độ.\n• Piper Alpha – Vương quốc Anh.\n• Texas City – Hoa Kỳ.\n• Deepwater Horizon.\n• Beirut Explosion.\n• Các sự cố cháy nổ lớn tại Việt Nam.\nNội dung trọng tâm\n• Vì sao doanh nghiệp thất bại?\n• Vai trò của lãnh đạo trong các thảm họa.\n• Các dấu hiệu cảnh báo bị bỏ qua.\n• Chi phí thực sự của một tai nạn nghiêm trọng.\nChuyên đề 2\nTổng quan Process Safety Management (PSM)\nNội dung:\n• Khái niệm PSM.\n• Sự khác biệt giữa:\nAn toàn nghề nghiệp An toàn quá trình\nTai nạn cá nhân Sự cố thảm họa\nTác động cục bộ Tác động quy mô lớn\nMất ngày công Mất nhà máy\nChấn thương Tử vong hàng loạt\nCác yếu tố cốt lõi của PSM\n• Leadership Commitment.\n• Risk Management.\n• Asset Integrity.\n• Management of Change.\n• Emergency Preparedness.\n• Incident Investigation.\n• Process Safety Information.\nChuyên đề 3\nVai trò lãnh đạo trong quản lý rủi ro thảm họa\nNội dung:\n• Risk Governance.\n• Risk Appetite.\n• Risk Ownership.\n• Leadership Visibility.\n• Safety Accountability.\nWorkshop\nĐánh giá mức độ trưởng thành của hệ thống PSM hiện tại.\nNGÀY 02\nXÂY DỰNG VĂN HÓA AN TOÀN\nChuyên đề 4\nSafety Culture – Văn hóa an toàn là gì?\nNội dung:\n• Các cấp độ trưởng thành văn hóa an toàn.\n• Mô hình Bradley Curve.\n• Mô hình Hudson Safety Culture.\n• Từ \"Compliance\" đến \"Commitment\".\nĐánh giá hiện trạng\nDoanh nghiệp đang ở cấp độ nào?\n• Reactive.\n• Dependent.\n• Independent.\n• Interdependent.\nChuyên đề 5\nHành vi lãnh đạo ảnh hưởng đến văn hóa an toàn\nNội dung:\n• Những hành vi lãnh đạo tạo nên văn hóa an toàn.\n• Những hành vi lãnh đạo phá hủy văn hóa an toàn.\n• Quyền lực của người quản lý tuyến đầu.\n• Leadership Walkthrough.\n• Safety Gemba Walk.\nWorkshop\nTự đánh giá phong cách lãnh đạo an toàn của từng học viên.\nChuyên đề 6\nTrách nhiệm giải trình về an toàn (Safety Accountability)\nNội dung:\n• Khác biệt giữa Responsibility và Accountability.\n• Trách nhiệm của Tổng Giám đốc.\n• Trách nhiệm của Giám đốc nhà máy.\n• Trách nhiệm của Quản lý cấp trung.\n• Trách nhiệm của Giám sát.\nXây dựng:\n• Safety Accountability Matrix.\n• Safety KPI Cascade.\nNGÀY 03\nTỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG\nChuyên đề 7\nCác công cụ lãnh đạo an toàn hiện đại\nNội dung:\n• Near Miss Management.\n• Safety Observation.\n• Life Saving Rules.\n• Safety Walk.\n• Management Safety Tour.\n• Leadership Field Visit.\n• High Risk Activity Review.\nXây dựng hệ thống KPI chủ động\nBao gồm:\n• Near Miss Reporting Rate.\n• Safety Walk Completion.\n• Action Closure Rate.\n• Training Completion Rate.\n• High Risk Audit Score.\nChuyên đề 8\nXây dựng chiến lược văn hóa an toàn\nNội dung:\n• Safety Vision.\n• Safety Mission.\n• Safety Strategic Plan.\n• Communication Campaign.\n• Employee Engagement.\nWorkshop\nXây dựng Roadmap Văn hóa An toàn 12 tháng.\nChuyên đề 9\nCam kết lãnh đạo và kế hoạch hành động\nThảo luận:\n• Các rào cản hiện tại.\n• Các cơ hội cải tiến.\n• Các mục tiêu ưu tiên.\nKết quả cuối khóa\nMỗi lãnh đạo xây dựng:\n• Cam kết an toàn cá nhân.\n• Kế hoạch hành động 90 ngày.\n• Kế hoạch cải tiến 12 tháng.\n• Chương trình hiện diện lãnh đạo tại hiện trường.",
+    "sort_order": 10
+  },
+  {
+    "category_slug": "hse",
+    "title": "XÂY DỰNG VĂN HÓA AN TOÀN VÀ QUẢN LÝ RỦI RO CHỦ ĐỘNG CHO QUẢN LÝ VỀ AN TOÀN",
+    "description": "NGÀY 01\nXÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS\nChuyên đề 1\nVai trò lãnh đạo trong quản lý an toàn\nChuyên đề 2\nQuản lý Near Miss\nChuyên đề 3\nĐiều tra Near Miss\nNGÀY 02\nBEHAVIOR BASED SAFETY (BBS)\nChuyên đề 4\nTổng quan BBS\nChuyên đề 5\nThiết kế chương trình BBS\nChuyên đề 6\nKỹ năng Safety Coaching\nNGÀY 03\nLIFE SAVING RULES (LSR) VÀ WSFI\nChuyên đề 7\nLife Saving Rules\nChuyên đề 8\nWorkplace Safety Field Inspection (WSFI)\nNGÀY 04\nJOB HAZARD ANALYSIS (JHA)\nChuyên đề 9\nPhân tích công việc và nhận diện nguy cơ\nChuyên đề 10\nThực hành JHA\nChuyên đề 11\nPermit To Work liên kết JHA\nNGÀY 05\nĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 12\nĐánh giá rủi ro nâng cao\nChuyên đề 13\nThiết lập KPI an toàn chủ động\nChuyên đề 14\nXây dựng Roadmap HSE 12 tháng",
+    "detail": "NGÀY 01\nXÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS\nChuyên đề 1\nVai trò lãnh đạo trong quản lý an toàn\nNội dung đào tạo:\n• Từ quản lý an toàn sang lãnh đạo an toàn.\n• Mô hình Bradley Curve.\n• Safety Culture Maturity.\n• Các cấp độ trưởng thành văn hóa an toàn.\n• Vai trò của lãnh đạo tuyến đầu.\nChuyên đề 2\nQuản lý Near Miss\nNội dung đào tạo:\n• Khái niệm Near Miss.\n• Mối liên hệ giữa Near Miss và tai nạn.\n• Mô hình Heinrich Pyramid.\n• Các loại Near Miss phổ biến.\n• Quy trình báo cáo Near Miss.\nWorkshop\nXây dựng:\n• Quy trình Near Miss.\n• Phiếu báo cáo Near Miss.\n• KPI Near Miss.\n• Chương trình thưởng khuyến khích báo cáo.\nChuyên đề 3\nĐiều tra Near Miss\nCông cụ áp dụng:\n• 5 Why.\n• Fishbone Diagram.\n• Root Cause Analysis.\n• Corrective Action Plan.\nThực hành\nĐiều tra 05 tình huống Near Miss thực tế.\nNGÀY 02\nBEHAVIOR BASED SAFETY (BBS)\nChuyên đề 4\nTổng quan BBS\nNội dung:\n• Hành vi ảnh hưởng đến tai nạn như thế nào.\n• Mô hình ABC.\n• Human Factors.\n• Unsafe Act.\n• Unsafe Condition.\nChuyên đề 5\nThiết kế chương trình BBS\nNội dung:\n• Xác định Critical Behaviors.\n• Xây dựng Checklist BBS.\n• Phân công Observer.\n• Phương pháp thu thập dữ liệu.\nWorkshop\nThiết kế:\n• BBS Observation Card.\n• BBS KPI.\n• Dashboard BBS.\nChuyên đề 6\nKỹ năng Safety Coaching\nNội dung:\n• Quan sát hành vi.\n• Phản hồi tích cực.\n• Coaching tại hiện trường.\n• Giao tiếp với người lao động.\nThực hành\nRole Play BBS Coaching.\nNGÀY 03\nLIFE SAVING RULES (LSR) VÀ WSFI\nChuyên đề 7\nLife Saving Rules\nNội dung:\n• Khái niệm Life Saving Rules.\n• Các hành vi có nguy cơ tử vong.\n• Các nguyên nhân gây tai nạn nghiêm trọng.\nXây dựng bộ LSR\nBao gồm:\n• Khóa và gắn thẻ.\n• Làm việc trên cao.\n• Không gian hạn chế.\n• Điện.\n• Xe nâng.\n• Hóa chất.\n• Thiết bị nâng.\nWorkshop\nXây dựng:\n• Bộ 10 – 12 Life Saving Rules cho nhà máy.\nChuyên đề 8\nWorkplace Safety Field Inspection (WSFI)\nNội dung:\n• Khác biệt giữa Audit và Inspection.\n• Phương pháp WSFI.\n• Kỹ thuật quan sát hiện trường.\n• Kỹ năng phát hiện nguy cơ.\nWorkshop\nXây dựng:\n• Checklist WSFI.\n• Lịch WSFI.\n• KPI WSFI.\nNGÀY 04\nJOB HAZARD ANALYSIS (JHA)\nChuyên đề 9\nPhân tích công việc và nhận diện nguy cơ\nNội dung:\n• Khái niệm JHA.\n• Khi nào cần JHA.\n• Các bước thực hiện JHA.\nChuyên đề 10\nThực hành JHA\nThực hiện JHA cho:\n• Xe nâng.\n• Làm việc trên cao.\n• Bảo trì máy.\n• Hàn cắt.\n• Hóa chất.\n• Không gian hạn chế.\nWorkshop\nXây dựng:\n• Biểu mẫu JHA.\n• Quy trình JHA.\n• Ma trận phê duyệt JHA.\nChuyên đề 11\nPermit To Work liên kết JHA\nNội dung:\n• Giấy phép làm việc.\n• Kiểm soát công việc nguy hiểm.\n• Trách nhiệm các bên.\nNGÀY 05\nĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 12\nĐánh giá rủi ro nâng cao\nNội dung:\n• ISO 45001 Risk Based Thinking.\n• Ma trận rủi ro.\n• HIRA (Hazard Identification and Risk Assessment).\n• ALARP Principle.\n• Risk Register.\nChuyên đề 13\nThiết lập KPI an toàn chủ động\nKPI đề xuất:\n• Near Miss Rate.\n• BBS Observation.\n• JHA Completion.\n• WSFI Closure Rate.\n• Action Closure Rate.\n• Safety Training Completion.\nChuyên đề 14\nXây dựng Roadmap HSE 12 tháng\nWorkshop nhóm:\nXây dựng:\n• Kế hoạch Near Miss.\n• Kế hoạch BBS.\n• Kế hoạch JHA.\n• Kế hoạch WSFI.\n• Kế hoạch đào tạo.\n• Kế hoạch cải tiến văn hóa an toàn.",
+    "sort_order": 11
+  },
+  {
+    "category_slug": "hse",
+    "title": "XÂY DỰNG HỆ THỐNG QUẢN LÝ LAO ĐỘNG VÀ TRÁCH NHIỆM XÃ HỘI THEO YÊU CẦU CASCALE",
+    "description": "GIAI ĐOẠN 1\nKHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2\nĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nGIAI ĐOẠN 3\nXÂY DỰNG HỆ THỐNG HIGG FSLM\nGIAI ĐOẠN 4\nTRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU\nGIAI ĐOẠN 5\nTỰ ĐÁNH GIÁ HIGG FSLM\nGIAI ĐOẠN 6\nPRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG",
+    "detail": "GIAI ĐOẠN 1\nKHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nNội dung thực hiện\n• Tổng quan Cascale và Higg Index.\n• Tổng quan Higg FSLM.\n• Mục tiêu và lợi ích của Higg FSLM.\n• Cấu trúc đánh giá Higg FSLM.\n• Vai trò của các bộ phận.\n• Thành lập nhóm triển khai.\n• Xây dựng kế hoạch thực hiện.\nĐầu ra\n• Kế hoạch triển khai.\n• Hồ sơ đào tạo nhận thức.\n• Ban triển khai Higg FSLM.\nGIAI ĐOẠN 2\nĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nNội dung thực hiện\nĐánh giá hiện trạng hệ thống quản lý lao động và trách nhiệm xã hội:\nQuản trị và hệ thống quản lý\n• Chính sách.\n• Mục tiêu.\n• Trách nhiệm.\n• Truyền thông.\n• Đánh giá nội bộ.\nTuyển dụng và lao động\n• Tuyển dụng.\n• Hợp đồng lao động.\n• Hồ sơ lao động.\n• Lao động thời vụ.\n• Lao động chưa thành niên.\nTiền lương và phúc lợi\n• Lương tối thiểu.\n• Làm thêm giờ.\n• Phụ cấp.\n• Phúc lợi.\n• Bảo hiểm.\nThời giờ làm việc\n• Chấm công.\n• Tăng ca.\n• Nghỉ phép.\n• Ngày nghỉ.\nQuan hệ lao động\n• Khiếu nại.\n• Đối thoại.\n• Công đoàn.\n• Đại diện người lao động.\nSức khỏe và an toàn nghề nghiệp\n• Đánh giá rủi ro.\n• PPE.\n• Hóa chất.\n• Máy móc thiết bị.\n• PCCC.\n• Ứng phó khẩn cấp.\nĐầu ra\n• Báo cáo Gap Assessment.\n• Danh mục điểm chưa phù hợp.\n• Kế hoạch cải tiến.\nGIAI ĐOẠN 3\nXÂY DỰNG HỆ THỐNG HIGG FSLM\nNội dung thực hiện\nXây dựng và chuẩn hóa:\nChính sách\n• Chính sách trách nhiệm xã hội.\n• Chính sách nhân quyền.\n• Chính sách lao động.\n• Chính sách chống phân biệt đối xử.\n• Chính sách chống quấy rối.\n• Chính sách an toàn sức khỏe nghề nghiệp.\nQuy trình\n• Quy trình tuyển dụng.\n• Quy trình quản lý hồ sơ nhân sự.\n• Quy trình khiếu nại.\n• Quy trình đối thoại người lao động.\n• Quy trình đánh giá rủi ro.\n• Quy trình quản lý nhà thầu.\n• Quy trình quản lý nhà cung cấp.\n• Quy trình điều tra sự cố.\n• Quy trình hành động khắc phục.\nĐầu ra\n• Bộ tài liệu Higg FSLM.\n• Bộ quy trình quản lý lao động.\n• Bộ biểu mẫu quản lý.\nGIAI ĐOẠN 4\nTRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU\nNội dung thực hiện\nMô-đun 1\nQuản lý lao động\n• Tuyển dụng.\n• Hợp đồng lao động.\n• Hồ sơ nhân sự.\n• Lao động chưa thành niên.\nMô-đun 2\nTiền lương và thời giờ làm việc\n• Kiểm soát bảng công.\n• Kiểm soát bảng lương.\n• Quản lý tăng ca.\n• Phúc lợi.\nMô-đun 3\nSức khỏe và an toàn nghề nghiệp\n• Đánh giá rủi ro.\n• PPE.\n• Hóa chất.\n• Tai nạn lao động.\n• PCCC.\nMô-đun 4\nQuan hệ lao động\n• Khiếu nại.\n• Đối thoại.\n• Truyền thông nội bộ.\nĐầu ra\n• Hồ sơ đào tạo.\n• Hồ sơ triển khai.\n• Hồ sơ vận hành thực tế.\nGIAI ĐOẠN 5\nTỰ ĐÁNH GIÁ HIGG FSLM\nNội dung thực hiện\n• Hướng dẫn thực hiện Self-Assessment.\n• Thu thập bằng chứng.\n• Đánh giá mức độ trưởng thành.\n• Chấm điểm theo từng phần.\n• Phân tích kết quả.\n• Xây dựng kế hoạch cải tiến.\nĐầu ra\n• Báo cáo Self-Assessment.\n• Bảng điểm Higg FSLM.\n• Kế hoạch cải tiến.\nGIAI ĐOẠN 6\nPRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG\nNội dung thực hiện\n• Đánh giá thử toàn bộ hệ thống.\n• Phỏng vấn người lao động.\n• Kiểm tra hồ sơ.\n• Kiểm tra hiện trường.\n• Rà soát điểm chưa phù hợp.\n• Hướng dẫn khắc phục.\n• Chuẩn bị hồ sơ khách hàng.\nĐầu ra\n• Báo cáo Pre-Assessment.\n• Danh mục hồ sơ sẵn sàng đánh giá.\n• Kế hoạch hành động cuối cùng.",
+    "sort_order": 12
+  },
+  {
+    "category_slug": "hse",
+    "title": "XÂY DỰNG TẦM NHÌN – SỨ MỆNH – CHIẾN LƯỢC HSE\nTỪ QUẢN LÝ HSE ĐẾN LÃNH ĐẠO HSE XUẤT SẮC",
+    "description": "PHẦN 1\nHSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP\nChuyên đề 1\nTừ HSE Compliance đến HSE Excellence\nChuyên đề 2\nĐánh giá mức độ trưởng thành của hệ thống HSE\nPHẦN 2\nXÂY DỰNG TẦM NHÌN HSE\nChuyên đề 3\nHSE Vision – Tầm nhìn HSE\nPHẦN 3\nXÂY DỰNG SỨ MỆNH HSE\nChuyên đề 4\nHSE Mission – Sứ mệnh HSE\nPHẦN 4\nXÂY DỰNG GIÁ TRỊ CỐT LÕI HSE\nChuyên đề 5\nHSE Core Values\nPHẦN 5\nXÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 6\nHSE Strategic Planning\nChuyên đề 7\nXác định các trụ cột chiến lược\nPHẦN 6\nXÂY DỰNG KPI VÀ MỤC TIÊU HSE\nChuyên đề 8\nThiết lập mục tiêu HSE\nPHẦN 7\nXÂY DỰNG ROADMAP HSE 3 NĂM\nChuyên đề 9\nHSE Transformation Roadmap\nPHẦN 8\nCAM KẾT LÃNH ĐẠO\nChuyên đề 10\nLeadership Commitment Workshop",
+    "detail": "PHẦN 1\nHSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP\nChuyên đề 1\nTừ HSE Compliance đến HSE Excellence\nNội dung:\n• Sự khác biệt giữa doanh nghiệp tuân thủ và doanh nghiệp xuất sắc về HSE.\n• Xu hướng quản trị HSE trên thế giới.\n• Vai trò của HSE trong ESG.\n• Vai trò của HSE trong phát triển bền vững.\n• Vai trò của HSE trong chuỗi cung ứng toàn cầu.\n• Chi phí hữu hình và vô hình của tai nạn lao động.\nWorkshop\nĐánh giá hiện trạng HSE của doanh nghiệp.\nChuyên đề 2\nĐánh giá mức độ trưởng thành của hệ thống HSE\nMô hình đánh giá:\n• Reactive.\n• Dependent.\n• Independent.\n• Interdependent.\nWorkshop\nXác định doanh nghiệp đang ở cấp độ nào.\nXác định khoảng cách cần cải thiện.\nPHẦN 2\nXÂY DỰNG TẦM NHÌN HSE\nChuyên đề 3\nHSE Vision – Tầm nhìn HSE\nNội dung:\n• Khái niệm tầm nhìn.\n• Vai trò của tầm nhìn.\n• Đặc điểm của một tầm nhìn hiệu quả.\n• Tầm nhìn HSE của các tập đoàn hàng đầu thế giới.\nVí dụ tham khảo\n• Zero Harm.\n• Everyone Goes Home Safe Every Day.\n• Safety is Our Value.\nWorkshop\nXây dựng dự thảo tầm nhìn HSE cho doanh nghiệp.\nĐầu ra\nBản dự thảo Tầm nhìn HSE.\nPHẦN 3\nXÂY DỰNG SỨ MỆNH HSE\nChuyên đề 4\nHSE Mission – Sứ mệnh HSE\nNội dung:\n• Khái niệm sứ mệnh.\n• Vai trò của sứ mệnh.\n• Cách xây dựng sứ mệnh tạo động lực.\nWorkshop\nXác định:\n• Đối tượng được bảo vệ.\n• Giá trị doanh nghiệp tạo ra.\n• Cam kết đối với người lao động.\n• Cam kết đối với cộng đồng.\nĐầu ra\nBản dự thảo Sứ mệnh HSE.\nPHẦN 4\nXÂY DỰNG GIÁ TRỊ CỐT LÕI HSE\nChuyên đề 5\nHSE Core Values\nNội dung:\nCác giá trị cốt lõi thường gặp:\n• Safety First.\n• Respect for People.\n• Accountability.\n• Integrity.\n• Continuous Improvement.\n• Zero Tolerance for Unsafe Acts.\nWorkshop\nXây dựng bộ giá trị cốt lõi HSE riêng của doanh nghiệp.\nĐầu ra\nBộ giá trị cốt lõi HSE.\nPHẦN 5\nXÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 6\nHSE Strategic Planning\nNội dung:\n• Khái niệm chiến lược HSE.\n• Chiến lược 3 năm.\n• Chiến lược 5 năm.\n• Mô hình Balanced Scorecard cho HSE.\nChuyên đề 7\nXác định các trụ cột chiến lược\nWorkshop xây dựng:\nTrụ cột 1\nLãnh đạo và văn hóa an toàn.\nTrụ cột 2\nQuản lý rủi ro.\nTrụ cột 3\nNăng lực và nhận thức.\nTrụ cột 4\nHiệu suất môi trường.\nTrụ cột 5\nSức khỏe nghề nghiệp.\nTrụ cột 6\nSố hóa và chuyển đổi HSE.\nĐầu ra\nBản đồ chiến lược HSE.\nPHẦN 6\nXÂY DỰNG KPI VÀ MỤC TIÊU HSE\nChuyên đề 8\nThiết lập mục tiêu HSE\nNội dung:\n• KPI dẫn dắt (Leading Indicators).\n• KPI kết quả (Lagging Indicators).\nVí dụ KPI\n• Near Miss Reporting.\n• BBS Observation.\n• JHA Completion.\n• Safety Walk.\n• WSFI.\n• Closure Rate.\n• LTIFR.\n• TRIR.\nWorkshop\nXây dựng KPI cho:\n• Ban lãnh đạo.\n• Quản lý.\n• HSE.\n• Sản xuất.\nPHẦN 7\nXÂY DỰNG ROADMAP HSE 3 NĂM\nChuyên đề 9\nHSE Transformation Roadmap\nNội dung:\nNăm 1\nXây nền tảng.\nNăm 2\nChuẩn hóa hệ thống.\nNăm 3\nVăn hóa an toàn.\nWorkshop\nXây dựng:\n• Mục tiêu năm.\n• Kế hoạch năm.\n• Dự án ưu tiên.\n• Ngân sách HSE.\nĐầu ra\nRoadmap HSE 3 năm.\nPHẦN 8\nCAM KẾT LÃNH ĐẠO\nChuyên đề 10\nLeadership Commitment Workshop\nBan lãnh đạo cùng xây dựng:\n• Tuyên bố cam kết HSE.\n• Cam kết trách nhiệm giải trình.\n• Chương trình Leadership Safety Walk.\n• Chương trình Safety Culture Campaign.",
+    "sort_order": 13
+  },
+  {
+    "category_slug": "carbon",
+    "title": "Kiểm kê Khí nhà kính theo Nghị định 06/2022/NĐ-CP",
+    "description": "",
+    "detail": "",
+    "sort_order": 14
+  },
+  {
+    "category_slug": "carbon",
+    "title": "Kiểm kê Khí nhà kính theo ISO 14064-1:2018",
+    "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – XÁC ĐỊNH NGUỒN PHÁT THẢI VÀ THU THẬP DỮ LIỆU\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG TÍNH TOÁN PHÁT THẢI\nGIAI ĐOẠN 4 – XÂY DỰNG HỆ THỐNG TÀI LIỆU VÀ BÁO CÁO\nGIAI ĐOẠN 5 – ĐÀO TẠO VÀ HOÀN THIỆN HỆ THỐNG",
+    "detail": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nNội dung thực hiện\n• Thành lập Ban GHG\n• Xây dựng kế hoạch triển khai\n• Phân công vai trò và trách nhiệm\n• Đào tạo nhận thức ISO 14064-1:2018\n• Tổng quan về biến đổi khí hậu và khí nhà kính\n• Tổng quan Scope 1, Scope 2 và Scope 3\n• Tổng quan ESG và Carbon Management\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 2 – XÁC ĐỊNH NGUỒN PHÁT THẢI VÀ THU THẬP DỮ LIỆU\nNội dung thực hiện\n• Xác định Organizational Boundary\n• Xác định Operational Boundary\n• Xác định nguồn phát thải Scope 1\n• Xác định nguồn phát thải Scope 2\n• Xác định nguồn phát thải Scope 3\n• Thiết lập danh mục nguồn phát thải\n• Thu thập Activity Data\n• Xây dựng Data Collection System\n• Đánh giá chất lượng dữ liệu\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG TÍNH TOÁN PHÁT THẢI\nNội dung thực hiện\n• Xây dựng phương pháp tính toán phát thải\n• Áp dụng Emission Factor\n• Thiết lập bảng tính GHG\n• Tính toán Scope 1\n• Tính toán Scope 2\n• Tính toán Scope 3\n• Kiểm tra và rà soát dữ liệu\n• Xây dựng hệ thống quản lý dữ liệu GHG\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 4 – XÂY DỰNG HỆ THỐNG TÀI LIỆU VÀ BÁO CÁO\nNội dung thực hiện\n• Xây dựng GHG Procedure\n• Xây dựng SOP thu thập dữ liệu\n• Xây dựng Data Management Procedure\n• Xây dựng Risk and Opportunity Assessment\n• Xây dựng Quality Management Plan\n• Xây dựng báo cáo kiểm kê khí nhà kính\n• Xây dựng hồ sơ phục vụ xác minh\nThời gian dự kiến\n02 – 03 ngày\nGIAI ĐOẠN 5 – ĐÀO TẠO VÀ HOÀN THIỆN HỆ THỐNG\nNội dung thực hiện\n• Đào tạo đội ngũ thực hiện GHG\n• Đào tạo quản lý dữ liệu phát thải\n• Đào tạo kiểm soát chất lượng dữ liệu\n• Hướng dẫn chuẩn bị xác minh\n• Rà soát và hoàn thiện hệ thống\n• Coaching thực tế tại doanh nghiệp\nThời gian dự kiến\n02 ngày",
+    "sort_order": 15
+  },
+  {
+    "category_slug": "carbon",
+    "title": "Hướng dẫn Định lượng Khí nhà kính theo ISO 14069:2013",
+    "description": "",
+    "detail": "",
+    "sort_order": 16
+  },
+  {
+    "category_slug": "carbon",
+    "title": "Greenhouse Gas Protocol (GHG Protocol)",
+    "description": "",
+    "detail": "",
+    "sort_order": 17
+  },
+  {
+    "category_slug": "carbon",
+    "title": "Tính toán Vết Carbon của Sản phẩm theo ISO 14067:2018",
+    "description": "",
+    "detail": "",
+    "sort_order": 18
+  },
+  {
+    "category_slug": "carbon",
+    "title": "PAS 2060:2014 – Chứng nhận Trung hòa Carbon",
+    "description": "",
+    "detail": "",
+    "sort_order": 19
+  },
+  {
+    "category_slug": "carbon",
+    "title": "ISO 14068-1:2023 – Trung hòa Carbon",
+    "description": "",
+    "detail": "",
+    "sort_order": 20
+  },
+  {
+    "category_slug": "carbon",
+    "title": "Verified Carbon Standard (VCS) – Tiêu chuẩn Carbon đã được Xác minh",
+    "description": "",
+    "detail": "",
+    "sort_order": 21
+  },
+  {
+    "category_slug": "esg",
+    "title": "Environmental, Social and Governance (ESG) – Môi trường, Xã hội và Quản trị",
+    "description": "",
+    "detail": "",
+    "sort_order": 22
+  },
+  {
+    "category_slug": "esg",
+    "title": "Global Reporting Initiative (GRI) – Sáng kiến Báo cáo Toàn cầu",
+    "description": "",
+    "detail": "",
+    "sort_order": 23
+  },
+  {
+    "category_slug": "esg",
+    "title": "QUẢN LÝ NGUỒN CUNG ỨNG RỪNG BỀN VỮNG VÀ TRÁCH NHIỆM",
+    "description": "Chuyên đề 1\nTổng quan FSC\nChuyên đề 2\n10 Nguyên tắc FSC\nChuyên đề 3\nFSC và Phát triển bền vững\nChuyên đề 4\nFSC và Chuỗi cung ứng\nChuyên đề 5\nFSC và Doanh nghiệp",
+    "detail": "Chuyên đề 1\nTổng quan FSC\n• Lịch sử hình thành FSC.\n• Cơ cấu tổ chức FSC.\n• Hệ thống chứng nhận FSC.\nChuyên đề 2\n10 Nguyên tắc FSC\nBao gồm:\n• Tuân thủ pháp luật.\n• Quyền người lao động.\n• Quyền cộng đồng địa phương.\n• Quan hệ với người dân bản địa.\n• Lợi ích từ rừng.\n• Giá trị môi trường.\n• Kế hoạch quản lý.\n• Giám sát.\n• Giá trị bảo tồn cao.\n• Thực hiện các hoạt động quản lý.\nChuyên đề 3\nFSC và Phát triển bền vững\n• ESG.\n• Kinh tế tuần hoàn.\n• Truy xuất nguồn gốc.\n• Bảo tồn đa dạng sinh học.\n• Quản lý tài nguyên thiên nhiên.\nChuyên đề 4\nFSC và Chuỗi cung ứng\n• Quản lý nhà cung cấp.\n• Truy xuất nguồn gốc.\n• Đánh giá rủi ro nguồn cung.\n• Tuyên bố FSC.\nChuyên đề 5\nFSC và Doanh nghiệp\n• Lợi ích thương mại.\n• Yêu cầu khách hàng quốc tế.\n• FSC và các thị trường xuất khẩu.\n• FSC và chiến lược phát triển bền vững.",
+    "sort_order": 24
+  },
+  {
+    "category_slug": "esg",
+    "title": "Science Based Targets initiative (SBTi) – Sáng kiến Mục tiêu Dựa trên Cơ sở Khoa học",
+    "description": "",
+    "detail": "",
+    "sort_order": 25
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "HỆ THỐNG QUẢN LÝ CHUỖI HÀNH TRÌNH SẢN PHẨM FSC",
+    "description": "GIAI ĐOẠN 1\nKHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2\nĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nGIAI ĐOẠN 3\nXÂY DỰNG HỆ THỐNG FSC CoC\nGIAI ĐOẠN 4\nTRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU\nGIAI ĐOẠN 5\nĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN",
+    "detail": "GIAI ĐOẠN 1\nKHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nNội dung:\n• Tổng quan FSC.\n• Tổng quan FSC CoC.\n• Các loại chứng nhận FSC.\n• FSC 100%.\n• FSC Mix.\n• FSC Recycled.\n• Yêu cầu khách hàng và thị trường.\n• Vai trò và trách nhiệm các bộ phận.\n• Thành lập nhóm triển khai FSC.\nĐầu ra\n• Kế hoạch triển khai.\n• Hồ sơ đào tạo nhận thức.\n• Ban triển khai FSC.\nGIAI ĐOẠN 2\nĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nNội dung:\n• Đánh giá hệ thống hiện tại.\n• Đánh giá nhà cung cấp.\n• Đánh giá quản lý kho.\n• Đánh giá truy xuất nguồn gốc.\n• Đánh giá quản lý hồ sơ.\n• Đánh giá hoạt động sản xuất.\n• Đánh giá ghi nhãn sản phẩm.\n• Đánh giá năng lực nhân sự.\nĐầu ra\n• Báo cáo GAP.\n• Danh mục điểm chưa phù hợp.\n• Kế hoạch hành động.\nGIAI ĐOẠN 3\nXÂY DỰNG HỆ THỐNG FSC CoC\nNội dung:\nXây dựng:\n• Chính sách FSC.\n• Mục tiêu FSC.\n• Quy trình mua hàng FSC.\n• Quy trình tiếp nhận nguyên liệu FSC.\n• Quy trình quản lý kho FSC.\n• Quy trình truy xuất nguồn gốc.\n• Quy trình sản xuất sản phẩm FSC.\n• Quy trình bán hàng FSC.\n• Quy trình quản lý tuyên bố FSC.\n• Quy trình quản lý nhãn FSC.\n• Quy trình kiểm soát hồ sơ.\n• Quy trình đánh giá nội bộ.\nĐầu ra\n• Bộ tài liệu FSC CoC.\n• Biểu mẫu FSC.\n• Danh mục hồ sơ kiểm soát.\nGIAI ĐOẠN 4\nTRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU\nNội dung:\n• Quản lý nhà cung cấp FSC.\n• Kiểm tra chứng chỉ FSC.\n• Kiểm soát hóa đơn và chứng từ FSC.\n• Kiểm soát tồn kho FSC.\n• Quản lý sản xuất sản phẩm FSC.\n• Quản lý tuyên bố FSC.\n• Quản lý nhãn FSC.\n• Truy xuất nguồn gốc sản phẩm.\nĐầu ra\n• Hồ sơ đào tạo.\n• Hồ sơ vận hành thực tế.\n• Hồ sơ truy xuất nguồn gốc.\nGIAI ĐOẠN 5\nĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN\nNội dung:\n• Đào tạo đánh giá viên nội bộ.\n• Thực hiện đánh giá nội bộ.\n• Hành động khắc phục.\n• Xem xét của lãnh đạo.\n• Chuẩn bị đánh giá chứng nhận.\nĐầu ra\n• Báo cáo đánh giá nội bộ.\n• CAPA Plan.\n• Hồ sơ sẵn sàng chứng nhận",
+    "sort_order": 26
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "International Sustainability and Carbon Certification PLUS (ISCC PLUS)/International Sustainability and Carbon Certification EU (ISCC EU)/International Sustainability and Carbon Certification CORSIA (ISCC CORSIA)/Global Recycled Standard (GRS) – Tiêu chuẩn Tái chế Toàn cầu",
+    "description": "",
+    "detail": "",
+    "sort_order": 27
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "EN 15343 – Truy xuất nguồn gốc và xác định hàm lượng nhựa tái chế trong sản phẩm nhựa",
+    "description": "",
+    "detail": "",
+    "sort_order": 28
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "Cradle to Cradle Certified® – Tiêu chuẩn Thiết kế Sản phẩm Tuần hoàn",
+    "description": "",
+    "detail": "",
+    "sort_order": 29
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "Higg Facility Environmental Module (Higg FEM)",
+    "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – THU THẬP DỮ LIỆU VÀ XÂY DỰNG HỆ THỐNG QUẢN LÝ\nGIAI ĐOẠN 3 – TRIỂN KHAI CÁC MODULE HIGG FEM\nGIAI ĐOẠN 4 – ĐÀO TẠO VÀ TRIỂN KHAI THỰC TẾ\nGIAI ĐOẠN 5 – RÀ SOÁT VÀ HOÀN THIỆN HỆ THỐNG",
+    "detail": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nNội dung thực hiện\n• Thành lập Ban Higg FEM\n• Xây dựng kế hoạch triển khai\n• Phân công vai trò và trách nhiệm\n• Đào tạo nhận thức Higg FEM\n• Tổng quan về Sustainability và ESG\n• Tổng quan cấu trúc Higg FEM\n• Tổng quan Verification Process\n• Hướng dẫn sử dụng nền tảng Higg FEM\nThời gian dự kiến\n02 ngày\nGIAI ĐOẠN 2 – THU THẬP DỮ LIỆU VÀ XÂY DỰNG HỆ THỐNG QUẢN LÝ\nNội dung thực hiện\n• Thu thập dữ liệu môi trường\n• Xây dựng hệ thống quản lý dữ liệu\n• Kiểm soát tài liệu và hồ sơ môi trường\n• Thiết lập KPI môi trường\n• Kiểm soát dữ liệu tiêu thụ năng lượng\n• Kiểm soát dữ liệu nước\n• Kiểm soát dữ liệu chất thải\n• Kiểm soát dữ liệu khí thải\n• Kiểm soát hóa chất\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 3 – TRIỂN KHAI CÁC MODULE HIGG FEM\nNội dung thực hiện\nEnvironmental Management System\n• Chính sách môi trường\n• Mục tiêu môi trường\n• Legal Compliance\n• Internal Audit\n• Management Review\nEnergy and GHG\n• Energy Management\n• GHG Inventory\n• Energy KPI\n• Energy Saving Program\nWater Management\n• Water Consumption\n• Water Balance\n• Water Reduction Program\n• Wastewater Management\nWaste Management\n• Waste Inventory\n• Waste Segregation\n• Waste Tracking\n• Hazardous Waste Management\nAir Emission\n• Air Emission Inventory\n• Air Pollution Control\n• Monitoring and Reporting\nChemical Management\n• Chemical Inventory\n• SDS Management\n• Chemical Risk Assessment\n• Spill Response\nThời gian dự kiến\n03 – 04 ngày\nGIAI ĐOẠN 4 – ĐÀO TẠO VÀ TRIỂN KHAI THỰC TẾ\nNội dung thực hiện\n• Đào tạo đội ngũ thực hiện Higg FEM\n• Đào tạo quản lý dữ liệu môi trường\n• Đào tạo kiểm soát hồ sơ\n• Coaching hiện trường\n• Hướng dẫn nhập dữ liệu Higg FEM\n• Hướng dẫn chuẩn bị Verification\n• Theo dõi hiệu quả áp dụng thực tế\nThời gian dự kiến\n02 – 03 ngày\nGIAI ĐOẠN 5 – RÀ SOÁT VÀ HOÀN THIỆN HỆ THỐNG\nNội dung thực hiện\n• Rà soát dữ liệu Higg FEM\n• Kiểm tra hồ sơ môi trường\n• Kiểm tra hiện trường\n• Đánh giá mức độ đáp ứng Higg FEM\n• Theo dõi hành động cải tiến\n• Hoàn thiện hồ sơ Verification\n• Chuẩn bị tiếp đoàn Verification\nThời gian dự kiến\n02 ngày",
+    "sort_order": 30
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "Đánh giá Nhà cung cấp",
+    "description": "NGÀY 1 – TỔNG QUAN VỀ ĐÁNH GIÁ NHÀ CUNG CẤP\nPHẦN 1 – TỔNG QUAN QUẢN LÝ NHÀ CUNG CẤP\nPHẦN 2 – HỆ THỐNG ĐÁNH GIÁ NHÀ CUNG CẤP\nPHẦN 3 – ĐÁNH GIÁ HỆ THỐNG NHÀ CUNG CẤP\nPHẦN 4 – KỸ NĂNG ĐÁNH GIÁ NHÀ CUNG CẤP\nNGÀY 2 – TRIỂN KHAI ĐÁNH GIÁ VÀ CẢI TIẾN NHÀ CUNG CẤP\nPHẦN 5 – ĐÁNH GIÁ HIỆN TRƯỜNG NHÀ CUNG CẤP\nPHẦN 6 – PHÂN TÍCH RỦI RO NHÀ CUNG CẤP\nPHẦN 7 – CAPA VÀ PHÁT TRIỂN NHÀ CUNG CẤP\nPHẦN 8 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NHÀ CUNG CẤP\nPHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA",
+    "detail": "NGÀY 1 – TỔNG QUAN VỀ ĐÁNH GIÁ NHÀ CUNG CẤP\nPHẦN 1 – TỔNG QUAN QUẢN LÝ NHÀ CUNG CẤP\nNội dung đào tạo\n• Vai trò của nhà cung cấp trong chuỗi cung ứng\n• Rủi ro trong chuỗi cung ứng\n• Supplier Lifecycle Management\n• Tiêu chí lựa chọn nhà cung cấp\n• Yêu cầu khách hàng và tiêu chuẩn quốc tế\n• Vai trò của Supplier Assessment\nPHẦN 2 – HỆ THỐNG ĐÁNH GIÁ NHÀ CUNG CẤP\nNội dung đào tạo\n• Supplier Evaluation Process\n• Supplier Approval Process\n• Supplier Risk Assessment\n• Supplier Classification\n• Supplier KPI\n• Approved Vendor List\nNội dung thực hành\n• Xây dựng tiêu chí đánh giá nhà cung cấp\n• Thiết lập bảng chấm điểm\n• Phân loại nhà cung cấp\nPHẦN 3 – ĐÁNH GIÁ HỆ THỐNG NHÀ CUNG CẤP\nNội dung đào tạo\n• Đánh giá hệ thống quản lý chất lượng\n• Đánh giá năng lực sản xuất\n• Đánh giá kiểm soát chất lượng\n• Đánh giá truy xuất nguồn gốc\n• Đánh giá năng lực giao hàng\n• Đánh giá quản lý kho\n• Đánh giá quản lý thay đổi\n• Đánh giá quản lý rủi ro\nPHẦN 4 – KỸ NĂNG ĐÁNH GIÁ NHÀ CUNG CẤP\nNội dung đào tạo\n• Kỹ năng phỏng vấn\n• Kỹ năng quan sát hiện trường\n• Kỹ năng đặt câu hỏi\n• Kỹ năng thu thập bằng chứng\n• Kỹ năng viết báo cáo đánh giá\n• Kỹ năng giao tiếp với nhà cung cấp\nNội dung thực hành\n• Thực hành phỏng vấn\n• Thực hành đánh giá tình huống\n• Workshop đánh giá nhà cung cấp\nNGÀY 2 – TRIỂN KHAI ĐÁNH GIÁ VÀ CẢI TIẾN NHÀ CUNG CẤP\nPHẦN 5 – ĐÁNH GIÁ HIỆN TRƯỜNG NHÀ CUNG CẤP\nNội dung đào tạo\n• Đánh giá hiện trường sản xuất\n• Đánh giá kiểm soát chất lượng\n• Đánh giá thiết bị và bảo trì\n• Đánh giá nhân sự và đào tạo\n• Đánh giá quản lý nguyên vật liệu\n• Đánh giá an toàn và môi trường\n• Đánh giá kiểm soát sản phẩm không phù hợp\nPHẦN 6 – PHÂN TÍCH RỦI RO NHÀ CUNG CẤP\nNội dung đào tạo\n• Supplier Risk Matrix\n• Quality Risk\n• Delivery Risk\n• Capacity Risk\n• Compliance Risk\n• ESG Risk\n• Business Continuity Risk\nNội dung thực hành\n• Đánh giá rủi ro nhà cung cấp\n• Thiết lập Supplier Risk Register\n• Thảo luận tình huống thực tế\nPHẦN 7 – CAPA VÀ PHÁT TRIỂN NHÀ CUNG CẤP\nNội dung đào tạo\n• Supplier CAPA Management\n• Root Cause Analysis\n• Theo dõi hành động cải tiến\n• Supplier Development Program\n• Supplier Improvement Plan\n• Supplier Performance Monitoring\nPHẦN 8 – XÂY DỰNG HỆ THỐNG QUẢN LÝ NHÀ CUNG CẤP\nNội dung đào tạo\n• Supplier Management Procedure\n• Supplier KPI Dashboard\n• Supplier Audit Checklist\n• Supplier Scorecard\n• Supplier Monitoring System\n• Tích hợp với ISO 9001, ISO 14001 và ISO 45001\nPHẦN 9 – TỔNG KẾT VÀ ĐÁNH GIÁ CUỐI KHÓA\nNội dung thực hiện\n• Ôn tập nội dung đào tạo\n• Kiểm tra cuối khóa\n• Đánh giá năng lực học viên\n• Tổng kết chương trình đào tạo",
+    "sort_order": 31
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "Social Accountability 8000 (SA8000) – Tiêu chuẩn Trách nhiệm Xã hội",
+    "description": "",
+    "detail": "",
+    "sort_order": 32
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "Sedex Members Ethical Trade Audit (SMETA)",
+    "description": "",
+    "detail": "",
+    "sort_order": 33
+  },
+  {
+    "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
+    "title": "Business Social Compliance Initiative (BSCI) – Bộ Tiêu chuẩn Tuân thủ Trách nhiệm Xã hội trong Kinh doanh",
+    "description": "",
+    "detail": "",
+    "sort_order": 34
+  },
+  {
+    "category_slug": "cong-trinh-xanh-va-san-pham-ben-vung",
+    "title": "Leadership in Energy and Environmental Design (LEED) – Hệ thống Đánh giá Công trình Xanh",
+    "description": "",
+    "detail": "",
+    "sort_order": 35
+  },
+  {
+    "category_slug": "cong-trinh-xanh-va-san-pham-ben-vung",
+    "title": "Environmental Product Declaration (EPD) – Tuyên bố Sản phẩm Môi trường",
+    "description": "",
+    "detail": "",
+    "sort_order": 36
+  }
+]
+JSON, true, 512, JSON_THROW_ON_ERROR);
     }
 };

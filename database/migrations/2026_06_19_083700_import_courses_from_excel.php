@@ -3,6 +3,7 @@
 use App\Models\Course;
 use App\Models\CourseCategory;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 

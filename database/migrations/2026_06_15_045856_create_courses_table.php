@@ -17,8 +17,8 @@ return new class extends Migration
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('title', 500);
+            $table->string('slug', 500)->unique();
             $table->text('description')->nullable();
             $table->longText('content')->nullable();
             $table->string('image')->nullable();

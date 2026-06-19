@@ -292,12 +292,6 @@
                         </div>
                     </div>
                 </div>
-
-                @if($programs->hasPages())
-                    <div class="mt-5 d-flex justify-content-center">
-                        {{ $programs->fragment('chuong-trinh-dao-tao')->links('pagination::bootstrap-5', ['ariaLabel' => 'Phân trang khóa học']) }}
-                    </div>
-                @endif
             </div>
         </section>
 
@@ -395,6 +389,12 @@
                         </div>
                     @endforeach
                 </div>
+
+                @if($programs->hasPages())
+                    <div class="mt-5 d-flex justify-content-center">
+                        {{ $programs->fragment('chuong-trinh-dao-tao')->links('pagination::bootstrap-5', ['ariaLabel' => 'Phân trang khóa học']) }}
+                    </div>
+                @endif
             </div>
         </section>
 

@@ -307,7 +307,7 @@
                             <span class="course-badge mb-3"><i class="fa-solid fa-fire me-2"></i>{{ $course->tag }}</span>
                         @endif
                         <h1 class="text-uppercase">{{ $course->title }}</h1>
-                        <p class="col-lg-10 lead">{{ $course->description }}</p>
+                        <p class="col-lg-10 lead" style="white-space: pre-line;">{{ $course->description }}</p>
                         <div class="d-flex flex-wrap gap-4 align-items-center mt-3 mb-2 text-white-50">
                             <span><i class="fa-solid fa-building me-2"></i>Viện GREECO</span>
                         </div>

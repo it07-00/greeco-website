@@ -2234,3 +2234,56 @@ blockquote .blockquote-footer {
     visibility: visible;
     transform: translateX(-50%) translateY(0);
 }
+
+/* ==========================================================================
+   7.10. Premium Custom Pagination Styling
+   ========================================================================== */
+.pagination {
+    gap: 8px;
+}
+
+.pagination .page-item {
+    margin: 0;
+}
+
+.pagination .page-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    background-color: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 50% !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: none !important;
+}
+
+.pagination .page-item.active .page-link {
+    color: #ffffff !important;
+    background-color: #008f79 !important;
+    border-color: #008f79 !important;
+    box-shadow: 0 4px 12px rgba(0, 143, 121, 0.25) !important;
+}
+
+.pagination .page-link:hover {
+    color: #ffffff !important;
+    background-color: #008f79 !important;
+    border-color: #008f79 !important;
+    transform: translateY(-1px) !important;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #cbd5e1 !important;
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    opacity: 0.6 !important;
+    pointer-events: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+

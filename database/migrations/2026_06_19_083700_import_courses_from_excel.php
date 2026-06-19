@@ -1951,16 +1951,12 @@ return new class extends Migration
                         "category_slug": "hse",
                         "title": "Phát triển năng lực cán bộ An toàn – Sức khỏe – Môi trường (HSE OFFICER)",
                         "slug": "phat-trien-nang-luc-can-bo-an-toan-suc-khoe-moi-truong-hse-officer",
-                        "description": "NGÀY 01\nNỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO\nChuyên đề 1\nTổng quan về HSE trong doanh nghiệp\nChuyên đề 2\nNhận diện mối nguy và đánh giá rủi ro\nChuyên đề 3\nKiểm tra hiện trường và Safety Patrol\nNGÀY 02\nQUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP\nChuyên đề 4\nQuản lý máy móc thiết bị\nChuyên đề 5\nQuản lý hóa chất\nChuyên đề 6\nQuản lý sức khỏe nghề nghiệp\nChuyên đề 7\nĐiều tra tai nạn lao động\nNGÀY 03\nQUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER\nChuyên đề 8\nQuản lý môi trường\nChuyên đề 9\nỨng phó khẩn cấp\nChuyên đề 10\nKỹ năng chuyên nghiệp của HSE Officer",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>NGÀY 01</p>\n<p>NỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO</p>\n<p>Chuyên đề 1</p>\n<p>Tổng quan về HSE trong doanh nghiệp</p>\n<p>Chuyên đề 2</p>\n<p>Nhận diện mối nguy và đánh giá rủi ro</p>\n<p>Chuyên đề 3</p>\n<p>Kiểm tra hiện trường và Safety Patrol</p>\n<p>NGÀY 02</p>\n<p>QUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP</p>\n<p>Chuyên đề 4</p>\n<p>Quản lý máy móc thiết bị</p>\n<p>Chuyên đề 5</p>\n<p>Quản lý hóa chất</p>\n<p>Chuyên đề 6</p>\n<p>Quản lý sức khỏe nghề nghiệp</p>\n<p>Chuyên đề 7</p>\n<p>Điều tra tai nạn lao động</p>\n<p>NGÀY 03</p>\n<p>QUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER</p>\n<p>Chuyên đề 8</p>\n<p>Quản lý môi trường</p>\n<p>Chuyên đề 9</p>\n<p>Ứng phó khẩn cấp</p>\n<p>Chuyên đề 10</p>\n<p>Kỹ năng chuyên nghiệp của HSE Officer</p>\n",
+                        "description": "NGÀY 01 – NỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO\nChuyên đề 1 – Tổng quan về HSE trong doanh nghiệp\nChuyên đề 2 – Nhận diện mối nguy và đánh giá rủi ro\nChuyên đề 3 – Kiểm tra hiện trường và Safety Patrol\nNGÀY 02 – QUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP\nChuyên đề 4 – Quản lý máy móc thiết bị\nChuyên đề 5 – Quản lý hóa chất\nChuyên đề 6 – Quản lý sức khỏe nghề nghiệp\nChuyên đề 7 – Điều tra tai nạn lao động\nNGÀY 03 – QUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER\nChuyên đề 8 – Quản lý môi trường\nChuyên đề 9 – Ứng phó khẩn cấp\nChuyên đề 10 – Kỹ năng chuyên nghiệp của HSE Officer",
+                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>NGÀY 01 – NỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO</strong></p>\n<p>Chuyên đề 1 – Tổng quan về HSE trong doanh nghiệp</p>\n<p>Chuyên đề 2 – Nhận diện mối nguy và đánh giá rủi ro</p>\n<p>Chuyên đề 3 – Kiểm tra hiện trường và Safety Patrol</p>\n<p><strong>NGÀY 02 – QUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP</strong></p>\n<p>Chuyên đề 4 – Quản lý máy móc thiết bị</p>\n<p>Chuyên đề 5 – Quản lý hóa chất</p>\n<p>Chuyên đề 6 – Quản lý sức khỏe nghề nghiệp</p>\n<p>Chuyên đề 7 – Điều tra tai nạn lao động</p>\n<p><strong>NGÀY 03 – QUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER</strong></p>\n<p>Chuyên đề 8 – Quản lý môi trường</p>\n<p>Chuyên đề 9 – Ứng phó khẩn cấp</p>\n<p>Chuyên đề 10 – Kỹ năng chuyên nghiệp của HSE Officer</p>\n",
                         "curriculum": [
                                     {
-                                                "title": "NGÀY 01",
+                                                "title": "NGÀY 01 – NỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "NỀN TẢNG QUẢN LÝ HSE VÀ ĐÁNH GIÁ RỦI RO",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 1 – Tổng quan về HSE trong doanh nghiệp",
                                                                         "duration": ""
@@ -2128,12 +2124,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "NGÀY 02",
+                                                "title": "NGÀY 02 – QUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "QUẢN LÝ AN TOÀN – SỨC KHỎE NGHỀ NGHIỆP",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 4 – Quản lý máy móc thiết bị",
                                                                         "duration": ""
@@ -2301,12 +2293,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "NGÀY 03",
+                                                "title": "NGÀY 03 – QUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "QUẢN LÝ MÔI TRƯỜNG VÀ KỸ NĂNG HSE OFFICER",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 8 – Quản lý môi trường",
                                                                         "duration": ""
@@ -2446,16 +2434,12 @@ return new class extends Migration
                         "category_slug": "hse",
                         "title": "LÃNH ĐẠO AN TOÀN – XÂY DỰNG VĂN HÓA AN TOÀN VÀ QUẢN LÝ RỦI RO THẢM HỌA",
                         "slug": "lanh-dao-an-toan-xay-dung-van-hoa-an-toan-va-quan-ly-rui-ro-tham-hoa",
-                        "description": "NGÀY 01\nPROCESS SAFETY MANAGEMENT (PSM)\nLÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA\nChuyên đề 1\nBài học từ các thảm họa công nghiệp trên thế giới\nPhân tích các vụ việc điển hình:\nChuyên đề 2\nTổng quan Process Safety Management (PSM)\nChuyên đề 3\nVai trò lãnh đạo trong quản lý rủi ro thảm họa\nNGÀY 02\nXÂY DỰNG VĂN HÓA AN TOÀN\nChuyên đề 4\nSafety Culture – Văn hóa an toàn là gì?\nChuyên đề 5\nHành vi lãnh đạo ảnh hưởng đến văn hóa an toàn\nChuyên đề 6\nTrách nhiệm giải trình về an toàn (Safety Accountability)\nNGÀY 03\nTỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG\nChuyên đề 7\nCác công cụ lãnh đạo an toàn hiện đại\nChuyên đề 8\nXây dựng chiến lược văn hóa an toàn\nChuyên đề 9\nCam kết lãnh đạo và kế hoạch hành động",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>NGÀY 01</p>\n<p>PROCESS SAFETY MANAGEMENT (PSM)</p>\n<p>LÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA</p>\n<p>Chuyên đề 1</p>\n<p>Bài học từ các thảm họa công nghiệp trên thế giới</p>\n<p>Phân tích các vụ việc điển hình:</p>\n<p>Chuyên đề 2</p>\n<p>Tổng quan Process Safety Management (PSM)</p>\n<p>Chuyên đề 3</p>\n<p>Vai trò lãnh đạo trong quản lý rủi ro thảm họa</p>\n<p>NGÀY 02</p>\n<p>XÂY DỰNG VĂN HÓA AN TOÀN</p>\n<p>Chuyên đề 4</p>\n<p>Safety Culture – Văn hóa an toàn là gì?</p>\n<p>Chuyên đề 5</p>\n<p>Hành vi lãnh đạo ảnh hưởng đến văn hóa an toàn</p>\n<p>Chuyên đề 6</p>\n<p>Trách nhiệm giải trình về an toàn (Safety Accountability)</p>\n<p>NGÀY 03</p>\n<p>TỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG</p>\n<p>Chuyên đề 7</p>\n<p>Các công cụ lãnh đạo an toàn hiện đại</p>\n<p>Chuyên đề 8</p>\n<p>Xây dựng chiến lược văn hóa an toàn</p>\n<p>Chuyên đề 9</p>\n<p>Cam kết lãnh đạo và kế hoạch hành động</p>\n",
+                        "description": "NGÀY 01 – PROCESS SAFETY MANAGEMENT (PSM)\nLÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA\nChuyên đề 1 – Bài học từ các thảm họa công nghiệp trên thế giới\nPhân tích các vụ việc điển hình:\nChuyên đề 2 – Tổng quan Process Safety Management (PSM)\nChuyên đề 3 – Vai trò lãnh đạo trong quản lý rủi ro thảm họa\nNGÀY 02 – XÂY DỰNG VĂN HÓA AN TOÀN\nChuyên đề 4 – Safety Culture – Văn hóa an toàn là gì?\nChuyên đề 5 – Hành vi lãnh đạo ảnh hưởng đến văn hóa an toàn\nChuyên đề 6 – Trách nhiệm giải trình về an toàn (Safety Accountability)\nNGÀY 03 – TỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG\nChuyên đề 7 – Các công cụ lãnh đạo an toàn hiện đại\nChuyên đề 8 – Xây dựng chiến lược văn hóa an toàn\nChuyên đề 9 – Cam kết lãnh đạo và kế hoạch hành động",
+                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>NGÀY 01 – PROCESS SAFETY MANAGEMENT (PSM)</strong></p>\n<p>LÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA</p>\n<p>Chuyên đề 1 – Bài học từ các thảm họa công nghiệp trên thế giới</p>\n<p>Phân tích các vụ việc điển hình:</p>\n<p>Chuyên đề 2 – Tổng quan Process Safety Management (PSM)</p>\n<p>Chuyên đề 3 – Vai trò lãnh đạo trong quản lý rủi ro thảm họa</p>\n<p><strong>NGÀY 02 – XÂY DỰNG VĂN HÓA AN TOÀN</strong></p>\n<p>Chuyên đề 4 – Safety Culture – Văn hóa an toàn là gì?</p>\n<p>Chuyên đề 5 – Hành vi lãnh đạo ảnh hưởng đến văn hóa an toàn</p>\n<p>Chuyên đề 6 – Trách nhiệm giải trình về an toàn (Safety Accountability)</p>\n<p><strong>NGÀY 03 – TỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG</strong></p>\n<p>Chuyên đề 7 – Các công cụ lãnh đạo an toàn hiện đại</p>\n<p>Chuyên đề 8 – Xây dựng chiến lược văn hóa an toàn</p>\n<p>Chuyên đề 9 – Cam kết lãnh đạo và kế hoạch hành động</p>\n",
                         "curriculum": [
                                     {
-                                                "title": "NGÀY 01",
+                                                "title": "NGÀY 01 – PROCESS SAFETY MANAGEMENT (PSM)",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "PROCESS SAFETY MANAGEMENT (PSM)",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "LÃNH ĐẠO VÀ QUẢN TRỊ RỦI RO THẢM HỌA",
                                                                         "duration": ""
@@ -2611,12 +2595,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "NGÀY 02",
+                                                "title": "NGÀY 02 – XÂY DỰNG VĂN HÓA AN TOÀN",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "XÂY DỰNG VĂN HÓA AN TOÀN",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 4 – Safety Culture – Văn hóa an toàn là gì?",
                                                                         "duration": ""
@@ -2732,12 +2712,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "NGÀY 03",
+                                                "title": "NGÀY 03 – TỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "TỪ CHIẾN LƯỢC ĐẾN HÀNH ĐỘNG",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 7 – Các công cụ lãnh đạo an toàn hiện đại",
                                                                         "duration": ""
@@ -2885,16 +2861,12 @@ return new class extends Migration
                         "category_slug": "hse",
                         "title": "XÂY DỰNG VĂN HÓA AN TOÀN VÀ QUẢN LÝ RỦI RO CHỦ ĐỘNG CHO QUẢN LÝ VỀ AN TOÀN",
                         "slug": "xay-dung-van-hoa-an-toan-va-quan-ly-rui-ro-chu-dong-cho-quan-ly-ve-an-toan",
-                        "description": "NGÀY 01\nXÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS\nChuyên đề 1\nVai trò lãnh đạo trong quản lý an toàn\nChuyên đề 2\nQuản lý Near Miss\nChuyên đề 3\nĐiều tra Near Miss\nNGÀY 02\nBEHAVIOR BASED SAFETY (BBS)\nChuyên đề 4\nTổng quan BBS\nChuyên đề 5\nThiết kế chương trình BBS\nChuyên đề 6\nKỹ năng Safety Coaching\nNGÀY 03\nLIFE SAVING RULES (LSR) VÀ WSFI\nChuyên đề 7\nLife Saving Rules\nChuyên đề 8\nWorkplace Safety Field Inspection (WSFI)\nNGÀY 04\nJOB HAZARD ANALYSIS (JHA)\nChuyên đề 9\nPhân tích công việc và nhận diện nguy cơ\nChuyên đề 10\nThực hành JHA\nChuyên đề 11\nPermit To Work liên kết JHA\nNGÀY 05\nĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 12\nĐánh giá rủi ro nâng cao\nChuyên đề 13\nThiết lập KPI an toàn chủ động\nChuyên đề 14\nXây dựng Roadmap HSE 12 tháng",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>NGÀY 01</p>\n<p>XÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS</p>\n<p>Chuyên đề 1</p>\n<p>Vai trò lãnh đạo trong quản lý an toàn</p>\n<p>Chuyên đề 2</p>\n<p>Quản lý Near Miss</p>\n<p>Chuyên đề 3</p>\n<p>Điều tra Near Miss</p>\n<p>NGÀY 02</p>\n<p>BEHAVIOR BASED SAFETY (BBS)</p>\n<p>Chuyên đề 4</p>\n<p>Tổng quan BBS</p>\n<p>Chuyên đề 5</p>\n<p>Thiết kế chương trình BBS</p>\n<p>Chuyên đề 6</p>\n<p>Kỹ năng Safety Coaching</p>\n<p>NGÀY 03</p>\n<p>LIFE SAVING RULES (LSR) VÀ WSFI</p>\n<p>Chuyên đề 7</p>\n<p>Life Saving Rules</p>\n<p>Chuyên đề 8</p>\n<p>Workplace Safety Field Inspection (WSFI)</p>\n<p>NGÀY 04</p>\n<p>JOB HAZARD ANALYSIS (JHA)</p>\n<p>Chuyên đề 9</p>\n<p>Phân tích công việc và nhận diện nguy cơ</p>\n<p>Chuyên đề 10</p>\n<p>Thực hành JHA</p>\n<p>Chuyên đề 11</p>\n<p>Permit To Work liên kết JHA</p>\n<p>NGÀY 05</p>\n<p>ĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE</p>\n<p>Chuyên đề 12</p>\n<p>Đánh giá rủi ro nâng cao</p>\n<p>Chuyên đề 13</p>\n<p>Thiết lập KPI an toàn chủ động</p>\n<p>Chuyên đề 14</p>\n<p>Xây dựng Roadmap HSE 12 tháng</p>\n",
+                        "description": "NGÀY 01 – XÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS\nChuyên đề 1 – Vai trò lãnh đạo trong quản lý an toàn\nChuyên đề 2 – Quản lý Near Miss\nChuyên đề 3 – Điều tra Near Miss\nNGÀY 02 – BEHAVIOR BASED SAFETY (BBS)\nChuyên đề 4 – Tổng quan BBS\nChuyên đề 5 – Thiết kế chương trình BBS\nChuyên đề 6 – Kỹ năng Safety Coaching\nNGÀY 03 – LIFE SAVING RULES (LSR) VÀ WSFI\nChuyên đề 7 – Life Saving Rules\nChuyên đề 8 – Workplace Safety Field Inspection (WSFI)\nNGÀY 04 – JOB HAZARD ANALYSIS (JHA)\nChuyên đề 9 – Phân tích công việc và nhận diện nguy cơ\nChuyên đề 10 – Thực hành JHA\nChuyên đề 11 – Permit To Work liên kết JHA\nNGÀY 05 – ĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 12 – Đánh giá rủi ro nâng cao\nChuyên đề 13 – Thiết lập KPI an toàn chủ động\nChuyên đề 14 – Xây dựng Roadmap HSE 12 tháng",
+                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>NGÀY 01 – XÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS</strong></p>\n<p>Chuyên đề 1 – Vai trò lãnh đạo trong quản lý an toàn</p>\n<p>Chuyên đề 2 – Quản lý Near Miss</p>\n<p>Chuyên đề 3 – Điều tra Near Miss</p>\n<p><strong>NGÀY 02 – BEHAVIOR BASED SAFETY (BBS)</strong></p>\n<p>Chuyên đề 4 – Tổng quan BBS</p>\n<p>Chuyên đề 5 – Thiết kế chương trình BBS</p>\n<p>Chuyên đề 6 – Kỹ năng Safety Coaching</p>\n<p><strong>NGÀY 03 – LIFE SAVING RULES (LSR) VÀ WSFI</strong></p>\n<p>Chuyên đề 7 – Life Saving Rules</p>\n<p>Chuyên đề 8 – Workplace Safety Field Inspection (WSFI)</p>\n<p><strong>NGÀY 04 – JOB HAZARD ANALYSIS (JHA)</strong></p>\n<p>Chuyên đề 9 – Phân tích công việc và nhận diện nguy cơ</p>\n<p>Chuyên đề 10 – Thực hành JHA</p>\n<p>Chuyên đề 11 – Permit To Work liên kết JHA</p>\n<p><strong>NGÀY 05 – ĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE</strong></p>\n<p>Chuyên đề 12 – Đánh giá rủi ro nâng cao</p>\n<p>Chuyên đề 13 – Thiết lập KPI an toàn chủ động</p>\n<p>Chuyên đề 14 – Xây dựng Roadmap HSE 12 tháng</p>\n",
                         "curriculum": [
                                     {
-                                                "title": "NGÀY 01",
+                                                "title": "NGÀY 01 – XÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "XÂY DỰNG VĂN HÓA AN TOÀN VÀ HỆ THỐNG NEAR MISS",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 1 – Vai trò lãnh đạo trong quản lý an toàn",
                                                                         "duration": ""
@@ -3010,12 +2982,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "NGÀY 02",
+                                                "title": "NGÀY 02 – BEHAVIOR BASED SAFETY (BBS)",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "BEHAVIOR BASED SAFETY (BBS)",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 4 – Tổng quan BBS",
                                                                         "duration": ""
@@ -3111,12 +3079,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "NGÀY 03",
+                                                "title": "NGÀY 03 – LIFE SAVING RULES (LSR) VÀ WSFI",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "LIFE SAVING RULES (LSR) VÀ WSFI",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 7 – Life Saving Rules",
                                                                         "duration": ""
@@ -3224,12 +3188,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "NGÀY 04",
+                                                "title": "NGÀY 04 – JOB HAZARD ANALYSIS (JHA)",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "JOB HAZARD ANALYSIS (JHA)",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 9 – Phân tích công việc và nhận diện nguy cơ",
                                                                         "duration": ""
@@ -3317,12 +3277,8 @@ return new class extends Migration
                                                 ]
                                     },
                                     {
-                                                "title": "NGÀY 05",
+                                                "title": "NGÀY 05 – ĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE",
                                                 "lessons": [
-                                                            {
-                                                                        "title": "ĐÁNH GIÁ RỦI RO (DGRR) VÀ XÂY DỰNG CHIẾN LƯỢC HSE",
-                                                                        "duration": ""
-                                                            },
                                                             {
                                                                         "title": "Chuyên đề 12 – Đánh giá rủi ro nâng cao",
                                                                         "duration": ""
@@ -3426,8 +3382,8 @@ return new class extends Migration
                         "category_slug": "hse",
                         "title": "XÂY DỰNG HỆ THỐNG QUẢN LÝ LAO ĐỘNG VÀ TRÁCH NHIỆM XÃ HỘI THEO YÊU CẦU CASCALE",
                         "slug": "xay-dung-he-thong-quan-ly-lao-dong-va-trach-nhiem-xa-hoi-theo-yeu-cau-cascale",
-                        "description": "GIAI ĐOẠN 1\nKHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2\nĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nGIAI ĐOẠN 3\nXÂY DỰNG HỆ THỐNG HIGG FSLM\nGIAI ĐOẠN 4\nTRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU\nGIAI ĐOẠN 5\nTỰ ĐÁNH GIÁ HIGG FSLM\nGIAI ĐOẠN 6\nPRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1</p>\n<p>KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2</p>\n<p>ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)</p>\n<p>GIAI ĐOẠN 3</p>\n<p>XÂY DỰNG HỆ THỐNG HIGG FSLM</p>\n<p>GIAI ĐOẠN 4</p>\n<p>TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU</p>\n<p>GIAI ĐOẠN 5</p>\n<p>TỰ ĐÁNH GIÁ HIGG FSLM</p>\n<p>GIAI ĐOẠN 6</p>\n<p>PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG</p>\n",
+                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG HIGG FSLM\nGIAI ĐOẠN 4 – TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU\nGIAI ĐOẠN 5 – TỰ ĐÁNH GIÁ HIGG FSLM\nGIAI ĐOẠN 6 – PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG",
+                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</strong></p>\n<p><strong>GIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)</strong></p>\n<p><strong>GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG HIGG FSLM</strong></p>\n<p><strong>GIAI ĐOẠN 4 – TRIỂN KHAI VÀ ĐÀO TẠO CHUYÊN SÂU</strong></p>\n<p><strong>GIAI ĐOẠN 5 – TỰ ĐÁNH GIÁ HIGG FSLM</strong></p>\n<p><strong>GIAI ĐOẠN 6 – PRE-ASSESSMENT VÀ CHUẨN BỊ ĐÁNH GIÁ KHÁCH HÀNG</strong></p>\n",
                         "curriculum": [
                                     {
                                                 "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",
@@ -3943,8 +3899,8 @@ return new class extends Migration
                         "category_slug": "hse",
                         "title": "XÂY DỰNG TẦM NHÌN – SỨ MỆNH – CHIẾN LƯỢC HSE – TỪ QUẢN LÝ HSE ĐẾN LÃNH ĐẠO HSE XUẤT SẮC",
                         "slug": "xay-dung-tam-nhin-su-menh-chien-luoc-hse-tu-quan-ly-hse-den-lanh-dao-hse-xuat-sac",
-                        "description": "PHẦN 1\nHSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP\nChuyên đề 1\nTừ HSE Compliance đến HSE Excellence\nChuyên đề 2\nĐánh giá mức độ trưởng thành của hệ thống HSE\nPHẦN 2\nXÂY DỰNG TẦM NHÌN HSE\nChuyên đề 3\nHSE Vision – Tầm nhìn HSE\nPHẦN 3\nXÂY DỰNG SỨ MỆNH HSE\nChuyên đề 4\nHSE Mission – Sứ mệnh HSE\nPHẦN 4\nXÂY DỰNG GIÁ TRỊ CỐT LÕI HSE\nChuyên đề 5\nHSE Core Values\nPHẦN 5\nXÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 6\nHSE Strategic Planning\nChuyên đề 7\nXác định các trụ cột chiến lược\nPHẦN 6\nXÂY DỰNG KPI VÀ MỤC TIÊU HSE\nChuyên đề 8\nThiết lập mục tiêu HSE\nPHẦN 7\nXÂY DỰNG ROADMAP HSE 3 NĂM\nChuyên đề 9\nHSE Transformation Roadmap\nPHẦN 8\nCAM KẾT LÃNH ĐẠO\nChuyên đề 10\nLeadership Commitment Workshop",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>PHẦN 1</p>\n<p>HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP</p>\n<p>Chuyên đề 1</p>\n<p>Từ HSE Compliance đến HSE Excellence</p>\n<p>Chuyên đề 2</p>\n<p>Đánh giá mức độ trưởng thành của hệ thống HSE</p>\n<p>PHẦN 2</p>\n<p>XÂY DỰNG TẦM NHÌN HSE</p>\n<p>Chuyên đề 3</p>\n<p>HSE Vision – Tầm nhìn HSE</p>\n<p>PHẦN 3</p>\n<p>XÂY DỰNG SỨ MỆNH HSE</p>\n<p>Chuyên đề 4</p>\n<p>HSE Mission – Sứ mệnh HSE</p>\n<p>PHẦN 4</p>\n<p>XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE</p>\n<p>Chuyên đề 5</p>\n<p>HSE Core Values</p>\n<p>PHẦN 5</p>\n<p>XÂY DỰNG CHIẾN LƯỢC HSE</p>\n<p>Chuyên đề 6</p>\n<p>HSE Strategic Planning</p>\n<p>Chuyên đề 7</p>\n<p>Xác định các trụ cột chiến lược</p>\n<p>PHẦN 6</p>\n<p>XÂY DỰNG KPI VÀ MỤC TIÊU HSE</p>\n<p>Chuyên đề 8</p>\n<p>Thiết lập mục tiêu HSE</p>\n<p>PHẦN 7</p>\n<p>XÂY DỰNG ROADMAP HSE 3 NĂM</p>\n<p>Chuyên đề 9</p>\n<p>HSE Transformation Roadmap</p>\n<p>PHẦN 8</p>\n<p>CAM KẾT LÃNH ĐẠO</p>\n<p>Chuyên đề 10</p>\n<p>Leadership Commitment Workshop</p>\n",
+                        "description": "PHẦN 1 – HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP\nChuyên đề 1 – Từ HSE Compliance đến HSE Excellence\nChuyên đề 2 – Đánh giá mức độ trưởng thành của hệ thống HSE\nPHẦN 2 – XÂY DỰNG TẦM NHÌN HSE\nChuyên đề 3 – HSE Vision – Tầm nhìn HSE\nPHẦN 3 – XÂY DỰNG SỨ MỆNH HSE\nChuyên đề 4 – HSE Mission – Sứ mệnh HSE\nPHẦN 4 – XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE\nChuyên đề 5 – HSE Core Values\nPHẦN 5 – XÂY DỰNG CHIẾN LƯỢC HSE\nChuyên đề 6 – HSE Strategic Planning\nChuyên đề 7 – Xác định các trụ cột chiến lược\nPHẦN 6 – XÂY DỰNG KPI VÀ MỤC TIÊU HSE\nChuyên đề 8 – Thiết lập mục tiêu HSE\nPHẦN 7 – XÂY DỰNG ROADMAP HSE 3 NĂM\nChuyên đề 9 – HSE Transformation Roadmap\nPHẦN 8 – CAM KẾT LÃNH ĐẠO\nChuyên đề 10 – Leadership Commitment Workshop",
+                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>PHẦN 1 – HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP</strong></p>\n<p>Chuyên đề 1 – Từ HSE Compliance đến HSE Excellence</p>\n<p>Chuyên đề 2 – Đánh giá mức độ trưởng thành của hệ thống HSE</p>\n<p><strong>PHẦN 2 – XÂY DỰNG TẦM NHÌN HSE</strong></p>\n<p>Chuyên đề 3 – HSE Vision – Tầm nhìn HSE</p>\n<p><strong>PHẦN 3 – XÂY DỰNG SỨ MỆNH HSE</strong></p>\n<p>Chuyên đề 4 – HSE Mission – Sứ mệnh HSE</p>\n<p><strong>PHẦN 4 – XÂY DỰNG GIÁ TRỊ CỐT LÕI HSE</strong></p>\n<p>Chuyên đề 5 – HSE Core Values</p>\n<p><strong>PHẦN 5 – XÂY DỰNG CHIẾN LƯỢC HSE</strong></p>\n<p>Chuyên đề 6 – HSE Strategic Planning</p>\n<p>Chuyên đề 7 – Xác định các trụ cột chiến lược</p>\n<p><strong>PHẦN 6 – XÂY DỰNG KPI VÀ MỤC TIÊU HSE</strong></p>\n<p>Chuyên đề 8 – Thiết lập mục tiêu HSE</p>\n<p><strong>PHẦN 7 – XÂY DỰNG ROADMAP HSE 3 NĂM</strong></p>\n<p>Chuyên đề 9 – HSE Transformation Roadmap</p>\n<p><strong>PHẦN 8 – CAM KẾT LÃNH ĐẠO</strong></p>\n<p>Chuyên đề 10 – Leadership Commitment Workshop</p>\n",
                         "curriculum": [
                                     {
                                                 "title": "PHẦN 1 – HSE TRONG CHIẾN LƯỢC PHÁT TRIỂN DOANH NGHIỆP",
@@ -4715,8 +4671,8 @@ return new class extends Migration
                         "category_slug": "esg",
                         "title": "QUẢN LÝ NGUỒN CUNG ỨNG RỪNG BỀN VỮNG VÀ TRÁCH NHIỆM",
                         "slug": "quan-ly-nguon-cung-ung-rung-ben-vung-va-trach-nhiem",
-                        "description": "Chuyên đề 1\nTổng quan FSC\nChuyên đề 2\n10 Nguyên tắc FSC\nChuyên đề 3\nFSC và Phát triển bền vững\nChuyên đề 4\nFSC và Chuỗi cung ứng\nChuyên đề 5\nFSC và Doanh nghiệp",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>Chuyên đề 1</p>\n<p>Tổng quan FSC</p>\n<p>Chuyên đề 2</p>\n<p>10 Nguyên tắc FSC</p>\n<p>Chuyên đề 3</p>\n<p>FSC và Phát triển bền vững</p>\n<p>Chuyên đề 4</p>\n<p>FSC và Chuỗi cung ứng</p>\n<p>Chuyên đề 5</p>\n<p>FSC và Doanh nghiệp</p>\n",
+                        "description": "Chuyên đề 1 – Tổng quan FSC\nChuyên đề 2 – 10 Nguyên tắc FSC\nChuyên đề 3 – FSC và Phát triển bền vững\nChuyên đề 4 – FSC và Chuỗi cung ứng\nChuyên đề 5 – FSC và Doanh nghiệp",
+                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>Chuyên đề 1 – Tổng quan FSC</p>\n<p>Chuyên đề 2 – 10 Nguyên tắc FSC</p>\n<p>Chuyên đề 3 – FSC và Phát triển bền vững</p>\n<p>Chuyên đề 4 – FSC và Chuỗi cung ứng</p>\n<p>Chuyên đề 5 – FSC và Doanh nghiệp</p>\n",
                         "curriculum": [
                                     {
                                                 "title": "Nội dung chi tiết",
@@ -4871,8 +4827,8 @@ return new class extends Migration
                         "category_slug": "chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan",
                         "title": "HỆ THỐNG QUẢN LÝ CHUỖI HÀNH TRÌNH SẢN PHẨM FSC",
                         "slug": "he-thong-quan-ly-chuoi-hanh-trinh-san-pham-fsc",
-                        "description": "GIAI ĐOẠN 1\nKHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2\nĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nGIAI ĐOẠN 3\nXÂY DỰNG HỆ THỐNG FSC CoC\nGIAI ĐOẠN 4\nTRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU\nGIAI ĐOẠN 5\nĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN",
-                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p>GIAI ĐOẠN 1</p>\n<p>KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</p>\n<p>GIAI ĐOẠN 2</p>\n<p>ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)</p>\n<p>GIAI ĐOẠN 3</p>\n<p>XÂY DỰNG HỆ THỐNG FSC CoC</p>\n<p>GIAI ĐOẠN 4</p>\n<p>TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU</p>\n<p>GIAI ĐOẠN 5</p>\n<p>ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN</p>\n",
+                        "description": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC\nGIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)\nGIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG FSC CoC\nGIAI ĐOẠN 4 – TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU\nGIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN",
+                        "content": "<h3><strong>Nội dung đào tạo</strong></h3>\n<p><strong>GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC</strong></p>\n<p><strong>GIAI ĐOẠN 2 – ĐÁNH GIÁ THỰC TRẠNG (GAP ASSESSMENT)</strong></p>\n<p><strong>GIAI ĐOẠN 3 – XÂY DỰNG HỆ THỐNG FSC CoC</strong></p>\n<p><strong>GIAI ĐOẠN 4 – TRIỂN KHAI HỆ THỐNG VÀ ĐÀO TẠO CHUYÊN SÂU</strong></p>\n<p><strong>GIAI ĐOẠN 5 – ĐÁNH GIÁ NỘI BỘ VÀ CHUẨN BỊ CHỨNG NHẬN</strong></p>\n",
                         "curriculum": [
                                     {
                                                 "title": "GIAI ĐOẠN 1 – KHỞI ĐỘNG DỰ ÁN VÀ ĐÀO TẠO NHẬN THỨC",

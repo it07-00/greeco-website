@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('slug', 500)->unique();
             $table->text('description')->nullable();
             $table->longText('content')->nullable();
-            $table->string('image')->nullable();
-            $table->string('tag')->nullable();
+            $table->string('image', 500)->nullable();
+            $table->string('tag', 500)->nullable();
             $table->string('badge_color')->nullable();
             $table->decimal('rating', 2, 1)->default(5.0);
             $table->unsignedInteger('rating_count')->default(0);
@@ -31,9 +31,9 @@ return new class extends Migration
             $table->string('discount')->nullable();
             
             // Instructor details
-            $table->string('instructor_name')->nullable();
-            $table->string('instructor_role')->nullable();
-            $table->string('instructor_image')->nullable();
+            $table->string('instructor_name', 500)->nullable();
+            $table->string('instructor_role', 500)->nullable();
+            $table->string('instructor_image', 500)->nullable();
             $table->text('instructor_description')->nullable();
             
             // JSON curriculum structure (chapters & lessons)

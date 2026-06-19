@@ -17,6 +17,15 @@ return new class extends Migration
         Schema::table('courses', function (Blueprint $table) {
             $table->string('title', 500)->change();
             $table->string('slug', 500)->change();
+            $table->string('image', 500)->nullable()->change();
+            $table->string('tag', 500)->nullable()->change();
+            $table->string('instructor_name', 500)->nullable()->change();
+            $table->string('instructor_role', 500)->nullable()->change();
+            $table->string('instructor_image', 500)->nullable()->change();
+            $table->string('meta_title', 500)->nullable()->change();
+            $table->string('meta_keywords', 500)->nullable()->change();
+            $table->string('canonical_url', 500)->nullable()->change();
+            $table->string('og_image', 500)->nullable()->change();
         });
 
         Schema::disableForeignKeyConstraints();

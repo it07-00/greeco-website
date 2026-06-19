@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('courses', function (Blueprint $table) {
-            $table->string('meta_title')->nullable()->after('image');
+            $table->string('meta_title', 500)->nullable()->after('image');
             $table->text('meta_description')->nullable()->after('meta_title');
-            $table->string('meta_keywords')->nullable()->after('meta_description');
-            $table->string('canonical_url')->nullable()->after('meta_keywords');
-            $table->string('og_image')->nullable()->after('canonical_url');
+            $table->string('meta_keywords', 500)->nullable()->after('meta_description');
+            $table->string('canonical_url', 500)->nullable()->after('meta_keywords');
+            $table->string('og_image', 500)->nullable()->after('canonical_url');
             $table->boolean('is_indexable')->default(true)->after('curriculum');
         });
     }

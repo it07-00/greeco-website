@@ -81,7 +81,62 @@
                             @endif
 
                             <div class="post-text">
-                                {!! $post->content !!}
+                                @if($post->content_type === 'pdf' && $post->pdf_path)
+                                    <!-- Desktop PDF Iframe Viewer -->
+                                    <div class="d-none d-lg-block mb-4">
+                                        <div class="pdf-viewer-wrapper shadow-soft rounded-10px overflow-hidden border mb-4" style="border-color: rgba(0,0,0,0.08) !important;">
+                                            <iframe src="{{ Storage::url($post->pdf_path) }}" 
+                                                    width="100%" 
+                                                    height="900px" 
+                                                    style="border: none; display: block; background-color: #f3f4f6;">
+                                            </iframe>
+                                        </div>
+                                        
+                                        <div class="pdf-download-card p-4 border rounded-10px bg-light my-4 d-flex align-items-center justify-content-between flex-wrap gap-3" style="border-color: rgba(25, 135, 84, 0.2) !important;">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="bg-success text-white p-3 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                    <i class="fa-regular fa-file-pdf fs-22"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-1 text-dark fw-bold">Tài liệu đính kèm bài viết</h5>
+                                                    <span class="text-muted fs-14">Tệp tin định dạng PDF</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <a href="{{ Storage::url($post->pdf_path) }}" target="_blank" class="btn btn-outline-pdf-custom py-2 px-4 rounded-3 fw-bold d-flex align-items-center gap-2">
+                                                    <i class="fa-solid fa-up-right-from-square"></i> Mở tab mới
+                                                </a>
+                                                <a href="{{ Storage::url($post->pdf_path) }}" download class="btn btn-success text-white py-2 px-4 rounded-3 fw-bold d-flex align-items-center gap-2">
+                                                    <i class="fa-solid fa-download"></i> Tải bản PDF
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mobile PDF Preview Card -->
+                                    <div class="d-block d-lg-none my-4">
+                                        <div class="card border-0 shadow-sm rounded-10px overflow-hidden" style="background-color: #f8fafc; border: 1px solid rgba(25, 135, 84, 0.15) !important;">
+                                            <div class="card-body p-4 text-center">
+                                                <div class="bg-success-subtle text-success p-3 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; background-color: rgba(25, 135, 84, 0.1);">
+                                                    <i class="fa-regular fa-file-pdf fs-36 text-success"></i>
+                                                </div>
+                                                <h4 class="text-dark fw-bold mb-2">Tài liệu đính kèm</h4>
+                                                <p class="text-muted fs-14 mb-4">Bài viết này được trình bày dưới dạng tài liệu PDF. Để có trải nghiệm đọc tốt nhất trên thiết bị di động, vui lòng chọn một trong hai tùy chọn dưới đây.</p>
+                                                
+                                                <div class="d-grid gap-3">
+                                                    <a href="{{ Storage::url($post->pdf_path) }}" target="_blank" class="btn btn-outline-pdf-custom py-3 rounded-3 fw-bold d-flex align-items-center justify-content-center gap-2">
+                                                        <i class="fa-solid fa-book-open fs-18"></i> Xem trực tuyến (Toàn màn hình)
+                                                    </a>
+                                                    <a href="{{ Storage::url($post->pdf_path) }}" download class="btn btn-success text-white py-3 rounded-3 fw-bold d-flex align-items-center justify-content-center gap-2">
+                                                        <i class="fa-solid fa-download fs-18"></i> Tải bản PDF về máy
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    {!! $post->content !!}
+                                @endif
                             </div>
                             
                             @if(!empty($post->tags))
@@ -159,6 +214,24 @@
     </div>
 @endsection
 
+@push('styles')
+    <style>
+        .btn-outline-pdf-custom {
+            border: 2px solid #198754 !important;
+            color: #198754 !important;
+            background-color: transparent !important;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-pdf-custom:hover {
+            background-color: #198754 !important;
+            color: #ffffff !important;
+            border-color: #198754 !important;
+        }
+    </style>
+@endpush
+
 @push('scripts')
     <script src="{{ asset('assets/js/post-detail.js') }}" defer></script>
 @endpush
+
+

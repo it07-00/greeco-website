@@ -80,6 +80,26 @@ class PostForm
                             ]),
                         Tab::make('Nội dung')
                             ->schema([
+                                Select::make('content_type')
+                                    ->label('Hình thức thể hiện nội dung')
+                                    ->options([
+                                        'text' => 'Bài viết văn bản thông thường',
+                                        'pdf' => 'Hiển thị tệp PDF trực tuyến (Flipbook)',
+                                    ])
+                                    ->default('text')
+                                    ->live()
+                                    ->columnSpanFull(),
+
+                                FileUpload::make('pdf_path')
+                                    ->label('Tệp PDF nội dung')
+                                    ->disk('public')
+                                    ->directory('posts/pdfs')
+                                    ->acceptedFileTypes(['application/pdf'])
+                                    ->maxSize(20480) // 20MB
+                                    ->visible(fn (Get $get) => $get('content_type') === 'pdf')
+                                    ->required(fn (Get $get) => $get('content_type') === 'pdf')
+                                    ->columnSpanFull(),
+
                                 OptimizedImageUpload::configureRichEditor(
                                     RichEditor::make('content')->label('Nội dung bài viết'),
                                 )
@@ -89,6 +109,7 @@ class PostForm
                                     ->fileAttachmentsDirectory('posts/attachments')
                                     ->resizableImages()
                                     ->helperText('Dùng H2 cho các ý chính, H3-H4 cho ý con. Không dùng H1 trong nội dung vì tiêu đề bài viết đã là H1.')
+                                    ->visible(fn (Get $get) => $get('content_type') === 'text')
                                     ->columnSpanFull(),
                             ]),
                         Tab::make('Hình ảnh')

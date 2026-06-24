@@ -16,7 +16,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Giới thiệu & trang tĩnh
 Route::get('/gioi-thieu', [PageController::class, 'about'])->name('about');
 Route::get('/ban-lanh-dao-va-chuyen-gia', [PageController::class, 'team'])->name('team');
-Route::view('/thu-vien-anh', 'pages.gallery')->name('gallery');
+Route::get('/thu-vien-anh', [PageController::class, 'gallery'])->name('gallery');
 Route::view('/ho-so-nang-luc', 'pages.capability-profile')->name('capability-profile');
 Route::get('/thu-vien', [PageController::class, 'library'])->name('library');
 

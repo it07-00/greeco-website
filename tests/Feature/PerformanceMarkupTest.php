@@ -81,8 +81,8 @@ class PerformanceMarkupTest extends TestCase
             $content,
         );
         $this->assertStringContainsString('assets/css/style.css', $content);
-        $this->assertMatchesRegularExpression('/assets\/js\/plugins\.js" defer/', $content);
-        $this->assertMatchesRegularExpression('/assets\/js\/designesia\.js" defer/', $content);
+        $this->assertMatchesRegularExpression('/assets\/js\/plugins\.js(?:\?v=\d+)?" defer/', $content);
+        $this->assertMatchesRegularExpression('/assets\/js\/designesia\.js(?:\?v=\d+)?" defer/', $content);
     }
 
     public function test_page_scripts_wait_for_the_deferred_global_scripts(): void
@@ -130,6 +130,18 @@ class PerformanceMarkupTest extends TestCase
 
     public function test_static_gallery_images_reserve_space_and_lazy_load(): void
     {
+        \App\Models\Gallery::query()->create([
+            'image' => 'gallery/1.webp',
+            'title' => 'Hoạt động nghiên cứu thực địa',
+            'is_active' => true,
+        ]);
+
+        \App\Models\Gallery::query()->create([
+            'image' => 'gallery/9.webp',
+            'title' => 'Thực nghiệm kỹ thuật hóa học',
+            'is_active' => true,
+        ]);
+
         $content = $this->get(route('gallery'))
             ->assertOk()
             ->getContent();

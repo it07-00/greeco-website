@@ -42,4 +42,15 @@ class PageController extends Controller
 
         return view('pages.library', compact('documents'));
     }
+
+    public function gallery()
+    {
+        $galleries = \App\Models\Gallery::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('pages.gallery', compact('galleries'));
+    }
 }

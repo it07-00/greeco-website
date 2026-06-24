@@ -642,6 +642,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PartnerSeeder::class);
         $this->call(CourseSeeder::class);
         $this->call(TeamMemberSeeder::class);
+        $this->call(GallerySeeder::class);
 
         // 10. Seed Contact messages (At least 6 records)
         $contactsData = [

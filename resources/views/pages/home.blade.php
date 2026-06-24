@@ -662,9 +662,9 @@
                                 <div class="partner-item">
                                     @if($partner->website_url)
                                         <a href="{{ $partner->website_url }}" target="_blank" rel="noopener noreferrer"
-                                            class="partner-logo-link" aria-label="Truy cập website {{ $partner->name }}">
+                                            class="partner-logo-link" aria-label="Truy cập website {{ $partner->name }}" data-name="{{ $partner->name }}">
                                     @else
-                                        <div class="partner-logo-link">
+                                        <div class="partner-logo-link" data-name="{{ $partner->name }}">
                                     @endif
                                             <img src="{{ asset('storage/' . $partner->logo) }}" class="partner-logo-img"
                                                 alt="{{ $partner->name }}" title="{{ $partner->name }}" loading="lazy" decoding="async">

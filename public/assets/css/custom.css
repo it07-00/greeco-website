@@ -704,6 +704,34 @@ footer.footer-light .subfooter a:hover {
     border-radius: 10px;
     transition: none; /* Removed transition */
     text-decoration: none;
+    position: relative;
+}
+
+.partner-logo-link::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(17, 63, 23, 0.9); /* Primary green dark */
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.partner-logo-link:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: -10px;
 }
 
 .partner-logo-img {

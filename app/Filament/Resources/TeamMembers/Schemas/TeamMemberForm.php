@@ -2,6 +2,12 @@
 
 namespace App\Filament\Resources\TeamMembers\Schemas;
 
+use App\Support\OptimizedImageUpload;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class TeamMemberForm
@@ -10,29 +16,33 @@ class TeamMemberForm
     {
         return $schema
             ->components([
-                \Filament\Schemas\Components\Section::make('Thông tin chung')->schema([
-                    \Filament\Forms\Components\TextInput::make('name')
+                Section::make('Thông tin chung')->schema([
+                    TextInput::make('name')
                         ->label('Họ và tên')
                         ->required()
                         ->maxLength(255),
-                    \Filament\Forms\Components\TextInput::make('role')
+                    TextInput::make('role')
                         ->label('Chức vụ / Vai trò')
                         ->maxLength(255),
-                    \App\Support\OptimizedImageUpload::configure(
-                        \Filament\Forms\Components\FileUpload::make('image')->label('Hình ảnh đại diện'),
+                    Textarea::make('description')
+                        ->label('Chi tiết khi hover')
+                        ->rows(4)
+                        ->helperText('Nội dung này sẽ hiện khi rê chuột vào biểu tượng thông tin trên thẻ nhân sự.'),
+                    OptimizedImageUpload::configure(
+                        FileUpload::make('image')->label('Hình ảnh đại diện'),
                         600,
                         600,
                         84
                     )->disk('public')->directory('team_members'),
-                    \Filament\Forms\Components\TextInput::make('facebook_url')
+                    TextInput::make('facebook_url')
                         ->label('Link Facebook')
                         ->url()
                         ->maxLength(255),
-                    \Filament\Forms\Components\TextInput::make('linkedin_url')
+                    TextInput::make('linkedin_url')
                         ->label('Link LinkedIn')
                         ->url()
                         ->maxLength(255),
-                    \Filament\Forms\Components\Toggle::make('is_active')
+                    Toggle::make('is_active')
                         ->label('Hiển thị')
                         ->default(true),
                 ]),

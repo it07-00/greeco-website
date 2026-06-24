@@ -41,6 +41,7 @@ class HomeController extends Controller
         $teamMembers = TeamMember::query()
             ->where('is_active', true)
             ->orderBy('order_column')
+            ->limit(8)
             ->get();
 
         return view('pages.home', compact(

@@ -2152,6 +2152,127 @@ blockquote .blockquote-footer {
     z-index: 2;
 }
 
+.team-member-card .abs > .d-flex {
+    align-items: flex-start !important;
+    gap: 12px;
+    margin: 16px !important;
+    padding: 18px 18px !important;
+}
+
+.team-member-card h4 {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 17px;
+    line-height: 1.18;
+    margin-bottom: 6px !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.team-member-card p {
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.team-member-summary {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.team-member-info {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 34px;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: #0b6b2d;
+    cursor: help;
+    background: #dcefe0;
+    border-radius: 999px;
+}
+
+.team-member-info i {
+    font-size: 17px;
+    line-height: 1;
+}
+
+.team-member-detail {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    z-index: 5;
+    width: min(270px, 70vw);
+    padding: 14px 16px;
+    color: #16402a;
+    pointer-events: none;
+    visibility: hidden;
+    background: #ffffff;
+    border: 1px solid rgba(11, 107, 45, 0.14);
+    border-radius: 8px;
+    box-shadow: 0 14px 35px rgba(20, 55, 35, 0.18);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.team-member-detail::after {
+    position: absolute;
+    right: 12px;
+    bottom: -7px;
+    width: 14px;
+    height: 14px;
+    content: "";
+    background: #ffffff;
+    border-right: 1px solid rgba(11, 107, 45, 0.14);
+    border-bottom: 1px solid rgba(11, 107, 45, 0.14);
+    transform: rotate(45deg);
+}
+
+.team-member-detail strong,
+.team-member-detail span {
+    display: block;
+}
+
+.team-member-detail strong {
+    margin-bottom: 6px;
+    font-size: 14px;
+    line-height: 1.25;
+    color: #00521e;
+}
+
+.team-member-detail span {
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.team-member-info:hover .team-member-detail,
+.team-member-info:focus .team-member-detail,
+.team-member-info:focus-within .team-member-detail {
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 575.98px) {
+    .team-member-card .abs > .d-flex {
+        margin: 12px !important;
+        padding: 14px 14px !important;
+    }
+
+    .team-member-card h4 {
+        font-size: 16px;
+    }
+
+    .team-member-card p {
+        font-size: 13px;
+    }
+}
+
 /* ==========================================================================
    7.9. Table of Contents & Social Sharing
    ========================================================================== */

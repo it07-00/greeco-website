@@ -43,10 +43,14 @@
                                 <div class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
                                     <div>
                                         <h4 class="mb-0">{{ $member->name }}</h4>
-                                        <p class="mb-0">{{ $member->role }}</p>                                        
+                                        <p class="mb-0 team-member-summary">{{ $member->role }}</p>
                                     </div>
-                                    <div class="text-end">
-                                        <a href="{{ $member->facebook_url ?? setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
+                                    <div class="team-member-info" tabindex="0" aria-label="Xem chi tiết {{ $member->name }}">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        <div class="team-member-detail">
+                                            <strong>{{ $member->name }}</strong>
+                                            <span>{{ $member->description ?: $member->role }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

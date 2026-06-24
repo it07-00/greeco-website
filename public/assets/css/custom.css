@@ -702,14 +702,8 @@ footer.footer-light .subfooter a:hover {
     justify-content: center;
     padding: 10px 16px;
     border-radius: 10px;
-    transition: all 0.3s ease;
+    transition: none; /* Removed transition */
     text-decoration: none;
-}
-
-.partner-logo-link:hover {
-    background: #f1f5f9;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
 .partner-logo-img {
@@ -717,13 +711,7 @@ footer.footer-light .subfooter a:hover {
     max-width: 180px;
     width: auto;
     object-fit: contain;
-    filter: grayscale(100%) opacity(0.55);
-    transition: all 0.4s ease;
-}
-
-.partner-logo-link:hover .partner-logo-img {
-    filter: grayscale(0%) opacity(1);
-    transform: scale(1.06);
+    transition: none; /* Removed transition */
 }
 
 @media (prefers-reduced-motion: reduce) {

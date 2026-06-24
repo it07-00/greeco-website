@@ -73,12 +73,12 @@
                             <li><a class="menu-item" href="{{ route('posts.index') }}">Tin tức</a></li>
                             <li><a class="menu-item" href="{{ route('services.index') }}">Lĩnh vực hoạt động</a>
                                 <ul>
+                                    <li><a href="{{ route('services.dao-tao') }}">Đào tạo & Bồi dưỡng</a></li>
                                     <li><a href="{{ route('services.tu-van') }}">Dịch vụ Tư vấn</a></li>
                                     <li><a href="{{ route('services.du-an') }}">Phát triển Dự án</a></li>
                                     <li><a href="{{ route('services.nghien-cuu') }}">Nghiên cứu và Chuyển giao Công
                                             nghệ</a></li>
                                     <li><a href="{{ route('services.hoi-thao') }}">Hội thảo & Truyền thông</a></li>
-                                    <li><a href="{{ route('services.dao-tao') }}">Đào tạo & Bồi dưỡng</a></li>
                                 </ul>
                             </li>
                             <li><a class="menu-item" href="{{ route('library') }}">Văn bản pháp luật</a></li>

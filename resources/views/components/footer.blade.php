@@ -41,8 +41,8 @@
                         <div class="widget">
                             <h5>Lĩnh vực</h5>
                             <ul>
-                                <li><a href="{{ route('services.nghien-cuu') }}">Nghiên cứu khoa học</a></li>
                                 <li><a href="{{ route('services.dao-tao') }}">Đào tạo & Bồi dưỡng</a></li>
+                                <li><a href="{{ route('services.nghien-cuu') }}">Nghiên cứu khoa học</a></li>
                                 <li><a href="{{ route('services.tu-van') }}">Tư vấn môi trường</a></li>
                                 <li><a href="{{ route('services.du-an') }}">Dự án tăng trưởng xanh</a></li>
                                 <li><a href="{{ route('services.hoi-thao') }}">Hội thảo & Truyền thông</a></li>

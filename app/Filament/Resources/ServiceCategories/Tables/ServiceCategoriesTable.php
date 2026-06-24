@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -19,6 +20,12 @@ class ServiceCategoriesTable
                 TextColumn::make('id')
                     ->label('ID')
                     ->sortable(),
+                ImageColumn::make('image')
+                    ->label('Ảnh')
+                    ->state(fn ($record): ?string => $record->image
+                        ? asset(str_starts_with($record->image, 'assets/') ? $record->image : 'storage/'.$record->image)
+                        : null)
+                    ->square(),
                 TextColumn::make('name')
                     ->label('Tên danh mục')
                     ->searchable()

@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\ServiceCategories\Schemas;
 
-use Illuminate\Support\Str;
-use Filament\Forms\Components\TextInput;
+use App\Support\OptimizedImageUpload;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class ServiceCategoryForm
 {
@@ -30,6 +32,16 @@ class ServiceCategoryForm
                         Textarea::make('description')
                             ->label('Mô tả')
                             ->rows(3),
+                        OptimizedImageUpload::configure(
+                            FileUpload::make('image')->label('Ảnh hiển thị'),
+                            1024,
+                            1024,
+                            84,
+                            'Nên dùng ảnh vuông tối thiểu 1024×1024px. Ảnh sẽ được tối ưu sang WebP khi lưu.',
+                        )
+                            ->disk('public')
+                            ->directory('service_categories')
+                            ->columnSpanFull(),
                         Toggle::make('is_active')
                             ->label('Hiển thị')
                             ->default(true),
@@ -37,7 +49,7 @@ class ServiceCategoryForm
                             ->label('Thứ tự hiển thị')
                             ->numeric()
                             ->default(0),
-                    ])
+                    ]),
             ]);
     }
 }

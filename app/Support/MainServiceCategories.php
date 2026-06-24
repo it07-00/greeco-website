@@ -63,8 +63,20 @@ class MainServiceCategories
                     'name' => $category?->name ?? $item['name'],
                     'description' => $category?->description ?? $item['description'],
                     'url' => route($item['route']),
-                    'image' => asset('assets/images/services/'.($index + 1).'.webp'),
+                    'image' => self::imageUrl(
+                        $category?->image,
+                        'assets/images/services/'.($index + 1).'.webp',
+                    ),
                 ];
             });
+    }
+
+    private static function imageUrl(?string $image, string $fallback): string
+    {
+        if (! $image) {
+            return asset($fallback);
+        }
+
+        return asset(str_starts_with($image, 'assets/') ? $image : 'storage/'.$image);
     }
 }

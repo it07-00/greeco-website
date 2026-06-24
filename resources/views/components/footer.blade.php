@@ -8,7 +8,7 @@
                         width="678" height="222" class="footer-logo-text" alt="GREECO Logo">
                 </div>
                 <div class="spacer-20"></div>
-                <p>Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) là đơn vị khoa học công nghệ hàng đầu, chuyên
+                <p style="font-weight: 800;">Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) là đơn vị khoa học công nghệ hàng đầu, chuyên
                     nghiên cứu, tư vấn và chuyển giao các giải pháp phát triển bền vững, kinh tế tuần hoàn và ứng phó
                     biến đổi khí hậu.</p>
 

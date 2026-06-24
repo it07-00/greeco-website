@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Banner;
 use App\Models\Contact;
+use App\Models\Document;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\PostCategory;
@@ -37,7 +38,7 @@ class DatabaseSeeder extends Seeder
         Banner::query()->delete();
 
         $storageBannersDir = public_path('storage/banners');
-        if (!file_exists($storageBannersDir)) {
+        if (! file_exists($storageBannersDir)) {
             mkdir($storageBannersDir, 0755, true);
             chmod($storageBannersDir, 0755);
         }
@@ -244,7 +245,7 @@ class DatabaseSeeder extends Seeder
         // 7. Seed Posts (At least 6 records)
         // Copy blog assets to storage/posts if they don't exist
         $storagePostsDir = public_path('storage/posts');
-        if (!file_exists($storagePostsDir)) {
+        if (! file_exists($storagePostsDir)) {
             mkdir($storagePostsDir, 0755, true);
             chmod($storagePostsDir, 0755);
         }
@@ -700,7 +701,7 @@ class DatabaseSeeder extends Seeder
 
         // 11. Seed Website Settings (At least 6 records)
         $storageSettingsDir = public_path('storage/settings');
-        if (!file_exists($storageSettingsDir)) {
+        if (! file_exists($storageSettingsDir)) {
             mkdir($storageSettingsDir, 0755, true);
             chmod($storageSettingsDir, 0755);
         }
@@ -839,7 +840,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($documentsData as $doc) {
-            \App\Models\Document::query()->updateOrCreate(['number' => $doc['number']], $doc);
+            Document::query()->updateOrCreate(['number' => $doc['number']], $doc);
         }
     }
 }

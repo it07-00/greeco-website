@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Settings\Schemas;
 
 use App\Support\OptimizedImageUpload;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -19,11 +20,11 @@ class SettingForm
             ->components([
                 Section::make('Cấu hình hệ thống')
                     ->schema([
-                        \Filament\Forms\Components\Placeholder::make('label_placeholder')
+                        Placeholder::make('label_placeholder')
                             ->label('Tên cấu hình')
                             ->content(fn ($record) => $record ? $record->label : '-')
                             ->visible(fn ($record) => $record !== null),
-                        \Filament\Forms\Components\Placeholder::make('description_placeholder')
+                        Placeholder::make('description_placeholder')
                             ->label('Mô tả ý nghĩa')
                             ->content(fn ($record) => $record ? $record->description : '-')
                             ->visible(fn ($record) => $record !== null),
@@ -32,6 +33,7 @@ class SettingForm
                             ->required()
                             ->maxLength(255)
                             ->disabled(fn ($context) => $context === 'edit')
+                            ->live()
                             ->unique(ignoreRecord: true),
                         Select::make('group')
                             ->label('Nhóm cấu hình')
@@ -63,6 +65,18 @@ class SettingForm
                         TextInput::make('text_value')
                             ->label('Giá trị')
                             ->visible(fn (callable $get) => in_array($get('type'), ['text', null, '']))
+                            ->columnSpanFull(),
+
+                        TextInput::make('phone_name_value')
+                            ->label('Tên người nghe hotline 1')
+                            ->helperText('Hiển thị cùng số hotline 1 theo dạng: số điện thoại - tên người nghe.')
+                            ->visible(fn (callable $get) => $get('key') === 'phone')
+                            ->columnSpanFull(),
+
+                        TextInput::make('phone_2_name_value')
+                            ->label('Tên người nghe hotline 2')
+                            ->helperText('Hiển thị cùng số hotline 2 theo dạng: số điện thoại - tên người nghe.')
+                            ->visible(fn (callable $get) => $get('key') === 'phone_2')
                             ->columnSpanFull(),
 
                         Textarea::make('textarea_value')

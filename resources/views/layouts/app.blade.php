@@ -144,10 +144,10 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
                     <i class="fa-solid fa-phone"></i>
                     <div class="phone-submenu">
                         <a href="tel:{{ $cleanPhone }}" class="submenu-item">
-                            <i class="fa-solid fa-phone-volume me-2"></i> {{ $phoneName ? $phoneName . ': ' : 'Hotline 1: ' }}{{ $rawPhone }}
+                            <i class="fa-solid fa-phone-volume me-2"></i> {{ $rawPhone }}{{ $phoneName ? ' - ' . $phoneName : '' }}
                         </a>
                         <a href="tel:{{ $cleanPhone2 }}" class="submenu-item">
-                            <i class="fa-solid fa-phone-volume me-2"></i> {{ $phone2Name ? $phone2Name . ': ' : 'Hotline 2: ' }}{{ $rawPhone2 }}
+                            <i class="fa-solid fa-phone-volume me-2"></i> {{ $rawPhone2 }}{{ $phone2Name ? ' - ' . $phone2Name : '' }}
                         </a>
                     </div>
                 </div>

@@ -6,7 +6,9 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class SettingsTable
 {
@@ -14,6 +16,20 @@ class SettingsTable
     {
         return $table
             ->defaultSort('created_at', 'desc')
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereNotIn('key', ['phone_name', 'phone_2_name']))
+            ->groups([
+                Group::make('group')
+                    ->label('Nhóm cấu hình')
+                    ->getTitleFromRecordUsing(fn ($record): string => match ($record->group) {
+                        'general' => 'Logo & nhận diện',
+                        'contact' => 'Liên hệ',
+                        'social' => 'Mạng xã hội',
+                        'seo' => 'SEO',
+                        default => 'Khác',
+                    })
+                    ->collapsible(),
+            ])
+            ->defaultGroup('group')
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')
@@ -37,6 +53,13 @@ class SettingsTable
                         'social' => 'warning',
                         'seo' => 'success',
                         default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'general' => 'Logo & nhận diện',
+                        'contact' => 'Liên hệ',
+                        'social' => 'Mạng xã hội',
+                        'seo' => 'SEO',
+                        default => $state,
                     })
                     ->searchable()
                     ->sortable(),

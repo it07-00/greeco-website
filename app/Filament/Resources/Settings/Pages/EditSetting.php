@@ -46,7 +46,7 @@ class EditSetting extends EditRecord
             default => null,
         };
 
-        if (($data['key'] ?? null) === 'phone') {
+        if ($this->record->key === 'phone') {
             Setting::query()->updateOrCreate(
                 ['key' => 'phone_name'],
                 [
@@ -57,7 +57,7 @@ class EditSetting extends EditRecord
             );
         }
 
-        if (($data['key'] ?? null) === 'phone_2') {
+        if ($this->record->key === 'phone_2') {
             Setting::query()->updateOrCreate(
                 ['key' => 'phone_2_name'],
                 [

@@ -101,5 +101,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/post-detail.js') }}" defer></script>
+    <script src="{{ versioned_asset('assets/js/post-detail.js') }}" defer></script>
 @endpush

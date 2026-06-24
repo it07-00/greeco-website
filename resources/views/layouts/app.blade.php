@@ -44,52 +44,52 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
     <link rel="preload" href="{{ asset('assets/fonts/be-vietnam-pro/BeVietnamPro-Bold.ttf') }}" as="font"
         type="font/ttf" crossorigin>
 
-    <link rel="preload" href="{{ asset('assets/css/bootstrap.min.css') }}" as="style">
-    <link rel="preload" href="{{ asset('assets/css/style.css') }}" as="style">
-    <link rel="preload" href="{{ asset('assets/css/custom.css') }}" as="style">
+    <link rel="preload" href="{{ versioned_asset('assets/css/bootstrap.min.css') }}" as="style">
+    <link rel="preload" href="{{ versioned_asset('assets/css/style.css') }}" as="style">
+    <link rel="preload" href="{{ versioned_asset('assets/css/custom.css') }}" as="style">
 
     @stack('preloads')
 
     <!-- CSS Files ================================================== -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bootstrap">
-    <link rel="preload" href="{{ asset('assets/css/plugins.css') }}" as="style"
+    <link href="{{ versioned_asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bootstrap">
+    <link rel="preload" href="{{ versioned_asset('assets/css/plugins.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="{{ asset('assets/css/plugins.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/css/plugins.css') }}" rel="stylesheet" type="text/css">
     </noscript>
-    <link rel="preload" href="{{ asset('assets/fonts/fontawesome4/css/font-awesome.css') }}" as="style"
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome4/css/font-awesome.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('assets/fonts/fontawesome6/css/fontawesome.css') }}" as="style"
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/css/fontawesome.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('assets/fonts/fontawesome6/css/brands.css') }}" as="style"
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/css/brands.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('assets/fonts/fontawesome6/css/solid.css') }}" as="style"
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/fontawesome6/css/solid.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('assets/fonts/elegant_font/HTML_CSS/style.css') }}" as="style"
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/elegant_font/HTML_CSS/style.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('assets/fonts/et-line-font/style.css') }}" as="style"
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/et-line-font/style.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('assets/fonts/icofont/icofont.min.css') }}" as="style"
+    <link rel="preload" href="{{ versioned_asset('assets/fonts/icofont/icofont.min.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="{{ asset('assets/fonts/fontawesome4/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('assets/fonts/fontawesome6/css/fontawesome.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('assets/fonts/fontawesome6/css/brands.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('assets/fonts/fontawesome6/css/solid.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('assets/fonts/elegant_font/HTML_CSS/style.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('assets/fonts/et-line-font/style.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ asset('assets/fonts/icofont/icofont.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/fonts/fontawesome4/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/fonts/fontawesome6/css/fontawesome.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/fonts/fontawesome6/css/brands.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/fonts/fontawesome6/css/solid.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/fonts/elegant_font/HTML_CSS/style.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/fonts/et-line-font/style.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/fonts/icofont/icofont.min.css') }}" rel="stylesheet" type="text/css">
     </noscript>
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
-    <link rel="preload" href="{{ asset('assets/css/coloring.css') }}" as="style"
+    <link href="{{ versioned_asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link rel="preload" href="{{ versioned_asset('assets/css/coloring.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" id="colors" href="{{ asset('assets/css/colors/scheme-01.css') }}" as="style"
+    <link rel="preload" id="colors" href="{{ versioned_asset('assets/css/colors/scheme-01.css') }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="{{ asset('assets/css/coloring.css') }}" rel="stylesheet" type="text/css">
-        <link id="colors-noscript" href="{{ asset('assets/css/colors/scheme-01.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ versioned_asset('assets/css/coloring.css') }}" rel="stylesheet" type="text/css">
+        <link id="colors-noscript" href="{{ versioned_asset('assets/css/colors/scheme-01.css') }}" rel="stylesheet" type="text/css">
     </noscript>
-    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ versioned_asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css">
 
     @stack('styles')
 </head>
@@ -172,8 +172,8 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
     <x-extra-wrap />
 
     <!-- Javascript Files ================================================== -->
-    <script src="{{ asset('assets/js/plugins.js') }}" defer></script>
-    <script src="{{ asset('assets/js/designesia.js') }}" defer></script>
+    <script src="{{ versioned_asset('assets/js/plugins.js') }}" defer></script>
+    <script src="{{ versioned_asset('assets/js/designesia.js') }}" defer></script>
 
     @stack('scripts')
     <script>

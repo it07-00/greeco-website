@@ -14,14 +14,14 @@
 @endpush
 
 @push('vendor-styles')
-    <link href="{{ asset('assets/css/swiper.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ versioned_asset('assets/css/swiper.css') }}" rel="stylesheet" type="text/css">
 @endpush
 
 
 @push('scripts')
-    <script src="{{ asset('assets/js/swiper.js') }}" defer></script>
-    <script src="{{ asset('assets/js/custom-swiper-2.js') }}" defer></script>
-    <script src="{{ asset('assets/js/custom-marquee.js') }}" defer></script>
+    <script src="{{ versioned_asset('assets/js/swiper.js') }}" defer></script>
+    <script src="{{ versioned_asset('assets/js/custom-swiper-2.js') }}" defer></script>
+    <script src="{{ versioned_asset('assets/js/custom-marquee.js') }}" defer></script>
 @endpush
 
 @section('content')

@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\Setting;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -11,6 +12,8 @@ use Throwable;
 
 class OptimizedImageUpload
 {
+    private const MAX_UPLOAD_SIZE_KB = 51200;
+
     private const OPTIMIZABLE_MIME_TYPES = [
         'image/jpeg',
         'image/png',
@@ -27,7 +30,7 @@ class OptimizedImageUpload
         $upload
             ->image()
             ->imageEditor()
-            ->maxSize(15360)
+            ->maxSize(self::MAX_UPLOAD_SIZE_KB)
             ->automaticallyResizeImagesMode('contain')
             ->automaticallyResizeImagesToWidth((string) $maxWidth)
             ->automaticallyResizeImagesToHeight((string) $maxHeight)
@@ -62,7 +65,7 @@ class OptimizedImageUpload
                 'image/gif',
                 'image/webp',
             ])
-            ->fileAttachmentsMaxSize(15360)
+            ->fileAttachmentsMaxSize(self::MAX_UPLOAD_SIZE_KB)
             ->saveUploadedFileAttachmentUsing(
                 fn (RichEditor $component, TemporaryUploadedFile $file): ?string => self::storeRichEditorAttachment(
                     $component,
@@ -84,17 +87,17 @@ class OptimizedImageUpload
         // Skip WebP optimization for website favicon setting so it preserves its format (like PNG/ICO)
         $record = $component->getRecord();
         $key = null;
-        if ($record instanceof \App\Models\Setting) {
+        if ($record instanceof Setting) {
             $key = $record->key;
         } else {
             try {
                 $state = $component->getContainer()->getRawState();
                 $key = $state['key'] ?? null;
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 // Ignore
             }
         }
-        
+
         if ($key === 'favicon') {
             return $component->saveUploadedFile($file);
         }

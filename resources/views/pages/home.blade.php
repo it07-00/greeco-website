@@ -382,9 +382,6 @@
                 <div class="row g-4">
                     @foreach($latestPosts as $post)
                         @php
-                            $day = $post->published_at ? $post->published_at->format('d') : $post->created_at->format('d');
-                            $monthNum = $post->published_at ? $post->published_at->format('n') : $post->created_at->format('n');
-                            $monthStr = 'Th' . $monthNum;
                             $postImg = $post->thumbnail ? asset('storage/' . $post->thumbnail) : asset('assets/images/blog/' . (($loop->index % 3) + 1) . '.webp');
                         @endphp
                         <!-- post -->
@@ -394,15 +391,15 @@
                                     <div class="col-sm-6">
                                         <div class="blog-post-img-container relative">
                                             <img src="{{ $postImg }}" width="1024" height="1024" class="blog-post-img" alt="{{ $post->title }}" loading="lazy" decoding="async">
-                                            <div class="abs start-0 top-0 bg-color-2 text-white p-3 pb-2 m-3 text-center fw-600 rounded-5px">
-                                                <div class="fs-36 mb-0">{{ $day }}</div>
-                                                <span>{{ $monthStr }}</span>
-                                            </div>
                                         </div>
                                     </div>   
                                     <div class="col-sm-6 relative">
                                         <div class="p-30 pb-40">
                                             <h4><a class="text-dark" href="{{ route('posts.show', $post) }}">{{ $post->title }}</a></h4>
+                                            <div class="post-card-meta mb-2">
+                                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                                                <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>
+                                            </div>
                                             <p class="mb-0 fs-14 text-muted">{{ Str::limit($post->excerpt, 120) }}</p>
                                         </div>
                                     </div>                             

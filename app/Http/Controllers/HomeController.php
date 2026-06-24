@@ -23,7 +23,7 @@ class HomeController extends Controller
         $latestPosts = Post::query()
             ->where('is_published', true)
             ->latest('published_at')
-            ->limit(3)
+            ->limit(4)
             ->get();
 
         $featuredProjects = Project::query()

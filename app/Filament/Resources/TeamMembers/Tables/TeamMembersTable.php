@@ -5,6 +5,9 @@ namespace App\Filament\Resources\TeamMembers\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class TeamMembersTable
@@ -13,23 +16,23 @@ class TeamMembersTable
     {
         return $table
             ->columns([
-                \Filament\Tables\Columns\ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->label('Hình ảnh')
                     ->disk('public')
                     ->circular(),
-                \Filament\Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Họ và tên')
                     ->searchable()
                     ->sortable(),
-                \Filament\Tables\Columns\TextColumn::make('role')
+                TextColumn::make('role')
                     ->label('Chức vụ')
                     ->searchable(),
-                \Filament\Tables\Columns\ToggleColumn::make('is_active')
+                ToggleColumn::make('is_active')
                     ->label('Hiển thị')
                     ->sortable(),
             ])
             ->reorderable('order_column')
-            ->defaultSort('order_column')
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

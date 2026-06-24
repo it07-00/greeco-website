@@ -36,6 +36,10 @@ class PostsTable
                 IconColumn::make('is_featured')
                     ->label('Nổi bật')
                     ->boolean(),
+                TextColumn::make('views_count')
+                    ->label('Lượt xem')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('published_at')
                     ->label('Ngày xuất bản')
                     ->dateTime('d/m/Y H:i')

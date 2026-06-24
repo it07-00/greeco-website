@@ -60,20 +60,18 @@
                     <div class="col-lg-8">
                         <div class="blog-read">
                             <h1 class="text-dark fs-36 fw-700 lh-1-3 mb-3">{{ $post->title }}</h1>
-                            @if($post->published_at)
-                                <div class="post-detail-meta mb-3">
-                                    <time class="post-detail-meta__item" datetime="{{ $post->published_at->toDateString() }}">
-                                        <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
-                                        <span>{{ $post->published_at->format('d/m/Y') }}</span>
-                                    </time>
-                                    @if($post->category)
-                                        <span class="post-detail-meta__item">
-                                            <i class="fa-regular fa-folder-open" aria-hidden="true"></i>
-                                            <span>{{ $post->category->name }}</span>
-                                        </span>
-                                    @endif
-                                </div>
-                            @endif
+                            <div class="post-detail-meta mb-3">
+                                <span class="post-detail-meta__item">
+                                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                                    <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>
+                                </span>
+                                @if($post->category)
+                                    <span class="post-detail-meta__item">
+                                        <i class="fa-regular fa-folder-open" aria-hidden="true"></i>
+                                        <span>{{ $post->category->name }}</span>
+                                    </span>
+                                @endif
+                            </div>
                             <hr class="border-dashed my-4">
                             
                             @if($post->excerpt)
@@ -183,7 +181,7 @@
                                             <div class="d-content">
                                                 <a href="{{ route('posts.show', $relPost) }}"><h4>{{ $relPost->title }}</h4></a>
                                                 <div class="d-date">
-                                                    {{ $relPost->published_at ? 'Ngày ' . $relPost->published_at->format('d') . ' tháng ' . $relPost->published_at->format('m') . ' năm ' . $relPost->published_at->format('Y') : '' }}
+                                                    {{ number_format($relPost->views_count ?? 0) }} lượt xem
                                                 </div>
                                             </div>
                                         </li>
@@ -233,4 +231,3 @@
 @push('scripts')
     <script src="{{ versioned_asset('assets/js/post-detail.js') }}" defer></script>
 @endpush
-

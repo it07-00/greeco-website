@@ -17,12 +17,12 @@ class PostController extends Controller
         $activeTag = $request->input('tag');
 
         if ($request->filled('tag')) {
-            $query->where(function($q) use ($activeTag) {
+            $query->where(function ($q) use ($activeTag) {
                 $q->whereJsonContains('tags', $activeTag)
-                  ->orWhere('title', 'like', '%' . $activeTag . '%')
-                  ->orWhere('excerpt', 'like', '%' . $activeTag . '%')
-                  ->orWhere('content', 'like', '%' . $activeTag . '%')
-                  ->orWhere('meta_keywords', 'like', '%' . $activeTag . '%');
+                    ->orWhere('title', 'like', '%'.$activeTag.'%')
+                    ->orWhere('excerpt', 'like', '%'.$activeTag.'%')
+                    ->orWhere('content', 'like', '%'.$activeTag.'%')
+                    ->orWhere('meta_keywords', 'like', '%'.$activeTag.'%');
             });
         }
 
@@ -43,6 +43,9 @@ class PostController extends Controller
     public function show(Post $post)
     {
         abort_unless($post->is_published, 404);
+
+        $post->increment('views_count');
+        $post->refresh();
 
         $relatedPosts = Post::query()
             ->where('id', '!=', $post->id)

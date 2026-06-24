@@ -29,6 +29,7 @@ class Post extends Model
         'is_featured',
         'is_indexable',
         'is_published',
+        'views_count',
         'published_at',
     ];
 
@@ -36,6 +37,7 @@ class Post extends Model
         'is_featured' => 'boolean',
         'is_indexable' => 'boolean',
         'is_published' => 'boolean',
+        'views_count' => 'integer',
         'published_at' => 'datetime',
         'tags' => 'array',
     ];

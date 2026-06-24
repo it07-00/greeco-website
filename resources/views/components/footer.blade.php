@@ -80,10 +80,20 @@
 
                             <div class="fw-bold text-dark"><i class="icofont-phone me-2 id-color-2"></i>Hotline</div>
                             <a href="tel:{{ str_replace(' ', '', setting('phone', '0936996390')) }}"
-                                class="text-dark text-decoration-none hover-underline d-block">{{ setting('phone', '09369 96390') }}</a>
+                                class="text-dark text-decoration-none hover-underline d-block hotline-link">
+                                @if(setting('phone_name'))
+                                    <span class="hotline-person">{{ setting('phone_name') }}</span>
+                                @endif
+                                <span>{{ setting('phone', '09369 96390') }}</span>
+                            </a>
                             @if(setting('phone_2'))
                                 <a href="tel:{{ str_replace(' ', '', setting('phone_2')) }}"
-                                    class="text-dark text-decoration-none hover-underline d-block mt-1">{{ setting('phone_2') }}</a>
+                                    class="text-dark text-decoration-none hover-underline d-block mt-1 hotline-link">
+                                    @if(setting('phone_2_name'))
+                                        <span class="hotline-person">{{ setting('phone_2_name') }}</span>
+                                    @endif
+                                    <span>{{ setting('phone_2') }}</span>
+                                </a>
                             @endif
                         </div>
                     </div>

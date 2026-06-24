@@ -101,8 +101,10 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
         <!-- Floating Contact Buttons -->
         @php
             $rawPhone = setting('phone', '09369 96390');
+            $phoneName = setting('phone_name');
             $cleanPhone = preg_replace('/\D/', '', $rawPhone);
             $rawPhone2 = setting('phone_2');
+            $phone2Name = setting('phone_2_name');
             $cleanPhone2 = $rawPhone2 ? preg_replace('/\D/', '', $rawPhone2) : null;
 
             $zaloUrl = setting('zalo_url');
@@ -142,10 +144,10 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
                     <i class="fa-solid fa-phone"></i>
                     <div class="phone-submenu">
                         <a href="tel:{{ $cleanPhone }}" class="submenu-item">
-                            <i class="fa-solid fa-phone-volume me-2"></i> Hotline 1: {{ $rawPhone }}
+                            <i class="fa-solid fa-phone-volume me-2"></i> {{ $phoneName ? $phoneName . ': ' : 'Hotline 1: ' }}{{ $rawPhone }}
                         </a>
                         <a href="tel:{{ $cleanPhone2 }}" class="submenu-item">
-                            <i class="fa-solid fa-phone-volume me-2"></i> Hotline 2: {{ $rawPhone2 }}
+                            <i class="fa-solid fa-phone-volume me-2"></i> {{ $phone2Name ? $phone2Name . ': ' : 'Hotline 2: ' }}{{ $rawPhone2 }}
                         </a>
                     </div>
                 </div>

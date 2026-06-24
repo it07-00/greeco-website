@@ -44,9 +44,17 @@ class Setting extends Model
                 'label' => 'Số điện thoại hotline 1',
                 'description' => 'Hotline chính hiển thị ở Header, Footer và nút gọi nhanh.',
             ],
+            'phone_name' => [
+                'label' => 'Tên người nghe hotline 1',
+                'description' => 'Tên người phụ trách nhận cuộc gọi cho hotline chính.',
+            ],
             'phone_2' => [
                 'label' => 'Số điện thoại hotline 2 (Tùy chọn)',
                 'description' => 'Hotline phụ hiển thị ở Footer, trang Liên hệ và menu gọi nhanh.',
+            ],
+            'phone_2_name' => [
+                'label' => 'Tên người nghe hotline 2',
+                'description' => 'Tên người phụ trách nhận cuộc gọi cho hotline phụ.',
             ],
             'email' => [
                 'label' => 'Địa chỉ email',

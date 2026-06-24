@@ -80,20 +80,20 @@
                                             </div>
                                             <div class="contact-text-group">
                                                 <span class="contact-label">Điện thoại liên hệ</span>
-                                                <a href="tel:{{ str_replace(' ', '', setting('phone', '0936996390')) }}" class="contact-value text-decoration-none hover-underline text-white hotline-link">
-                                                    <span>{{ setting('phone', '09369 96390') }}</span>
-                                                    @if(setting('phone_name'))
-                                                        <span class="hotline-person"> - {{ setting('phone_name') }}</span>
-                                                    @endif
-                                                </a>
                                                 @if(setting('phone_2'))
-                                                    <a href="tel:{{ str_replace(' ', '', setting('phone_2')) }}" class="contact-value text-decoration-none hover-underline text-white d-block mt-1 hotline-link">
+                                                    <a href="tel:{{ str_replace(' ', '', setting('phone_2')) }}" class="contact-value text-decoration-none hover-underline text-white d-block hotline-link">
                                                         <span>{{ setting('phone_2') }}</span>
                                                         @if(setting('phone_2_name'))
                                                             <span class="hotline-person"> - {{ setting('phone_2_name') }}</span>
                                                         @endif
                                                     </a>
                                                 @endif
+                                                <a href="tel:{{ str_replace(' ', '', setting('phone', '0936996390')) }}" class="contact-value text-decoration-none hover-underline text-white d-block {{ setting('phone_2') ? 'mt-1' : '' }} hotline-link">
+                                                    <span>{{ setting('phone', '09369 96390') }}</span>
+                                                    @if(setting('phone_name'))
+                                                        <span class="hotline-person"> - {{ setting('phone_name') }}</span>
+                                                    @endif
+                                                </a>
                                             </div>
                                         </div>
 

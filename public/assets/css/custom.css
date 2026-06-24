@@ -837,45 +837,54 @@ section[style*="background"] a.btn-main.btn-line {
 }
 
 #section-intro {
-    height: auto !important;
-    min-height: auto !important;
+    height: calc(100vh - 90px) !important;
+    min-height: calc(100vh - 90px) !important;
+    max-height: calc(100vh - 90px) !important;
     padding: 0 !important;
+    background: #ffffff !important;
 }
 
 #section-intro .v-center {
-    min-height: auto !important;
-    height: auto !important;
-    display: block !important;
+    min-height: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
     background: transparent !important;
 }
 
 #section-intro .swiper {
     position: relative !important;
-    height: auto !important;
-    min-height: auto !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    width: 100% !important;
+    aspect-ratio: auto !important;
+    max-height: 100% !important;
 }
 
 #section-intro .swiper-wrapper {
-    height: auto !important;
+    height: 100% !important;
     position: relative !important;
 }
 
 #section-intro .swiper-slide {
-    height: auto !important;
+    height: 100% !important;
     position: relative !important;
 }
 
 #section-intro .swiper-inner {
     position: relative !important;
-    height: auto !important;
+    height: 100% !important;
     background: none !important;
 }
 
 .banner-img {
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
+    max-height: 100% !important;
     display: block !important;
     object-fit: contain !important;
+    object-position: center center !important;
+    background: #ffffff !important;
 }
 
 @media (min-width: 992px) {
@@ -887,6 +896,17 @@ section[style*="background"] a.btn-main.btn-line {
 @media only screen and (max-width: 991px) {
     #section-intro {
         margin-top: 58px !important;
+        height: calc(100vh - 58px) !important;
+        min-height: calc(100vh - 58px) !important;
+        max-height: calc(100vh - 58px) !important;
+    }
+
+    #section-intro .swiper {
+        max-height: 100% !important;
+    }
+
+    .banner-img {
+        max-height: 100% !important;
     }
 
     #section-intro .swiper-button-prev,
@@ -928,6 +948,13 @@ section[style*="background"] a.btn-main.btn-line {
 
 /* Org Chart Organizational tree */
 .org-container {
+    --org-primary: var(--primary-color, #34a853);
+    --org-primary-dark: var(--title-font-color, #1b5e20);
+    --org-secondary: var(--secondary-color, #629f6d);
+    --org-soft: #f3fbf4;
+    --org-soft-strong: #e6f4e8;
+    --org-border: #b8d9bf;
+    --org-muted: #5f7f66;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -939,7 +966,7 @@ section[style*="background"] a.btn-main.btn-line {
 
 .org-card {
     background: #ffffff;
-    border: 2px solid #e2e8f0;
+    border: 2px solid var(--org-border);
     border-radius: 8px;
     padding: 12px 20px;
     text-align: center;
@@ -972,56 +999,56 @@ section[style*="background"] a.btn-main.btn-line {
 
 /* Org Card Themes & Color Schemes */
 .org-card.card-orange {
-    border-color: #f37021;
-    background: #fffaf7;
+    border-color: var(--org-primary);
+    background: var(--org-soft-strong);
 }
 
 .org-card.card-orange h4 {
-    color: #f37021;
+    color: var(--org-primary-dark);
     font-weight: 700;
 }
 
 .org-card.card-yellow {
-    border-color: #ffc107;
-    background: #fffdf5;
+    border-color: var(--org-secondary);
+    background: #f7fbf7;
 }
 
 .org-card.card-yellow h4 {
-    color: #c2410c;
+    color: var(--org-primary-dark);
     font-weight: 700;
 }
 
 .org-card.card-blue {
-    border-color: #3b82f6;
-    background: #f8fafc;
+    border-color: var(--org-secondary);
+    background: var(--org-soft);
 }
 
 .org-card.card-blue h5 {
-    color: #1e3a8a;
+    color: var(--org-primary-dark);
 }
 
 .org-card.card-green {
-    border-color: #10b981;
+    border-color: var(--org-primary);
     background: #f0fdf4;
 }
 
 .org-card.card-green h5 {
-    color: #064e3b;
+    color: var(--org-primary-dark);
 }
 
 .org-card.org-card-research {
-    border-color: #3b82f6;
-    background: #eff6ff;
+    border-color: var(--org-primary);
+    background: #edf8ef;
 }
 
 .org-card.org-card-communications {
-    border-color: #fd7e14;
-    background: #fffaf0;
+    border-color: var(--org-secondary);
+    background: #f7fbf7;
 }
 
 .org-card.org-card-international {
-    border-color: #f97316;
-    background: #fff7ed;
+    border-color: var(--org-secondary);
+    background: #f7fbf7;
 }
 
 /* Tree Grid & Rows layout */
@@ -1076,7 +1103,7 @@ section[style*="background"] a.btn-main.btn-line {
 .connector-v-line {
     width: 2px;
     height: 20px;
-    background-color: #cbd5e1;
+    background-color: var(--org-border);
 }
 
 .org-spacer-lg {
@@ -1085,41 +1112,97 @@ section[style*="background"] a.btn-main.btn-line {
 
 /* Icon / Text coloring */
 .org-icon-blue {
-    color: #3b82f6;
+    color: var(--org-secondary);
 }
 
 .org-icon-blue-strong {
-    color: #2563eb;
+    color: var(--org-primary);
 }
 
 .org-icon-green {
-    color: #10b981;
+    color: var(--org-primary);
 }
 
 .org-icon-amber {
-    color: #d39e00;
+    color: var(--org-secondary);
 }
 
 .org-icon-orange {
-    color: #f37021;
+    color: var(--org-primary);
 }
 
 .org-icon-orange-strong {
-    color: #f97316;
+    color: var(--org-primary);
 }
 
 .org-icon-orange-dark {
-    color: #ea580c;
+    color: var(--org-primary-dark);
 }
 
 .org-card h4.org-text-orange-dark,
 .org-card h5.org-text-orange-dark,
 .org-card i.org-text-orange-dark {
-    color: #c2410c;
+    color: var(--org-primary-dark);
 }
 
 .org-card h5.org-research-title {
-    color: #1d4ed8;
+    color: var(--org-primary-dark);
+}
+
+/* Level-based colors: same organizational level, same color */
+.org-card.org-level-advisory {
+    border-color: #8fbf98;
+    background: #f6faf6;
+}
+
+.org-card.org-level-advisory h4,
+.org-card.org-level-advisory h5,
+.org-card.org-level-advisory i {
+    color: #486a4e;
+}
+
+.org-card.org-level-council {
+    border-color: #1b5e20;
+    background: #e6f4e8;
+}
+
+.org-card.org-level-council h4,
+.org-card.org-level-council h5,
+.org-card.org-level-council i {
+    color: #1b5e20;
+}
+
+.org-card.org-level-director {
+    border-color: #34a853;
+    background: #f0fdf4;
+}
+
+.org-card.org-level-director h4,
+.org-card.org-level-director h5,
+.org-card.org-level-director i {
+    color: #1b5e20;
+}
+
+.org-card.org-level-deputy {
+    border-color: #629f6d;
+    background: #f7fbf7;
+}
+
+.org-card.org-level-deputy h4,
+.org-card.org-level-deputy h5,
+.org-card.org-level-deputy i {
+    color: #2d6f3b;
+}
+
+.org-card.org-level-department {
+    border-color: #b8d9bf;
+    background: #ffffff;
+}
+
+.org-card.org-level-department h4,
+.org-card.org-level-department h5,
+.org-card.org-level-department i {
+    color: #315a37;
 }
 
 /* Responsive Organizational chart layout rules */
@@ -2286,4 +2369,3 @@ blockquote .blockquote-footer {
     transform: none !important;
     box-shadow: none !important;
 }
-

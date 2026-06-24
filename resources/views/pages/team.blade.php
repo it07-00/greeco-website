@@ -37,7 +37,7 @@
                 <div class="row g-4">
                     @foreach($teamMembers as $member)
                     <!-- team begin -->
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="relative team-member-card">
                             <div class="abs bottom-0 w-100">
                                 <div class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">

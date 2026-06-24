@@ -198,10 +198,10 @@
             <div class="container relative z-1">
                 <div class="row g-4 gx-5 align-items-center">
                     <div class="col-lg-6">
-                        <div class="subtitle wow fadeInUp mb-3">{{ setting('journey_subtitle', 'Hành trình phát triển') }}</div>
+                        <div class="subtitle wow fadeInUp mb-3">{{ setting('journey_subtitle', 'Định hướng phát triển') }}</div>
                         <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">{{ setting('journey_title_1', 'Kiến tạo Giá trị Kinh tế Xanh') }} <span
-                                class="id-color-2">{{ setting('journey_title_2', 'từ năm 2019') }}</span></h2>
-                        <p class="wow fadeInUp">{{ setting('journey_desc', 'Được thành lập bởi đội ngũ nhà khoa học, chuyên gia tâm huyết, Viện GREECO đã và đang khẳng định vị thế tiên phong trong tư vấn chiến lược chuyển đổi xanh, thực hiện nghiên cứu thực chứng và hỗ trợ cộng đồng doanh nghiệp đạt mục tiêu phát triển bền vững.') }}</p>
+                                class="id-color-2">{{ setting('journey_title_2', 'từ những bước đầu') }}</span></h2>
+                        <p class="wow fadeInUp">{{ setting('journey_desc', 'Được thành lập bởi đội ngũ nhà khoa học, chuyên gia tâm huyết, Viện GREECO định hướng kết nối nghiên cứu với thực tiễn, đồng hành cùng doanh nghiệp và cộng đồng trong các giải pháp chuyển đổi xanh, phát triển bền vững.') }}</p>
                         <a class="btn-main btn-line wow fadeInUp" href="{{ route('projects.index') }}"
                             data-wow-delay=".6s">Dự án nghiên cứu</a>
                     </div>
@@ -601,6 +601,48 @@
             </div>
         </div>
     </section>
+
+    @if($teamMembers->isNotEmpty())
+        <section class="bg-light">
+            <div class="container">
+                <div class="row g-4 mb-3 justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <div class="subtitle wow fadeInUp">Hội đồng khoa học</div>
+                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">
+                            Ban lãnh đạo & <span class="id-color-2">Chuyên gia</span>
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    @foreach($teamMembers as $member)
+                        <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ ($loop->index % 4) * 0.1 }}s">
+                            <div class="relative team-member-card">
+                                <div class="abs bottom-0 w-100">
+                                    <div class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
+                                        <div>
+                                            <h4 class="mb-0">{{ $member->name }}</h4>
+                                            <p class="mb-0">{{ $member->role }}</p>
+                                        </div>
+                                        <div class="text-end">
+                                            <a href="{{ $member->facebook_url ?? setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}">
+                                                <i class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="team-member-img-wrap rounded-10px overflow-hidden">
+                                    <img src="{{ $member->image ? asset(str_starts_with($member->image, 'assets') ? $member->image : 'storage/' . $member->image) : asset('assets/images/team/1.webp') }}"
+                                         width="500" height="600" class="w-100 h-100 object-fit-cover"
+                                         alt="{{ $member->name }}" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     <!-- Dynamic Partners Logos Marquee -->
     @if($partners->isNotEmpty())

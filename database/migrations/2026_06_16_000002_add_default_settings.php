@@ -18,10 +18,10 @@ return new class extends Migration
             ['key' => 'testimonial_author', 'value' => 'ThS. Lê Hoàng Nam', 'type' => 'text', 'group' => 'general'],
 
             // Journey
-            ['key' => 'journey_subtitle', 'value' => 'Hành trình phát triển', 'type' => 'text', 'group' => 'general'],
+            ['key' => 'journey_subtitle', 'value' => 'Định hướng phát triển', 'type' => 'text', 'group' => 'general'],
             ['key' => 'journey_title_1', 'value' => 'Kiến tạo Giá trị Kinh tế Xanh', 'type' => 'text', 'group' => 'general'],
-            ['key' => 'journey_title_2', 'value' => 'từ năm 2019', 'type' => 'text', 'group' => 'general'],
-            ['key' => 'journey_desc', 'value' => 'Được thành lập bởi đội ngũ nhà khoa học, chuyên gia tâm huyết, Viện GREECO đã và đang khẳng định vị thế tiên phong trong tư vấn chiến lược chuyển đổi xanh, thực hiện nghiên cứu thực chứng và hỗ trợ cộng đồng doanh nghiệp đạt mục tiêu phát triển bền vững.', 'type' => 'textarea', 'group' => 'general'],
+            ['key' => 'journey_title_2', 'value' => 'từ những bước đầu', 'type' => 'text', 'group' => 'general'],
+            ['key' => 'journey_desc', 'value' => 'Được thành lập bởi đội ngũ nhà khoa học, chuyên gia tâm huyết, Viện GREECO định hướng kết nối nghiên cứu với thực tiễn, đồng hành cùng doanh nghiệp và cộng đồng trong các giải pháp chuyển đổi xanh, phát triển bền vững.', 'type' => 'textarea', 'group' => 'general'],
             
             ['key' => 'journey_box1_title', 'value' => 'Uy tín & Khoa học', 'type' => 'text', 'group' => 'general'],
             ['key' => 'journey_box1_desc', 'value' => 'Đánh giá từ đối tác chiến lược', 'type' => 'text', 'group' => 'general'],

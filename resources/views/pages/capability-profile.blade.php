@@ -99,7 +99,7 @@
                                 <div class="glass-card p-4 rounded-3 h-100 relative overflow-hidden wow fadeInUp" data-wow-delay=".4s">
                                     <div class="glass-card-icon-wrap mb-3"><i class="fa fa-handshake fs-32 text-mint"></i></div>
                                     <h4 class="text-white mb-2">Đối tác toàn cầu</h4>
-                                    <p class="text-white-70 mb-0">Hành trình hợp tác khoa học rộng khắp với các tổ chức quốc tế từ EU, Nhật Bản, Hàn Quốc.</p>
+                                    <p class="text-white-70 mb-0">Hành trình hợp tác khoa học rộng khắp với các tổ chức quốc tế.</p>
                                 </div>
                             </div>
                         </div>

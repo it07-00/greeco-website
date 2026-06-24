@@ -6,6 +6,7 @@ use App\Models\Banner;
 use App\Models\Partner;
 use App\Models\Post;
 use App\Models\Project;
+use App\Models\TeamMember;
 use App\Support\MainServiceCategories;
 
 class HomeController extends Controller
@@ -37,12 +38,18 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->get();
 
+        $teamMembers = TeamMember::query()
+            ->where('is_active', true)
+            ->orderBy('order_column')
+            ->get();
+
         return view('pages.home', compact(
             'banners',
             'serviceCategories',
             'latestPosts',
             'featuredProjects',
-            'partners'
+            'partners',
+            'teamMembers'
         ));
     }
 }

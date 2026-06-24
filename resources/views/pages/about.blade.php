@@ -47,7 +47,7 @@
                 <li class="active"><span>Hành trình phát triển</span></li>
                 <li><span>Hội đồng khoa học</span></li>
                 <li><span>Sơ đồ bộ máy</span></li>
-                <li><span>Sứ mệnh và hành động</span></li>
+                <li><span>Chức năng & Nhiệm vụ</span></li>
               </ul>
 
               <div class="de_tab_content">
@@ -56,11 +56,11 @@
                   <div class="row g-4 gx-5 align-items-center">
                     <div class="col-lg-6">
                       <div class="subtitle wow fadeInUp mb-3">
-                        {{ setting('journey_subtitle', 'Hành trình phát triển') }}
+                        {{ setting('journey_subtitle', 'Định hướng phát triển') }}
                       </div>
                       <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">
                         {{ setting('journey_title_1', 'Kiến tạo Giá trị Kinh tế Xanh') }}
-                        <span class="id-color-2">{{ setting('journey_title_2', 'từ năm 2019') }}</span>
+                        <span class="id-color-2">{{ setting('journey_title_2', 'từ những bước đầu') }}</span>
                       </h2>
                       <div class="wow fadeInUp">
                         {!! $page->content !!}
@@ -130,43 +130,31 @@
                   </div>
 
                   <div class="row g-4">
-                    <div class="col-lg-12">
-                      <div class="relative">
-                        <div class="owl-custom-nav menu-float" data-target="#project-single-carousel">
-                          <a class="btn-next"></a>
-                          <a class="btn-prev"></a>
-
-                          <div id="project-single-carousel" class="owl-3-cols owl-carousel owl-theme">
-                            @foreach($teamMembers as $member)
-                            <!-- team begin -->
-                            <div class="item">
-                              <div class="relative team-member-card">
-                                <div class="abs bottom-0 w-100">
-                                  <div
-                                    class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
-                                    <div>
-                                      <h4 class="mb-0">{{ $member->name }}</h4>
-                                      <p class="mb-0">{{ $member->role }}</p>
-                                    </div>
-                                    <div class="text-end">
-                                      <a
-                                        href="{{ $member->facebook_url ?? setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
-                                          class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="team-member-img-wrap rounded-10px overflow-hidden">
-                                  <img src="{{ $member->image ? asset(str_starts_with($member->image, 'assets') ? $member->image : 'storage/' . $member->image) : asset('assets/images/team/1.webp') }}" width="500" height="600" class="w-100 h-100 object-fit-cover"
-                                    alt="{{ $member->name }}" loading="lazy" decoding="async" />
-                                </div>
-                              </div>
+                    @foreach($teamMembers as $member)
+                    <!-- team begin -->
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                      <div class="relative team-member-card">
+                        <div class="abs bottom-0 w-100">
+                          <div class="d-flex justify-content-between align-items-center rounded-1 m-4 bg-white p-4">
+                            <div>
+                              <h4 class="mb-0">{{ $member->name }}</h4>
+                              <p class="mb-0">{{ $member->role }}</p>
                             </div>
-                            <!-- team end -->
-                            @endforeach
+                            <div class="text-end">
+                              <a
+                                href="{{ $member->facebook_url ?? setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"><i
+                                  class="fa-brands fa-facebook-f fs-24 id-color bg-light w-40px h-40px pt-2 circle text-center"></i></a>
+                            </div>
                           </div>
+                        </div>
+                        <div class="team-member-img-wrap rounded-10px overflow-hidden">
+                          <img src="{{ $member->image ? asset(str_starts_with($member->image, 'assets') ? $member->image : 'storage/' . $member->image) : asset('assets/images/team/1.webp') }}" width="500" height="600" class="w-100 h-100 object-fit-cover"
+                            alt="{{ $member->name }}" loading="lazy" decoding="async" />
                         </div>
                       </div>
                     </div>
+                    <!-- team end -->
+                    @endforeach
                   </div>
                 </div>
 
@@ -188,12 +176,12 @@
                       <div class="org-top-row">
                         <!-- Left side: Hội đồng khoa học & Bộ phận Pháp chế -->
                         <div class="org-advisory-col">
-                          <div class="org-card card-blue w-100">
+                          <div class="org-card org-level-advisory card-blue w-100">
                             <h5 class="mb-0 fs-14 fw-bold">
                               <i class="org-icon-blue fa fa-flask me-2"></i>Hội đồng Khoa học
                             </h5>
                           </div>
-                          <div class="org-card card-blue w-100">
+                          <div class="org-card org-level-advisory card-blue w-100">
                             <h5 class="mb-0 fs-14 fw-bold">
                               <i class="org-icon-blue fa fa-balance-scale me-2"></i>Bộ phận Pháp chế
                             </h5>
@@ -203,7 +191,7 @@
                         <!-- Center: Hội đồng Viện -> Viện Trưởng -->
                         <div class="org-center-col">
                           <!-- Hội đồng Viện -->
-                          <div class="org-card org-card-council card-orange">
+                          <div class="org-card org-card-council org-level-council card-orange">
                             <h4 class="mb-1 text-uppercase fs-16">
                               <i class="org-icon-orange fa-solid fa-sitemap me-2"></i>Hội đồng Viện
                             </h4>
@@ -215,7 +203,7 @@
                           <div class="connector-v-line"></div>
 
                           <!-- Viện Trưởng -->
-                          <div class="org-card org-card-director card-orange">
+                          <div class="org-card org-card-director org-level-director card-orange">
                             <h4 class="org-text-orange-dark mb-1 text-uppercase fs-15">
                               <i class="org-text-orange-dark fa-solid fa-user-tie me-2"></i>Viện Trưởng
                             </h4>
@@ -227,7 +215,7 @@
 
                         <!-- Right side: Hội đồng Chuyên gia -->
                         <div class="org-advisory-col">
-                          <div class="org-card card-blue w-100">
+                          <div class="org-card org-level-advisory card-blue w-100">
                             <h5 class="mb-0 fs-14 fw-bold">
                               <i class="org-icon-blue fa fa-users me-2"></i>Hội đồng Chuyên gia
                             </h5>
@@ -243,7 +231,7 @@
                       <div class="org-bottom-row">
                         <!-- Left Branch (Phó Viện Trưởng 1) -->
                         <div class="org-branch-col">
-                          <div class="org-card card-yellow w-100">
+                          <div class="org-card org-level-deputy card-yellow w-100">
                             <h4 class="mb-0 text-uppercase fs-14">
                               <i class="org-icon-amber fa-solid fa-user me-2"></i>Phó Viện Trưởng
                             </h4>
@@ -253,18 +241,18 @@
 
                           <div class="org-dept-list">
                             <!-- Văn phòng Viện & Phòng Đào tạo (Green boxes) -->
-                            <div class="org-card card-green w-100">
+                            <div class="org-card org-level-department card-green w-100">
                               <h5 class="mb-0 fs-14 fw-bold">
                                 <i class="org-icon-green fa fa-building me-2"></i>Văn phòng Viện
                               </h5>
                             </div>
-                            <div class="org-card card-green w-100">
+                            <div class="org-card org-level-department card-green w-100">
                               <h5 class="mb-0 fs-14 fw-bold">
                                 <i class="org-icon-green fa fa-graduation-cap me-2"></i>Phòng Đào tạo
                               </h5>
                             </div>
                             <!-- Phòng NC KH & CGCN (Blue box) -->
-                            <div class="org-card org-card-research card-blue w-100">
+                            <div class="org-card org-card-research org-level-department card-blue w-100">
                               <h5 class="org-research-title mb-0 fs-14 fw-bold">
                                 <i class="org-icon-blue-strong fa fa-microscope me-2"></i>Phòng Nghiên cứu Khoa học<br />&
                                 Chuyển giao Công nghệ
@@ -275,7 +263,7 @@
 
                         <!-- Right Branch (Phó Viện Trưởng 2) -->
                         <div class="org-branch-col">
-                          <div class="org-card card-yellow w-100">
+                          <div class="org-card org-level-deputy card-yellow w-100">
                             <h4 class="mb-0 text-uppercase fs-14">
                               <i class="org-icon-amber fa-solid fa-user me-2"></i>Phó Viện Trưởng
                             </h4>
@@ -285,19 +273,19 @@
 
                           <div class="org-dept-list">
                             <!-- Phòng Dự án (Blue box) -->
-                            <div class="org-card card-blue w-100">
+                            <div class="org-card org-level-department card-blue w-100">
                               <h5 class="mb-0 fs-14 fw-bold">
                                 <i class="org-icon-blue fa fa-project-diagram me-2"></i>Phòng Dự án
                               </h5>
                             </div>
                             <!-- Phòng Truyền thông (Orange box) -->
-                            <div class="org-card org-card-communications card-orange">
+                            <div class="org-card org-card-communications org-level-department card-orange">
                               <h5 class="org-text-orange-dark mb-0 fs-14 fw-bold">
                                 <i class="org-icon-orange-strong fa fa-bullhorn me-2"></i>Phòng Truyền thông
                               </h5>
                             </div>
                             <!-- Phòng Đối ngoại & Hợp tác Quốc tế (Orange box) -->
-                            <div class="org-card org-card-international card-orange">
+                            <div class="org-card org-card-international org-level-department card-orange">
                               <h5 class="org-text-orange-dark mb-0 fs-14 fw-bold">
                                 <i class="org-icon-orange-dark fa fa-globe me-2"></i>Phòng Đối ngoại và Hợp tác Quốc tế
                               </h5>
@@ -309,7 +297,7 @@
                   </div>
                 </div>
 
-                <!-- Tab 4: Sứ mệnh và hành động -->
+                <!-- Tab 4: Chức năng & Nhiệm vụ -->
                 <div>
                   <div class="bg-color-mint p-5 rounded-3 shadow-soft">
                     <div class="row g-4 mb-4 justify-content-center text-center">
@@ -670,7 +658,6 @@
           setTimeout(function () {
             jQuery(window).trigger('resize');
             jQuery(window).trigger('scroll');
-            jQuery('.owl-carousel').trigger('refresh.owl.carousel');
             if (typeof wow !== 'undefined' && typeof wow.sync === 'function') {
               wow.sync();
             }

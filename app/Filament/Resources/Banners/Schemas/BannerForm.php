@@ -19,11 +19,20 @@ class BannerForm
                     ->schema([
                         OptimizedImageUpload::configure(
                             FileUpload::make('image')->label('Hình ảnh banner'),
-                            3840,
-                            2160,
+                            1920,
+                            910,
                             84,
-                            'Ảnh sẽ giữ độ nét tối đa 4K (3840×2160) và chuyển sang WebP để tải nhanh hơn.',
+                            'Nên thiết kế ảnh đúng kích cỡ 1920×910px. Đặt nội dung quan trọng ở vùng giữa, tránh sát mép. Ảnh sẽ được crop theo khung này và chuyển sang WebP để tải nhanh hơn.',
                         )
+                            ->imageAspectRatio('192:91')
+                            ->imageEditorAspectRatioOptions(['192:91'])
+                            ->automaticallyCropImagesToAspectRatio()
+                            ->automaticallyResizeImagesMode('cover')
+                            ->automaticallyResizeImagesToWidth('1920')
+                            ->automaticallyResizeImagesToHeight('910')
+                            ->validationMessages([
+                                'dimensions' => 'Ảnh banner phải đúng tỉ lệ 1920×910px. Vui lòng crop ảnh theo khung gợi ý trước khi lưu.',
+                            ])
                             ->disk('public')
                             ->directory('banners')
                             ->required(),

@@ -350,7 +350,7 @@
                         <div class="tab-pane fade show active" id="intro-content" role="tabpanel" aria-labelledby="intro-tab">
                             <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-3">
                                 <h3 class="academy-heading fs-4 fw-bold mb-3">Thông tin khóa học</h3>
-                                <div class="text-secondary mb-4">
+                                <div class="text-dark mb-4">
                                     @if($course->content)
                                         {!! $course->content !!}
                                     @else
@@ -447,7 +447,7 @@
                                         <div>
                                             <h4 class="academy-heading fs-5 fw-bold mb-1">{{ $course->instructor_name }}</h4>
                                             <p class="text-success small mb-3">{{ $course->instructor_role }}</p>
-                                            <p class="text-secondary mb-3">
+                                            <p class="text-dark mb-3">
                                                 {{ $course->instructor_description }}
                                             </p>
                                             <div class="d-flex gap-3">
@@ -482,19 +482,19 @@
                             <div class="border-top pt-4">
                                 <h4 class="academy-heading fs-6 fw-bold mb-3">Khóa học bao gồm:</h4>
                                 <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
-                                    <li class="d-flex align-items-center gap-3 text-secondary small">
+                                    <li class="d-flex align-items-center gap-3 text-dark small">
                                         <i class="fa-solid fa-circle-play text-dark fs-6" style="width: 20px;"></i>
                                         <span>{{ $totalLessons ?: 12 }} bài giảng học trực tuyến chất lượng</span>
                                     </li>
-                                    <li class="d-flex align-items-center gap-3 text-secondary small">
+                                    <li class="d-flex align-items-center gap-3 text-dark small">
                                         <i class="fa-solid fa-mobile-screen-button text-dark fs-6" style="width: 20px;"></i>
                                         <span>Học tập linh hoạt trên điện thoại & máy tính</span>
                                     </li>
-                                    <li class="d-flex align-items-center gap-3 text-secondary small">
+                                    <li class="d-flex align-items-center gap-3 text-dark small">
                                         <i class="fa-solid fa-download text-dark fs-6" style="width: 20px;"></i>
                                         <span>Biểu mẫu tài liệu học thực tế</span>
                                     </li>
-                                    <li class="d-flex align-items-center gap-3 text-secondary small">
+                                    <li class="d-flex align-items-center gap-3 text-dark small">
                                         <i class="fa-solid fa-award text-dark fs-6" style="width: 20px;"></i>
                                         <span>Cấp chứng nhận hoàn thành uy tín</span>
                                     </li>

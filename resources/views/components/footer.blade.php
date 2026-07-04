@@ -2,7 +2,7 @@
 <footer class="footer-light">
     <div class="container relative z-2">
         <div class="row gx-5">
-            <div class="col-lg-3 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <div class="footer-logo-container">
                     <img src="{{ setting('logo_dark') ? asset('storage/' . setting('logo_dark')) : asset('assets/images/logo-text-cropped.png') }}"
                         width="678" height="222" class="footer-logo-text" alt="GREECO Logo">
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-sm-12">
+            <div class="col-lg-4 col-sm-12">
                 <div class="row">
                     <div class="col-6">
                         <div class="widget">
@@ -53,9 +53,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-6 col-sm-12">
-                <div class="row g-4">
-                    <div class="col-sm-5 col-12">
+            <div class="col-lg-4 col-sm-12">
+                <div class="row">
+                    <div class="col-12">
                         <div class="widget">
                             <h5>Liên hệ</h5>
                             <div class="fw-bold text-dark"><i class="icofont-clock-time me-2 id-color-2"></i>Thời gian
@@ -98,17 +98,20 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-7 col-12">
-                        <div class="widget">
-                            <h5>Bản đồ đường đi</h5>
-                            <div class="footer-map-container">
-                                <iframe
-                                    title="Bản đồ vị trí Viện GREECO"
-                                    src="https://maps.google.com/maps?q={{ urlencode(setting('address', '150 Đường 38-CL, Phường Cát Lái, TP. HCM')) }}&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                                </iframe>
-                            </div>
-                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="widget footer-map-widget">
+                    <h5>Bản đồ đường đi</h5>
+                    <div class="footer-map-container">
+                        <iframe
+                            title="Bản đồ vị trí Viện GREECO"
+                            src="https://maps.google.com/maps?q={{ urlencode(setting('address', '150 Đường 38-CL, Phường Cát Lái, TP. HCM')) }}&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
                 </div>
             </div>

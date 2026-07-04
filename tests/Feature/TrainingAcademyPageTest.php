@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Contact;
 use App\Models\Course;
+use App\Models\CourseCategory;
 use Database\Seeders\CourseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,6 +21,7 @@ class TrainingAcademyPageTest extends TestCase
             ->assertOk()
             ->assertSee('class="academy-catalog-page"', false)
             ->assertSee('Nâng cao năng lực Phát triển bền vững')
+            ->assertSee('id="course-search-suggestions"', false)
             ->assertSee('id="chuong-trinh-dao-tao"', false)
             ->assertSee('Khóa học nổi bật')
             ->assertSee('ISO 9001:2015')
@@ -83,6 +85,98 @@ class TrainingAcademyPageTest extends TestCase
             ->assertOk()
             ->assertSee('Pagination Course 10')
             ->assertDontSee('Pagination Course 01');
+    }
+
+    public function test_training_page_searches_active_courses_in_the_database(): void
+    {
+        foreach (range(1, 10) as $index) {
+            Course::query()->create([
+                'title' => sprintf('Filler Course %02d', $index),
+                'slug' => sprintf('filler-course-%02d', $index),
+                'description' => 'Course used to fill the first catalog page.',
+                'price' => 'Lien he',
+                'is_active' => true,
+                'sort_order' => $index,
+            ]);
+        }
+
+        Course::query()->create([
+            'title' => 'Net Zero Database Match',
+            'slug' => 'net-zero-database-match',
+            'description' => 'This course only exists beyond the first page.',
+            'price' => 'Lien he',
+            'is_active' => true,
+            'sort_order' => 100,
+        ]);
+
+        $this->get(route('services.dao-tao', ['search' => 'Net Zero']))
+            ->assertOk()
+            ->assertSee('Net Zero Database Match')
+            ->assertDontSee('Filler Course 01')
+            ->assertSee('1 khóa học phù hợp');
+
+        $this->getJson(route('services.dao-tao', ['search' => 'Net Zero']))
+            ->assertOk()
+            ->assertJsonPath('count', 1)
+            ->assertJsonPath('search', 'Net Zero')
+            ->assertJsonFragment(['category' => ''])
+            ->assertJsonPath('html', fn (string $html) => str_contains($html, 'Net Zero Database Match'))
+            ->assertJsonPath('suggestions_html', fn (string $html) => str_contains($html, 'Net Zero Database Match')
+                && str_contains($html, 'course-search-suggestion'));
+    }
+
+    public function test_training_page_filters_courses_by_category_slug_across_all_pages(): void
+    {
+        $iso = CourseCategory::query()->create([
+            'name' => 'Filter ISO',
+            'slug' => 'filter-iso',
+            'sort_order' => 1,
+        ]);
+        $esg = CourseCategory::query()->create([
+            'name' => 'Filter ESG',
+            'slug' => 'filter-esg',
+            'sort_order' => 2,
+        ]);
+
+        foreach (range(1, 9) as $index) {
+            Course::query()->create([
+                'course_category_id' => $iso->id,
+                'title' => sprintf('ISO Course %02d', $index),
+                'slug' => sprintf('iso-course-%02d', $index),
+                'price' => 'Lien he',
+                'is_active' => true,
+                'sort_order' => $index,
+            ]);
+        }
+
+        Course::query()->create([
+            'course_category_id' => $esg->id,
+            'title' => 'ESG Course Beyond Page One',
+            'slug' => 'esg-course-beyond-page-one',
+            'price' => 'Lien he',
+            'is_active' => true,
+            'sort_order' => 100,
+        ]);
+
+        $this->get(route('services.dao-tao', ['category' => 'filter-esg']))
+            ->assertOk()
+            ->assertSee('ESG Course Beyond Page One')
+            ->assertDontSee('ISO Course 01')
+            ->assertSee('class="category-box h-100 active"', false)
+            ->assertSee('aria-pressed="true"', false);
+    }
+
+    public function test_course_categories_are_presented_before_live_search(): void
+    {
+        $this->seed(CourseSeeder::class);
+
+        $this->get(route('services.dao-tao'))
+            ->assertOk()
+            ->assertSeeInOrder([
+                'Danh mục khóa học',
+                'id="search-courses-form"',
+                'id="chuong-trinh-dao-tao"',
+            ], false);
     }
 
     public function test_old_training_urls_redirect_to_new_ones(): void

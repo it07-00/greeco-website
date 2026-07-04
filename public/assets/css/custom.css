@@ -440,11 +440,15 @@ footer.footer-light .subfooter a:hover {
 /* Footer Map container */
 .footer-map-container {
     width: 100% !important;
-    height: 300px !important;
+    height: 240px !important;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    margin-top: 10px;
+}
+
+.footer-map-widget {
     margin-top: 10px;
 }
 

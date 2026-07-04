@@ -105,9 +105,9 @@
                     <div class="col-lg-6">
                         <div class="ps-lg-5 position-relative z-3">
                             <div class="subtitle id-color wow fadeInUp" data-wow-delay=".2s">Chào mừng đến với GREECO</div>
-                            <h1 class="text-uppercase wow fadeInUp h2" data-wow-delay=".4s">Nghiên&nbsp;cứu & Thúc&nbsp;đẩy <span
-                                    class="id-color-2">Kinh&nbsp;tế&nbsp;Xanh</span></h1>
-                            <p class="wow fadeInUp" data-wow-delay=".6s">Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO)
+                            <h1 class="text-uppercase wow fadeInUp h2 text-black" data-wow-delay=".4s">Nghiên&nbsp;cứu & Thúc&nbsp;đẩy <span
+                                    class="text-black">Kinh&nbsp;tế&nbsp;Xanh</span></h1>
+                            <p class="wow fadeInUp text-black" data-wow-delay=".6s">Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO)
                                 là tổ chức khoa học và công nghệ hoạt động trong lĩnh vực nghiên cứu, ứng dụng và chuyển
                                 giao các giải pháp phát triển bền vững, kinh tế xanh và công nghệ môi trường. Với đội ngũ
                                 chuyên gia đa ngành trong các lĩnh vực kỹ thuật hóa học, kỹ thuật môi trường, năng lượng tái

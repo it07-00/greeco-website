@@ -1,15 +1,21 @@
 @php
     $pageNumber = max((int) request()->query('page', 1), 1);
+    $hasFilters = filled($search) || filled($category);
     $seoTitle = 'Đào tạo & Bồi dưỡng Chuyên môn Bền vững - Viện GREECO';
     $seoDescription = 'Viện GREECO cung cấp các chương trình đào tạo và bồi dưỡng chuyên sâu, thực tiễn từ cơ bản đến nâng cao. Đội ngũ chuyên gia của chúng tôi hỗ trợ doanh nghiệp xây dựng năng lực nội tại, chuẩn hóa hệ thống quản lý và đáp ứng các tiêu chuẩn xuất khẩu khắt khe về phát triển bền vững và trung hòa carbon.';
     if ($pageNumber > 1) {
         $seoTitle .= ' - Trang ' . $pageNumber;
     }
 
-    $canonicalParams = array_filter([
+    // Canonical always points to clean URL (no ?search= or ?category=) to avoid duplicate content.
+    // Only ?page= is kept for paginated canonical.
+    $canonical = route('services.dao-tao', array_filter([
         'page' => $pageNumber > 1 ? $pageNumber : null,
-    ]);
-    $canonical = route('services.dao-tao', $canonicalParams);
+    ]));
+
+    // Filtered pages should not be indexed — they are duplicates of the main listing.
+    $indexable = !$hasFilters;
+
     $ogImage = asset('assets/images/services/iso-9001-course.png');
     $programItems = collect($programs->items());
     $firstCoursePosition = $programs->firstItem() ?? 1;

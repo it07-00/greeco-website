@@ -65,6 +65,12 @@
                                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
                                     <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>
                                 </span>
+                                @if($post->published_at)
+                                    <span class="post-detail-meta__item">
+                                        <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                                        <time datetime="{{ $post->published_at->format('Y-m-d') }}">{{ $post->published_at->format('d/m/Y') }}</time>
+                                    </span>
+                                @endif
                                 @if($post->category)
                                     <span class="post-detail-meta__item">
                                         <i class="fa-regular fa-folder-open" aria-hidden="true"></i>

@@ -12,12 +12,15 @@
         $seoTitle .= ' - Trang ' . $pageNumber;
     }
 
-    $canonicalParams = array_filter([
-        'tag' => $hasActiveTag ? $activeTag : null,
+    // Canonical always points to clean URL (no ?tag=) to avoid duplicate content.
+    // Only ?page= is kept for paginated canonical.
+    $canonical = route('posts.index', array_filter([
         'page' => $pageNumber > 1 ? $pageNumber : null,
-    ]);
-    $canonical = route('posts.index', $canonicalParams);
-    
+    ]));
+
+    // Tag-filtered pages should not be indexed — they are duplicates of the main listing.
+    $indexable = !$hasActiveTag;
+
     $breadcrumbs = [
         ['name' => 'Trang chủ', 'url' => route('home')],
         ['name' => 'Tin tức', 'url' => route('posts.index')]

@@ -28,248 +28,354 @@
 @push('styles')
     <style>
         .course-detail-page {
-            padding-bottom: 80px;
+            padding-bottom: 90px;
             background-color: #f8fafc;
         }
-        #subheader .course-badge {
-            background: rgba(0, 143, 121, 0.2);
-            color: #00ffca;
-            border: 1px solid rgba(0, 143, 121, 0.4);
-            font-size: 0.85rem;
-            padding: 4px 12px;
-            border-radius: 50px;
-            display: inline-block;
-            margin-top: 12px;
-            margin-bottom: 5px;
-        }
-        .course-rating i {
-            color: #ffc107 !important;
-        }
-        .course-sidebar {
-            position: sticky;
-            top: 100px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
+
+        #subheader.course-hero-header {
+            background: linear-gradient(135deg, #09201c 0%, #123832 50%, #0d2d28 100%) !important;
+            padding: 140px 0 65px !important;
+            color: #ffffff;
+            position: relative;
             overflow: hidden;
-            z-index: 10;
         }
-        .course-sidebar-video {
-            position: relative;
-            cursor: pointer;
-        }
-        .course-sidebar-video img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .video-play-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 68px;
-            height: 68px;
-            background: rgba(0, 143, 121, 0.95);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.6rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 143, 121, 0.4);
-        }
-        .course-sidebar-video:hover .video-play-btn {
-            transform: translate(-50%, -50%) scale(1.1);
-            background: #008f79;
-        }
-        .video-label {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #ffc107;
-            color: #000;
-            font-weight: 700;
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-        
-        /* Bootstrap Nav Tabs styling override */
-        .course-detail-page .nav-tabs {
-            border-bottom: 2px solid #e2e8f0 !important;
-        }
-        .course-detail-page .nav-tabs .nav-link {
-            border: none !important;
-            color: #64748b !important;
-            background: none !important;
-            padding: 15px 20px !important;
-            font-weight: 600;
-            font-size: 0.95rem;
-            position: relative;
-            transition: color 0.25s ease;
-        }
-        .course-detail-page .nav-tabs .nav-link.active {
-            color: #006354 !important;
-            font-weight: 700;
-        }
-        .course-detail-page .nav-tabs .nav-link.active::after {
+
+        #subheader.course-hero-header::before {
             content: '';
             position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background-color: #006354;
-            border-radius: 3px 3px 0 0;
+            top: -40%;
+            right: -10%;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(0, 255, 202, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .course-badge-hero {
+            background: rgba(0, 255, 202, 0.14);
+            color: #00ffca;
+            border: 1px solid rgba(0, 255, 202, 0.35);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 5px 15px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .course-hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.88rem;
+        }
+
+        .course-hero-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 7px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .course-hero-meta-item i {
+            color: #00ffca;
+        }
+
+        /* Modern Nav Tabs */
+        .course-nav-tabs-wrapper {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 25px;
+        }
+
+        .course-detail-page .nav-pills .nav-link {
+            border-radius: 10px;
+            color: #475569 !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 12px 24px !important;
+            transition: all 0.25s ease;
+        }
+
+        .course-detail-page .nav-pills .nav-link.active {
+            background-color: #008f79 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(0, 143, 121, 0.3);
+        }
+
+        /* Main Card Container */
+        .course-main-card {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            padding: 32px;
+            margin-bottom: 30px;
         }
 
         .course-feature-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 16px;
+            margin-top: 20px;
         }
+
         @media (max-width: 767px) {
             .course-feature-grid {
                 grid-template-columns: 1fr;
             }
         }
+
         .course-feature-item {
-            background: #ffffff;
+            background: #f8fafc;
             border: 1px solid #e2e8f0;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 18px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            transition: all 0.25s ease;
         }
+
+        .course-feature-item:hover {
+            transform: translateY(-3px);
+            border-color: #008f79;
+            box-shadow: 0 6px 16px rgba(0, 143, 121, 0.08);
+        }
+
         .course-feature-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: #f1f5f9;
-            color: #0f172a;
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #008f79 0%, #006354 100%);
+            color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             flex-shrink: 0;
-        }
-        .course-detail-page .academy-heading {
-            color: #0f172a !important;
+            box-shadow: 0 4px 10px rgba(0, 143, 121, 0.2);
         }
 
-        /* Bootstrap Accordion custom styling overrides */
+        /* Modern Accordion */
+        .course-detail-page .accordion-item {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            margin-bottom: 12px;
+            overflow: hidden;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .course-detail-page .accordion-item:hover {
+            border-color: #cbd5e1 !important;
+        }
+
         .course-detail-page .accordion-button {
             background-color: #f8fafc !important;
-            color: #072b54 !important;
+            color: #0f172a !important;
             font-weight: 700;
+            font-size: 1rem;
+            padding: 18px 24px;
             box-shadow: none !important;
-            border: none !important;
-            padding: 16px 20px;
         }
+
         .course-detail-page .accordion-button:not(.collapsed) {
-            background-color: #e6f4f1 !important;
+            background-color: #f0fdfa !important;
             color: #006354 !important;
         }
-        .course-detail-page .accordion-button::after {
-            background-size: 1rem;
-            width: 1rem;
-            height: 1rem;
-        }
+
         .lesson-item {
-            padding: 14px 20px;
+            padding: 14px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid #f1f5f9;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
+            transition: background 0.15s ease;
         }
+
+        .lesson-item:hover {
+            background: #f8fafc;
+        }
+
         .lesson-item:last-child {
             border-bottom: none;
         }
+
         .lesson-title-wrapper {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
-        
+
+        .lesson-icon {
+            color: #008f79;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Instructor Card */
         .instructor-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
         }
+
         .instructor-avatar {
-            width: 80px;
-            height: 80px;
+            width: 96px;
+            height: 96px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #f2f8f6;
+            border: 4px solid #f0fdfa;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
         }
-        .rating-bar-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
+
+        /* Conversion Sidebar */
+        .course-sidebar {
+            position: sticky;
+            top: 100px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.09);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            z-index: 10;
         }
-        .rating-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            flex-grow: 1;
+
+        .course-sidebar-video {
+            position: relative;
+            cursor: pointer;
             overflow: hidden;
         }
-        .rating-bar-fill {
-            height: 100%;
-            background: #ffc107;
-            border-radius: 10px;
+
+        .course-sidebar-video img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
         }
+
+        .course-sidebar-video:hover img {
+            transform: scale(1.04);
+        }
+
+        .video-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px;
+            height: 72px;
+            background: rgba(0, 143, 121, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.7rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 143, 121, 0.5);
+            animation: play-pulse 2s infinite;
+        }
+
+        @keyframes play-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 143, 121, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 18px rgba(0, 143, 121, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 143, 121, 0);
+            }
+        }
+
+        .course-sidebar-video:hover .video-play-btn {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: #008f79;
+        }
+
+        .video-label {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: #000000;
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 5px 14px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-consult-primary {
+            background: linear-gradient(135deg, #008f79 0%, #006354 100%);
+            color: #ffffff !important;
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            border: none;
+            box-shadow: 0 8px 22px rgba(0, 143, 121, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-consult-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0, 143, 121, 0.4);
+            background: linear-gradient(135deg, #007463 0%, #005245 100%);
+        }
+
+        .sidebar-trust-badge {
+            background: #f0fdfa;
+            border: 1px solid #ccfbf1;
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #0f766e;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .sidebar-trust-badge i {
+            font-size: 1.25rem;
+            color: #008f79;
+        }
+
         .mobile-bottom-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background: #ffffff;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-            padding: 12px 20px;
+            box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.1);
+            padding: 14px 20px;
             display: none;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
+            z-index: 1000;
             border-top: 1px solid #e2e8f0;
-        }
-        .payment-method-box {
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-        .payment-method-box.active {
-            border-color: #008f79;
-            background-color: #f0fdfa;
-        }
-        .payment-method-box input {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-        }
-        .bank-info {
-            background: #f8fafc;
-            border: 1px dashed #cbd5e1;
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 12px;
-            display: none;
-        }
-        .bank-info.active {
-            display: block;
         }
 
         @media (max-width: 991px) {
@@ -289,8 +395,8 @@
     <x-schema.course :course="$course" :url="$canonical" :image="$ogImage" />
 
     <div class="academy-page course-detail-page">
-        <!-- Course Header Header -->
-        <section id="subheader" class="relative">
+        <!-- Hero Header -->
+        <section id="subheader" class="relative course-hero-header">
             <div class="container relative z-index-1000">
                 <div class="row">
                     <div class="col-lg-12">
@@ -304,12 +410,30 @@
                             @endforeach
                         </ul>
                         @if($course->tag)
-                            <span class="course-badge mb-3"><i class="fa-solid fa-fire me-2"></i>{{ $course->tag }}</span>
+                            <div class="mb-3">
+                                <span class="course-badge-hero"><i class="fa-solid fa-fire me-2"></i>{{ $course->tag }}</span>
+                            </div>
                         @endif
-                        <h1 class="text-uppercase">{{ $course->title }}</h1>
-                        <p class="col-lg-10 lead" style="white-space: pre-line;">{{ $course->description }}</p>
-                        <div class="d-flex flex-wrap gap-4 align-items-center mt-3 mb-2 text-white-50">
-                            <span><i class="fa-solid fa-building me-2"></i>Viện GREECO</span>
+                        <h1 class="text-uppercase fw-bold mb-3">{{ $course->title }}</h1>
+                        <p class="col-lg-10 lead text-white-75 mb-0" style="white-space: pre-line;">{{ $course->description }}</p>
+
+                        <div class="course-hero-meta">
+                            <div class="course-hero-meta-item">
+                                <i class="fa-solid fa-building"></i>
+                                <span>Viện GREECO</span>
+                            </div>
+                            <div class="course-hero-meta-item">
+                                <i class="fa-solid fa-book-open"></i>
+                                <span>{{ $totalLessons ?: 12 }} Bài giảng</span>
+                            </div>
+                            <div class="course-hero-meta-item">
+                                <i class="fa-solid fa-award"></i>
+                                <span>Chứng nhận Uy tín</span>
+                            </div>
+                            <div class="course-hero-meta-item">
+                                <i class="fa-solid fa-star text-warning"></i>
+                                <span class="fw-bold">5.0 (Đánh giá cao)</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -319,38 +443,42 @@
         <!-- Course Body Grid -->
         <main class="container py-5">
             @if(session('success'))
-                <div class="alert alert-success mb-4" role="alert">
-                    <i class="fa-solid fa-circle-check me-2"></i>{{ session('success') }}
+                <div class="alert alert-success border-0 shadow-sm rounded-3 mb-4 p-3 d-flex align-items-center" role="alert">
+                    <i class="fa-solid fa-circle-check me-3 fs-4"></i>
+                    <div>{{ session('success') }}</div>
                 </div>
             @endif
             <div class="row g-4">
                 <!-- Main Content (Left Column) -->
                 <div class="col-lg-8">
-                    <!-- Bootstrap 5 Native Nav Tabs -->
-                    <ul class="nav nav-tabs mb-4" id="courseDetailTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="intro-tab" data-bs-toggle="tab" href="#intro-content" role="tab" aria-controls="intro-content" aria-selected="true">Giới thiệu</a>
-                        </li>
-                        @if(!empty($chapters))
+                    <!-- Pill Nav Tabs -->
+                    <div class="course-nav-tabs-wrapper">
+                        <ul class="nav nav-pills nav-fill" id="courseDetailTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="curriculum-tab" data-bs-toggle="tab" href="#curriculum-content" role="tab" aria-controls="curriculum-content" aria-selected="false">Nội dung khóa học</a>
+                                <a class="nav-link active" id="intro-tab" data-bs-toggle="tab" href="#intro-content" role="tab" aria-controls="intro-content" aria-selected="true"><i class="fa-solid fa-circle-info me-2"></i>Giới thiệu</a>
                             </li>
-                        @endif
-                        @if($course->instructor_name)
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="instructor-tab" data-bs-toggle="tab" href="#instructor-content" role="tab" aria-controls="instructor-content" aria-selected="false">Giảng viên</a>
-                            </li>
-                        @endif
-
-                    </ul>
+                            @if(!empty($chapters))
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="curriculum-tab" data-bs-toggle="tab" href="#curriculum-content" role="tab" aria-controls="curriculum-content" aria-selected="false"><i class="fa-solid fa-list-check me-2"></i>Nội dung khóa học</a>
+                                </li>
+                            @endif
+                            @if($course->instructor_name)
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="instructor-tab" data-bs-toggle="tab" href="#instructor-content" role="tab" aria-controls="instructor-content" aria-selected="false"><i class="fa-solid fa-user-tie me-2"></i>Giảng viên</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
 
                     <!-- Tab Panes -->
                     <div class="tab-content" id="courseDetailTabsContent">
                         <!-- Tab Content: Giới thiệu -->
                         <div class="tab-pane fade show active" id="intro-content" role="tabpanel" aria-labelledby="intro-tab">
-                            <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-3">
-                                <h3 class="academy-heading fs-4 fw-bold mb-3">Thông tin khóa học</h3>
-                                <div class="text-dark mb-4">
+                            <div class="course-main-card">
+                                <h3 class="academy-heading fs-4 fw-bold mb-4 d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-file-lines text-success"></i>Thông tin khóa học
+                                </h3>
+                                <div class="text-dark mb-4 lh-lg">
                                     @if($course->content)
                                         {!! $course->content !!}
                                     @else
@@ -358,7 +486,9 @@
                                     @endif
                                 </div>
 
-                                <h3 class="academy-heading fs-4 fw-bold mb-3 mt-4">Thông số khóa học</h3>
+                                <h3 class="academy-heading fs-4 fw-bold mb-3 mt-5 d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-sliders text-success"></i>Thông số & Giá trị đạt được
+                                </h3>
                                 <div class="course-feature-grid">
                                     <div class="course-feature-item">
                                         <div class="course-feature-icon"><i class="fa-solid fa-book-open"></i></div>
@@ -385,18 +515,20 @@
                             </div>
                         </div>
 
-                        <!-- Tab Content: Nội dung khóa học (Bootstrap 5 Accordion) -->
+                        <!-- Tab Content: Nội dung khóa học (Accordion) -->
                         @if(!empty($chapters))
                             <div class="tab-pane fade" id="curriculum-content" role="tabpanel" aria-labelledby="curriculum-tab">
-                                <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-3">
+                                <div class="course-main-card">
                                     <div class="d-flex align-items-center justify-content-between mb-4">
-                                        <h3 class="academy-heading fs-4 fw-bold mb-0">Chương trình học</h3>
-                                        <button class="btn btn-sm btn-outline-secondary" id="toggle-all-curriculum">Thu gọn tất cả</button>
+                                        <h3 class="academy-heading fs-4 fw-bold mb-0 d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-graduation-cap text-success"></i>Chương trình học
+                                        </h3>
+                                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="toggle-all-curriculum">Thu gọn tất cả</button>
                                     </div>
 
                                     <div class="accordion accordion-flush" id="curriculumAccordion">
                                         @foreach ($chapters as $index => $chapter)
-                                            <div class="accordion-item border rounded-3 mb-2 overflow-hidden bg-white">
+                                            <div class="accordion-item border rounded-3 mb-3 overflow-hidden bg-white">
                                                 <h4 class="accordion-header" id="heading-{{ $index }}">
                                                     <button 
                                                         class="accordion-button d-flex align-items-center justify-content-between py-3 px-4 bg-light text-dark fw-bold" 
@@ -417,13 +549,13 @@
                                                     <div class="accordion-body p-0">
                                                         @if(!empty($chapter['lessons']))
                                                             @foreach ($chapter['lessons'] as $lesson)
-                                                                <div class="lesson-item d-flex align-items-center justify-content-between py-3 px-4 border-bottom">
-                                                                    <div class="lesson-title-wrapper d-flex align-items-center gap-2">
-                                                                        <i class="fa-solid fa-circle-play" style="color: #006354; font-size: 15px;"></i>
-                                                                        <span class="text-dark fw-bold" style="font-size: 0.95rem;">{{ $lesson['title'] }}</span>
+                                                                <div class="lesson-item">
+                                                                    <div class="lesson-title-wrapper">
+                                                                        <i class="fa-solid fa-circle-play lesson-icon"></i>
+                                                                        <span class="text-dark fw-semibold">{{ $lesson['title'] }}</span>
                                                                     </div>
                                                                     @if(!empty($lesson['duration']))
-                                                                        <span class="fw-bold" style="color: #006354; font-size: 0.85rem;">{{ $lesson['duration'] }}</span>
+                                                                        <span class="badge bg-light text-success border border-success-subtle fw-bold rounded-pill px-3">{{ $lesson['duration'] }}</span>
                                                                     @endif
                                                                 </div>
                                                             @endforeach
@@ -441,26 +573,26 @@
                         @if($course->instructor_name)
                             <div class="tab-pane fade" id="instructor-content" role="tabpanel" aria-labelledby="instructor-tab">
                                 <div class="instructor-card border shadow-sm rounded-3 bg-white p-4 mb-4">
-                                    <h3 class="academy-heading fs-4 fw-bold mb-4">Giảng viên hướng dẫn</h3>
+                                    <h3 class="academy-heading fs-4 fw-bold mb-4 d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-user-tie text-success"></i>Giảng viên hướng dẫn
+                                    </h3>
                                     <div class="d-flex flex-column flex-sm-row gap-4 align-items-start">
                                         <img src="{{ $course->instructor_image ? asset('storage/' . $course->instructor_image) : asset('assets/images/team/team-1.jpg') }}" width="160" height="160" alt="{{ $course->instructor_name }}" class="instructor-avatar" loading="lazy" decoding="async">
                                         <div>
                                             <h4 class="academy-heading fs-5 fw-bold mb-1">{{ $course->instructor_name }}</h4>
-                                            <p class="text-success small mb-3">{{ $course->instructor_role }}</p>
-                                            <p class="text-dark mb-3">
+                                            <p class="text-success fw-semibold small mb-3"><i class="fa-solid fa-circle-check me-1"></i>{{ $course->instructor_role }}</p>
+                                            <p class="text-dark mb-4 lh-lg">
                                                 {{ $course->instructor_description }}
                                             </p>
                                             <div class="d-flex gap-3">
-                                                <a href="mailto:info@greeco.vn" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-envelope me-2"></i>Gửi email</a>
-                                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#checkout-modal"><i class="fa-solid fa-comments me-2"></i>Đăng ký tư vấn</button>
+                                                <a href="mailto:info@greeco.vn" class="btn btn-sm btn-outline-secondary rounded-pill px-3"><i class="fa-solid fa-envelope me-2"></i>Gửi email</a>
+                                                <button class="btn btn-sm btn-consult-primary" data-bs-toggle="modal" data-bs-target="#checkout-modal"><i class="fa-solid fa-comments me-2"></i>Đăng ký tư vấn</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endif
-
-
                     </div>
                 </div>
 
@@ -475,30 +607,46 @@
                             <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
                         </div>
                         <div class="p-4">
-                            <button class="btn btn-success btn-lg w-100 mb-4" data-bs-toggle="modal" data-bs-target="#checkout-modal">
-                                <i class="fa-solid fa-comments me-2"></i>Liên hệ tư vấn
+                            <div class="mb-4 text-center">
+                                <span class="text-secondary small d-block mb-1">Học phí & Ưu đãi doanh nghiệp</span>
+                                <h3 class="fw-bold text-success mb-0 fs-3">{{ $course->price ?: 'Liên hệ' }}</h3>
+                                @if($course->original_price)
+                                    <span class="text-muted text-decoration-line-through small me-2">{{ $course->original_price }}</span>
+                                @endif
+                                @if($course->discount)
+                                    <span class="badge bg-danger rounded-pill">{{ $course->discount }}</span>
+                                @endif
+                            </div>
+
+                            <button class="btn btn-consult-primary btn-lg w-100 mb-3" data-bs-toggle="modal" data-bs-target="#checkout-modal">
+                                <i class="fa-solid fa-comments me-2"></i>Liên hệ tư vấn ngay
                             </button>
 
                             <div class="border-top pt-4">
                                 <h4 class="academy-heading fs-6 fw-bold mb-3">Khóa học bao gồm:</h4>
                                 <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
                                     <li class="d-flex align-items-center gap-3 text-dark small">
-                                        <i class="fa-solid fa-circle-play text-dark fs-6" style="width: 20px;"></i>
-                                        <span>{{ $totalLessons ?: 12 }} bài giảng học trực tuyến chất lượng</span>
+                                        <i class="fa-solid fa-circle-check text-success fs-6" style="width: 20px;"></i>
+                                        <span>{{ $totalLessons ?: 12 }} bài giảng trực tuyến chất lượng</span>
                                     </li>
                                     <li class="d-flex align-items-center gap-3 text-dark small">
-                                        <i class="fa-solid fa-mobile-screen-button text-dark fs-6" style="width: 20px;"></i>
+                                        <i class="fa-solid fa-circle-check text-success fs-6" style="width: 20px;"></i>
                                         <span>Học tập linh hoạt trên điện thoại & máy tính</span>
                                     </li>
                                     <li class="d-flex align-items-center gap-3 text-dark small">
-                                        <i class="fa-solid fa-download text-dark fs-6" style="width: 20px;"></i>
+                                        <i class="fa-solid fa-circle-check text-success fs-6" style="width: 20px;"></i>
                                         <span>Biểu mẫu tài liệu học thực tế</span>
                                     </li>
                                     <li class="d-flex align-items-center gap-3 text-dark small">
-                                        <i class="fa-solid fa-award text-dark fs-6" style="width: 20px;"></i>
+                                        <i class="fa-solid fa-circle-check text-success fs-6" style="width: 20px;"></i>
                                         <span>Cấp chứng nhận hoàn thành uy tín</span>
                                     </li>
                                 </ul>
+
+                                <div class="sidebar-trust-badge">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>Đảm bảo chất lượng theo tiêu chuẩn Viện GREECO</span>
+                                </div>
                             </div>
                         </div>
                     </aside>

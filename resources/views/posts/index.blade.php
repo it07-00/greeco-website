@@ -50,7 +50,7 @@
         :url="$canonical"
     />
 
-    <div class="no-bottom no-top" id="content">
+    <div class="no-bottom no-top posts-index-page" id="content">
         <div id="top"></div>
 
         <section id="subheader" class="relative">

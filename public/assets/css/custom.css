@@ -23,9 +23,12 @@ img {
     height: auto;
 }
 
-/* Standardize container max-width for balanced layout across all pages */
+/* Scoped container max-width for News and Course pages only */
 @media (min-width: 1200px) {
-    .container {
+    .academy-catalog-page .container,
+    .course-detail-page .container,
+    .posts-index-page .container,
+    .posts-show-page .container {
         max-width: 1140px !important;
     }
 }

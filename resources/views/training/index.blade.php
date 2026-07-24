@@ -62,9 +62,13 @@
         .academy-hero-banner {
             background: linear-gradient(135deg, #0f2c28 0%, #173d37 100%) !important;
             color: #ffffff !important;
-            padding: 9.5rem 0 5.5rem !important;
+            padding: 8rem 0 4.5rem !important;
             position: relative;
             text-align: center;
+        }
+
+        .academy-hero-banner .container {
+            max-width: 1140px;
         }
 
         .search-box-wrapper {
@@ -434,7 +438,7 @@
                         </a>
                     </div>
 
-                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+                    <div class="row row-cols-2 row-cols-md-4 g-3">
                         @foreach ($categories as $cat)
                             <div class="col">
                                 <a href="{{ route('services.dao-tao', array_filter(['search' => $search, 'category' => $cat->slug])) }}#chuong-trinh-dao-tao"

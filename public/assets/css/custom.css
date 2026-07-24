@@ -23,6 +23,13 @@ img {
     height: auto;
 }
 
+/* Standardize container max-width for balanced layout across all pages */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px !important;
+    }
+}
+
 /* Accessibility: main landmark - reset to avoid layout side-effects */
 #main-content {
     display: block;

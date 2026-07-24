@@ -30,177 +30,202 @@ class PostForm
             ->components([
                 Tabs::make('PostTabs')
                     ->tabs([
-                        Tab::make('Thông tin chính')
-                            ->schema([
-                                TextInput::make('title')
-                                    ->label('Tiêu đề bài viết')
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
-                                        $oldSlug = Str::slug($old ?? '');
-                                        $currentSlug = $get('slug');
-
-                                        if (blank($currentSlug) || $currentSlug === $oldSlug) {
-                                            $set('slug', Str::slug($state ?? ''));
-                                        }
-
-                                        if (blank($get('meta_title'))) {
-                                            $set('meta_title', self::suggestMetaTitle($state));
-                                        }
-                                    }),
-                                TextInput::make('slug')
-                                    ->label('Slug')
-                                    ->required()
-                                    ->unique(ignoreRecord: true),
-                                Select::make('post_category_id')
-                                    ->label('Danh mục bài viết')
-                                    ->relationship('category', 'name')
-                                    ->searchable()
-                                    ->preload(),
-                                Textarea::make('excerpt')
-                                    ->label('Mô tả ngắn/Trích dẫn')
-                                    ->rows(3)
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state): void {
-                                        if (blank($get('meta_description'))) {
-                                            $set('meta_description', self::suggestMetaDescription($state, $get('content')));
-                                        }
-                                    }),
-                                TagsInput::make('tags')
-                                    ->label('Thẻ (Tags)')
-                                    ->placeholder('Nhập tag và ấn Enter')
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(function (Get $get, Set $set, $state): void {
-                                        if (blank($get('meta_keywords'))) {
-                                            $set('meta_keywords', self::suggestMetaKeywords($state, $get('title')));
-                                        }
-                                    })
-                                    ->columnSpanFull(),
-                            ]),
-                        Tab::make('Nội dung')
-                            ->schema([
-                                Select::make('content_type')
-                                    ->label('Hình thức thể hiện nội dung')
-                                    ->options([
-                                        'text' => 'Bài viết văn bản thông thường',
-                                        'pdf' => 'Hiển thị tệp PDF trực tuyến (Flipbook)',
-                                    ])
-                                    ->default('text')
-                                    ->live()
-                                    ->columnSpanFull(),
-
-                                FileUpload::make('pdf_path')
-                                    ->label('Tệp PDF nội dung')
-                                    ->disk('public')
-                                    ->directory('posts/pdfs')
-                                    ->acceptedFileTypes(['application/pdf'])
-                                    ->maxSize(20480) // 20MB
-                                    ->visible(fn (Get $get) => $get('content_type') === 'pdf')
-                                    ->required(fn (Get $get) => $get('content_type') === 'pdf')
-                                    ->columnSpanFull(),
-
-                                OptimizedImageUpload::configureRichEditor(
-                                    RichEditor::make('content')->label('Nội dung bài viết'),
-                                )
-                                    ->toolbarButtons(self::postContentToolbarButtons())
-                                    ->floatingToolbars(self::postContentFloatingToolbars())
-                                    ->fileAttachmentsDisk('public')
-                                    ->fileAttachmentsDirectory('posts/attachments')
-                                    ->resizableImages()
-                                    ->helperText('Dùng H2 cho các ý chính, H3-H4 cho ý con. Không dùng H1 trong nội dung vì tiêu đề bài viết đã là H1.')
-                                    ->visible(fn (Get $get) => $get('content_type') === 'text')
-                                    ->columnSpanFull(),
-                            ]),
-                        Tab::make('Hình ảnh')
-                            ->schema([
-                                OptimizedImageUpload::configure(
-                                    FileUpload::make('thumbnail')->label('Ảnh đại diện'),
-                                    2560,
-                                    1440,
-                                )
-                                    ->disk('public')
-                                    ->directory('posts'),
-                                OptimizedImageUpload::configure(
-                                    FileUpload::make('og_image')->label('Ảnh chia sẻ Facebook/Zalo'),
-                                    1600,
-                                    900,
-                                )
-                                    ->disk('public')
-                                    ->directory('seo/og-images'),
-                            ]),
-                        Tab::make('SEO')
-                            ->schema([
-                                Actions::make([
-                                    Action::make('generatePostSeo')
-                                        ->label('Tạo gợi ý SEO')
-                                        ->icon(Heroicon::OutlinedSparkles)
-                                        ->color('success')
-                                        ->button()
-                                        ->outlined()
-                                        ->action(function (Get $schemaGet, Set $schemaSet): void {
-                                            $title = $schemaGet('title');
-                                            $slug = $schemaGet('slug') ?: Str::slug($title ?? '');
-
-                                            $schemaSet('meta_title', self::suggestMetaTitle($title));
-                                            $schemaSet('meta_description', self::suggestMetaDescription($schemaGet('excerpt'), $schemaGet('content')));
-                                            $schemaSet('meta_keywords', self::suggestMetaKeywords($schemaGet('tags'), $title));
-                                            $schemaSet('canonical_url', self::suggestCanonicalUrl($slug));
-                                        }),
-                                    Action::make('fillCanonicalUrl')
-                                        ->label('Điền canonical')
-                                        ->icon(Heroicon::OutlinedLink)
-                                        ->color('gray')
-                                        ->button()
-                                        ->outlined()
-                                        ->action(function (Get $schemaGet, Set $schemaSet): void {
-                                            $slug = $schemaGet('slug') ?: Str::slug($schemaGet('title') ?? '');
-
-                                            $schemaSet('canonical_url', self::suggestCanonicalUrl($slug));
-                                        }),
-                                ])
-                                    ->columnSpanFull(),
-                                TextInput::make('meta_title')
-                                    ->label('Meta Title')
-                                    ->placeholder(fn (Get $get): ?string => self::suggestMetaTitle($get('title')))
-                                    ->helperText(fn (?string $state): string => self::seoLengthHint($state, 45, 60))
-                                    ->live(onBlur: true)
-                                    ->maxLength(255),
-                                Textarea::make('meta_description')
-                                    ->label('Meta Description')
-                                    ->placeholder(fn (Get $get): ?string => self::suggestMetaDescription($get('excerpt'), $get('content')))
-                                    ->helperText(fn (?string $state): string => self::seoLengthHint($state, 120, 155))
-                                    ->live(onBlur: true)
-                                    ->rows(3),
-                                TextInput::make('meta_keywords')
-                                    ->label('Meta Keywords')
-                                    ->placeholder(fn (Get $get): ?string => self::suggestMetaKeywords($get('tags'), $get('title')))
-                                    ->helperText('Meta keywords không còn là yếu tố xếp hạng chính; nên đồng bộ với Tags để quản trị nội dung.')
-                                    ->maxLength(255),
-                                TextInput::make('canonical_url')
-                                    ->label('Canonical URL')
-                                    ->placeholder(fn (Get $get): ?string => self::suggestCanonicalUrl($get('slug') ?: Str::slug($get('title') ?? '')))
-                                    ->helperText('Chỉ nhập khi muốn canonical sang URL khác. Để trống sẽ dùng URL bài viết hiện tại.')
-                                    ->rules(['nullable', 'url'])
-                                    ->maxLength(255),
-                            ]),
-                        Tab::make('Trạng thái')
-                            ->schema([
-                                Toggle::make('is_featured')
-                                    ->label('Nổi bật')
-                                    ->default(false),
-                                Toggle::make('is_indexable')
-                                    ->label('Cho Google index')
-                                    ->default(true),
-                                Toggle::make('is_published')
-                                    ->label('Đã xuất bản')
-                                    ->default(false),
-                                DateTimePicker::make('published_at')
-                                    ->label('Ngày xuất bản')
-                                    ->default(now()),
-                            ]),
+                        self::mainInformationTab(),
+                        self::contentTab(),
+                        self::imageTab(),
+                        self::seoTab(),
+                        self::statusTab(),
                     ])
                     ->columnSpanFull(),
+            ]);
+    }
+
+    private static function mainInformationTab(): Tab
+    {
+        return Tab::make('Thông tin chính')
+            ->schema([
+                TextInput::make('title')
+                    ->label('Tiêu đề bài viết')
+                    ->required()
+                    ->maxLength(255)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                        $oldSlug = Str::slug($old ?? '');
+                        $currentSlug = $get('slug');
+
+                        if (blank($currentSlug) || $currentSlug === $oldSlug) {
+                            $set('slug', Str::slug($state ?? ''));
+                        }
+
+                        if (blank($get('meta_title'))) {
+                            $set('meta_title', self::suggestMetaTitle($state));
+                        }
+                    }),
+                TextInput::make('slug')
+                    ->label('Slug')
+                    ->required()
+                    ->unique(ignoreRecord: true),
+                Select::make('post_category_id')
+                    ->label('Danh mục bài viết')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload(),
+                Textarea::make('excerpt')
+                    ->label('Mô tả ngắn/Trích dẫn')
+                    ->rows(3)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state): void {
+                        if (blank($get('meta_description'))) {
+                            $set('meta_description', self::suggestMetaDescription($state, $get('content')));
+                        }
+                    }),
+                TagsInput::make('tags')
+                    ->label('Thẻ (Tags)')
+                    ->placeholder('Nhập tag và ấn Enter')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (Get $get, Set $set, $state): void {
+                        if (blank($get('meta_keywords'))) {
+                            $set('meta_keywords', self::suggestMetaKeywords($state, $get('title')));
+                        }
+                    })
+                    ->columnSpanFull(),
+            ]);
+    }
+
+    private static function contentTab(): Tab
+    {
+        return Tab::make('Nội dung')
+            ->schema([
+                Select::make('content_type')
+                    ->label('Hình thức thể hiện nội dung')
+                    ->options([
+                        'text' => 'Bài viết văn bản thông thường',
+                        'pdf' => 'Hiển thị tệp PDF trực tuyến (Flipbook)',
+                    ])
+                    ->default('text')
+                    ->live()
+                    ->columnSpanFull(),
+
+                FileUpload::make('pdf_path')
+                    ->label('Tệp PDF nội dung')
+                    ->disk('public')
+                    ->directory('posts/pdfs')
+                    ->acceptedFileTypes(['application/pdf'])
+                    ->maxSize(20480) // 20MB
+                    ->visible(fn (Get $get) => $get('content_type') === 'pdf')
+                    ->required(fn (Get $get) => $get('content_type') === 'pdf')
+                    ->columnSpanFull(),
+
+                OptimizedImageUpload::configureRichEditor(
+                    RichEditor::make('content')->label('Nội dung bài viết'),
+                )
+                    ->toolbarButtons(self::postContentToolbarButtons())
+                    ->floatingToolbars(self::postContentFloatingToolbars())
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('posts/attachments')
+                    ->resizableImages()
+                    ->helperText('Dùng H2 cho các ý chính, H3-H4 cho ý con. Không dùng H1 trong nội dung vì tiêu đề bài viết đã là H1.')
+                    ->visible(fn (Get $get) => $get('content_type') === 'text')
+                    ->columnSpanFull(),
+            ]);
+    }
+
+    private static function imageTab(): Tab
+    {
+        return Tab::make('Hình ảnh')
+            ->schema([
+                OptimizedImageUpload::configure(
+                    FileUpload::make('thumbnail')->label('Ảnh đại diện'),
+                    2560,
+                    1440,
+                )
+                    ->disk('public')
+                    ->directory('posts'),
+                OptimizedImageUpload::configure(
+                    FileUpload::make('og_image')->label('Ảnh chia sẻ Facebook/Zalo'),
+                    1600,
+                    900,
+                )
+                    ->disk('public')
+                    ->directory('seo/og-images'),
+            ]);
+    }
+
+    private static function seoTab(): Tab
+    {
+        return Tab::make('SEO')
+            ->schema([
+                Actions::make([
+                    Action::make('generatePostSeo')
+                        ->label('Tạo gợi ý SEO')
+                        ->icon(Heroicon::OutlinedSparkles)
+                        ->color('success')
+                        ->button()
+                        ->outlined()
+                        ->action(function (Get $schemaGet, Set $schemaSet): void {
+                            $title = $schemaGet('title');
+                            $slug = $schemaGet('slug') ?: Str::slug($title ?? '');
+
+                            $schemaSet('meta_title', self::suggestMetaTitle($title));
+                            $schemaSet('meta_description', self::suggestMetaDescription($schemaGet('excerpt'), $schemaGet('content')));
+                            $schemaSet('meta_keywords', self::suggestMetaKeywords($schemaGet('tags'), $title));
+                            $schemaSet('canonical_url', self::suggestCanonicalUrl($slug));
+                        }),
+                    Action::make('fillCanonicalUrl')
+                        ->label('Điền canonical')
+                        ->icon(Heroicon::OutlinedLink)
+                        ->color('gray')
+                        ->button()
+                        ->outlined()
+                        ->action(function (Get $schemaGet, Set $schemaSet): void {
+                            $slug = $schemaGet('slug') ?: Str::slug($schemaGet('title') ?? '');
+
+                            $schemaSet('canonical_url', self::suggestCanonicalUrl($slug));
+                        }),
+                ])
+                    ->columnSpanFull(),
+                TextInput::make('meta_title')
+                    ->label('Meta Title')
+                    ->placeholder(fn (Get $get): ?string => self::suggestMetaTitle($get('title')))
+                    ->helperText(fn (?string $state): string => self::seoLengthHint($state, 45, 60))
+                    ->live(onBlur: true)
+                    ->maxLength(255),
+                Textarea::make('meta_description')
+                    ->label('Meta Description')
+                    ->placeholder(fn (Get $get): ?string => self::suggestMetaDescription($get('excerpt'), $get('content')))
+                    ->helperText(fn (?string $state): string => self::seoLengthHint($state, 120, 155))
+                    ->live(onBlur: true)
+                    ->rows(3),
+                TextInput::make('meta_keywords')
+                    ->label('Meta Keywords')
+                    ->placeholder(fn (Get $get): ?string => self::suggestMetaKeywords($get('tags'), $get('title')))
+                    ->helperText('Meta keywords không còn là yếu tố xếp hạng chính; nên đồng bộ với Tags để quản trị nội dung.')
+                    ->maxLength(255),
+                TextInput::make('canonical_url')
+                    ->label('Canonical URL')
+                    ->placeholder(fn (Get $get): ?string => self::suggestCanonicalUrl($get('slug') ?: Str::slug($get('title') ?? '')))
+                    ->helperText('Chỉ nhập khi muốn canonical sang URL khác. Để trống sẽ dùng URL bài viết hiện tại.')
+                    ->rules(['nullable', 'url'])
+                    ->maxLength(255),
+            ]);
+    }
+
+    private static function statusTab(): Tab
+    {
+        return Tab::make('Trạng thái')
+            ->schema([
+                Toggle::make('is_featured')
+                    ->label('Nổi bật')
+                    ->default(false),
+                Toggle::make('is_indexable')
+                    ->label('Cho Google index')
+                    ->default(true),
+                Toggle::make('is_published')
+                    ->label('Đã xuất bản')
+                    ->default(false),
+                DateTimePicker::make('published_at')
+                    ->label('Ngày xuất bản')
+                    ->default(now()),
             ]);
     }
 

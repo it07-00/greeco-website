@@ -17,7 +17,7 @@
         ['name' => 'Tin tức', 'url' => route('posts.index')],
         ['name' => $post->title, 'url' => $canonical]
     ];
-    $subheaderLabel = $post->category?->name ?? 'Tin tức & Sự kiện';
+    $subheaderLabel = $post->category?->name ?? 'Tin tức';
     $wordCount = str_word_count(strip_tags($post->content ?? $post->excerpt ?? ''));
     $readTime = max(1, (int) ceil($wordCount / 200));
 @endphp
@@ -80,12 +80,12 @@
             }
         }
 
-        .article-meta-bar {
+        .post-detail-meta {
             display: flex;
             flex-wrap: wrap;
             gap: 18px;
             align-items: center;
-            padding: 12px 20px;
+            padding: 14px 20px;
             background: #f8fafc;
             border-radius: 12px;
             border: 1px solid #edf2f7;
@@ -94,13 +94,13 @@
             margin-bottom: 24px;
         }
 
-        .article-meta-item {
+        .post-detail-meta__item {
             display: inline-flex;
             align-items: center;
             gap: 6px;
         }
 
-        .article-meta-item i {
+        .post-detail-meta__item i {
             color: #008f79;
         }
 
@@ -321,12 +321,7 @@
                             <li><a href="{{ route('posts.index') }}">Tin tức</a></li>
                             <li class="active">Chi tiết bài viết</li>
                         </ul>
-                        @if($post->category)
-                            <div class="mb-3">
-                                <span class="category-badge-hero"><i class="fa-solid fa-folder-open me-2"></i>{{ $post->category->name }}</span>
-                            </div>
-                        @endif
-                        <h1 class="text-uppercase fw-bold mb-0" style="font-size: 2.2rem; line-height: 1.3;">{{ $post->title }}</h1>
+                        <p class="text-uppercase h1 mb-0">{{ $subheaderLabel }}</p>
                     </div>
                 </div>
             </div>
@@ -338,27 +333,29 @@
                 <div class="row gx-5">
                     <!-- Main Content -->
                     <div class="col-lg-8">
-                        <div class="article-read-card">
+                        <div class="article-read-card blog-read">
+                            <h1 class="text-dark fs-36 fw-700 lh-1-3 mb-3">{{ $post->title }}</h1>
+
                             <!-- Article Metadata Bar -->
-                            <div class="article-meta-bar">
-                                <div class="article-meta-item">
-                                    <i class="fa-solid fa-building"></i>
+                            <div class="post-detail-meta mb-3">
+                                <span class="post-detail-meta__item">
+                                    <i class="fa-solid fa-building me-1"></i>
                                     <span class="fw-semibold text-dark">Viện GREECO</span>
-                                </div>
+                                </span>
                                 @if($post->published_at)
-                                    <div class="article-meta-item">
-                                        <i class="fa-regular fa-calendar"></i>
+                                    <span class="post-detail-meta__item">
+                                        <i class="fa-regular fa-calendar me-1"></i>
                                         <time datetime="{{ $post->published_at->format('Y-m-d') }}">{{ $post->published_at->format('d/m/Y') }}</time>
-                                    </div>
+                                    </span>
                                 @endif
-                                <div class="article-meta-item">
-                                    <i class="fa-regular fa-eye"></i>
+                                <span class="post-detail-meta__item">
+                                    <i class="fa-regular fa-eye me-1"></i>
                                     <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>
-                                </div>
-                                <div class="article-meta-item">
-                                    <i class="fa-regular fa-clock"></i>
+                                </span>
+                                <span class="post-detail-meta__item">
+                                    <i class="fa-regular fa-clock me-1"></i>
                                     <span>{{ $readTime }} phút đọc</span>
-                                </div>
+                                </span>
                             </div>
 
                             @if($post->excerpt)

@@ -49,9 +49,11 @@ class SeoTechnicalTest extends TestCase
                 ->assertOk()
                 ->getContent();
 
+            $expectedCanonical = preg_replace('/^http:\/\//', 'https://', route($routeName));
+
             $this->assertMatchesRegularExpression('/<title>[^<]+<\/title>/', $content, $routeName);
             $this->assertMatchesRegularExpression('/<meta name="description" content="[^"]+">/', $content, $routeName);
-            $this->assertStringContainsString('<link rel="canonical" href="'.route($routeName).'">', $content, $routeName);
+            $this->assertStringContainsString('<link rel="canonical" href="'.$expectedCanonical.'">', $content, $routeName);
             $this->assertStringContainsString('<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">', $content, $routeName);
             $this->assertSame(1, preg_match_all('/<h1\b/i', $content), $routeName);
         }
@@ -170,9 +172,11 @@ class SeoTechnicalTest extends TestCase
             'is_indexable' => false,
         ]);
 
-        $this->get(route('slug.show', $page->slug))
-            ->assertOk()
-            ->assertSee('<link rel="canonical" href="'.route('slug.show', $page->slug).'">', false)
+        $response = $this->get(route('slug.show', $page->slug));
+        $expectedCanonical = preg_replace('/^http:\/\//', 'https://', url(route('slug.show', $page->slug, false)));
+
+        $response->assertOk()
+            ->assertSee('<link rel="canonical" href="'.$expectedCanonical.'">', false)
             ->assertSee('<meta name="robots" content="noindex, nofollow">', false);
     }
 

@@ -5,7 +5,7 @@
                 <div class="col course-catalog-item">
                     <article class="course-catalog-card h-100 d-flex flex-column">
                         <div class="course-card-img-wrapper">
-                            <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}">
+                            <a href="{{ route('slug.show', $program['slug']) }}">
                                 <img src="{{ $program['image'] }}" width="1024" height="1024" alt="{{ $program['title'] }}" loading="lazy" decoding="async">
                             </a>
                             @if(!empty($program['tag']))
@@ -16,7 +16,7 @@
                         </div>
                         <div class="card-body p-4 d-flex flex-column">
                             <h3 class="academy-heading fs-6 fw-bold mb-2">
-                                <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}"
+                                <a href="{{ route('slug.show', $program['slug']) }}"
                                     class="text-reset text-decoration-none">
                                     {{ $program['title'] }}
                                 </a>
@@ -33,7 +33,7 @@
                                         <small class="text-secondary text-decoration-line-through">{{ $program['original_price'] }}</small>
                                     @endif
                                 </div>
-                                <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}"
+                                <a href="{{ route('slug.show', $program['slug']) }}"
                                     class="btn btn-sm btn-register-now">
                                     Xem chi tiết
                                 </a>

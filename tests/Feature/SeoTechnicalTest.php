@@ -126,9 +126,9 @@ class SeoTechnicalTest extends TestCase
 
         $this->assertStringContainsString('<loc>'.route('team').'</loc>', $content);
         $this->assertStringContainsString('<loc>'.route('services.dao-tao').'</loc>', $content);
-        $this->assertStringContainsString('<loc>'.route('services.course-detail', ['slug' => $course->slug]).'</loc>', $content);
-        $this->assertStringContainsString('<loc>'.route('pages.show', ['page' => 'tam-nhin-thu-nghiem']).'</loc>', $content);
-        $this->assertStringContainsString('<loc>'.route('posts.show', $post).'</loc>', $content);
+        $this->assertStringContainsString('<loc>'.route('slug.show', $course->slug).'</loc>', $content);
+        $this->assertStringContainsString('<loc>'.route('slug.show', 'tam-nhin-thu-nghiem').'</loc>', $content);
+        $this->assertStringContainsString('<loc>'.route('slug.show', $post->slug).'</loc>', $content);
         $this->assertStringContainsString('<lastmod>'.$post->updated_at->toAtomString().'</lastmod>', $content);
         $this->assertStringNotContainsString('khong-index', $content);
         $this->assertStringNotContainsString('khoa-dao-tao-noi-bo', $content);
@@ -150,7 +150,7 @@ class SeoTechnicalTest extends TestCase
             'is_indexable' => false,
         ]);
 
-        $this->get(route('services.course-detail', ['slug' => $course->slug]))
+        $this->get(route('slug.show', $course->slug))
             ->assertOk()
             ->assertSee('<title>Meta khóa ISO 14001</title>', false)
             ->assertSee('<meta name="description" content="Mô tả SEO từ admin cho khóa ISO 14001.">', false)
@@ -170,9 +170,9 @@ class SeoTechnicalTest extends TestCase
             'is_indexable' => false,
         ]);
 
-        $this->get(route('pages.show', $page))
+        $this->get(route('slug.show', $page->slug))
             ->assertOk()
-            ->assertSee('<link rel="canonical" href="'.route('pages.show', $page).'">', false)
+            ->assertSee('<link rel="canonical" href="'.route('slug.show', $page->slug).'">', false)
             ->assertSee('<meta name="robots" content="noindex, nofollow">', false);
     }
 
@@ -188,7 +188,7 @@ class SeoTechnicalTest extends TestCase
             'published_at' => now(),
         ]);
 
-        $content = $this->get(route('posts.show', $post))
+        $content = $this->get(route('slug.show', $post->slug))
             ->assertOk()
             ->getContent();
 
@@ -236,7 +236,7 @@ class SeoTechnicalTest extends TestCase
         $this->assertSame('ItemList', $collectionPage['mainEntity']['@type']);
         $this->assertSame(1, $collectionPage['mainEntity']['numberOfItems']);
         $this->assertSame($post->title, $collectionPage['mainEntity']['itemListElement'][0]['item']['headline']);
-        $this->assertSame(route('posts.show', $post), $collectionPage['mainEntity']['itemListElement'][0]['url']);
+        $this->assertSame(route('slug.show', $post->slug), $collectionPage['mainEntity']['itemListElement'][0]['url']);
     }
 
     public function test_post_detail_renders_complete_article_seo_metadata(): void
@@ -261,7 +261,7 @@ class SeoTechnicalTest extends TestCase
             'published_at' => now()->setDate(2026, 6, 12)->setTime(9, 0),
         ]);
 
-        $content = $this->get(route('posts.show', $post))
+        $content = $this->get(route('slug.show', $post->slug))
             ->assertOk()
             ->assertSee('<meta property="og:type" content="article">', false)
             ->assertSee('<meta property="article:published_time" content="'.$post->published_at->toIso8601String().'">', false)
@@ -276,7 +276,7 @@ class SeoTechnicalTest extends TestCase
         $schemas = collect($matches[1])->map(fn (string $json): array => json_decode($json, true));
         $article = $schemas->firstWhere('@type', 'Article');
 
-        $this->assertSame(route('posts.show', $post).'#article', $article['@id']);
+        $this->assertSame(route('slug.show', $post->slug).'#article', $article['@id']);
         $this->assertSame('vi-VN', $article['inLanguage']);
         $this->assertSame('ESG', $article['articleSection']);
         $this->assertSame('ESG, Net Zero', $article['keywords']);
@@ -301,7 +301,7 @@ class SeoTechnicalTest extends TestCase
             'published_at' => now(),
         ]);
 
-        $content = $this->get(route('posts.show', $post))
+        $content = $this->get(route('slug.show', $post->slug))
             ->assertOk()
             ->getContent();
 
@@ -329,7 +329,7 @@ class SeoTechnicalTest extends TestCase
             'published_at' => now()->setDate(2026, 6, 15),
         ]);
 
-        $content = $this->get(route('posts.show', $post))
+        $content = $this->get(route('slug.show', $post->slug))
             ->assertOk()
             ->getContent();
 

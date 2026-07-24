@@ -14,7 +14,8 @@
 @php
     $title = trim($title ?? config('app.name'));
     $description = trim($description ?? '');
-    $canonical = $canonical ?? url()->current();
+    // Always force canonical to HTTPS to prevent HTTP/HTTPS duplicate content issues.
+    $canonical = preg_replace('/^http:\/\//', 'https://', $canonical ?? url()->current());
     $type = trim($type ?: 'website');
     $image = $image ?? null;
     $section = filled($section) ? trim($section) : null;

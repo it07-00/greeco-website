@@ -189,6 +189,6 @@ class TrainingAcademyPageTest extends TestCase
 
         // Test detail page redirect
         $this->get('/dich-vu/dao-tao-va-boi-duong/iso-9001-2015-xay-dung-he-thong-quan-ly-chat-luong-hieu-qua')
-            ->assertRedirect(route('services.course-detail', ['slug' => 'iso-9001-2015-xay-dung-he-thong-quan-ly-chat-luong-hieu-qua']));
+            ->assertRedirect(route('slug.show', ['slug' => 'iso-9001-2015-xay-dung-he-thong-quan-ly-chat-luong-hieu-qua']));
     }
 }

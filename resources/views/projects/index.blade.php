@@ -53,7 +53,7 @@
                                         <!-- project item begin -->
                                         <div class="relative">
                                             <div class="hover project-card-custom overflow-hidden text-light">
-                                                <a href="{{ route('projects.show', $project) }}" class="abs w-100 h-100 z-5"></a>
+                                                <a href="{{ route('slug.show', $project->slug) }}" class="abs w-100 h-100 z-5"></a>
                                                 <img src="{{ $projectImg }}" width="1024" height="1024" class="hover-scale-1-1 w-100" alt="{{ $project->title }}" loading="lazy" decoding="async">
                                                 <div class="abs bottom-0 mb-4 w-100 text-center px-4 hover-op-1 z-4 hover-mt-40">
                                                     <div class="mb-3">{{ Str::limit($project->excerpt, 120) }}</div>

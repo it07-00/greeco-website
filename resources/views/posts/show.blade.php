@@ -1,7 +1,7 @@
 @php
     $seoTitle = $post->meta_title ?: $post->title . ' | ' . config('app.name');
     $seoDescription = $post->meta_description ?: $post->excerpt;
-    $canonical = $post->canonical_url ?: route('posts.show', $post);
+    $canonical = $post->canonical_url ?: route('slug.show', $post->slug);
     $ogImage = $post->og_image
         ? asset('storage/' . $post->og_image)
         : asset('assets/images/og-default.jpg');
@@ -147,7 +147,7 @@
                                 <div class="post-tags mt-4">
                                     <span class="fw-bold me-2"><i class="fa fa-tags me-1"></i>Thẻ:</span>
                                     @foreach($post->tags as $tag)
-                                        <a href="{{ route('posts.index', ['tag' => $tag]) }}" class="badge bg-success text-white text-decoration-none me-1 py-2 px-3">{{ $tag }}</a>
+                                        <a href="{{ route('posts.index', ['tag' => $tag]) }}" rel="nofollow" class="badge bg-success text-white text-decoration-none me-1 py-2 px-3">{{ $tag }}</a>
                                     @endforeach
                                 </div>
                             @endif
@@ -185,7 +185,7 @@
                                                 <img src="{{ $relPost->thumbnail ? asset('storage/' . $relPost->thumbnail) : asset('assets/images/blog-thumbnail/2.webp') }}" alt="{{ $relPost->title }}">
                                             </div>
                                             <div class="d-content">
-                                                <a href="{{ route('posts.show', $relPost) }}"><h4>{{ $relPost->title }}</h4></a>
+                                                <a href="{{ route('slug.show', $relPost->slug) }}"><h4>{{ $relPost->title }}</h4></a>
                                                 <div class="d-date">
                                                     {{ number_format($relPost->views_count ?? 0) }} lượt xem
                                                 </div>
@@ -201,14 +201,14 @@
                         <div class="widget widget_tags">
                             <h4>Từ khóa phổ biến</h4>
                             <ul>
-                                <li><a href="{{ route('posts.index', ['tag' => 'Kinh tế xanh']) }}">Kinh tế xanh</a></li>
-                                <li><a href="{{ route('posts.index', ['tag' => 'ESG']) }}">ESG</a></li>
-                                <li><a href="{{ route('posts.index', ['tag' => 'Net Zero']) }}">Net Zero</a></li>
-                                <li><a href="{{ route('posts.index', ['tag' => 'Carbon']) }}">Carbon</a></li>
-                                <li><a href="{{ route('posts.index', ['tag' => 'Môi trường']) }}">Môi trường</a></li>
-                                <li><a href="{{ route('posts.index', ['tag' => 'Tái chế']) }}">Tái chế</a></li>
-                                <li><a href="{{ route('posts.index', ['tag' => 'Bền vững']) }}">Bền vững</a></li>
-                                <li><a href="{{ route('posts.index', ['tag' => 'Tuần hoàn']) }}">Tuần hoàn</a></li>
+                                <li><a href="{{ route('posts.index', ['tag' => 'Kinh tế xanh']) }}" rel="nofollow">Kinh tế xanh</a></li>
+                                <li><a href="{{ route('posts.index', ['tag' => 'ESG']) }}" rel="nofollow">ESG</a></li>
+                                <li><a href="{{ route('posts.index', ['tag' => 'Net Zero']) }}" rel="nofollow">Net Zero</a></li>
+                                <li><a href="{{ route('posts.index', ['tag' => 'Carbon']) }}" rel="nofollow">Carbon</a></li>
+                                <li><a href="{{ route('posts.index', ['tag' => 'Môi trường']) }}" rel="nofollow">Môi trường</a></li>
+                                <li><a href="{{ route('posts.index', ['tag' => 'Tái chế']) }}" rel="nofollow">Tái chế</a></li>
+                                <li><a href="{{ route('posts.index', ['tag' => 'Bền vững']) }}" rel="nofollow">Bền vững</a></li>
+                                <li><a href="{{ route('posts.index', ['tag' => 'Tuần hoàn']) }}" rel="nofollow">Tuần hoàn</a></li>
                             </ul>
                         </div>
                     </div>

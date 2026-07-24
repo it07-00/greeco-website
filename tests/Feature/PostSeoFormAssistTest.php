@@ -49,7 +49,7 @@ class PostSeoFormAssistTest extends TestCase
         $this->assertLessThanOrEqual(155, mb_strlen($description));
 
         $this->assertSame('ESG, Net Zero', PostForm::suggestMetaKeywords(['ESG', 'Net Zero', 'ESG']));
-        $this->assertSame(route('posts.show', ['post' => 'kinh-te-tuan-hoan']), PostForm::suggestCanonicalUrl('kinh-te-tuan-hoan'));
+        $this->assertSame(route('slug.show', ['slug' => 'kinh-te-tuan-hoan']), PostForm::suggestCanonicalUrl('kinh-te-tuan-hoan'));
     }
 
     public function test_post_content_editor_has_complete_article_toolbar_without_h1(): void

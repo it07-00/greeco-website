@@ -4,7 +4,7 @@
 </div>
 
 @forelse($suggestionPrograms as $program)
-    <a href="{{ route('services.course-detail', ['slug' => $program['slug']]) }}"
+    <a href="{{ route('slug.show', $program['slug']) }}"
         class="course-search-suggestion" role="option">
         <img src="{{ $program['image'] }}" width="56" height="56" alt="" loading="lazy" decoding="async">
         <span class="course-search-suggestion-content">

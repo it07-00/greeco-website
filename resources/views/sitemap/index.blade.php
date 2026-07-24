@@ -9,7 +9,7 @@
     @endforeach
     @foreach ($pages as $page)
     <url>
-        <loc>{{ route('pages.show', $page) }}</loc>
+        <loc>{{ route('slug.show', $page->slug) }}</loc>
         <lastmod>{{ $page->updated_at->toAtomString() }}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -17,7 +17,7 @@
     @endforeach
     @foreach ($services as $service)
     <url>
-        <loc>{{ route('services.show', $service) }}</loc>
+        <loc>{{ route('slug.show', $service->slug) }}</loc>
         <lastmod>{{ $service->updated_at->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -25,7 +25,7 @@
     @endforeach
     @foreach ($courses as $course)
     <url>
-        <loc>{{ route('services.course-detail', ['slug' => $course->slug]) }}</loc>
+        <loc>{{ route('slug.show', $course->slug) }}</loc>
         <lastmod>{{ $course->updated_at->toAtomString() }}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -33,7 +33,7 @@
     @endforeach
     @foreach ($posts as $post)
     <url>
-        <loc>{{ route('posts.show', $post) }}</loc>
+        <loc>{{ route('slug.show', $post->slug) }}</loc>
         <lastmod>{{ $post->updated_at->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
@@ -41,7 +41,7 @@
     @endforeach
     @foreach ($projects as $project)
     <url>
-        <loc>{{ route('projects.show', $project) }}</loc>
+        <loc>{{ route('slug.show', $project->slug) }}</loc>
         <lastmod>{{ $project->updated_at->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>

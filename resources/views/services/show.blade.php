@@ -1,7 +1,7 @@
 @php
     $seoTitle = $service->meta_title ?: $service->name . ' | ' . config('app.name');
     $seoDescription = $service->meta_description ?: $service->short_description;
-    $canonical = $service->canonical_url ?: route('services.show', $service);
+    $canonical = $service->canonical_url ?: route('slug.show', $service->slug);
     $ogImage = $service->og_image
         ? asset('storage/' . $service->og_image)
         : asset('assets/images/og-default.jpg');
@@ -10,7 +10,7 @@
     $breadcrumbs = [
         ['name' => 'Trang chủ', 'url' => route('home')],
         ['name' => 'Lĩnh vực', 'url' => route('services.index')],
-        ['name' => $service->name, 'url' => route('services.show', $service)]
+        ['name' => $service->name, 'url' => route('slug.show', $service->slug)]
     ];
 @endphp
 
@@ -55,7 +55,7 @@
                             </div>
                             @if($relatedServices->isNotEmpty())
                                 @foreach($relatedServices as $relService)
-                                    <a href="{{ route('services.show', $relService) }}" class="bg-light d-block p-3 px-4 rounded-10px mb-3 service-sidebar-link text-dark">
+                                    <a href="{{ route('slug.show', $relService->slug) }}" class="bg-light d-block p-3 px-4 rounded-10px mb-3 service-sidebar-link text-dark">
                                         <h4 class="mb-0 fs-16">{{ $relService->name }}</h4>
                                     </a>
                                 @endforeach

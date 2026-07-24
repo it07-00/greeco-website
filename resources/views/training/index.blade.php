@@ -33,7 +33,7 @@
             '@type' => 'ListItem',
             'position' => $firstCoursePosition + $index,
             'name' => $program['title'],
-            'url' => route('services.course-detail', ['slug' => $program['slug']]),
+            'url' => route('slug.show', $program['slug']),
         ])->all(),
     ];
 @endphp

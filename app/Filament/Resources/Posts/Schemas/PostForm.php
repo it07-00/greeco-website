@@ -290,7 +290,7 @@ class PostForm
             return null;
         }
 
-        return route('posts.show', ['post' => $slug]);
+        return route('slug.show', ['slug' => $slug]);
     }
 
     public static function seoLengthHint(?string $value, int $min, int $max): string

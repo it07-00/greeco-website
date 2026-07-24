@@ -1,7 +1,7 @@
 @php
     $seoTitle = $course->meta_title ?: $course->title . ' - Viện GREECO';
     $seoDescription = $course->meta_description ?: ($course->description ?: 'Thông tin chương trình đào tạo ' . $course->title . ' tại Viện GREECO.');
-    $canonical = $course->canonical_url ?: route('services.course-detail', ['slug' => $course->slug]);
+    $canonical = $course->canonical_url ?: route('slug.show', $course->slug);
     $ogImage = $course->og_image
         ? asset('storage/' . $course->og_image)
         : ($course->image ? asset('storage/' . $course->image) : asset('assets/images/services/iso-9001-course.png'));

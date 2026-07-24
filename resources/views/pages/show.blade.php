@@ -1,7 +1,7 @@
 @php
     $seoTitle = $page->meta_title ?: $page->title . ' | ' . config('app.name');
     $seoDescription = $page->meta_description ?: $page->excerpt;
-    $canonical = $page->canonical_url ?: route('pages.show', $page);
+    $canonical = $page->canonical_url ?: route('slug.show', $page->slug);
     $ogImage = $page->og_image
         ? asset('storage/' . $page->og_image)
         : asset('assets/images/og-default.jpg');

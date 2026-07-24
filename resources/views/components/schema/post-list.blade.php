@@ -11,7 +11,7 @@
     $firstPosition = method_exists($items, 'firstItem') && $items->firstItem() ? $items->firstItem() : 1;
 
     $itemListElements = $collection->values()->map(function ($item, int $index) use ($firstPosition) {
-        $itemUrl = route('posts.show', $item);
+        $itemUrl = route('slug.show', $item->slug);
         $imageUrl = $item->thumbnail
             ? asset('storage/' . $item->thumbnail)
             : asset('assets/images/og-default.jpg');

@@ -87,7 +87,7 @@
                                         </div>   
                                         <div class="col-sm-6 relative">
                                             <div class="p-30 pb-40">
-                                                <h4><a class="text-dark" href="{{ route('posts.show', $post) }}">{{ $post->title }}</a></h4>
+                                                <h4><a class="text-dark" href="{{ route('slug.show', $post->slug) }}">{{ $post->title }}</a></h4>
                                                 <div class="post-card-meta mb-2">
                                                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
                                                     <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>

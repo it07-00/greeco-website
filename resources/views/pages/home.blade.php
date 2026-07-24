@@ -395,7 +395,7 @@
                                     </div>   
                                     <div class="col-sm-6 relative">
                                         <div class="p-30 pb-40">
-                                            <h4><a class="text-dark" href="{{ route('posts.show', $post) }}">{{ $post->title }}</a></h4>
+                                            <h4><a class="text-dark" href="{{ route('slug.show', $post->slug) }}">{{ $post->title }}</a></h4>
                                             <div class="post-card-meta mb-2">
                                                 <i class="fa-regular fa-eye" aria-hidden="true"></i>
                                                 <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>
@@ -532,7 +532,7 @@
                         <div class="col-lg-6">
                             <div class="hover project-card-custom rounded-1 overflow-hidden relative text-light wow fadeInRight"
                                 data-wow-delay="{{ ($loop->index % 2) * 0.3 }}s">
-                                <a href="{{ route('projects.show', $project) }}" class="abs w-100 h-100 z-5"></a>
+                                <a href="{{ route('slug.show', $project->slug) }}" class="abs w-100 h-100 z-5"></a>
                                 <img src="{{ $project->thumbnail ? asset('storage/' . $project->thumbnail) : asset('assets/images/projects/' . (($loop->index % 2) + 1) . '.jpg') }}"
                                      width="1024" height="1024" class="hover-scale-1-1 w-100" style="height: auto;" alt="{{ $project->title }}" loading="lazy" decoding="async">
                                 <div class="abs w-100 px-4 hover-op-1 z-4 hover-mt-40 abs-centered">

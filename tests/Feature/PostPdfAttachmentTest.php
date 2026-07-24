@@ -87,7 +87,7 @@ class PostPdfAttachmentTest extends TestCase
             'published_at' => now(),
         ]);
 
-        $response = $this->get(route('posts.show', $post));
+        $response = $this->get(route('slug.show', $post->slug));
 
         $response->assertStatus(200);
         $response->assertSee('<iframe src=', false);
@@ -114,7 +114,7 @@ class PostPdfAttachmentTest extends TestCase
             'published_at' => now(),
         ]);
 
-        $response = $this->get(route('posts.show', $post));
+        $response = $this->get(route('slug.show', $post->slug));
 
         $response->assertStatus(200);
         $response->assertDontSee('_df_book', false);

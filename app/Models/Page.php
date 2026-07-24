@@ -35,4 +35,11 @@ class Page extends Model
     {
         return 'slug';
     }
+
+    protected function slug(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
+            set: fn (?string $value) => \Illuminate\Support\Str::slug($value ?? ''),
+        );
+    }
 }

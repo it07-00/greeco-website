@@ -12,6 +12,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -35,10 +37,20 @@ class CourseForm
                                     ->label('Tiêu đề khóa học')
                                     ->required()
                                     ->live(onBlur: true)
-                                    ->afterStateUpdated(fn (string $operation, $state, callable $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                                        $oldSlug = Str::slug($old ?? '');
+                                        $currentSlug = $get('slug');
+
+                                        if (blank($currentSlug) || $currentSlug === $oldSlug) {
+                                            $set('slug', Str::slug($state ?? ''));
+                                        }
+                                    }),
                                 TextInput::make('slug')
                                     ->label('Slug')
                                     ->required()
+                                    ->dehydrateStateUsing(fn (?string $state) => Str::slug($state ?? ''))
+                                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
+                                    ->live(onBlur: true)
                                     ->unique(ignoreRecord: true),
                                 Textarea::make('description')
                                     ->label('Mô tả ngắn (Hiển thị ở danh sách thẻ)')

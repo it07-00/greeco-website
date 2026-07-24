@@ -64,6 +64,9 @@ class PostForm
                 TextInput::make('slug')
                     ->label('Slug')
                     ->required()
+                    ->dehydrateStateUsing(fn (?string $state) => Str::slug($state ?? ''))
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
+                    ->live(onBlur: true)
                     ->unique(ignoreRecord: true),
                 Select::make('post_category_id')
                     ->label('Danh mục bài viết')

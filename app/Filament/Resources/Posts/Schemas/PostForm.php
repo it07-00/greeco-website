@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Posts\Schemas;
 
 use App\Support\OptimizedImageUpload;
+use Closure;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -16,8 +17,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
@@ -49,7 +48,7 @@ class PostForm
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true)
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
+                    ->afterStateUpdated(function (Closure $get, Closure $set, ?string $old, ?string $state): void {
                         $oldSlug = Str::slug($old ?? '');
                         $currentSlug = $get('slug');
 
@@ -65,7 +64,7 @@ class PostForm
                     ->label('Slug')
                     ->required()
                     ->dehydrateStateUsing(fn (?string $state) => Str::slug($state ?? ''))
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
+                    ->afterStateUpdated(fn (Closure $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
                     ->live(onBlur: true)
                     ->unique(ignoreRecord: true),
                 Select::make('post_category_id')
@@ -77,7 +76,7 @@ class PostForm
                     ->label('Mô tả ngắn/Trích dẫn')
                     ->rows(3)
                     ->live(onBlur: true)
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state): void {
+                    ->afterStateUpdated(function (Closure $get, Closure $set, ?string $state): void {
                         if (blank($get('meta_description'))) {
                             $set('meta_description', self::suggestMetaDescription($state, $get('content')));
                         }
@@ -86,7 +85,7 @@ class PostForm
                     ->label('Thẻ (Tags)')
                     ->placeholder('Nhập tag và ấn Enter')
                     ->live(onBlur: true)
-                    ->afterStateUpdated(function (Get $get, Set $set, $state): void {
+                    ->afterStateUpdated(function (Closure $get, Closure $set, $state): void {
                         if (blank($get('meta_keywords'))) {
                             $set('meta_keywords', self::suggestMetaKeywords($state, $get('title')));
                         }
@@ -115,8 +114,8 @@ class PostForm
                     ->directory('posts/pdfs')
                     ->acceptedFileTypes(['application/pdf'])
                     ->maxSize(20480) // 20MB
-                    ->visible(fn (Get $get) => $get('content_type') === 'pdf')
-                    ->required(fn (Get $get) => $get('content_type') === 'pdf')
+                    ->visible(fn (Closure $get) => $get('content_type') === 'pdf')
+                    ->required(fn (Closure $get) => $get('content_type') === 'pdf')
                     ->columnSpanFull(),
 
                 OptimizedImageUpload::configureRichEditor(
@@ -128,7 +127,7 @@ class PostForm
                     ->fileAttachmentsDirectory('posts/attachments')
                     ->resizableImages()
                     ->helperText('Dùng H2 cho các ý chính, H3-H4 cho ý con. Không dùng H1 trong nội dung vì tiêu đề bài viết đã là H1.')
-                    ->visible(fn (Get $get) => $get('content_type') === 'text')
+                    ->visible(fn (Closure $get) => $get('content_type') === 'text')
                     ->columnSpanFull(),
             ]);
     }
@@ -165,7 +164,7 @@ class PostForm
                         ->color('success')
                         ->button()
                         ->outlined()
-                        ->action(function (Get $schemaGet, Set $schemaSet): void {
+                        ->action(function (Closure $schemaGet, Closure $schemaSet): void {
                             $title = $schemaGet('title');
                             $slug = $schemaGet('slug') ?: Str::slug($title ?? '');
 
@@ -180,7 +179,7 @@ class PostForm
                         ->color('gray')
                         ->button()
                         ->outlined()
-                        ->action(function (Get $schemaGet, Set $schemaSet): void {
+                        ->action(function (Closure $schemaGet, Closure $schemaSet): void {
                             $slug = $schemaGet('slug') ?: Str::slug($schemaGet('title') ?? '');
 
                             $schemaSet('canonical_url', self::suggestCanonicalUrl($slug));
@@ -189,24 +188,24 @@ class PostForm
                     ->columnSpanFull(),
                 TextInput::make('meta_title')
                     ->label('Meta Title')
-                    ->placeholder(fn (Get $get): ?string => self::suggestMetaTitle($get('title')))
+                    ->placeholder(fn (Closure $get): ?string => self::suggestMetaTitle($get('title')))
                     ->helperText(fn (?string $state): string => self::seoLengthHint($state, 45, 60))
                     ->live(onBlur: true)
                     ->maxLength(255),
                 Textarea::make('meta_description')
                     ->label('Meta Description')
-                    ->placeholder(fn (Get $get): ?string => self::suggestMetaDescription($get('excerpt'), $get('content')))
+                    ->placeholder(fn (Closure $get): ?string => self::suggestMetaDescription($get('excerpt'), $get('content')))
                     ->helperText(fn (?string $state): string => self::seoLengthHint($state, 120, 155))
                     ->live(onBlur: true)
                     ->rows(3),
                 TextInput::make('meta_keywords')
                     ->label('Meta Keywords')
-                    ->placeholder(fn (Get $get): ?string => self::suggestMetaKeywords($get('tags'), $get('title')))
+                    ->placeholder(fn (Closure $get): ?string => self::suggestMetaKeywords($get('tags'), $get('title')))
                     ->helperText('Meta keywords không còn là yếu tố xếp hạng chính; nên đồng bộ với Tags để quản trị nội dung.')
                     ->maxLength(255),
                 TextInput::make('canonical_url')
                     ->label('Canonical URL')
-                    ->placeholder(fn (Get $get): ?string => self::suggestCanonicalUrl($get('slug') ?: Str::slug($get('title') ?? '')))
+                    ->placeholder(fn (Closure $get): ?string => self::suggestCanonicalUrl($get('slug') ?: Str::slug($get('title') ?? '')))
                     ->helperText('Chỉ nhập khi muốn canonical sang URL khác. Để trống sẽ dùng URL bài viết hiện tại.')
                     ->rules(['nullable', 'url'])
                     ->maxLength(255),

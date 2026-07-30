@@ -14,6 +14,17 @@ use App\Models\Project;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 
+// Subdomain Khóa học (Tự động thích ứng với khoahoc.localhost, khoahoc.greeco.test, khoahoc.greeco.vn)
+$currentHost = request()->getHost();
+$khoahocDomain = str_starts_with($currentHost, 'khoahoc.')
+    ? $currentHost
+    : 'khoahoc.' . (preg_replace('/^www\./', '', $currentHost ?: 'greeco.vn'));
+
+Route::domain($khoahocDomain)->group(function () {
+    Route::get('/', [CourseController::class, 'index'])->name('khoahoc.home');
+    Route::get('/course-details', fn () => view('histudy.course-details'))->name('khoahoc.details');
+});
+
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

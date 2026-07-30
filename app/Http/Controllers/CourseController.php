@@ -25,7 +25,7 @@ class CourseController extends Controller
 
         $categories = CourseCategory::query()
             ->withCount([
-                'courses' => fn ($query) => $query->where('is_active', true),
+                'courses' => fn($query) => $query->where('is_active', true),
             ])
             ->orderBy('sort_order')
             ->get();
@@ -39,11 +39,11 @@ class CourseController extends Controller
                         ->where('title', 'like', "%{$search}%")
                         ->orWhere('description', 'like', "%{$search}%")
                         ->orWhere('tag', 'like', "%{$search}%")
-                        ->orWhereHas('category', fn ($categoryQuery) => $categoryQuery->where('name', 'like', "%{$search}%"));
+                        ->orWhereHas('category', fn($categoryQuery) => $categoryQuery->where('name', 'like', "%{$search}%"));
                 });
             })
             ->when($category !== '', function ($query) use ($category) {
-                $query->whereHas('category', fn ($categoryQuery) => $categoryQuery->where('slug', $category));
+                $query->whereHas('category', fn($categoryQuery) => $categoryQuery->where('slug', $category));
             })
             ->orderBy('sort_order')
             ->paginate(9)
@@ -58,7 +58,7 @@ class CourseController extends Controller
                 'tag' => $course->tag,
                 'category_name' => $course->category?->name,
                 'badge_color' => $course->badge_color ?? 'bg-success',
-                'price' => ! empty($course->price) ? $course->price : 'Liên hệ',
+                'price' => !empty($course->price) ? $course->price : 'Liên hệ',
                 'original_price' => $course->original_price,
                 'discount' => $course->discount,
             ];

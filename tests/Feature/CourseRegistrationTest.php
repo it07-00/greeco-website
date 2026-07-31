@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Course;
 use App\Models\CourseRegistration;
+use App\Services\CourseRegistrationQrCode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -138,6 +139,64 @@ class CourseRegistrationTest extends TestCase
             ->assertHeader(
                 'Content-Disposition',
                 'attachment; filename="qr-dang-ky-khoa-hoc-kiem-thu.svg"'
+            );
+    }
+
+    public function test_shared_registration_page_lists_active_courses_in_a_select(): void
+    {
+        $activeCourse = $this->createCourse([
+            'title' => 'Khóa học dành cho QR chung',
+            'slug' => 'khoa-hoc-danh-cho-qr-chung',
+        ]);
+        $inactiveCourse = $this->createCourse([
+            'title' => 'Khóa học đang ẩn khỏi QR chung',
+            'slug' => 'khoa-hoc-dang-an-khoi-qr-chung',
+            'is_active' => false,
+        ]);
+
+        $this->get(route('course-registration.index'))
+            ->assertOk()
+            ->assertSee('name="course"', false)
+            ->assertSee($activeCourse->title)
+            ->assertSee('value="'.$activeCourse->slug.'"', false)
+            ->assertDontSee($inactiveCourse->title);
+    }
+
+    public function test_shared_registration_page_redirects_to_the_selected_course_with_qr_source(): void
+    {
+        $course = $this->createCourse([
+            'slug' => 'khoa-hoc-duoc-chon-tu-qr-chung',
+        ]);
+
+        $this->get(route('course-registration.index', [
+            'course' => $course->slug,
+        ]))->assertRedirect(route('course-registration.create', [
+            'course' => $course,
+            'source' => 'qr',
+        ]));
+    }
+
+    public function test_shared_qr_points_to_the_course_selection_page(): void
+    {
+        $qrCode = app(CourseRegistrationQrCode::class);
+
+        $this->assertStringEndsWith('/dang-ky-khoa-hoc/', $qrCode->selectionUrl());
+
+        $this->get(route('course-registration.selection-qr', [
+            'format' => 'png',
+        ]))
+            ->assertOk()
+            ->assertHeader('Content-Type', 'image/png');
+
+        $this->get(route('course-registration.selection-qr', [
+            'format' => 'svg',
+            'download' => 1,
+        ]))
+            ->assertOk()
+            ->assertHeader('Content-Type', 'image/svg+xml')
+            ->assertHeader(
+                'Content-Disposition',
+                'attachment; filename="qr-chung-dang-ky-khoa-hoc.svg"'
             );
     }
 

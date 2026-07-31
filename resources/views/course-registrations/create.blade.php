@@ -1,6 +1,6 @@
 @php
-    $seoTitle = 'Đăng ký khóa học ' . $course->title . ' - GREECO';
-    $seoDescription = 'Đăng ký tham gia khóa học ' . $course->title . ' tại Viện GREECO.';
+    $seoTitle = 'Đăng ký khóa học ' . $course->title . ' - Viện nghiên cứu và phát triển kinh tế xanh - Greeco';
+    $seoDescription = 'Đăng ký tham gia khóa học ' . $course->title . ' tại Viện nghiên cứu và phát triển kinh tế xanh - Greeco.';
     $canonical = route('course-registration.create', $course);
     $indexable = false;
     $initialAttendees = old('attendees', [

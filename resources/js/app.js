@@ -20,6 +20,71 @@ document.addEventListener('DOMContentLoaded', () => {
             .from(heroActions, { y: 10, duration: 0.45 }, '-=0.3');
     }
 
+    const pickerRoot = document.querySelector('[data-course-picker]');
+
+    if (pickerRoot) {
+        const pickerTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+        pickerTimeline
+            .from('[data-picker-kicker]', { opacity: 0, y: 16, duration: 0.45 })
+            .from('[data-picker-title]', { opacity: 0, y: 34, duration: 0.75 }, '-=0.2')
+            .from('[data-picker-copy]', { opacity: 0, y: 20, duration: 0.55 }, '-=0.38')
+            .from('[data-picker-actions]', { opacity: 0, y: 16, duration: 0.5 }, '-=0.32')
+            .from(
+                '[data-picker-visual]',
+                { opacity: 0.55, scale: 0.84, duration: 0.9 },
+                '-=0.72',
+            );
+
+        const pickerVisual = pickerRoot.querySelector('[data-picker-visual]');
+
+        if (pickerVisual) {
+            gsap.to(pickerVisual, {
+                filter: 'brightness(0.58)',
+                opacity: 0.3,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.picker-hero',
+                    start: '55% top',
+                    end: 'bottom top',
+                    scrub: true,
+                },
+            });
+        }
+
+        gsap.fromTo(
+            pickerRoot.querySelector('[data-picker-panel]'),
+            { opacity: 0.72, y: 48 },
+            {
+                opacity: 1,
+                y: 0,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '[data-picker-panel]',
+                    start: 'top 88%',
+                    end: 'top 58%',
+                    scrub: true,
+                },
+            },
+        );
+
+        gsap.fromTo(
+            pickerRoot.querySelectorAll('[data-picker-step]'),
+            { opacity: 0.68, y: 42 },
+            {
+                opacity: 1,
+                y: 0,
+                stagger: 0.12,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.picker-steps',
+                    start: 'top 82%',
+                },
+            },
+        );
+    }
+
     document.querySelectorAll('[data-word-reveal]').forEach((element) => {
         const text = element.textContent.trim();
 

@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCourseRegistrationRequest;
 use App\Models\Course;
 use App\Models\CourseRegistration;
-use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\RoundBlockSizeMode;
-use Endroid\QrCode\Writer\PngWriter;
-use Endroid\QrCode\Writer\SvgWriter;
+use App\Services\CourseRegistrationQrCode;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -19,6 +15,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CourseRegistrationController extends Controller
 {
+    public function index(Request $request): View|RedirectResponse
+    {
+        if ($request->filled('course')) {
+            $course = Course::query()
+                ->where('slug', $request->string('course')->toString())
+                ->where('is_active', true)
+                ->firstOrFail();
+
+            return redirect()->route('course-registration.create', [
+                'course' => $course,
+                'source' => 'qr',
+            ]);
+        }
+
+        $courses = Course::query()
+            ->with('category')
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('title')
+            ->get();
+
+        return view('course-registrations.index', compact('courses'));
+    }
+
     public function create(Course $course): View
     {
         abort_unless($course->is_active, 404);
@@ -29,7 +49,7 @@ class CourseRegistrationController extends Controller
     public function store(
         StoreCourseRegistrationRequest $request,
         Course $course
-    ): \Illuminate\Http\RedirectResponse {
+    ): RedirectResponse {
         abort_unless($course->is_active, 404);
 
         $validated = $request->validated();
@@ -74,29 +94,37 @@ class CourseRegistrationController extends Controller
         return view('course-registrations.success', compact('registration'));
     }
 
-    public function qr(Request $request, Course $course, string $format): Response
-    {
+    public function qr(
+        Request $request,
+        Course $course,
+        string $format,
+        CourseRegistrationQrCode $qrCode,
+    ): Response {
         abort_unless($course->is_active, 404);
         abort_unless(in_array($format, ['png', 'svg'], true), 404);
 
-        $registrationUrl = route('course-registration.create', [
-            'course' => $course,
-            'source' => 'qr',
-        ]);
-
-        $qrCode = new QrCode(
-            data: $registrationUrl,
-            encoding: new Encoding('UTF-8'),
-            errorCorrectionLevel: ErrorCorrectionLevel::Medium,
-            size: 360,
-            margin: 18,
-            roundBlockSizeMode: RoundBlockSizeMode::Margin,
-        );
-
-        $writer = $format === 'svg' ? new SvgWriter() : new PngWriter();
-        $result = $writer->write($qrCode);
+        $result = $qrCode->render($course, $format);
         $disposition = $request->boolean('download') ? 'attachment' : 'inline';
         $filename = 'qr-dang-ky-'.Str::slug($course->slug).'.'.$format;
+
+        return response($result->getString(), 200, [
+            'Content-Type' => $result->getMimeType(),
+            'Content-Disposition' => $disposition.'; filename="'.$filename.'"',
+            'Cache-Control' => 'public, max-age=86400',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
+    }
+
+    public function selectionQr(
+        Request $request,
+        string $format,
+        CourseRegistrationQrCode $qrCode,
+    ): Response {
+        abort_unless(in_array($format, ['png', 'svg'], true), 404);
+
+        $result = $qrCode->renderSelection($format);
+        $disposition = $request->boolean('download') ? 'attachment' : 'inline';
+        $filename = 'qr-chung-dang-ky-khoa-hoc.'.$format;
 
         return response($result->getString(), 200, [
             'Content-Type' => $result->getMimeType(),

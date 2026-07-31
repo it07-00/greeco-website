@@ -624,8 +624,14 @@
                     </div>
 
                     <aside class="picker-context-panel">
-                        <div>
-                            <h3>Một QR chung. Mọi khóa học.</h3>
+                        <div class="text-center text-md-start">
+                            <div class="qr-code-box bg-white p-2 rounded-3 d-inline-block shadow-sm my-2">
+                                <img src="{{ route('course-registration.selection-qr', ['format' => 'png']) }}"
+                                     alt="Mã QR đăng ký khóa học"
+                                     width="130"
+                                     height="130"
+                                     class="d-block rounded">
+                            </div>
                         </div>
                         <a class="picker-context-link" href="{{ route('services.dao-tao') }}">
                             Khám phá toàn bộ khóa học

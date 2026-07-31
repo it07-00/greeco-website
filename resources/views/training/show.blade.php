@@ -618,9 +618,35 @@
                                 @endif
                             </div>
 
-                            <button class="btn btn-consult-primary btn-lg w-100 mb-3" data-bs-toggle="modal" data-bs-target="#checkout-modal">
-                                <i class="fa-solid fa-comments me-2"></i>Liên hệ tư vấn ngay
-                            </button>
+                            <a href="{{ route('course-registration.create', $course) }}" class="btn btn-consult-primary btn-lg w-100 mb-3">
+                                <i class="fa-solid fa-pen-to-square me-2"></i>Đăng ký khóa học
+                            </a>
+
+                            <div class="text-center border rounded-3 p-3 mb-4 bg-light">
+                                <img
+                                    src="{{ route('course-registration.qr', ['course' => $course, 'format' => 'png']) }}"
+                                    alt="Mã QR đăng ký khóa học {{ $course->title }}"
+                                    width="180"
+                                    height="180"
+                                    class="img-fluid"
+                                    loading="lazy"
+                                >
+                                <div class="fw-bold text-dark small mt-2">Quét mã để đăng ký</div>
+                                <div class="d-flex justify-content-center gap-2 mt-2">
+                                    <a
+                                        href="{{ route('course-registration.qr', ['course' => $course, 'format' => 'png', 'download' => 1]) }}"
+                                        class="btn btn-sm btn-outline-success"
+                                    >
+                                        Tải PNG
+                                    </a>
+                                    <a
+                                        href="{{ route('course-registration.qr', ['course' => $course, 'format' => 'svg', 'download' => 1]) }}"
+                                        class="btn btn-sm btn-outline-success"
+                                    >
+                                        Tải SVG
+                                    </a>
+                                </div>
+                            </div>
 
                             <div class="border-top pt-4">
                                 <h4 class="academy-heading fs-6 fw-bold mb-3">Khóa học bao gồm:</h4>
@@ -657,9 +683,9 @@
 
     <!-- Mobile Bottom action bar -->
     <div class="mobile-bottom-bar justify-content-center">
-        <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#checkout-modal">
-            <i class="fa-solid fa-comments me-2"></i>Liên hệ tư vấn
-        </button>
+        <a href="{{ route('course-registration.create', $course) }}" class="btn btn-success w-100">
+            <i class="fa-solid fa-pen-to-square me-2"></i>Đăng ký khóa học
+        </a>
     </div>
 
     <!-- Checkout / Registration Modal (Bootstrap 5) -->

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -46,6 +47,11 @@ class Course extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(CourseCategory::class, 'course_category_id');
+    }
+
+    public function registrations(): HasMany
+    {
+        return $this->hasMany(CourseRegistration::class);
     }
 
     protected function slug(): \Illuminate\Database\Eloquent\Casts\Attribute

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseRegistrationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
@@ -53,6 +54,19 @@ Route::view('/dich-vu/du-an', 'services.du-an')->name('services.du-an');
 Route::view('/dich-vu/nghien-cuu', 'services.nghien-cuu')->name('services.nghien-cuu');
 Route::view('/dich-vu/hoi-thao', 'services.hoi-thao')->name('services.hoi-thao');
 Route::get('/dich-vu/{service:slug}', fn (Service $service) => redirect('/' . $service->slug, 301));
+
+// Đăng ký khóa học trực tiếp trên website.
+Route::get('/dang-ky-khoa-hoc/xac-nhan/{registration:code}', [CourseRegistrationController::class, 'success'])
+    ->name('course-registration.success');
+Route::get('/dang-ky-khoa-hoc/{course:slug}/qr.{format}', [CourseRegistrationController::class, 'qr'])
+    ->whereIn('format', ['png', 'svg'])
+    ->middleware('throttle:60,1')
+    ->name('course-registration.qr');
+Route::get('/dang-ky-khoa-hoc/{course:slug}', [CourseRegistrationController::class, 'create'])
+    ->name('course-registration.create');
+Route::post('/dang-ky-khoa-hoc/{course:slug}', [CourseRegistrationController::class, 'store'])
+    ->middleware('throttle:8,1')
+    ->name('course-registration.store');
 
 // Dự án & Nghiên cứu
 Route::get('/du-an', [ProjectController::class, 'index'])->name('projects.index');

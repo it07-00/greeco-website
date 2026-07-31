@@ -13,13 +13,6 @@
         ['name' => $course->title, 'url' => $canonical],
     ];
 
-    $totalLessons = 0;
-    if (! empty($chapters)) {
-        foreach ($chapters as $chapter) {
-            $totalLessons += count($chapter['lessons'] ?? []);
-        }
-    }
-
     $plainDescription = trim(strip_tags($course->description ?: ''));
     $heroDescription = (string) \Illuminate\Support\Str::of($plainDescription)
         ->lower()
@@ -227,110 +220,6 @@
 
         .course-hero-visual:hover img {
             transform: scale(1.9);
-        }
-
-        .course-overview {
-            padding: 70px 0;
-        }
-
-        .course-bento {
-            display: grid;
-            gap: 1px;
-            grid-auto-flow: dense;
-            grid-auto-rows: minmax(140px, auto);
-            grid-template-columns: repeat(12, minmax(0, 1fr));
-            overflow: hidden;
-        }
-
-        .course-bento-main {
-            background: var(--course-paper);
-            grid-column: span 7;
-            grid-row: span 2;
-            padding: clamp(24px, 3.5vw, 44px);
-        }
-
-        .course-bento-main h2 {
-            color: var(--course-ink);
-            font-size: clamp(1.5rem, 2.2vw, 2.2rem);
-            font-weight: 800;
-            letter-spacing: -.04em;
-            line-height: 1.12;
-            margin: 0 0 18px;
-            max-width: 580px;
-            text-wrap: balance;
-        }
-
-        .course-rich-content {
-            color: #000000;
-            font-size: .95rem;
-            line-height: 1.75;
-        }
-
-        .course-rich-content > :last-child {
-            margin-bottom: 0;
-        }
-
-        .course-bento-fact {
-            display: flex;
-            flex-direction: column;
-            grid-column: span 5;
-            justify-content: space-between;
-            min-height: 140px;
-            padding: clamp(20px, 2.5vw, 32px);
-            transition: transform .35s ease;
-        }
-
-        .course-bento-fact:hover {
-            transform: translateY(-3px);
-        }
-
-        .course-bento-fact-dark {
-            background: #092f28;
-            color: #ffffff;
-        }
-
-        .course-bento-fact-dark strong,
-        .course-bento-fact-dark span {
-            color: #ffffff !important;
-            opacity: 1 !important;
-        }
-
-        .course-bento-fact-mint {
-            background: var(--course-mint);
-            color: #000000;
-        }
-
-        .course-bento-fact-mint strong,
-        .course-bento-fact-mint span {
-            color: #000000 !important;
-            opacity: 1 !important;
-        }
-
-        .course-fact-icon {
-            align-items: center;
-            border: 1px solid currentColor;
-            border-radius: 50%;
-            display: flex;
-            height: 34px;
-            justify-content: center;
-            opacity: .75;
-            width: 34px;
-        }
-
-        .course-bento-fact strong {
-            display: block;
-            font-size: clamp(1.5rem, 2.4vw, 2.4rem);
-            letter-spacing: -.04em;
-            line-height: 1;
-            margin-top: 16px;
-        }
-
-        .course-bento-fact span {
-            display: block;
-            font-size: .82rem;
-            font-weight: 700;
-            margin-top: 6px;
-            opacity: .78;
         }
 
         .course-curriculum {
@@ -594,15 +483,6 @@
                 max-height: 480px;
             }
 
-            .course-bento-main {
-                grid-column: span 12;
-                grid-row: span 1;
-            }
-
-            .course-bento-fact {
-                grid-column: span 6;
-            }
-
             .course-action-panel {
                 justify-items: stretch;
             }
@@ -647,21 +527,6 @@
                 flex-direction: column;
             }
 
-            .course-bento {
-                display: block;
-            }
-
-            .course-bento-main,
-            .course-bento-fact {
-                min-height: auto;
-                padding: 30px 24px;
-            }
-
-            .course-bento-fact + .course-bento-fact {
-                border-top: 1px solid rgba(9, 47, 40, .14);
-            }
-
-            .course-overview,
             .course-curriculum,
             .course-instructor {
                 padding: 84px 0;
@@ -689,8 +554,7 @@
 
         @media (prefers-reduced-motion: reduce) {
             .course-button,
-            .course-hero-visual img,
-            .course-bento-fact {
+            .course-hero-visual img {
                 transition: none;
             }
         }
@@ -737,7 +601,7 @@
                                 Đăng ký khóa học
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
-                            <a href="#course-overview" class="course-button course-button-secondary">
+                            <a href="{{ ! empty($chapters) ? '#course-curriculum' : '#course-registration' }}" class="course-button course-button-secondary">
                                 Xem nội dung
                             </a>
                         </div>
@@ -764,41 +628,6 @@
                 </div>
             </div>
         @endif
-
-        <section class="course-overview" id="course-overview">
-            <div class="course-shell">
-                <div class="course-bento">
-                    <article class="course-bento-main">
-                        <h2>Kiến thức có thể áp dụng ngay vào công việc</h2>
-                        <div class="course-rich-content">
-                            @if ($course->content)
-                                {!! $course->content !!}
-                            @elseif ($course->description)
-                                <p>{{ $course->description }}</p>
-                            @else
-                                <p>Chương trình được xây dựng theo định hướng thực tiễn, giúp học viên nắm vững kiến thức và triển khai hiệu quả tại đơn vị.</p>
-                            @endif
-                        </div>
-                    </article>
-
-                    <article class="course-bento-fact course-bento-fact-dark">
-                        <div class="course-fact-icon"><i class="fa-solid fa-book-open"></i></div>
-                        <div>
-                            <strong>{{ $totalLessons ?: 12 }}</strong>
-                            <span>Bài học được tổ chức theo lộ trình rõ ràng</span>
-                        </div>
-                    </article>
-
-                    <article class="course-bento-fact course-bento-fact-mint">
-                        <div class="course-fact-icon"><i class="fa-solid fa-award"></i></div>
-                        <div>
-                            <strong>GREECO</strong>
-                            <span>Chứng nhận hoàn thành chương trình đào tạo</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
 
         @if (! empty($chapters))
             <section class="course-curriculum" id="course-curriculum">

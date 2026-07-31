@@ -2,40 +2,53 @@
     @if($programs->isNotEmpty())
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="courses-catalog-grid">
             @foreach ($programs as $program)
+                @php
+                    $displayTitle = (string) \Illuminate\Support\Str::of($program['title'])
+                        ->lower()
+                        ->ucfirst()
+                        ->replace(
+                            ['iso', 'hse', 'esg', 'qhse', 'psm', 'pdca'],
+                            ['ISO', 'HSE', 'ESG', 'QHSE', 'PSM', 'PDCA']
+                        );
+                    $displayDescription = (string) \Illuminate\Support\Str::of(strip_tags($program['description']))
+                        ->lower()
+                        ->ucfirst()
+                        ->replace(
+                            ['iso', 'hse', 'esg', 'qhse', 'psm', 'pdca'],
+                            ['ISO', 'HSE', 'ESG', 'QHSE', 'PSM', 'PDCA']
+                        );
+                @endphp
                 <div class="col course-catalog-item">
                     <article class="course-catalog-card h-100 d-flex flex-column">
                         <div class="course-card-img-wrapper">
                             <a href="{{ route('slug.show', $program['slug']) }}">
                                 <img src="{{ $program['image'] }}" width="1024" height="1024" alt="{{ $program['title'] }}" loading="lazy" decoding="async">
                             </a>
-                            @if(!empty($program['tag']))
-                                <span class="badge course-tag-badge {{ $program['badge_color'] }} text-white">
-                                    {{ $program['tag'] }}
-                                </span>
-                            @endif
                         </div>
-                        <div class="card-body p-4 d-flex flex-column">
-                            <h3 class="academy-heading fs-6 fw-bold mb-2">
+                        <div class="course-card-body">
+                            <div class="course-card-topic">{{ $program['tag'] ?? 'Đào tạo chuyên môn' }}</div>
+                            <h3 class="course-card-title">
                                 <a href="{{ route('slug.show', $program['slug']) }}"
                                     class="text-reset text-decoration-none">
-                                    {{ $program['title'] }}
+                                    {{ $displayTitle }}
                                 </a>
                             </h3>
                             <p class="text-dark small mb-3 flex-grow-1 course-description">
-                                {{ $program['description'] }}
+                                {{ $displayDescription }}
                             </p>
-                            <div class="text-dark small mb-3">Viện GREECO</div>
-
-                            <div class="d-flex align-items-center justify-content-between mt-auto pt-3 border-top">
+                            <div class="course-card-footer">
                                 <div>
-                                    <strong class="text-success fs-5 d-block">{{ $program['price'] }}</strong>
+                                    <span class="course-card-price-label">Học phí</span>
+                                    <strong class="course-card-price">{{ $program['price'] }}</strong>
                                     @if(!empty($program['original_price']))
                                         <small class="text-secondary text-decoration-line-through">{{ $program['original_price'] }}</small>
                                     @endif
                                 </div>
                                 <a href="{{ route('slug.show', $program['slug']) }}"
-                                    class="btn btn-sm btn-register-now">
-                                    Xem chi tiết
+                                    class="btn btn-sm btn-register-now"
+                                    aria-label="Xem chi tiết {{ $program['title'] }}">
+                                    <span class="visually-hidden">Xem chi tiết</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>

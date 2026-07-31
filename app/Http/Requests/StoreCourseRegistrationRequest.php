@@ -9,6 +9,8 @@ class StoreCourseRegistrationRequest extends FormRequest
 {
     public function authorize(): bool
     {
+        abort_unless($this->route('course')?->is_active, 404);
+
         return true;
     }
 
@@ -39,9 +41,9 @@ class StoreCourseRegistrationRequest extends FormRequest
         ];
     }
 
-    public function after(): array
+    public function withValidator(Validator $validator): void
     {
-        return [
+        $validator->after(
             function (Validator $validator): void {
                 if (
                     ! $validator->errors()->has('attendees')
@@ -52,8 +54,8 @@ class StoreCourseRegistrationRequest extends FormRequest
                         'Số người tham dự không khớp với danh sách học viên.'
                     );
                 }
-            },
-        ];
+            }
+        );
     }
 
     public function messages(): array

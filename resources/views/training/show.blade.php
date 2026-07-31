@@ -14,377 +14,684 @@
     ];
 
     $totalLessons = 0;
-    if (!empty($chapters)) {
+    if (! empty($chapters)) {
         foreach ($chapters as $chapter) {
-            if (!empty($chapter['lessons'])) {
-                $totalLessons += count($chapter['lessons']);
-            }
+            $totalLessons += count($chapter['lessons'] ?? []);
         }
     }
+
+    $plainDescription = trim(strip_tags($course->description ?: ''));
+    $heroDescription = (string) \Illuminate\Support\Str::of($plainDescription)
+        ->lower()
+        ->ucfirst()
+        ->replace(['iso', 'pdca'], ['ISO', 'PDCA'])
+        ->limit(230);
 @endphp
 
 @extends('layouts.app')
 
 @push('styles')
     <style>
-        .course-detail-page {
-            padding-bottom: 90px;
-            background-color: #f8fafc;
+        .course-page {
+            --course-ink: #092f28;
+            --course-green: #008f79;
+            --course-green-dark: #006c5c;
+            --course-mint: #dff4ee;
+            --course-line: #dce8e4;
+            --course-paper: #f4f8f6;
+            background: #fff;
+            color: #000000;
+            font-family: 'Satoshi', 'Be Vietnam Pro', sans-serif;
+            overflow-x: hidden;
         }
 
-        #subheader.course-hero-header {
-            background: linear-gradient(135deg, #09201c 0%, #123832 50%, #0d2d28 100%) !important;
-            padding: 140px 0 65px !important;
-            color: #ffffff;
+        .course-shell {
+            margin: 0 auto;
+            max-width: 1500px;
+            padding-left: 28px;
+            padding-right: 28px;
+            width: 100%;
+        }
+
+        .course-hero {
+            background:
+                radial-gradient(circle at 15% 5%, rgba(0, 143, 121, .13), transparent 34%),
+                linear-gradient(135deg, #f5faf8 0%, #edf5f2 100%);
+            min-height: 540px;
+            padding: 132px 0 64px;
             position: relative;
-            overflow: hidden;
         }
 
-        #subheader.course-hero-header::before {
-            content: '';
-            position: absolute;
-            top: -40%;
-            right: -10%;
-            width: 550px;
-            height: 550px;
-            background: radial-gradient(circle, rgba(0, 255, 202, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .course-badge-hero {
-            background: rgba(0, 255, 202, 0.14);
-            color: #00ffca;
-            border: 1px solid rgba(0, 255, 202, 0.35);
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 5px 15px;
-            border-radius: 50px;
-            display: inline-flex;
+        .course-hero-grid {
             align-items: center;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            display: grid;
+            gap: clamp(36px, 4vw, 60px);
+            grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr);
         }
 
-        .course-hero-meta {
+        .course-breadcrumbs {
+            align-items: center;
+            color: #000000;
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
-            align-items: center;
-            margin-top: 24px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.88rem;
-        }
-
-        .course-hero-meta-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 7px 16px;
-            border-radius: 50px;
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .course-hero-meta-item i {
-            color: #00ffca;
-        }
-
-        /* Modern Nav Tabs */
-        .course-nav-tabs-wrapper {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 6px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-            border: 1px solid #e2e8f0;
-            margin-bottom: 25px;
-        }
-
-        .course-detail-page .nav-pills .nav-link {
-            border-radius: 10px;
-            color: #475569 !important;
-            font-weight: 600;
-            font-size: 0.95rem;
-            padding: 12px 24px !important;
-            transition: all 0.25s ease;
-        }
-
-        .course-detail-page .nav-pills .nav-link.active {
-            background-color: #008f79 !important;
-            color: #ffffff !important;
-            box-shadow: 0 4px 14px rgba(0, 143, 121, 0.3);
-        }
-
-        /* Main Card Container */
-        .course-main-card {
-            background: #ffffff;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            padding: 32px;
-            margin-bottom: 30px;
-        }
-
-        .course-feature-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 767px) {
-            .course-feature-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .course-feature-item {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 18px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            transition: all 0.25s ease;
-        }
-
-        .course-feature-item:hover {
-            transform: translateY(-3px);
-            border-color: #008f79;
-            box-shadow: 0 6px 16px rgba(0, 143, 121, 0.08);
-        }
-
-        .course-feature-icon {
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #008f79 0%, #006354 100%);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0, 143, 121, 0.2);
-        }
-
-        /* Modern Accordion */
-        .course-detail-page .accordion-item {
-            border: 1px solid #e2e8f0 !important;
-            border-radius: 12px !important;
-            margin-bottom: 12px;
-            overflow: hidden;
-            background: #ffffff;
-            transition: all 0.2s ease;
-        }
-
-        .course-detail-page .accordion-item:hover {
-            border-color: #cbd5e1 !important;
-        }
-
-        .course-detail-page .accordion-button {
-            background-color: #f8fafc !important;
-            color: #0f172a !important;
+            font-size: .78rem;
             font-weight: 700;
-            font-size: 1rem;
-            padding: 18px 24px;
-            box-shadow: none !important;
+            gap: 9px;
+            margin: 0 0 20px;
+            padding: 0;
         }
 
-        .course-detail-page .accordion-button:not(.collapsed) {
-            background-color: #f0fdfa !important;
-            color: #006354 !important;
-        }
-
-        .lesson-item {
-            padding: 14px 24px;
-            display: flex;
+        .course-breadcrumbs li {
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 0.92rem;
-            transition: background 0.15s ease;
-        }
-
-        .lesson-item:hover {
-            background: #f8fafc;
-        }
-
-        .lesson-item:last-child {
-            border-bottom: none;
-        }
-
-        .lesson-title-wrapper {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            gap: 9px;
         }
 
-        .lesson-icon {
-            color: #008f79;
-            font-size: 1rem;
-            flex-shrink: 0;
+        .course-breadcrumbs li:not(:last-child)::after {
+            color: #777777;
+            content: '/';
         }
 
-        /* Instructor Card */
-        .instructor-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        .course-breadcrumbs a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        .instructor-avatar {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #f0fdfa;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Conversion Sidebar */
-        .course-sidebar {
-            position: sticky;
-            top: 100px;
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.09);
-            border: 1px solid #e2e8f0;
-            overflow: hidden;
-            z-index: 10;
-        }
-
-        .course-sidebar-video {
-            position: relative;
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .course-sidebar-video img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.4s ease;
-        }
-
-        .course-sidebar-video:hover img {
-            transform: scale(1.04);
-        }
-
-        .video-play-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 72px;
-            height: 72px;
-            background: rgba(0, 143, 121, 0.95);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 1.7rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 25px rgba(0, 143, 121, 0.5);
-            animation: play-pulse 2s infinite;
-        }
-
-        @keyframes play-pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(0, 143, 121, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 18px rgba(0, 143, 121, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(0, 143, 121, 0);
-            }
-        }
-
-        .course-sidebar-video:hover .video-play-btn {
-            transform: translate(-50%, -50%) scale(1.1);
-            background: #008f79;
-        }
-
-        .video-label {
-            position: absolute;
-            top: 16px;
-            left: 16px;
-            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        .course-hero-title {
             color: #000000;
+            font-size: clamp(2.1rem, 2.7vw, 3.2rem);
             font-weight: 800;
-            font-size: 0.75rem;
-            padding: 5px 14px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            letter-spacing: -.045em;
+            line-height: 1.05;
+            margin: 0;
+            max-width: 920px;
+            text-wrap: balance;
+            text-transform: none;
         }
 
-        .btn-consult-primary {
-            background: linear-gradient(135deg, #008f79 0%, #006354 100%);
-            color: #ffffff !important;
-            font-weight: 700;
-            border-radius: 50px;
-            padding: 14px 28px;
-            font-size: 1.05rem;
-            border: none;
-            box-shadow: 0 8px 22px rgba(0, 143, 121, 0.3);
-            transition: all 0.3s ease;
+        .course-hero-copy {
+            color: #000000;
+            font-size: clamp(.95rem, 1.1vw, 1.05rem);
+            line-height: 1.65;
+            margin: 20px 0 0;
+            max-width: 640px;
         }
 
-        .btn-consult-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(0, 143, 121, 0.4);
-            background: linear-gradient(135deg, #007463 0%, #005245 100%);
-        }
-
-        .sidebar-trust-badge {
-            background: #f0fdfa;
-            border: 1px solid #ccfbf1;
-            border-radius: 10px;
-            padding: 12px 16px;
+        .course-hero-price {
+            align-items: baseline;
             display: flex;
-            align-items: center;
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .course-hero-price span {
+            color: #000000;
+            font-size: .85rem;
+            font-weight: 700;
+        }
+
+        .course-hero-price strong {
+            color: var(--course-green);
+            font-size: 1.3rem;
+            letter-spacing: -.025em;
+        }
+
+        .course-hero-price del {
+            color: #889994;
+            font-size: .88rem;
+        }
+
+        .course-hero-actions {
+            display: flex;
+            flex-wrap: wrap;
             gap: 12px;
-            color: #0f766e;
-            font-size: 0.82rem;
-            font-weight: 600;
-            margin-top: 20px;
+            margin-top: 26px;
         }
 
-        .sidebar-trust-badge i {
-            font-size: 1.25rem;
-            color: #008f79;
-        }
-
-        .mobile-bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.1);
-            padding: 14px 20px;
-            display: none;
-            justify-content: space-between;
+        .course-button {
             align-items: center;
-            z-index: 1000;
-            border-top: 1px solid #e2e8f0;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            display: inline-flex;
+            font-size: .88rem;
+            font-weight: 800;
+            gap: 8px;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 20px;
+            text-decoration: none;
+            transition: background .25s ease, border-color .25s ease, color .25s ease, transform .25s ease;
+        }
+
+        .course-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .course-button-primary {
+            background: var(--course-green);
+            color: #fff !important;
+        }
+
+        .course-button-primary:hover {
+            background: var(--course-green-dark);
+        }
+
+        .course-button-secondary {
+            background: transparent;
+            border-color: #a9bdb7;
+            color: var(--course-ink) !important;
+        }
+
+        .course-button-secondary:hover {
+            background: #fff;
+            border-color: var(--course-ink);
+        }
+
+        .course-hero-visual {
+            aspect-ratio: 4 / 5;
+            border-radius: 4px 32px 4px 32px;
+            box-shadow: 24px 24px 0 var(--course-mint);
+            max-height: 430px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .course-hero-visual::after {
+            background: linear-gradient(180deg, transparent 60%, rgba(3, 34, 28, .36));
+            content: '';
+            inset: 0;
+            pointer-events: none;
+            position: absolute;
+            z-index: 2;
+        }
+
+        .course-hero-visual::before {
+            background: linear-gradient(90deg, #f8fbfa 0%, #f8fbfa 45%, rgba(248, 251, 250, 0) 100%);
+            content: '';
+            inset: 0 auto 0 0;
+            pointer-events: none;
+            position: absolute;
+            width: 18%;
+            z-index: 3;
+        }
+
+        .course-hero-visual img {
+            height: 100%;
+            object-fit: cover;
+            object-position: 78% center;
+            transform: scale(1.85);
+            transform-origin: 78% center;
+            transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+            width: 100%;
+        }
+
+        .course-hero-visual:hover img {
+            transform: scale(1.9);
+        }
+
+        .course-overview {
+            padding: 70px 0;
+        }
+
+        .course-bento {
+            display: grid;
+            gap: 1px;
+            grid-auto-flow: dense;
+            grid-auto-rows: minmax(140px, auto);
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            overflow: hidden;
+        }
+
+        .course-bento-main {
+            background: var(--course-paper);
+            grid-column: span 7;
+            grid-row: span 2;
+            padding: clamp(24px, 3.5vw, 44px);
+        }
+
+        .course-bento-main h2 {
+            color: var(--course-ink);
+            font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+            font-weight: 800;
+            letter-spacing: -.04em;
+            line-height: 1.12;
+            margin: 0 0 18px;
+            max-width: 580px;
+            text-wrap: balance;
+        }
+
+        .course-rich-content {
+            color: #000000;
+            font-size: .95rem;
+            line-height: 1.75;
+        }
+
+        .course-rich-content > :last-child {
+            margin-bottom: 0;
+        }
+
+        .course-bento-fact {
+            display: flex;
+            flex-direction: column;
+            grid-column: span 5;
+            justify-content: space-between;
+            min-height: 140px;
+            padding: clamp(20px, 2.5vw, 32px);
+            transition: transform .35s ease;
+        }
+
+        .course-bento-fact:hover {
+            transform: translateY(-3px);
+        }
+
+        .course-bento-fact-dark {
+            background: #092f28;
+            color: #ffffff;
+        }
+
+        .course-bento-fact-dark strong,
+        .course-bento-fact-dark span {
+            color: #ffffff !important;
+            opacity: 1 !important;
+        }
+
+        .course-bento-fact-mint {
+            background: var(--course-mint);
+            color: #000000;
+        }
+
+        .course-bento-fact-mint strong,
+        .course-bento-fact-mint span {
+            color: #000000 !important;
+            opacity: 1 !important;
+        }
+
+        .course-fact-icon {
+            align-items: center;
+            border: 1px solid currentColor;
+            border-radius: 50%;
+            display: flex;
+            height: 34px;
+            justify-content: center;
+            opacity: .75;
+            width: 34px;
+        }
+
+        .course-bento-fact strong {
+            display: block;
+            font-size: clamp(1.5rem, 2.4vw, 2.4rem);
+            letter-spacing: -.04em;
+            line-height: 1;
+            margin-top: 16px;
+        }
+
+        .course-bento-fact span {
+            display: block;
+            font-size: .82rem;
+            font-weight: 700;
+            margin-top: 6px;
+            opacity: .78;
+        }
+
+        .course-curriculum {
+            background: #f0f6f3;
+            padding: 70px 0;
+        }
+
+        .course-curriculum-grid {
+            align-items: start;
+            display: grid;
+            gap: clamp(54px, 8vw, 120px);
+            grid-template-columns: minmax(260px, .7fr) minmax(0, 1.3fr);
+        }
+
+        .course-section-heading {
+            max-width: 410px;
+        }
+
+        .course-section-heading h2 {
+            color: var(--course-ink);
+            font-size: clamp(1.75rem, 2.8vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -.04em;
+            line-height: 1.05;
+            margin: 0 0 18px;
+            text-wrap: balance;
+        }
+
+        .course-section-heading p {
+            color: #000000;
+            line-height: 1.75;
+            margin: 0;
+        }
+
+        .course-accordion {
+            border-top: 1px solid #bfcfc9;
+        }
+
+        .course-accordion .accordion-item {
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid #bfcfc9;
+            border-radius: 0;
+        }
+
+        .course-accordion .accordion-button {
+            background: transparent !important;
+            box-shadow: none !important;
+            color: var(--course-ink) !important;
+            font-size: clamp(.98rem, 1.25vw, 1.1rem);
+            font-weight: 800;
+            gap: 16px;
+            padding: 18px 0;
+        }
+
+        .course-chapter-number {
+            color: var(--course-green);
+            flex: 0 0 36px;
+            font-size: .78rem;
+            letter-spacing: .08em;
+        }
+
+        .course-accordion .accordion-body {
+            padding: 0 0 18px 48px;
+        }
+
+        .course-lesson {
+            align-items: flex-start;
+            color: #000000;
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .course-lesson-title {
+            align-items: flex-start;
+            display: flex;
+            gap: 12px;
+        }
+
+        .course-lesson i {
+            color: var(--course-green);
+            margin-top: 5px;
+        }
+
+        .course-lesson-duration {
+            color: #555555;
+            flex-shrink: 0;
+            font-size: .78rem;
+        }
+
+        .course-instructor {
+            padding: 60px 0;
+        }
+
+        .course-instructor-card {
+            align-items: center;
+            background: var(--course-paper);
+            display: grid;
+            gap: clamp(24px, 4vw, 56px);
+            grid-template-columns: minmax(200px, .7fr) minmax(0, 1.3fr);
+            padding: clamp(24px, 4vw, 50px);
+        }
+
+        .course-instructor-card img {
+            aspect-ratio: 1;
+            filter: saturate(.78);
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .course-instructor-card h2 {
+            color: var(--course-ink);
+            font-size: clamp(1.6rem, 2.6vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -.04em;
+            line-height: 1.05;
+            margin: 0 0 10px;
+        }
+
+        .course-instructor-role {
+            color: var(--course-green);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .course-instructor-description {
+            color: #000000;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .course-action-section {
+            padding: 20px 0 60px;
+        }
+
+        .course-action-panel {
+            align-items: center;
+            background:
+                radial-gradient(circle at 10% 0%, rgba(0, 199, 167, .21), transparent 35%),
+                var(--course-ink);
+            color: #fff;
+            display: grid;
+            gap: clamp(48px, 8vw, 110px);
+            grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
+            padding: clamp(42px, 7vw, 88px);
+        }
+
+        .course-action-copy h2 {
+            color: #fff;
+            font-size: clamp(2.35rem, 4.4vw, 4.8rem);
+            font-weight: 800;
+            letter-spacing: -.055em;
+            line-height: .98;
+            margin: 0;
+            max-width: 720px;
+            text-wrap: balance;
+        }
+
+        .course-action-copy p {
+            color: rgba(255, 255, 255, .72);
+            line-height: 1.75;
+            margin: 26px 0 32px;
+            max-width: 600px;
+        }
+
+        .course-action-copy .course-button-primary {
+            background: #00c7a7;
+            color: #052a23 !important;
+        }
+
+        .course-action-copy .course-button-primary:hover {
+            background: #fff;
+        }
+
+        .course-qr-card {
+            background: #fff;
+            color: var(--course-ink);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .course-qr-frame {
+            align-items: center;
+            background: #fff;
+            border: 1px solid var(--course-line);
+            display: flex;
+            justify-content: center;
+            padding: 12px;
+        }
+
+        .course-qr-image {
+            aspect-ratio: 1;
+            display: block;
+            height: auto;
+            image-rendering: crisp-edges;
+            max-width: 240px;
+            width: 100%;
+        }
+
+        .course-qr-card h3 {
+            color: var(--course-ink);
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin: 20px 0 6px;
+        }
+
+        .course-qr-card p {
+            color: #687e78;
+            font-size: .8rem;
+            line-height: 1.55;
+            margin: 0 auto 16px;
+            max-width: 260px;
+        }
+
+        .course-qr-downloads {
+            display: grid;
+            gap: 8px;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .course-qr-downloads a {
+            border: 1px solid #aac0ba;
+            color: var(--course-green-dark);
+            font-size: .78rem;
+            font-weight: 800;
+            padding: 9px 12px;
+            text-decoration: none;
+        }
+
+        .course-qr-downloads a:hover {
+            background: var(--course-mint);
+        }
+
+        .course-mobile-action {
+            display: none;
         }
 
         @media (max-width: 991px) {
-            .course-sidebar {
-                position: static;
-                margin-bottom: 30px;
+            .course-shell {
+                padding-left: 20px;
+                padding-right: 20px;
             }
-            .mobile-bottom-bar {
-                display: flex;
+
+            .course-hero {
+                min-height: auto;
+                padding: 132px 0 80px;
+            }
+
+            .course-hero-grid,
+            .course-curriculum-grid,
+            .course-instructor-card,
+            .course-action-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .course-hero-visual {
+                aspect-ratio: 16 / 10;
+                box-shadow: 18px 18px 0 var(--course-mint);
+                max-height: 480px;
+            }
+
+            .course-bento-main {
+                grid-column: span 12;
+                grid-row: span 1;
+            }
+
+            .course-bento-fact {
+                grid-column: span 6;
+            }
+
+            .course-action-panel {
+                justify-items: stretch;
+            }
+
+            .course-qr-card {
+                max-width: 360px;
+            }
+
+            .course-mobile-action {
+                background: #fff;
+                border-top: 1px solid var(--course-line);
+                bottom: 0;
+                display: block;
+                left: 0;
+                padding: 12px 16px;
+                position: fixed;
+                right: 0;
+                z-index: 1000;
+            }
+
+            .course-mobile-action .course-button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .course-shell {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .course-hero {
+                padding-bottom: 64px;
+            }
+
+            .course-hero-title {
+                font-size: clamp(2.35rem, 11vw, 3.4rem);
+            }
+
+            .course-hero-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .course-bento {
+                display: block;
+            }
+
+            .course-bento-main,
+            .course-bento-fact {
+                min-height: auto;
+                padding: 30px 24px;
+            }
+
+            .course-bento-fact + .course-bento-fact {
+                border-top: 1px solid rgba(9, 47, 40, .14);
+            }
+
+            .course-overview,
+            .course-curriculum,
+            .course-instructor {
+                padding: 84px 0;
+            }
+
+            .course-accordion .accordion-body {
+                padding-left: 0;
+            }
+
+            .course-lesson {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .course-action-section {
+                padding-bottom: 90px;
+            }
+
+            .course-action-panel {
+                margin-left: -16px;
+                margin-right: -16px;
+                padding: 42px 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .course-button,
+            .course-hero-visual img,
+            .course-bento-fact {
+                transition: none;
             }
         }
     </style>
@@ -394,365 +701,230 @@
     <x-schema.breadcrumb :items="$breadcrumbs" />
     <x-schema.course :course="$course" :url="$canonical" :image="$ogImage" />
 
-    <div class="academy-page course-detail-page">
-        <!-- Hero Header -->
-        <section id="subheader" class="relative course-hero-header">
-            <div class="container relative z-index-1000">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul class="crumb">
+    <main class="course-page">
+        <section class="course-hero">
+            <div class="course-shell">
+                <div class="course-hero-grid">
+                    <div>
+                        <ul class="course-breadcrumbs" aria-label="Đường dẫn">
                             @foreach ($breadcrumbs as $index => $crumb)
-                                @if ($index === count($breadcrumbs) - 1)
-                                    <li class="active">{{ $crumb['name'] }}</li>
-                                @else
-                                    <li><a href="{{ $crumb['url'] }}">{{ $crumb['name'] }}</a></li>
-                                @endif
+                                <li>
+                                    @if ($index === count($breadcrumbs) - 1)
+                                        <span>{{ $crumb['name'] }}</span>
+                                    @else
+                                        <a href="{{ $crumb['url'] }}">{{ $crumb['name'] }}</a>
+                                    @endif
+                                </li>
                             @endforeach
                         </ul>
-                        @if($course->tag)
-                            <div class="mb-3">
-                                <span class="course-badge-hero"><i class="fa-solid fa-fire me-2"></i>{{ $course->tag }}</span>
-                            </div>
-                        @endif
-                        <h1 class="text-uppercase fw-bold mb-3">{{ $course->title }}</h1>
-                        <p class="col-lg-10 lead text-white-75 mb-0" style="white-space: pre-line;">{{ $course->description }}</p>
 
-                        <div class="course-hero-meta">
-                            <div class="course-hero-meta-item">
-                                <i class="fa-solid fa-building"></i>
-                                <span>Viện GREECO</span>
-                            </div>
-                            <div class="course-hero-meta-item">
-                                <i class="fa-solid fa-book-open"></i>
-                                <span>{{ $totalLessons ?: 12 }} Bài giảng</span>
-                            </div>
-                            <div class="course-hero-meta-item">
-                                <i class="fa-solid fa-award"></i>
-                                <span>Chứng nhận Uy tín</span>
-                            </div>
-                            <div class="course-hero-meta-item">
-                                <i class="fa-solid fa-star text-warning"></i>
-                                <span class="fw-bold">5.0 (Đánh giá cao)</span>
-                            </div>
+                        <h1 class="course-hero-title" data-course-hero-title>{{ $course->title }}</h1>
+
+                        @if ($heroDescription)
+                            <p class="course-hero-copy" data-course-hero-copy>{{ $heroDescription }}</p>
+                        @endif
+
+                        <div class="course-hero-price">
+                            <span>Học phí</span>
+                            <strong>{{ $course->price ?: 'Liên hệ' }}</strong>
+                            @if ($course->original_price)
+                                <del>{{ $course->original_price }}</del>
+                            @endif
                         </div>
+
+                        <div class="course-hero-actions" data-course-hero-actions>
+                            <a href="{{ route('course-registration.create', $course) }}" class="course-button course-button-primary">
+                                Đăng ký khóa học
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="#course-overview" class="course-button course-button-secondary">
+                                Xem nội dung
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="course-hero-visual" data-scale-reveal>
+                        <img
+                            src="{{ $ogImage }}"
+                            width="900"
+                            height="1100"
+                            alt="{{ $course->title }}"
+                            fetchpriority="high"
+                            decoding="async"
+                        >
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Course Body Grid -->
-        <main class="container py-5">
-            @if(session('success'))
-                <div class="alert alert-success border-0 shadow-sm rounded-3 mb-4 p-3 d-flex align-items-center" role="alert">
-                    <i class="fa-solid fa-circle-check me-3 fs-4"></i>
-                    <div>{{ session('success') }}</div>
+        @if (session('success'))
+            <div class="course-shell pt-4">
+                <div class="alert alert-success border-0 shadow-sm" role="alert">
+                    {{ session('success') }}
                 </div>
-            @endif
-            <div class="row g-4">
-                <!-- Main Content (Left Column) -->
-                <div class="col-lg-8">
-                    <!-- Pill Nav Tabs -->
-                    <div class="course-nav-tabs-wrapper">
-                        <ul class="nav nav-pills nav-fill" id="courseDetailTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="intro-tab" data-bs-toggle="tab" href="#intro-content" role="tab" aria-controls="intro-content" aria-selected="true"><i class="fa-solid fa-circle-info me-2"></i>Giới thiệu</a>
-                            </li>
-                            @if(!empty($chapters))
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="curriculum-tab" data-bs-toggle="tab" href="#curriculum-content" role="tab" aria-controls="curriculum-content" aria-selected="false"><i class="fa-solid fa-list-check me-2"></i>Nội dung khóa học</a>
-                                </li>
-                            @endif
-                            @if($course->instructor_name)
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="instructor-tab" data-bs-toggle="tab" href="#instructor-content" role="tab" aria-controls="instructor-content" aria-selected="false"><i class="fa-solid fa-user-tie me-2"></i>Giảng viên</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
+            </div>
+        @endif
 
-                    <!-- Tab Panes -->
-                    <div class="tab-content" id="courseDetailTabsContent">
-                        <!-- Tab Content: Giới thiệu -->
-                        <div class="tab-pane fade show active" id="intro-content" role="tabpanel" aria-labelledby="intro-tab">
-                            <div class="course-main-card">
-                                <h3 class="academy-heading fs-4 fw-bold mb-4 d-flex align-items-center gap-2">
-                                    <i class="fa-solid fa-file-lines text-success"></i>Thông tin khóa học
-                                </h3>
-                                <div class="text-dark mb-4 lh-lg">
-                                    @if($course->content)
-                                        {!! $course->content !!}
-                                    @else
-                                        <p>{{ $course->description }}</p>
-                                    @endif
-                                </div>
+        <section class="course-overview" id="course-overview">
+            <div class="course-shell">
+                <div class="course-bento">
+                    <article class="course-bento-main">
+                        <h2>Kiến thức có thể áp dụng ngay vào công việc</h2>
+                        <div class="course-rich-content">
+                            @if ($course->content)
+                                {!! $course->content !!}
+                            @elseif ($course->description)
+                                <p>{{ $course->description }}</p>
+                            @else
+                                <p>Chương trình được xây dựng theo định hướng thực tiễn, giúp học viên nắm vững kiến thức và triển khai hiệu quả tại đơn vị.</p>
+                            @endif
+                        </div>
+                    </article>
 
-                                <h3 class="academy-heading fs-4 fw-bold mb-3 mt-5 d-flex align-items-center gap-2">
-                                    <i class="fa-solid fa-sliders text-success"></i>Thông số & Giá trị đạt được
-                                </h3>
-                                <div class="course-feature-grid">
-                                    <div class="course-feature-item">
-                                        <div class="course-feature-icon"><i class="fa-solid fa-book-open"></i></div>
-                                        <div>
-                                            <small class="text-secondary d-block">Số bài học</small>
-                                            <strong class="academy-heading">{{ $totalLessons ?: 12 }} bài giảng</strong>
-                                        </div>
-                                    </div>
-                                    <div class="course-feature-item">
-                                        <div class="course-feature-icon"><i class="fa-solid fa-layer-group"></i></div>
-                                        <div>
-                                            <small class="text-secondary d-block">Cấp độ</small>
-                                            <strong class="academy-heading">Mọi cấp độ</strong>
-                                        </div>
-                                    </div>
-                                    <div class="course-feature-item">
-                                        <div class="course-feature-icon"><i class="fa-solid fa-award"></i></div>
-                                        <div>
-                                            <small class="text-secondary d-block">Chứng chỉ</small>
-                                            <strong class="academy-heading">Chứng nhận hoàn thành</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <article class="course-bento-fact course-bento-fact-dark">
+                        <div class="course-fact-icon"><i class="fa-solid fa-book-open"></i></div>
+                        <div>
+                            <strong>{{ $totalLessons ?: 12 }}</strong>
+                            <span>Bài học được tổ chức theo lộ trình rõ ràng</span>
+                        </div>
+                    </article>
+
+                    <article class="course-bento-fact course-bento-fact-mint">
+                        <div class="course-fact-icon"><i class="fa-solid fa-award"></i></div>
+                        <div>
+                            <strong>GREECO</strong>
+                            <span>Chứng nhận hoàn thành chương trình đào tạo</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        @if (! empty($chapters))
+            <section class="course-curriculum" id="course-curriculum">
+                <div class="course-shell">
+                    <div class="course-curriculum-grid" data-pin-container>
+                        <div class="course-section-heading" data-pin-panel>
+                            <h2>Chương trình học</h2>
+                            <p>
+                                Nội dung được chia thành từng phần để học viên dễ theo dõi, thực hành và áp dụng vào tình huống thực tế.
+                            </p>
                         </div>
 
-                        <!-- Tab Content: Nội dung khóa học (Accordion) -->
-                        @if(!empty($chapters))
-                            <div class="tab-pane fade" id="curriculum-content" role="tabpanel" aria-labelledby="curriculum-tab">
-                                <div class="course-main-card">
-                                    <div class="d-flex align-items-center justify-content-between mb-4">
-                                        <h3 class="academy-heading fs-4 fw-bold mb-0 d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-graduation-cap text-success"></i>Chương trình học
-                                        </h3>
-                                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="toggle-all-curriculum">Thu gọn tất cả</button>
-                                    </div>
-
-                                    <div class="accordion accordion-flush" id="curriculumAccordion">
-                                        @foreach ($chapters as $index => $chapter)
-                                            <div class="accordion-item border rounded-3 mb-3 overflow-hidden bg-white">
-                                                <h4 class="accordion-header" id="heading-{{ $index }}">
-                                                    <button 
-                                                        class="accordion-button d-flex align-items-center justify-content-between py-3 px-4 bg-light text-dark fw-bold" 
-                                                        type="button" 
-                                                        data-bs-toggle="collapse" 
-                                                        data-bs-target="#collapse-{{ $index }}" 
-                                                        aria-expanded="true" 
-                                                        aria-controls="collapse-{{ $index }}"
-                                                    >
-                                                        <span class="academy-heading mb-0">{{ $chapter['title'] }}</span>
-                                                    </button>
-                                                </h4>
-                                                <div 
-                                                    id="collapse-{{ $index }}" 
-                                                    class="accordion-collapse collapse show" 
-                                                    aria-labelledby="heading-{{ $index }}"
-                                                >
-                                                    <div class="accordion-body p-0">
-                                                        @if(!empty($chapter['lessons']))
-                                                            @foreach ($chapter['lessons'] as $lesson)
-                                                                <div class="lesson-item">
-                                                                    <div class="lesson-title-wrapper">
-                                                                        <i class="fa-solid fa-circle-play lesson-icon"></i>
-                                                                        <span class="text-dark fw-semibold">{{ $lesson['title'] }}</span>
-                                                                    </div>
-                                                                    @if(!empty($lesson['duration']))
-                                                                        <span class="badge bg-light text-success border border-success-subtle fw-bold rounded-pill px-3">{{ $lesson['duration'] }}</span>
-                                                                    @endif
-                                                                </div>
-                                                            @endforeach
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-
-                        <!-- Tab Content: Giảng viên -->
-                        @if($course->instructor_name)
-                            <div class="tab-pane fade" id="instructor-content" role="tabpanel" aria-labelledby="instructor-tab">
-                                <div class="instructor-card border shadow-sm rounded-3 bg-white p-4 mb-4">
-                                    <h3 class="academy-heading fs-4 fw-bold mb-4 d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-user-tie text-success"></i>Giảng viên hướng dẫn
+                        <div class="accordion course-accordion" id="curriculumAccordion">
+                            @foreach ($chapters as $index => $chapter)
+                                <article class="accordion-item">
+                                    <h3 class="accordion-header" id="course-heading-{{ $index }}">
+                                        <button
+                                            class="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#course-collapse-{{ $index }}"
+                                            aria-expanded="false"
+                                            aria-controls="course-collapse-{{ $index }}"
+                                        >
+                                            <span class="course-chapter-number">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                            <span>{{ $chapter['title'] }}</span>
+                                        </button>
                                     </h3>
-                                    <div class="d-flex flex-column flex-sm-row gap-4 align-items-start">
-                                        <img src="{{ $course->instructor_image ? asset('storage/' . $course->instructor_image) : asset('assets/images/team/team-1.jpg') }}" width="160" height="160" alt="{{ $course->instructor_name }}" class="instructor-avatar" loading="lazy" decoding="async">
-                                        <div>
-                                            <h4 class="academy-heading fs-5 fw-bold mb-1">{{ $course->instructor_name }}</h4>
-                                            <p class="text-success fw-semibold small mb-3"><i class="fa-solid fa-circle-check me-1"></i>{{ $course->instructor_role }}</p>
-                                            <p class="text-dark mb-4 lh-lg">
-                                                {{ $course->instructor_description }}
-                                            </p>
-                                            <div class="d-flex gap-3">
-                                                <a href="mailto:info@greeco.vn" class="btn btn-sm btn-outline-secondary rounded-pill px-3"><i class="fa-solid fa-envelope me-2"></i>Gửi email</a>
-                                                <button class="btn btn-sm btn-consult-primary" data-bs-toggle="modal" data-bs-target="#checkout-modal"><i class="fa-solid fa-comments me-2"></i>Đăng ký tư vấn</button>
-                                            </div>
+                                    <div
+                                        id="course-collapse-{{ $index }}"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="course-heading-{{ $index }}"
+                                        data-bs-parent="#curriculumAccordion"
+                                    >
+                                        <div class="accordion-body">
+                                            @foreach (($chapter['lessons'] ?? []) as $lesson)
+                                                <div class="course-lesson">
+                                                    <div class="course-lesson-title">
+                                                        <i class="fa-regular fa-circle-check"></i>
+                                                        <span>{{ $lesson['title'] }}</span>
+                                                    </div>
+                                                    @if (! empty($lesson['duration']))
+                                                        <span class="course-lesson-duration">{{ $lesson['duration'] }}</span>
+                                                    @endif
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        @endif
+                                </article>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
+            </section>
+        @endif
 
-                <!-- Course Sidebar (Right Column) -->
-                <div class="col-lg-4">
-                    <aside class="course-sidebar">
-                        <div class="course-sidebar-video" data-bs-toggle="modal" data-bs-target="#checkout-modal">
-                            <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('assets/images/services/iso-9001-course.png') }}" width="1024" height="1024" alt="{{ $course->title }} Course preview" loading="lazy" decoding="async">
-                            @if($course->tag)
-                                <span class="video-label">{{ $course->tag }}</span>
+        @if ($course->instructor_name)
+            <section class="course-instructor">
+                <div class="course-shell">
+                    <article class="course-instructor-card">
+                        <img
+                            src="{{ $course->instructor_image ? asset('storage/' . $course->instructor_image) : asset('assets/images/team/team-1.jpg') }}"
+                            width="640"
+                            height="640"
+                            alt="{{ $course->instructor_name }}"
+                            loading="lazy"
+                            decoding="async"
+                            data-scale-reveal
+                        >
+                        <div>
+                            <h2>{{ $course->instructor_name }}</h2>
+                            @if ($course->instructor_role)
+                                <div class="course-instructor-role">{{ $course->instructor_role }}</div>
                             @endif
-                            <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+                            @if ($course->instructor_description)
+                                <p class="course-instructor-description">{{ $course->instructor_description }}</p>
+                            @endif
                         </div>
-                        <div class="p-4">
-                            <div class="mb-4 text-center">
-                                <span class="text-secondary small d-block mb-1">Học phí & Ưu đãi doanh nghiệp</span>
-                                <h3 class="fw-bold text-success mb-0 fs-3">{{ $course->price ?: 'Liên hệ' }}</h3>
-                                @if($course->original_price)
-                                    <span class="text-muted text-decoration-line-through small me-2">{{ $course->original_price }}</span>
-                                @endif
-                                @if($course->discount)
-                                    <span class="badge bg-danger rounded-pill">{{ $course->discount }}</span>
-                                @endif
-                            </div>
+                    </article>
+                </div>
+            </section>
+        @endif
 
-                            <a href="{{ route('course-registration.create', $course) }}" class="btn btn-consult-primary btn-lg w-100 mb-3">
-                                <i class="fa-solid fa-pen-to-square me-2"></i>Đăng ký khóa học
-                            </a>
+        <section class="course-action-section" id="course-registration">
+            <div class="course-shell">
+                <div class="course-action-panel">
+                    <div class="course-action-copy">
+                        <h2>Sẵn sàng tham gia khóa học?</h2>
+                        <p>
+                            Đăng ký trực tiếp trên website hoặc quét mã QR bằng điện thoại. GREECO sẽ liên hệ xác nhận lịch học, địa điểm và học phí.
+                        </p>
+                        <a href="{{ route('course-registration.create', $course) }}" class="course-button course-button-primary">
+                            Đi đến form đăng ký
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
 
-                            <div class="text-center border rounded-3 p-3 mb-4 bg-light">
-                                <img
-                                    src="{{ route('course-registration.qr', ['course' => $course, 'format' => 'png']) }}"
-                                    alt="Mã QR đăng ký khóa học {{ $course->title }}"
-                                    width="180"
-                                    height="180"
-                                    class="img-fluid"
-                                    loading="lazy"
-                                >
-                                <div class="fw-bold text-dark small mt-2">Quét mã để đăng ký</div>
-                                <div class="d-flex justify-content-center gap-2 mt-2">
-                                    <a
-                                        href="{{ route('course-registration.qr', ['course' => $course, 'format' => 'png', 'download' => 1]) }}"
-                                        class="btn btn-sm btn-outline-success"
-                                    >
-                                        Tải PNG
-                                    </a>
-                                    <a
-                                        href="{{ route('course-registration.qr', ['course' => $course, 'format' => 'svg', 'download' => 1]) }}"
-                                        class="btn btn-sm btn-outline-success"
-                                    >
-                                        Tải SVG
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="border-top pt-4">
-                                <h4 class="academy-heading fs-6 fw-bold mb-3">Khóa học bao gồm:</h4>
-                                <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
-                                    <li class="d-flex align-items-center gap-3 text-dark small">
-                                        <i class="fa-solid fa-circle-check text-success fs-6" style="width: 20px;"></i>
-                                        <span>{{ $totalLessons ?: 12 }} bài giảng trực tuyến chất lượng</span>
-                                    </li>
-                                    <li class="d-flex align-items-center gap-3 text-dark small">
-                                        <i class="fa-solid fa-circle-check text-success fs-6" style="width: 20px;"></i>
-                                        <span>Học tập linh hoạt trên điện thoại & máy tính</span>
-                                    </li>
-                                    <li class="d-flex align-items-center gap-3 text-dark small">
-                                        <i class="fa-solid fa-circle-check text-success fs-6" style="width: 20px;"></i>
-                                        <span>Biểu mẫu tài liệu học thực tế</span>
-                                    </li>
-                                    <li class="d-flex align-items-center gap-3 text-dark small">
-                                        <i class="fa-solid fa-circle-check text-success fs-6" style="width: 20px;"></i>
-                                        <span>Cấp chứng nhận hoàn thành uy tín</span>
-                                    </li>
-                                </ul>
-
-                                <div class="sidebar-trust-badge">
-                                    <i class="fa-solid fa-shield-halved"></i>
-                                    <span>Đảm bảo chất lượng theo tiêu chuẩn Viện GREECO</span>
-                                </div>
-                            </div>
+                    <aside class="course-qr-card">
+                        <div class="course-qr-frame">
+                            <img
+                                src="{{ route('course-registration.qr', ['course' => $course, 'format' => 'png']) }}"
+                                alt="Mã QR đăng ký khóa học {{ $course->title }}"
+                                width="240"
+                                height="240"
+                                class="course-qr-image"
+                                loading="lazy"
+                                decoding="async"
+                            >
                         </div>
+                        <h3 class="mb-0">Quét mã để đăng ký</h3>
                     </aside>
                 </div>
             </div>
-        </main>
-    </div>
+        </section>
+    </main>
 
-    <!-- Mobile Bottom action bar -->
-    <div class="mobile-bottom-bar justify-content-center">
-        <a href="{{ route('course-registration.create', $course) }}" class="btn btn-success w-100">
-            <i class="fa-solid fa-pen-to-square me-2"></i>Đăng ký khóa học
+    <div class="course-mobile-action">
+        <a href="{{ route('course-registration.create', $course) }}" class="course-button course-button-primary">
+            Đăng ký khóa học
         </a>
-    </div>
-
-    <!-- Checkout / Registration Modal (Bootstrap 5) -->
-    <div class="modal fade" id="checkout-modal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-dark text-white py-3">
-                    <h5 class="modal-title fw-bold text-white" id="checkoutModalLabel">Liên hệ tư vấn khóa học: {{ $course->title }}</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <form id="checkout-form" method="POST" action="{{ route('contact.store') }}">
-                        @csrf
-                        <input type="hidden" name="_return" value="training">
-                        <input type="hidden" name="subject" value="Đăng ký khóa học {{ $course->title }}">
-
-                        <div class="mb-3">
-                            <label for="reg_name" class="form-label fw-bold small">Họ và tên *</label>
-                            <input type="text" class="form-control" id="reg_name" name="name" required placeholder="Họ và Tên">
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg_phone" class="form-label fw-bold small">Số điện thoại *</label>
-                            <input type="tel" class="form-control" id="reg_phone" name="phone" required placeholder="Số điện thoại">
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg_email" class="form-label fw-bold small">Email liên hệ *</label>
-                            <input type="email" class="form-control" id="reg_email" name="email" required placeholder="name@company.com">
-                        </div>
-                        <div class="mb-3">
-                            <label for="reg_message" class="form-label fw-bold small">Yêu cầu cụ thể hoặc thông tin doanh nghiệp</label>
-                            <textarea class="form-control" id="reg_message" name="message" rows="3" placeholder="Ví dụ: đăng ký học cho doanh nghiệp, số lượng học viên..."></textarea>
-                        </div>
-
-                        <input type="hidden" name="payment_method" value="consult">
-
-                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Gửi yêu cầu tư vấn</button>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Expand/collapse all accordion chapters logic using Bootstrap 5 Collapse Instance
-            var toggleAllBtn = document.getElementById('toggle-all-curriculum');
-            var allExpanded = true;
-            
-            if (toggleAllBtn) {
-                toggleAllBtn.addEventListener('click', function () {
-                    allExpanded = !allExpanded;
-                    var collapses = document.querySelectorAll('#curriculumAccordion .accordion-collapse');
-                    collapses.forEach(function (el) {
-                        var bsCollapse = bootstrap.Collapse.getOrCreateInstance(el, { toggle: false });
-                        if (allExpanded) {
-                            bsCollapse.show();
-                        } else {
-                            bsCollapse.hide();
-                        }
-                    });
-                    toggleAllBtn.textContent = allExpanded ? 'Thu gọn tất cả' : 'Mở rộng tất cả';
-                });
-            }
-
-            // Add body class for shifting floating buttons up
             document.body.classList.add('has-mobile-bottom-bar');
         });
     </script>

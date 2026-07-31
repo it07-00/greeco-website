@@ -14,51 +14,102 @@
 @push('styles')
     <style>
         .registration-page {
-            background: #f4f8f7;
-            padding: 130px 0 80px;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(0, 143, 121, .11), transparent 26%),
+                radial-gradient(circle at 88% 42%, rgba(0, 199, 167, .08), transparent 25%),
+                #f2f6f5;
+            font-family: 'Satoshi', 'Be Vietnam Pro', sans-serif;
+            overflow-x: hidden;
+            padding: 110px 0 60px;
         }
 
         .registration-card,
         .course-summary-card {
             background: #fff;
             border: 1px solid #dfe9e6;
-            border-radius: 18px;
+            border-radius: 12px;
             box-shadow: 0 12px 35px rgba(9, 32, 28, .07);
         }
 
         .registration-card {
-            padding: 32px;
+            padding: clamp(20px, 3vw, 32px);
         }
 
-        .course-summary-card {
-            padding: 24px;
-            position: sticky;
-            top: 110px;
+        .registration-back-link {
+            color: #48645e;
+            display: inline-flex;
+            font-size: .8rem;
+            font-weight: 700;
+            gap: 6px;
+            margin-bottom: 16px;
+            text-decoration: none;
+        }
+
+        .registration-back-link:hover {
+            color: #008f79;
+        }
+
+        .registration-card-title {
+            color: #092f28;
+            font-size: clamp(1.4rem, 2.2vw, 1.95rem);
+            font-weight: 800;
+            letter-spacing: -.035em;
+            line-height: 1.12;
+            margin-bottom: 8px;
+            text-wrap: balance;
         }
 
         .registration-eyebrow {
             color: #008f79;
-            font-size: .8rem;
+            font-size: .7rem;
             font-weight: 800;
-            letter-spacing: .08em;
+            letter-spacing: .1em;
+            margin-bottom: 6px;
             text-transform: uppercase;
+        }
+
+        .registration-card-intro {
+            color: #000000;
+            font-size: .92rem;
+            line-height: 1.6;
+            max-width: 680px;
+        }
+
+        .course-summary-card {
+            padding: 18px;
+            position: relative;
+        }
+
+        .course-summary-image {
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            width: 100%;
         }
 
         .registration-section-title {
             border-bottom: 1px solid #e6eeec;
             color: #153b35;
-            font-size: 1.08rem;
+            font-size: .98rem;
             font-weight: 800;
-            margin: 30px 0 20px;
-            padding-bottom: 12px;
+            margin: 22px 0 14px;
+            padding-bottom: 8px;
         }
 
         .attendee-card {
-            background: #f8fbfa;
+            background:
+                linear-gradient(135deg, rgba(0, 143, 121, .045), transparent 55%),
+                #f8fbfa;
             border: 1px solid #dbe8e5;
-            border-radius: 14px;
-            margin-bottom: 16px;
-            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            padding: 14px 16px;
+            transition: border-color .35s ease, box-shadow .35s ease, transform .35s ease;
+        }
+
+        .attendee-card:focus-within {
+            border-color: #008f79;
+            box-shadow: 0 10px 24px rgba(0, 143, 121, .08);
+            transform: translateY(-1px);
         }
 
         .attendee-number {
@@ -67,11 +118,11 @@
             border-radius: 50%;
             color: #fff;
             display: inline-flex;
-            font-size: .8rem;
+            font-size: .72rem;
             font-weight: 800;
-            height: 30px;
+            height: 24px;
             justify-content: center;
-            width: 30px;
+            width: 24px;
         }
 
         .required-mark {
@@ -81,8 +132,10 @@
         .registration-submit {
             background: #008f79;
             border-color: #008f79;
+            border-radius: 4px;
+            font-size: .9rem;
             font-weight: 800;
-            padding: 13px 24px;
+            padding: 10px 20px;
         }
 
         .registration-submit:hover {
@@ -90,9 +143,54 @@
             border-color: #006f5f;
         }
 
+        .registration-guide {
+            border-top: 1px solid #e0e9e7;
+            display: grid;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 16px;
+        }
+
+        .registration-guide-item {
+            align-items: flex-start;
+            display: flex;
+            gap: 10px;
+        }
+
+        .registration-guide-number {
+            align-items: center;
+            background: #092f28;
+            border-radius: 50%;
+            color: #ffffff !important;
+            display: flex !important;
+            font-size: 0.78rem !important;
+            font-weight: 800;
+            height: 26px;
+            justify-content: center;
+            line-height: 1 !important;
+            margin: 0 !important;
+            width: 26px;
+            min-width: 26px;
+            flex-shrink: 0;
+        }
+
+        .registration-guide-item strong {
+            color: #000000;
+            display: block;
+            font-size: .82rem;
+        }
+
+        .registration-guide-text {
+            color: #000000;
+            display: block;
+            font-size: .72rem;
+            line-height: 1.45;
+            margin-top: 2px;
+        }
+
         @media (max-width: 991px) {
             .registration-page {
-                padding-top: 105px;
+                padding: 100px 0 60px;
             }
 
             .course-summary-card {
@@ -102,7 +200,13 @@
 
         @media (max-width: 575px) {
             .registration-card {
-                padding: 22px 16px;
+                padding: 18px 14px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .attendee-card {
+                transition: none;
             }
         }
     </style>
@@ -111,13 +215,17 @@
 @section('content')
     <section class="registration-page">
         <div class="container">
-            <div class="row g-4 align-items-start">
+            <div class="row g-4 align-items-start" data-pin-container>
                 <div class="col-lg-8">
                     <div class="registration-card">
-                        <span class="registration-eyebrow">Đăng ký khóa đào tạo</span>
-                        <h1 class="h3 fw-bold text-dark mt-2 mb-2">{{ $course->title }}</h1>
-                        <p class="text-secondary mb-0">
-                            Vui lòng cung cấp đầy đủ thông tin. GREECO sẽ liên hệ xác nhận và gửi thông tin chi tiết trong thời gian sớm nhất.
+                        <a href="{{ route('slug.show', $course->slug) }}" class="registration-back-link">
+                            <i class="fa-solid fa-arrow-left mt-1"></i>
+                            Quay lại thông tin khóa học
+                        </a>
+                        <div class="registration-eyebrow">Thông tin đăng ký</div>
+                        <h1 class="registration-card-title">Đăng ký {{ $course->title }}</h1>
+                        <p class="registration-card-intro mb-0">
+                            Hoàn tất thông tin doanh nghiệp và người tham dự. GREECO sẽ liên hệ để xác nhận lịch học, địa điểm và học phí. Các trường có dấu <span class="required-mark">*</span> là bắt buộc.
                         </p>
 
                         @if ($errors->any())
@@ -265,20 +373,46 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <aside class="course-summary-card">
+                    <aside class="course-summary-card" data-pin-panel>
                         <img
                             src="{{ $course->image ? asset('storage/' . $course->image) : asset('assets/images/services/iso-9001-course.png') }}"
                             alt="{{ $course->title }}"
-                            class="img-fluid rounded-3 mb-3"
+                            class="course-summary-image rounded-3 mb-3"
+                            data-scale-reveal
                         >
                         <h2 class="h5 fw-bold text-dark">{{ $course->title }}</h2>
                         @if ($course->description)
-                            <p class="text-secondary small">{{ $course->description }}</p>
+                            <p class="text-secondary small">{{ \Illuminate\Support\Str::limit(strip_tags($course->description), 180) }}</p>
                         @endif
                         <div class="d-flex justify-content-between border-top pt-3 mt-3">
                             <span class="text-secondary">Học phí</span>
                             <strong class="text-success">{{ $course->price ?: 'Liên hệ' }}</strong>
                         </div>
+
+                        <div class="registration-guide">
+                            <div class="registration-guide-item">
+                                <span class="registration-guide-number">1</span>
+                                <div>
+                                    <strong>Gửi thông tin</strong>
+                                    <span class="registration-guide-text">Điền doanh nghiệp và danh sách người tham dự.</span>
+                                </div>
+                            </div>
+                            <div class="registration-guide-item">
+                                <span class="registration-guide-number">2</span>
+                                <div>
+                                    <strong>GREECO xác nhận</strong>
+                                    <span class="registration-guide-text">Nhân viên phụ trách liên hệ qua email hoặc điện thoại.</span>
+                                </div>
+                            </div>
+                            <div class="registration-guide-item">
+                                <span class="registration-guide-number">3</span>
+                                <div>
+                                    <strong>Nhận thông tin lớp</strong>
+                                    <span class="registration-guide-text">Lịch học, địa điểm và hướng dẫn được gửi sau xác nhận.</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <a href="{{ route('slug.show', $course->slug) }}" class="btn btn-outline-success w-100 mt-4">
                             <i class="fa-solid fa-arrow-left me-2"></i>Quay lại khóa học
                         </a>

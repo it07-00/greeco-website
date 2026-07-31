@@ -19,7 +19,7 @@ class CourseRegistrationTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertSee('Đăng ký khóa đào tạo')
+            ->assertSee('Thông tin đăng ký')
             ->assertSee($course->title)
             ->assertSee('Tên công ty')
             ->assertSee('Email nhận hóa đơn');

@@ -28,6 +28,10 @@
             text-align: center;
         }
 
+        .registration-success-card p {
+            color: #000000 !important;
+        }
+
         .success-icon {
             align-items: center;
             background: #e4f7f1;

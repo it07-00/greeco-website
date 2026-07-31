@@ -176,6 +176,7 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
     <!-- Javascript Files ================================================== -->
     <script src="{{ versioned_asset('assets/js/plugins.js') }}" defer></script>
     <script src="{{ versioned_asset('assets/js/designesia.js') }}" defer></script>
+    @vite('resources/js/app.js')
 
     @stack('scripts')
     <script>

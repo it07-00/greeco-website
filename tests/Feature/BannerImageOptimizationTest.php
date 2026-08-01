@@ -30,9 +30,9 @@ class BannerImageOptimizationTest extends TestCase
             ->first(fn ($component) => $component instanceof FileUpload && $component->getName() === 'image');
 
         $this->assertInstanceOf(FileUpload::class, $upload);
-        $this->assertSame('contain', $upload->getAutomaticallyResizeImagesMode());
-        $this->assertSame('3840', $upload->getAutomaticallyResizeImagesWidth());
-        $this->assertSame('2160', $upload->getAutomaticallyResizeImagesHeight());
+        $this->assertSame('cover', $upload->getAutomaticallyResizeImagesMode());
+        $this->assertSame('1920', $upload->getAutomaticallyResizeImagesWidth());
+        $this->assertSame('910', $upload->getAutomaticallyResizeImagesHeight());
         $this->assertFalse($upload->shouldAutomaticallyUpscaleImagesWhenResizing());
     }
 

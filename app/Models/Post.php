@@ -58,4 +58,29 @@ class Post extends Model
             set: fn (?string $value) => \Illuminate\Support\Str::slug($value ?? ''),
         );
     }
+
+    protected static function booted(): void
+    {
+        static::saving(function (Post $post) {
+            if (blank($post->slug) && filled($post->title)) {
+                $post->slug = \Illuminate\Support\Str::slug($post->title);
+            }
+
+            if (blank($post->meta_title) && filled($post->title)) {
+                $post->meta_title = \App\Filament\Resources\Posts\Schemas\PostForm::suggestMetaTitle($post->title);
+            }
+
+            if (blank($post->meta_description)) {
+                $post->meta_description = \App\Filament\Resources\Posts\Schemas\PostForm::suggestMetaDescription($post->excerpt, $post->content);
+            }
+
+            if (blank($post->meta_keywords)) {
+                $post->meta_keywords = \App\Filament\Resources\Posts\Schemas\PostForm::suggestMetaKeywords($post->tags, $post->title);
+            }
+
+            if (blank($post->og_image) && filled($post->thumbnail)) {
+                $post->og_image = $post->thumbnail;
+            }
+        });
+    }
 }

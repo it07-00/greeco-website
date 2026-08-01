@@ -30,7 +30,7 @@ class BannerResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $recordTitleAttribute = 'title';
+    protected static ?string $recordTitleAttribute = 'url';
 
     public static function form(Schema $schema): Schema
     {

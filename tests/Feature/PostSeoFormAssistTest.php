@@ -9,10 +9,13 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\FormsComponent;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Schema;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PostSeoFormAssistTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_post_form_has_seo_assist_actions_and_guidance(): void
     {
         $components = $this->postFormComponents();
@@ -75,6 +78,23 @@ class PostSeoFormAssistTest extends TestCase
         $this->assertContains('h4', $floatingToolbars['heading']);
         $this->assertContains('tableMergeCells', $floatingToolbars['table']);
         $this->assertContains('tableDelete', $floatingToolbars['table']);
+    }
+
+    public function test_post_automatically_generates_seo_metadata_on_model_saving(): void
+    {
+        $post = \App\Models\Post::create([
+            'title' => 'Giải pháp Kiểm kê Khí nhà kính chuẩn ISO 14064',
+            'excerpt' => 'Tổng quan giải pháp kiểm kê khí nhà kính cho doanh nghiệp.',
+            'content' => '<p>Chi tiết quy trình đo đạc và báo cáo giảm phát thải.</p>',
+            'tags' => ['Khí nhà kính', 'ISO 14064'],
+            'thumbnail' => 'posts/sample-thumbnail.jpg',
+        ]);
+
+        $this->assertSame('giai-phap-kiem-ke-khi-nha-kinh-chuan-iso-14064', $post->slug);
+        $this->assertSame('Giải pháp Kiểm kê Khí nhà kính chuẩn ISO 14064 | GREECO', $post->meta_title);
+        $this->assertSame('Tổng quan giải pháp kiểm kê khí nhà kính cho doanh nghiệp.', $post->meta_description);
+        $this->assertSame('Khí nhà kính, ISO 14064', $post->meta_keywords);
+        $this->assertSame('posts/sample-thumbnail.jpg', $post->og_image);
     }
 
     private function postFormComponents()

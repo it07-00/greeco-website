@@ -129,6 +129,12 @@ class PostForm
                     ->resizableImages()
                     ->helperText('Dùng H2 cho các ý chính, H3-H4 cho ý con. Không dùng H1 trong nội dung vì tiêu đề bài viết đã là H1.')
                     ->visible(fn (Get $get) => $get('content_type') === 'text')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state): void {
+                        if (blank($get('meta_description'))) {
+                            $set('meta_description', self::suggestMetaDescription($get('excerpt'), $state));
+                        }
+                    })
                     ->columnSpanFull(),
             ]);
     }
@@ -143,7 +149,13 @@ class PostForm
                     1440,
                 )
                     ->disk('public')
-                    ->directory('posts'),
+                    ->directory('posts')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state): void {
+                        if (blank($get('og_image'))) {
+                            $set('og_image', $state);
+                        }
+                    }),
                 OptimizedImageUpload::configure(
                     FileUpload::make('og_image')->label('Ảnh chia sẻ Facebook/Zalo'),
                     1600,

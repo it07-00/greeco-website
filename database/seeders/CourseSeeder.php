@@ -63,6 +63,14 @@ class CourseSeeder extends Seeder
                 'bg' => '#eceff1',
                 'sort_order' => 6,
             ],
+            [
+                'name' => 'Workshop',
+                'slug' => 'workshop',
+                'icon' => 'fa-laptop-code',
+                'color' => '#ff9800',
+                'bg' => '#fff3e0',
+                'sort_order' => 7,
+            ],
         ];
 
         $categories = [];
@@ -116,6 +124,54 @@ class CourseSeeder extends Seeder
                 'slug' => 'trach-nhiem-xa-hoi-va-danh-gia-chuoi-cung-ung',
                 'price' => 'Liên hệ',
                 'sort_order' => 6,
+            ],
+            [
+                'course_category_id' => $categories['workshop']->id,
+                'title' => 'Workshop: Open-Source AI Agent Lab',
+                'slug' => 'workshop-open-source-ai-agent-lab',
+                'description' => 'Workshop chuyên sâu về xây dựng và triển khai các AI Agent nguồn mở, truy vấn dữ liệu kinh doanh (Pandas, DuckDB) và tích hợp giao diện Gradio.',
+                'price' => 'Liên hệ',
+                'sort_order' => 101,
+            ],
+            [
+                'course_category_id' => $categories['workshop']->id,
+                'title' => 'Workshop: Data Engineering Lab',
+                'slug' => 'workshop-data-engineering-lab',
+                'description' => 'Workshop thực hành thiết kế đường ống dữ liệu (Data Pipeline), làm sạch dữ liệu thô (Pandas), kiểm tra quy tắc (Pandera) và truy vấn SQL (DuckDB).',
+                'price' => 'Liên hệ',
+                'sort_order' => 102,
+            ],
+            [
+                'course_category_id' => $categories['workshop']->id,
+                'title' => 'Workshop: Computer Vision Lab',
+                'slug' => 'workshop-computer-vision-lab',
+                'description' => 'Workshop nghiên cứu và ứng dụng Thị giác máy tính (Computer Vision), huấn luyện mô hình Deep Learning (TensorFlow/PyTorch) để kiểm tra chất lượng hình ảnh sản phẩm.',
+                'price' => 'Liên hệ',
+                'sort_order' => 103,
+            ],
+            [
+                'course_category_id' => $categories['workshop']->id,
+                'title' => 'Workshop: Edge AI Lab',
+                'slug' => 'workshop-edge-ai-lab',
+                'description' => 'Workshop tối ưu hóa và chuyển đổi các mô hình AI sang định dạng biên (TFLite, ONNX), nén mô hình và chạy thực tế trên Raspberry Pi / Jetson.',
+                'price' => 'Liên hệ',
+                'sort_order' => 104,
+            ],
+            [
+                'course_category_id' => $categories['workshop']->id,
+                'title' => 'Workshop: AI Deployment Lab',
+                'slug' => 'workshop-ai-deployment-lab',
+                'description' => 'Workshop thực hành MLOps & AI Deployment, chuẩn hóa cấu trúc dự án từ Colab, kiểm thử (Pytest), kiểm tra đầu vào (Pydantic) và phục vụ qua FastAPI & Gradio.',
+                'price' => 'Liên hệ',
+                'sort_order' => 105,
+            ],
+            [
+                'course_category_id' => $categories['workshop']->id,
+                'title' => 'Workshop: Robotics Lab - series finale',
+                'slug' => 'workshop-robotics-lab-series-finale',
+                'description' => 'Workshop phần kết series, tích hợp AI vật lý (Physical AI), cảm biến chu kỳ Sense-Think-Act, huấn luyện và mô phỏng robot di chuyển tự hành.',
+                'price' => 'Liên hệ',
+                'sort_order' => 106,
             ],
         ];
 

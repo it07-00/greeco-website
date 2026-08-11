@@ -69,6 +69,7 @@ class FlatUrlSlugResolverTest extends TestCase
             'title' => 'Khóa học ISO',
             'slug' => 'khoa-hoc-iso-resolution',
             'description' => 'Mô tả khóa học.',
+            'price' => 'Liên hệ',
             'is_active' => true,
         ]);
 

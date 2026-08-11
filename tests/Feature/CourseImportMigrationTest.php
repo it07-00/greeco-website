@@ -13,8 +13,8 @@ class CourseImportMigrationTest extends TestCase
 
     public function test_course_import_migration_matches_training_workbook_structure(): void
     {
-        $this->assertSame(6, CourseCategory::query()->count());
-        $this->assertSame(36, Course::query()->count());
+        $this->assertSame(7, CourseCategory::query()->count());
+        $this->assertSame(42, Course::query()->count());
         $this->assertSame([
             'iso' => 5,
             'hse' => 8,
@@ -22,6 +22,7 @@ class CourseImportMigrationTest extends TestCase
             'esg' => 4,
             'chuoi-cung-ung-ben-vung-va-kinh-te-tuan-hoan' => 9,
             'cong-trinh-xanh-va-san-pham-ben-vung' => 2,
+            'workshop' => 6,
         ], CourseCategory::query()
             ->withCount('courses')
             ->orderBy('sort_order')

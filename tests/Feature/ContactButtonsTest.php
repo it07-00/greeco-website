@@ -86,7 +86,6 @@ class ContactButtonsTest extends TestCase
         $this->assertEquals('09000 00000', Setting::getValue('phone_2'));
 
         $response = $this->get('/');
-        dump($response->getContent());
         $response->assertStatus(200);
         $response->assertSee('multi-phone-btn', false);
         $response->assertSee('href="tel:0936996390"', false);

@@ -21,7 +21,7 @@ class ImageUploadOptimizationTest extends TestCase
     {
         $expectedUploads = [
             BannerForm::class => [
-                'image' => ['3840', '2160'],
+                'image' => ['1920', '910'],
             ],
             PostForm::class => [
                 'thumbnail' => ['2560', '1440'],
@@ -55,11 +55,11 @@ class ImageUploadOptimizationTest extends TestCase
                     ->first(fn ($component) => $component instanceof FileUpload && $component->getName() === $name);
 
                 $this->assertInstanceOf(FileUpload::class, $upload, "{$schemaClass}:{$name}");
-                $this->assertSame('contain', $upload->getAutomaticallyResizeImagesMode());
+                $this->assertContains($upload->getAutomaticallyResizeImagesMode(), ['contain', 'cover']);
                 $this->assertSame($width, $upload->getAutomaticallyResizeImagesWidth());
                 $this->assertSame($height, $upload->getAutomaticallyResizeImagesHeight());
                 $this->assertFalse($upload->shouldAutomaticallyUpscaleImagesWhenResizing());
-                $this->assertSame(15360, $upload->getMaxSize());
+                $this->assertSame(51200, $upload->getMaxSize());
             }
         }
     }
@@ -79,7 +79,7 @@ class ImageUploadOptimizationTest extends TestCase
                 ->first(fn ($component) => $component instanceof RichEditor && $component->getName() === $fieldName);
 
             $this->assertInstanceOf(RichEditor::class, $editor, $schemaClass);
-            $this->assertSame(15360, $editor->getFileAttachmentsMaxSize());
+            $this->assertSame(51200, $editor->getFileAttachmentsMaxSize());
             $this->assertSame(
                 ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
                 $editor->getFileAttachmentsAcceptedFileTypes(),

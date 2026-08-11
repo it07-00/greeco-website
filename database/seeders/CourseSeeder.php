@@ -167,7 +167,7 @@ class CourseSeeder extends Seeder
             ],
             [
                 'course_category_id' => $categories['workshop']->id,
-                'title' => 'Workshop: Robotics Lab - series finale',
+                'title' => 'Workshop: Robotics Lab (RoboNav Lite) - series finale',
                 'slug' => 'workshop-robotics-lab-series-finale',
                 'description' => 'Workshop phần kết series, tích hợp AI vật lý (Physical AI), cảm biến chu kỳ Sense-Think-Act, huấn luyện và mô phỏng robot di chuyển tự hành.',
                 'price' => 'Liên hệ',

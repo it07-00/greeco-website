@@ -28,7 +28,7 @@ class WorkshopRegistrationTest extends TestCase
             'Workshop: Computer Vision Lab',
             'Workshop: Edge AI Lab',
             'Workshop: AI Deployment Lab',
-            'Workshop: Robotics Lab - series finale',
+            'Workshop: Robotics Lab (RoboNav Lite) - series finale',
         ];
 
         foreach ($expectedWorkshops as $title) {

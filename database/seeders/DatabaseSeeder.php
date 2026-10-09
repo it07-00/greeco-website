@@ -717,6 +717,7 @@ class DatabaseSeeder extends Seeder
             ['src' => 'icons/tree.png', 'dest' => 'icon_journey_tree.png'],
             ['src' => 'icons/happy.png', 'dest' => 'icon_journey_happy.png'],
             ['src' => 'blog/1.webp', 'dest' => 'contact_image.webp'],
+            ['src' => 'og-default.jpg', 'dest' => 'og_image.jpg'],
         ];
 
         foreach ($filesToCopy as $file) {
@@ -753,6 +754,7 @@ class DatabaseSeeder extends Seeder
             ['key' => 'whatsapp_url', 'value' => '#', 'type' => 'text', 'group' => 'social'],
             ['key' => 'contact_image', 'value' => 'settings/contact_image.webp', 'type' => 'image', 'group' => 'contact'],
             ['key' => 'favicon', 'value' => 'settings/favicon.webp', 'type' => 'image', 'group' => 'general'],
+            ['key' => 'og_image', 'value' => 'settings/og_image.jpg', 'type' => 'image', 'group' => 'seo'],
             ['key' => 'logo_light', 'value' => 'settings/logo_light.png', 'type' => 'image', 'group' => 'general'],
             ['key' => 'logo_dark', 'value' => 'settings/logo_dark.png', 'type' => 'image', 'group' => 'general'],
             ['key' => 'logo_icon', 'value' => 'settings/logo_icon.webp', 'type' => 'image', 'group' => 'general'],

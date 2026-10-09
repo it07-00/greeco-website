@@ -23,11 +23,17 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
     <link rel="apple-touch-icon" href="{{ $faviconUrl }}?v={{ $faviconVersion }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v={{ $faviconVersion }}">
 
+    @php
+        $defaultSiteOgImage = setting('og_image')
+            ? asset('storage/' . setting('og_image'))
+            : asset('assets/images/og-default.jpg');
+    @endphp
+
     <x-seo
         :title="$seoTitle ?? 'Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO'"
         :description="$seoDescription ?? 'Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) - Đơn vị hàng đầu về chuyển giao công nghệ xanh, kinh tế tuần hoàn và ứng phó biến đổi khí hậu.'"
         :canonical="$canonical ?? url()->current()"
-        :image="$ogImage ?? asset('assets/images/logo-greeco.png')"
+        :image="$ogImage ?? $defaultSiteOgImage"
         :indexable="$indexable ?? true"
         :type="$seoType ?? 'website'"
         :published-time="$seoPublishedTime ?? null"

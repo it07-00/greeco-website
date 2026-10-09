@@ -342,4 +342,33 @@ class SeoTechnicalTest extends TestCase
         $this->assertStringContainsString('datetime="2026-06-15"', $content);
         $this->assertStringNotContainsString('<span class="mx-2">|</span>', $content);
     }
+
+    public function test_default_route_renders_default_site_og_image(): void
+    {
+        $content = $this->get(route('home'))
+            ->assertOk()
+            ->getContent();
+
+        $expectedOgImage = setting('og_image')
+            ? asset('storage/' . setting('og_image'))
+            : asset('assets/images/og-default.jpg');
+
+        $this->assertStringContainsString('<meta property="og:image" content="'.$expectedOgImage.'">', $content);
+        $this->assertStringNotContainsString('<meta property="og:image" content="'.asset('assets/images/logo-greeco.png').'">', $content);
+    }
+
+    public function test_custom_site_og_image_setting_is_rendered(): void
+    {
+        \App\Models\Setting::query()->updateOrCreate(
+            ['key' => 'og_image'],
+            ['value' => 'settings/custom-og.jpg', 'type' => 'image', 'group' => 'seo']
+        );
+        \App\Models\Setting::clearCache();
+
+        $content = $this->get(route('home'))
+            ->assertOk()
+            ->getContent();
+
+        $this->assertStringContainsString('<meta property="og:image" content="'.asset('storage/settings/custom-og.jpg').'">', $content);
+    }
 }

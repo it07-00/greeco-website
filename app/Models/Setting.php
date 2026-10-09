@@ -102,6 +102,10 @@ class Setting extends Model
                 'label' => 'Favicon',
                 'description' => 'Biểu tượng nhỏ hiển thị trên tab trình duyệt (tự động tạo ra file .ico và .png 192x192).',
             ],
+            'og_image' => [
+                'label' => 'Ảnh chung của website (OG Image)',
+                'description' => 'Hình ảnh hiển thị mặc định khi chia sẻ liên kết trang web lên mạng xã hội (Facebook, Zalo, Twitter/X, LinkedIn). Kích thước tối ưu 1200x630px.',
+            ],
             'logo_light' => [
                 'label' => 'Logo sáng màu',
                 'description' => 'Logo màu trắng/sáng dùng cho nền tối.',

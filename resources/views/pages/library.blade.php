@@ -68,9 +68,12 @@
                                                 default => 'bg-dark text-white'
                                             };
 
-                                            $linkUrl = str_starts_with($doc->link, 'http') || str_starts_with($doc->link, '/')
-                                                ? $doc->link
-                                                : url($doc->link);
+                                            $link = trim($doc->link ?? '');
+                                            $linkUrl = $link === '' ? null : (
+                                                str_starts_with($link, 'http') || str_starts_with($link, '/')
+                                                    ? $link
+                                                    : url($link)
+                                            );
                                         @endphp
                                         <tr>
                                             <td><strong>{{ $doc->number }}</strong></td>
@@ -82,14 +85,18 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                <a href="{{ $linkUrl }}" target="_blank"
-                                                    class="btn-main btn-line py-2 px-3 fs-13">
-                                                    @if(str_contains($linkUrl, 'lien-he') || str_contains($linkUrl, 'dich-vu'))
-                                                        <i class="fa-solid fa-circle-info me-1"></i>Liên hệ Tư vấn
-                                                    @else
-                                                        <i class="fa fa-external-link me-1"></i>Xem chi tiết
-                                                    @endif
-                                                </a>
+                                                @if($linkUrl !== null)
+                                                    <a href="{{ $linkUrl }}" target="_blank"
+                                                        class="btn-main btn-line py-2 px-3 fs-13">
+                                                        @if(str_contains($linkUrl, 'lien-he') || str_contains($linkUrl, 'dich-vu'))
+                                                            <i class="fa-solid fa-circle-info me-1"></i>Liên hệ Tư vấn
+                                                        @else
+                                                            <i class="fa fa-external-link me-1"></i>Xem chi tiết
+                                                        @endif
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted fs-13">Chưa có liên kết</span>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

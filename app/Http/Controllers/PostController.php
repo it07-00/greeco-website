@@ -10,13 +10,14 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
+        $filters = $request->validate(['tag' => ['nullable', 'string', 'max:100']]);
         $query = Post::query()
             ->with('category')
-            ->where('is_published', true);
+            ->published();
 
-        $activeTag = $request->input('tag');
+        $activeTag = trim($filters['tag'] ?? '');
 
-        if ($request->filled('tag')) {
+        if ($activeTag !== '') {
             $query->where(function ($q) use ($activeTag) {
                 $q->whereJsonContains('tags', $activeTag)
                     ->orWhere('title', 'like', '%'.$activeTag.'%')
@@ -28,7 +29,7 @@ class PostController extends Controller
 
         $posts = $query->latest('published_at')->paginate(9);
 
-        if ($activeTag) {
+        if ($activeTag !== '') {
             $posts->appends(['tag' => $activeTag]);
         }
 
@@ -42,14 +43,14 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        abort_unless($post->is_published, 404);
+        abort_unless(Post::published()->whereKey($post->getKey())->exists(), 404);
 
-        $post->increment('views_count');
+        Post::withoutTimestamps(fn () => $post->increment('views_count'));
         $post->refresh();
 
         $relatedPosts = Post::query()
             ->where('id', '!=', $post->id)
-            ->where('is_published', true)
+            ->published()
             ->where('post_category_id', $post->post_category_id)
             ->limit(6)
             ->get();

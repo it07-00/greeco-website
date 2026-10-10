@@ -29,7 +29,7 @@ class SitemapController extends Controller
             ->get();
 
         $posts = Post::query()
-            ->where('is_published', true)
+            ->published()
             ->where('is_indexable', true)
             ->latest('published_at')
             ->get();

@@ -31,7 +31,7 @@ class SettingForm
                         TextInput::make('key')
                             ->label('Khóa kỹ thuật (Key)')
                             ->required()
-                            ->maxLength(255)
+                            ->maxLength(191)
                             ->disabled(fn ($context) => $context === 'edit')
                             ->live()
                             ->unique(ignoreRecord: true),

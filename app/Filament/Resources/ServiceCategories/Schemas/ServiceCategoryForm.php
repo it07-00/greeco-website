@@ -22,10 +22,11 @@ class ServiceCategoryForm
                         TextInput::make('name')
                             ->label('Tên danh mục')
                             ->required()
-                            ->maxLength(255)
+                            ->maxLength(191)
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
                         TextInput::make('slug')
+                            ->maxLength(191)
                             ->label('Slug')
                             ->required()
                             ->unique(ignoreRecord: true),

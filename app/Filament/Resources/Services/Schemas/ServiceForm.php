@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Services\Schemas;
 
+use App\Models\Service;
 use App\Support\OptimizedImageUpload;
+use App\Support\PublicSlug;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -27,13 +29,12 @@ class ServiceForm
                                 TextInput::make('name')
                                     ->label('Tên dịch vụ')
                                     ->required()
-                                    ->maxLength(255)
+                                    ->maxLength(191)
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
-                                TextInput::make('slug')
+                                PublicSlug::configure(TextInput::make('slug'), Service::class)
                                     ->label('Slug')
-                                    ->required()
-                                    ->unique(ignoreRecord: true),
+                                    ->required(),
                                 Select::make('service_category_id')
                                     ->label('Danh mục dịch vụ')
                                     ->relationship('category', 'name')
@@ -41,8 +42,9 @@ class ServiceForm
                                     ->preload(),
                                 TextInput::make('icon')
                                     ->label('Icon class (ví dụ: flaticon-...)')
-                                    ->maxLength(255),
+                                    ->maxLength(191),
                                 Textarea::make('short_description')
+                                    ->maxLength(191)
                                     ->label('Mô tả ngắn')
                                     ->rows(3),
                             ]),
@@ -77,13 +79,15 @@ class ServiceForm
                             ->schema([
                                 TextInput::make('meta_title')
                                     ->label('Meta Title')
-                                    ->maxLength(255),
+                                    ->maxLength(191),
                                 Textarea::make('meta_description')
                                     ->label('Meta Description')
                                     ->rows(3),
                                 TextInput::make('meta_keywords')
+                                    ->maxLength(191)
                                     ->label('Meta Keywords'),
                                 TextInput::make('canonical_url')
+                                    ->maxLength(191)
                                     ->label('Canonical URL'),
                             ]),
                         Tab::make('Trạng thái')

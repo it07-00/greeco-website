@@ -16,6 +16,10 @@ class StoreCourseRegistrationRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        if (is_array($this->input('attendees'))) {
+            $this->merge(['attendees' => array_values($this->input('attendees'))]);
+        }
+
         $this->merge([
             'source' => $this->input('source') === 'qr' ? 'qr' : 'website',
         ]);
@@ -24,16 +28,17 @@ class StoreCourseRegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_name' => ['required', 'string', 'max:255'],
+            'company_name' => ['required', 'string', 'max:191'],
             'company_address' => ['required', 'string', 'max:1000'],
             'tax_code' => ['required', 'string', 'max:50'],
             'attendee_count' => ['required', 'integer', 'min:1', 'max:20'],
             'attendees' => ['required', 'array', 'min:1', 'max:20'],
-            'attendees.*.full_name' => ['required', 'string', 'max:255'],
-            'attendees.*.job_title' => ['nullable', 'string', 'max:255'],
-            'attendees.*.email' => ['required', 'email:rfc', 'max:255'],
+            'attendees.*' => ['required', 'array'],
+            'attendees.*.full_name' => ['required', 'string', 'max:191'],
+            'attendees.*.job_title' => ['nullable', 'string', 'max:191'],
+            'attendees.*.email' => ['required', 'email:rfc', 'max:191'],
             'attendees.*.phone' => ['required', 'string', 'max:50'],
-            'invoice_email' => ['required', 'email:rfc', 'max:255'],
+            'invoice_email' => ['required', 'email:rfc', 'max:191'],
             'consultation_question' => ['nullable', 'string', 'max:5000'],
             'source' => ['required', 'in:website,qr'],
             'consent' => ['accepted'],

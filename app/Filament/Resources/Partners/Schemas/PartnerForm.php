@@ -20,11 +20,11 @@ class PartnerForm
                         TextInput::make('name')
                             ->label('Tên đối tác')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(191),
                         TextInput::make('website_url')
                             ->label('Đường dẫn Website')
                             ->url()
-                            ->maxLength(255),
+                            ->maxLength(191),
                         OptimizedImageUpload::configure(
                             FileUpload::make('logo')->label('Logo đối tác'),
                             1600,

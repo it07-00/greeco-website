@@ -1,13 +1,22 @@
 <?php
 
-if (!function_exists('setting')) {
-    function setting(string $key, $default = null)
+use App\Models\Setting;
+
+if (! function_exists('form_text')) {
+    function form_text(mixed $value): string
     {
-        return \App\Models\Setting::getValue($key, $default);
+        return is_scalar($value) ? (string) $value : '';
     }
 }
 
-if (!function_exists('versioned_asset')) {
+if (! function_exists('setting')) {
+    function setting(string $key, $default = null)
+    {
+        return Setting::getValue($key, $default);
+    }
+}
+
+if (! function_exists('versioned_asset')) {
     function versioned_asset(string $path): string
     {
         $publicPath = public_path($path);

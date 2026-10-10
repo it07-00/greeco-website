@@ -137,23 +137,23 @@
                                 @csrf
                                 <div class="field-set mb-3">
                                     <input type="text" name="name" id="name" class="form-control" placeholder="Họ và tên"
-                                        value="{{ old('name') }}" required>
+                                        value="{{ form_text(old('name')) }}" required>
                                 </div>
 
                                 <div class="field-set mb-3">
                                     <input type="email" name="email" id="email" class="form-control" placeholder="Địa chỉ Email"
-                                        value="{{ old('email') }}">
+                                        value="{{ form_text(old('email')) }}">
                                 </div>
 
                                 <div class="field-set mb-3">
                                     <input type="text" name="phone" id="phone" class="form-control" placeholder="Số điện thoại"
-                                        value="{{ old('phone') }}">
+                                        value="{{ form_text(old('phone')) }}">
                                 </div>
 
                                 <div class="field-set mb-4">
                                     <textarea name="message" id="message" class="form-control"
                                         placeholder="Nội dung tin nhắn / Yêu cầu tư vấn"
-                                        required>{{ old('message', request('message')) }}</textarea>
+                                        required>{{ form_text(old('message', request('message'))) }}</textarea>
                                 </div>
 
                                 <div id="submit" class="text-end">

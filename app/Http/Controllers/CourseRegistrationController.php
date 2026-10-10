@@ -8,6 +8,7 @@ use App\Models\CourseRegistration;
 use App\Services\CourseRegistrationQrCode;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -53,7 +54,10 @@ class CourseRegistrationController extends Controller
         abort_unless($course->is_active, 404);
 
         $validated = $request->validated();
-        $attendees = $validated['attendees'];
+        $attendees = array_map(
+            fn (array $attendee) => Arr::only($attendee, ['full_name', 'job_title', 'email', 'phone']),
+            array_values($validated['attendees']),
+        );
         $primaryAttendee = $attendees[0];
 
         $registration = DB::transaction(function () use (

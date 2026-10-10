@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Projects\Schemas;
 
+use App\Models\Project;
 use App\Support\OptimizedImageUpload;
+use App\Support\PublicSlug;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -27,24 +29,24 @@ class ProjectForm
                                 TextInput::make('title')
                                     ->label('Tên dự án')
                                     ->required()
-                                    ->maxLength(255)
+                                    ->maxLength(191)
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
-                                TextInput::make('slug')
+                                PublicSlug::configure(TextInput::make('slug'), Project::class)
                                     ->label('Slug')
-                                    ->required()
-                                    ->unique(ignoreRecord: true),
+                                    ->required(),
                                 TextInput::make('client_name')
                                     ->label('Khách hàng / Đối tác')
-                                    ->maxLength(255),
+                                    ->maxLength(191),
                                 TextInput::make('location')
                                     ->label('Địa điểm')
-                                    ->maxLength(255),
+                                    ->maxLength(191),
                                 DatePicker::make('started_at')
                                     ->label('Ngày bắt đầu'),
                                 DatePicker::make('completed_at')
                                     ->label('Ngày hoàn thành'),
                                 Textarea::make('excerpt')
+                                    ->maxLength(191)
                                     ->label('Mô tả ngắn/Tóm tắt')
                                     ->rows(3)
                                     ->columnSpanFull(),
@@ -80,11 +82,12 @@ class ProjectForm
                             ->schema([
                                 TextInput::make('meta_title')
                                     ->label('Meta Title')
-                                    ->maxLength(255),
+                                    ->maxLength(191),
                                 Textarea::make('meta_description')
                                     ->label('Meta Description')
                                     ->rows(3),
                                 TextInput::make('canonical_url')
+                                    ->maxLength(191)
                                     ->label('Canonical URL'),
                             ]),
                         Tab::make('Trạng thái')

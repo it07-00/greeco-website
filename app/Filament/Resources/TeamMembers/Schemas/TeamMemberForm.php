@@ -20,10 +20,10 @@ class TeamMemberForm
                     TextInput::make('name')
                         ->label('Họ và tên')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(191),
                     TextInput::make('role')
                         ->label('Chức vụ / Vai trò')
-                        ->maxLength(255),
+                        ->maxLength(191),
                     Textarea::make('description')
                         ->label('Chi tiết khi hover')
                         ->rows(4)
@@ -37,11 +37,11 @@ class TeamMemberForm
                     TextInput::make('facebook_url')
                         ->label('Link Facebook')
                         ->url()
-                        ->maxLength(255),
+                        ->maxLength(191),
                     TextInput::make('linkedin_url')
                         ->label('Link LinkedIn')
                         ->url()
-                        ->maxLength(255),
+                        ->maxLength(191),
                     Toggle::make('is_active')
                         ->label('Hiển thị')
                         ->default(true),

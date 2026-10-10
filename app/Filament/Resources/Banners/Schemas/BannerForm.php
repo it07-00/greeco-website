@@ -38,7 +38,7 @@ class BannerForm
                             ->required(),
                         TextInput::make('url')
                             ->label('Đường dẫn liên kết (khi click vào ảnh)')
-                            ->maxLength(255),
+                            ->maxLength(191),
                         Toggle::make('is_active')
                             ->label('Hoạt động')
                             ->default(true),

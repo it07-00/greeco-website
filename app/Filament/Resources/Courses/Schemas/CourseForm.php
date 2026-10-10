@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Courses\Schemas;
 
+use App\Models\Course;
 use App\Support\OptimizedImageUpload;
+use App\Support\PublicSlug;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -34,6 +36,7 @@ class CourseForm
                                     ->searchable()
                                     ->preload(),
                                 TextInput::make('title')
+                                    ->maxLength(500)
                                     ->label('Tiêu đề khóa học')
                                     ->required()
                                     ->live(onBlur: true)
@@ -45,13 +48,12 @@ class CourseForm
                                             $set('slug', Str::slug($state ?? ''));
                                         }
                                     }),
-                                TextInput::make('slug')
+                                PublicSlug::configure(TextInput::make('slug'), Course::class)
                                     ->label('Slug')
                                     ->required()
                                     ->dehydrateStateUsing(fn (?string $state) => Str::slug($state ?? ''))
                                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
-                                    ->live(onBlur: true)
-                                    ->unique(ignoreRecord: true),
+                                    ->live(onBlur: true),
                                 Textarea::make('description')
                                     ->label('Mô tả ngắn (Hiển thị ở danh sách thẻ)')
                                     ->columnSpanFull()
@@ -67,6 +69,7 @@ class CourseForm
                                     ->disk('public')
                                     ->directory('courses'),
                                 TextInput::make('tag')
+                                    ->maxLength(500)
                                     ->label('Nhãn nổi bật (Ví dụ: BÁN CHẠY, HOT, MỚI)'),
                                 Select::make('badge_color')
                                     ->label('Màu sắc nhãn')
@@ -84,13 +87,15 @@ class CourseForm
                             ->schema([
                                 TextInput::make('meta_title')
                                     ->label('Meta Title')
-                                    ->maxLength(255),
+                                    ->maxLength(500),
                                 Textarea::make('meta_description')
                                     ->label('Meta Description')
                                     ->rows(3),
                                 TextInput::make('meta_keywords')
+                                    ->maxLength(500)
                                     ->label('Meta Keywords'),
                                 TextInput::make('canonical_url')
+                                    ->maxLength(500)
                                     ->label('Canonical URL'),
                                 OptimizedImageUpload::configure(
                                     FileUpload::make('og_image')->label('Ảnh chia sẻ Facebook/Zalo'),
@@ -107,16 +112,21 @@ class CourseForm
                         Tab::make('Học phí & Giảng viên')
                             ->schema([
                                 TextInput::make('price')
+                                    ->maxLength(191)
                                     ->label('Giá hiện tại (Ví dụ: 1.500.000đ hoặc Liên hệ)')
                                     ->required()
                                     ->default('Liên hệ'),
                                 TextInput::make('original_price')
+                                    ->maxLength(191)
                                     ->label('Giá gốc (Nếu có, ví dụ: 2.000.000đ)'),
                                 TextInput::make('discount')
+                                    ->maxLength(191)
                                     ->label('Thẻ giảm giá (Ví dụ: -25%)'),
                                 TextInput::make('instructor_name')
+                                    ->maxLength(500)
                                     ->label('Tên giảng viên'),
                                 TextInput::make('instructor_role')
+                                    ->maxLength(500)
                                     ->label('Vai trò/Chức danh giảng viên')
                                     ->placeholder('Ví dụ: Chuyên gia cấp cao về ISO & ESG'),
                                 OptimizedImageUpload::configure(

@@ -21,7 +21,7 @@ class HomeController extends Controller
         $serviceCategories = MainServiceCategories::get();
 
         $latestPosts = Post::query()
-            ->where('is_published', true)
+            ->published()
             ->latest('published_at')
             ->limit(4)
             ->get();

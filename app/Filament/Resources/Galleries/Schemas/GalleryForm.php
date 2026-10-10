@@ -35,7 +35,7 @@ class GalleryForm
                             ->required(),
                         TextInput::make('title')
                             ->label('Tiêu đề / Thẻ alt')
-                            ->maxLength(255)
+                            ->maxLength(191)
                             ->placeholder('Nhập tiêu đề hoặc mô tả ngắn cho ảnh...'),
                         Toggle::make('is_active')
                             ->label('Hoạt động')

@@ -56,6 +56,7 @@ class CourseRegistrationForm
                         TextInput::make('source')
                             ->label('Nguồn đăng ký')
                             ->formatStateUsing(fn (?string $state): string => $state === 'qr' ? 'QR' : 'Website')
+                            ->dehydrated(false)
                             ->readOnly(),
                         Select::make('status')
                             ->label('Trạng thái')

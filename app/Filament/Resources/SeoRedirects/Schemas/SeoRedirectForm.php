@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\SeoRedirects\Schemas;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -19,12 +19,12 @@ class SeoRedirectForm
                         TextInput::make('old_url')
                             ->label('Đường dẫn cũ (ví dụ: /dich-vu-cu)')
                             ->required()
-                            ->maxLength(255)
+                            ->maxLength(191)
                             ->unique(ignoreRecord: true),
                         TextInput::make('new_url')
                             ->label('Đường dẫn mới (ví dụ: /dich-vu-moi)')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(191),
                         Select::make('status_code')
                             ->label('Mã trạng thái HTTP')
                             ->options([
@@ -36,7 +36,7 @@ class SeoRedirectForm
                         Toggle::make('is_active')
                             ->label('Kích hoạt')
                             ->default(true),
-                    ])
+                    ]),
             ]);
     }
 }

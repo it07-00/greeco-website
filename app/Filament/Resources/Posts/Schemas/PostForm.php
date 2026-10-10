@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\Posts\Schemas;
 
+use App\Models\Post;
 use App\Support\OptimizedImageUpload;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
+use App\Support\PublicSlug;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -18,6 +18,8 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
@@ -47,7 +49,7 @@ class PostForm
                 TextInput::make('title')
                     ->label('Tiêu đề bài viết')
                     ->required()
-                    ->maxLength(255)
+                    ->maxLength(191)
                     ->live(onBlur: true)
                     ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state): void {
                         $oldSlug = Str::slug($old ?? '');
@@ -61,13 +63,12 @@ class PostForm
                             $set('meta_title', self::suggestMetaTitle($state));
                         }
                     }),
-                TextInput::make('slug')
+                PublicSlug::configure(TextInput::make('slug'), Post::class)
                     ->label('Slug')
                     ->required()
                     ->dehydrateStateUsing(fn (?string $state) => Str::slug($state ?? ''))
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
-                    ->live(onBlur: true)
-                    ->unique(ignoreRecord: true),
+                    ->live(onBlur: true),
                 Select::make('post_category_id')
                     ->label('Danh mục bài viết')
                     ->relationship('category', 'name')
@@ -75,6 +76,7 @@ class PostForm
                     ->preload(),
                 Textarea::make('excerpt')
                     ->label('Mô tả ngắn/Trích dẫn')
+                    ->maxLength(191)
                     ->rows(3)
                     ->live(onBlur: true)
                     ->afterStateUpdated(function (Get $get, Set $set, ?string $state): void {
@@ -204,7 +206,7 @@ class PostForm
                     ->placeholder(fn (Get $get): ?string => self::suggestMetaTitle($get('title')))
                     ->helperText(fn (?string $state): string => self::seoLengthHint($state, 45, 60))
                     ->live(onBlur: true)
-                    ->maxLength(255),
+                    ->maxLength(191),
                 Textarea::make('meta_description')
                     ->label('Meta Description')
                     ->placeholder(fn (Get $get): ?string => self::suggestMetaDescription($get('excerpt'), $get('content')))
@@ -215,13 +217,13 @@ class PostForm
                     ->label('Meta Keywords')
                     ->placeholder(fn (Get $get): ?string => self::suggestMetaKeywords($get('tags'), $get('title')))
                     ->helperText('Meta keywords không còn là yếu tố xếp hạng chính; nên đồng bộ với Tags để quản trị nội dung.')
-                    ->maxLength(255),
+                    ->maxLength(191),
                 TextInput::make('canonical_url')
                     ->label('Canonical URL')
                     ->placeholder(fn (Get $get): ?string => self::suggestCanonicalUrl($get('slug') ?: Str::slug($get('title') ?? '')))
                     ->helperText('Chỉ nhập khi muốn canonical sang URL khác. Để trống sẽ dùng URL bài viết hiện tại.')
                     ->rules(['nullable', 'url'])
-                    ->maxLength(255),
+                    ->maxLength(191),
             ]);
     }
 

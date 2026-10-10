@@ -3,10 +3,11 @@
     $seoDescription = 'Đăng ký tham gia khóa học ' . $course->title . ' tại Viện nghiên cứu và phát triển kinh tế xanh - Greeco.';
     $canonical = route('course-registration.create', $course);
     $indexable = false;
-    $initialAttendees = old('attendees', [
-        ['full_name' => '', 'job_title' => '', 'email' => '', 'phone' => ''],
-    ]);
-    $initialCount = max(1, min(20, (int) old('attendee_count', count($initialAttendees))));
+    $oldAttendees = old('attendees', []);
+    $initialAttendees = is_array($oldAttendees)
+        ? array_values(array_map(fn ($attendee) => is_array($attendee) ? array_map('form_text', $attendee) : [], $oldAttendees))
+        : [];
+    $initialCount = max(1, min(20, (int) form_text(old('attendee_count', count($initialAttendees)))));
 @endphp
 
 @extends('layouts.app')
@@ -255,8 +256,8 @@
                                     class="form-control @error('company_name') is-invalid @enderror"
                                     id="company_name"
                                     name="company_name"
-                                    value="{{ old('company_name') }}"
-                                    maxlength="255"
+                                    value="{{ form_text(old('company_name')) }}"
+                                    maxlength="191"
                                     autocomplete="organization"
                                     required
                                 >
@@ -275,7 +276,7 @@
                                     maxlength="1000"
                                     autocomplete="street-address"
                                     required
-                                >{{ old('company_address') }}</textarea>
+                                >{{ form_text(old('company_address')) }}</textarea>
                                 @error('company_address')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
 
@@ -289,7 +290,7 @@
                                         class="form-control @error('tax_code') is-invalid @enderror"
                                         id="tax_code"
                                         name="tax_code"
-                                        value="{{ old('tax_code') }}"
+                                        value="{{ form_text(old('tax_code')) }}"
                                         maxlength="50"
                                         required
                                     >
@@ -327,8 +328,8 @@
                                     class="form-control @error('invoice_email') is-invalid @enderror"
                                     id="invoice_email"
                                     name="invoice_email"
-                                    value="{{ old('invoice_email') }}"
-                                    maxlength="255"
+                                    value="{{ form_text(old('invoice_email')) }}"
+                                    maxlength="191"
                                     autocomplete="email"
                                     required
                                 >
@@ -345,7 +346,7 @@
                                     name="consultation_question"
                                     rows="4"
                                     maxlength="5000"
-                                >{{ old('consultation_question') }}</textarea>
+                                >{{ form_text(old('consultation_question')) }}</textarea>
                                 @error('consultation_question')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
 
@@ -466,17 +467,17 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Họ và tên <span class="required-mark">*</span></label>
                                 <input type="text" class="form-control" name="attendees[${index}][full_name]"
-                                    data-field="full_name" value="${escapeHtml(attendee.full_name)}" maxlength="255" required>
+                                    data-field="full_name" value="${escapeHtml(attendee.full_name)}" maxlength="191" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Chức vụ</label>
                                 <input type="text" class="form-control" name="attendees[${index}][job_title]"
-                                    data-field="job_title" value="${escapeHtml(attendee.job_title)}" maxlength="255">
+                                    data-field="job_title" value="${escapeHtml(attendee.job_title)}" maxlength="191">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Email <span class="required-mark">*</span></label>
                                 <input type="email" class="form-control" name="attendees[${index}][email]"
-                                    data-field="email" value="${escapeHtml(attendee.email)}" maxlength="255" required>
+                                    data-field="email" value="${escapeHtml(attendee.email)}" maxlength="191" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Số điện thoại <span class="required-mark">*</span></label>

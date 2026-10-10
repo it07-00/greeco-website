@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Pages\Schemas;
 
+use App\Models\Page;
 use App\Support\OptimizedImageUpload;
+use App\Support\PublicSlug;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
@@ -26,15 +28,15 @@ class PageForm
                                 TextInput::make('title')
                                     ->label('Tiêu đề')
                                     ->required()
-                                    ->maxLength(255)
+                                    ->maxLength(191)
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
-                                TextInput::make('slug')
+                                PublicSlug::configure(TextInput::make('slug'), Page::class)
                                     ->label('Slug')
-                                    ->required()
-                                    ->unique(ignoreRecord: true),
+                                    ->required(),
                                 Textarea::make('excerpt')
                                     ->label('Mô tả ngắn/Trích dẫn')
+                                    ->maxLength(191)
                                     ->rows(3),
                             ]),
                         Tab::make('Nội dung')
@@ -68,13 +70,15 @@ class PageForm
                             ->schema([
                                 TextInput::make('meta_title')
                                     ->label('Meta Title')
-                                    ->maxLength(255),
+                                    ->maxLength(191),
                                 Textarea::make('meta_description')
                                     ->label('Meta Description')
                                     ->rows(3),
                                 TextInput::make('meta_keywords')
+                                    ->maxLength(191)
                                     ->label('Meta Keywords'),
                                 TextInput::make('canonical_url')
+                                    ->maxLength(191)
                                     ->label('Canonical URL'),
                             ]),
                         Tab::make('Trạng thái')

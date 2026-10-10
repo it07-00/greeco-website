@@ -129,7 +129,6 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
             }
         @endphp
         <div class="floating-contact-buttons">
-            <!-- DEBUG: rawPhone2={{ var_export($rawPhone2, true) }} cleanPhone2={{ var_export($cleanPhone2, true) }} -->
             <a href="{{ $messengerUrl }}" target="_blank" rel="noopener noreferrer" class="contact-btn messenger-btn"
                 data-tooltip="Chat Messenger" aria-label="Messenger">
                 <i class="fa-brands fa-facebook-messenger"></i>

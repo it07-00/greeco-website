@@ -12,6 +12,31 @@ class CourseQrSpreadsheetExporterTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_course_text_is_not_interpreted_as_a_spreadsheet_formula(): void
+    {
+        Course::query()->delete();
+        Course::create(['title' => '=1+1', 'slug' => 'formula-course', 'price' => '=2+2', 'is_active' => true]);
+        $path = storage_path('framework/testing/course-qr-text.xlsx');
+        if (! is_dir(dirname($path))) {
+            mkdir(dirname($path), 0777, true);
+        }
+
+        try {
+            app(CourseQrSpreadsheetExporter::class)->writeTo($path);
+            $spreadsheet = IOFactory::load($path);
+            $sheet = $spreadsheet->getSheetByName('Danh sách QR');
+            $this->assertSame('s', $sheet->getCell('B7')->getDataType());
+            $this->assertSame('=1+1', $sheet->getCell('B7')->getValue());
+            $this->assertSame('s', $sheet->getCell('C7')->getDataType());
+            $this->assertSame('=2+2', $sheet->getCell('C7')->getValue());
+            $spreadsheet->disconnectWorksheets();
+        } finally {
+            if (is_file($path)) {
+                unlink($path);
+            }
+        }
+    }
+
     public function test_it_exports_active_courses_with_links_and_embedded_qr_codes(): void
     {
         Course::query()->delete();

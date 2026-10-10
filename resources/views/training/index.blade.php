@@ -695,13 +695,17 @@
             var clearFilterLink = document.getElementById('clear-category-filter');
             var debounceTimer;
             var activeRequest;
+            var suggestionsEnabled = false;
 
             function hideSearchSuggestions() {
+                window.clearTimeout(debounceTimer);
+                suggestionsEnabled = false;
                 searchSuggestions.hidden = true;
                 searchInput.setAttribute('aria-expanded', 'false');
             }
 
             function showSearchSuggestions(html) {
+                suggestionsEnabled = true;
                 searchSuggestions.innerHTML = html;
                 searchSuggestions.hidden = false;
                 searchInput.setAttribute('aria-expanded', 'true');
@@ -757,6 +761,7 @@
             }
 
             function loadCourses(pageUrl, shouldScroll, shouldShowSuggestions) {
+                window.clearTimeout(debounceTimer);
                 var url = buildUrl(pageUrl);
                 var currentResults = document.getElementById('course-results');
                 var hasSearchQuery = searchInput.value.trim() !== '';
@@ -769,7 +774,8 @@
                     showSearchSuggestionsLoading();
                 }
 
-                activeRequest = new AbortController();
+                var requestController = new AbortController();
+                activeRequest = requestController;
                 currentResults.classList.add('is-loading');
                 currentResults.setAttribute('aria-busy', 'true');
 
@@ -778,7 +784,7 @@
                         'Accept': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    signal: activeRequest.signal
+                    signal: requestController.signal
                 })
                     .then(function (response) {
                         if (!response.ok) {
@@ -788,11 +794,14 @@
                         return response.json();
                     })
                     .then(function (payload) {
+                        if (activeRequest !== requestController) {
+                            return;
+                        }
                         currentResults.outerHTML = payload.html;
                         resultsSummary.textContent = payload.count + ' khóa học phù hợp';
                         updateBrowserUrl(url);
 
-                        if (shouldShowSuggestions) {
+                        if (shouldShowSuggestions && suggestionsEnabled) {
                             if (hasSearchQuery) {
                                 showSearchSuggestions(payload.suggestions_html);
                             } else {
@@ -808,11 +817,14 @@
                         }
                     })
                     .catch(function (error) {
+                        if (activeRequest !== requestController) {
+                            return;
+                        }
                         if (error.name !== 'AbortError') {
                             currentResults.classList.remove('is-loading');
                             currentResults.removeAttribute('aria-busy');
 
-                            if (shouldShowSuggestions) {
+                            if (shouldShowSuggestions && suggestionsEnabled) {
                                 showSearchSuggestions(
                                     '<div class="course-search-suggestions-empty">' +
                                         '<span>Không thể tải gợi ý. Vui lòng thử lại.</span>' +

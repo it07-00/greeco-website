@@ -20,13 +20,13 @@ class SlugController extends Controller
     public function show(string $slug): View
     {
         // 1. Posts (tin tức)
-        if ($post = Post::where('slug', $slug)->where('is_published', true)->first()) {
-            $post->increment('views_count');
+        if ($post = Post::where('slug', $slug)->published()->first()) {
+            Post::withoutTimestamps(fn () => $post->increment('views_count'));
             $post->refresh();
 
             $relatedPosts = Post::query()
                 ->where('id', '!=', $post->id)
-                ->where('is_published', true)
+                ->published()
                 ->where('post_category_id', $post->post_category_id)
                 ->limit(6)
                 ->get();

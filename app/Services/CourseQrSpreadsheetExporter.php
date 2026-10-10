@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Course;
 use Illuminate\Database\Eloquent\Collection;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -174,13 +175,16 @@ class CourseQrSpreadsheetExporter
 
             $sheet->fromArray([
                 $index + 1,
-                $course->title,
-                $course->price ?: 'Liên hệ',
+                null,
+                null,
                 $courseUrl,
                 $registrationUrl,
                 $qrImageUrl,
                 null,
             ], null, "A{$row}");
+
+            $sheet->setCellValueExplicit("B{$row}", $course->title, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicit("C{$row}", $course->price ?: 'Liên hệ', DataType::TYPE_STRING);
 
             foreach (['D' => $courseUrl, 'E' => $registrationUrl, 'F' => $qrImageUrl] as $column => $url) {
                 $sheet->getCell("{$column}{$row}")->getHyperlink()->setUrl($url);

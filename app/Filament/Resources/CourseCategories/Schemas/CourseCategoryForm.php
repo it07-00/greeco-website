@@ -15,11 +15,13 @@ class CourseCategoryForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->maxLength(191)
                     ->label('Tên danh mục')
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn(string $operation, $state, callable $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                    ->afterStateUpdated(fn (string $operation, $state, callable $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
                 TextInput::make('slug')
+                    ->maxLength(191)
                     ->label('Slug')
                     ->required()
                     ->unique(ignoreRecord: true),

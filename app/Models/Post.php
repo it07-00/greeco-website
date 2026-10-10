@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Filament\Resources\Posts\Schemas\PostForm;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -47,15 +51,21 @@ class Post extends Model
         return $this->belongsTo(PostCategory::class, 'post_category_id');
     }
 
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('is_published', true)
+            ->where(fn (Builder $query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()));
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    protected function slug(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function slug(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
-            set: fn (?string $value) => \Illuminate\Support\Str::slug($value ?? ''),
+        return Attribute::make(
+            set: fn (?string $value) => Str::slug($value ?? ''),
         );
     }
 
@@ -63,19 +73,19 @@ class Post extends Model
     {
         static::saving(function (Post $post) {
             if (blank($post->slug) && filled($post->title)) {
-                $post->slug = \Illuminate\Support\Str::slug($post->title);
+                $post->slug = Str::slug($post->title);
             }
 
             if (blank($post->meta_title) && filled($post->title)) {
-                $post->meta_title = \App\Filament\Resources\Posts\Schemas\PostForm::suggestMetaTitle($post->title);
+                $post->meta_title = PostForm::suggestMetaTitle($post->title);
             }
 
             if (blank($post->meta_description)) {
-                $post->meta_description = \App\Filament\Resources\Posts\Schemas\PostForm::suggestMetaDescription($post->excerpt, $post->content);
+                $post->meta_description = PostForm::suggestMetaDescription($post->excerpt, $post->content);
             }
 
             if (blank($post->meta_keywords)) {
-                $post->meta_keywords = \App\Filament\Resources\Posts\Schemas\PostForm::suggestMetaKeywords($post->tags, $post->title);
+                $post->meta_keywords = PostForm::suggestMetaKeywords($post->tags, $post->title);
             }
 
             if (blank($post->og_image) && filled($post->thumbnail)) {

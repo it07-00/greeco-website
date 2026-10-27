@@ -60,9 +60,9 @@ class MainServiceCategories
 
                 return [
                     'slug' => $item['slug'],
-                    'name' => $category?->name ?? $item['name'],
-                    'description' => $category?->description ?? $item['description'],
-                    'url' => route($item['route']),
+                    'name' => __($category?->name ?? $item['name']),
+                    'description' => __($category?->description ?? $item['description']),
+                    'url' => website_route($item['route']),
                     'image' => self::imageUrl(
                         $category?->image,
                         'assets/images/services/'.($index + 1).'.webp',

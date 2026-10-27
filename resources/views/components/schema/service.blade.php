@@ -4,12 +4,12 @@
     $schema = [
         '@context' => 'https://schema.org',
         '@type' => 'Service',
-        'name' => $name,
-        'description' => $description,
-        'url' => $url,
+        'name' => __($name),
+        'description' => __($description),
+        'url' => website_url($url),
         'provider' => [
             '@type' => 'Organization',
-            'name' => 'Viện Nghiên cứu và Phát triển Kinh tế Xanh',
+            'name' => __('Viện Nghiên cứu và Phát triển Kinh tế Xanh'),
             'alternateName' => 'GREECO Institute',
             'url' => url('/'),
             'logo' => setting('logo_dark') ? asset('storage/' . setting('logo_dark')) : asset('assets/images/logo-greeco.png'),

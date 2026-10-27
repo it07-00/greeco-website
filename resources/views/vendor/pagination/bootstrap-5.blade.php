@@ -1,13 +1,13 @@
 @if ($paginator->hasPages())
-    <nav aria-label="{{ $ariaLabel ?? 'Phân trang' }}">
+    <nav aria-label="{{ $ariaLabel ?? __('Phân trang') }}">
         <ul class="pagination justify-content-center flex-wrap gap-1 mb-0">
             @if ($paginator->onFirstPage())
-                <li class="page-item disabled" aria-disabled="true" aria-label="Trang trước">
+                <li class="page-item disabled" aria-disabled="true" aria-label="{{ __('Trang trước') }}">
                     <span class="page-link" aria-hidden="true">&lsaquo;</span>
                 </li>
             @else
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="Trang trước">&lsaquo;</a>
+                    <a class="page-link" href="{{ website_url($paginator->previousPageUrl()) }}" rel="prev" aria-label="{{ __('Trang trước') }}">&lsaquo;</a>
                 </li>
             @endif
 
@@ -26,7 +26,7 @@
                             </li>
                         @else
                             <li class="page-item">
-                                <a class="page-link" href="{{ $url }}" aria-label="Đến trang {{ $page }}">{{ $page }}</a>
+                                <a class="page-link" href="{{ website_url($url) }}" aria-label="{{ __('Đến trang') }} {{ $page }}">{{ $page }}</a>
                             </li>
                         @endif
                     @endforeach
@@ -35,10 +35,10 @@
 
             @if ($paginator->hasMorePages())
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="Trang sau">&rsaquo;</a>
+                    <a class="page-link" href="{{ website_url($paginator->nextPageUrl()) }}" rel="next" aria-label="{{ __('Trang sau') }}">&rsaquo;</a>
                 </li>
             @else
-                <li class="page-item disabled" aria-disabled="true" aria-label="Trang sau">
+                <li class="page-item disabled" aria-disabled="true" aria-label="{{ __('Trang sau') }}">
                     <span class="page-link" aria-hidden="true">&rsaquo;</span>
                 </li>
             @endif

@@ -1,17 +1,17 @@
 @php
     $pageNumber = max((int) request()->query('page', 1), 1);
-    $seoTitle = 'Dự án & Nghiên cứu Khoa học - Viện GREECO';
-    $seoDescription = 'Các dự án ứng dụng và chuyển giao công nghệ xanh tiêu biểu của Viện GREECO.';
+    $seoTitle = __('Dự án & Nghiên cứu Khoa học - Viện GREECO');
+    $seoDescription = __('Các dự án ứng dụng và chuyển giao công nghệ xanh tiêu biểu của Viện GREECO.');
     if ($pageNumber > 1) {
         $seoTitle .= ' - Trang ' . $pageNumber;
     }
-    $canonical = route('projects.index', array_filter([
+    $canonical = website_route('projects.index', array_filter([
         'page' => $pageNumber > 1 ? $pageNumber : null,
     ]));
     
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Dự án & Nghiên cứu', 'url' => route('projects.index')]
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Dự án & Nghiên cứu'), 'url' => website_route('projects.index')]
     ];
 @endphp
 
@@ -34,7 +34,7 @@
 
     <div class="no-bottom no-top" id="content">
         <div id="top"></div>
-        <h1 class="visually-hidden">Dự án & Nghiên cứu Khoa học</h1>
+        <h1 class="visually-hidden">{{ __('Dự án & Nghiên cứu Khoa học') }}</h1>
         
         <section class="p-0 relative">
             <div class="container-fluid relative z-2">
@@ -53,7 +53,7 @@
                                         <!-- project item begin -->
                                         <div class="relative">
                                             <div class="hover project-card-custom overflow-hidden text-light">
-                                                <a href="{{ route('slug.show', $project->slug) }}" class="abs w-100 h-100 z-5"></a>
+                                                <a href="{{ website_route('slug.show', $project->slug) }}" class="abs w-100 h-100 z-5"></a>
                                                 <img src="{{ $projectImg }}" width="1024" height="1024" class="hover-scale-1-1 w-100" alt="{{ $project->title }}" loading="lazy" decoding="async">
                                                 <div class="abs bottom-0 mb-4 w-100 text-center px-4 hover-op-1 z-4 hover-mt-40">
                                                     <div class="mb-3">{{ Str::limit($project->excerpt, 120) }}</div>
@@ -75,7 +75,7 @@
                                     @endforeach
                                 @else
                                     <div class="relative py-5 text-center bg-dark text-white">
-                                        <p class="mb-0 py-5">Đang cập nhật danh sách dự án...</p>
+                                        <p class="mb-0 py-5">{{ __('Đang cập nhật danh sách dự án...') }}</p>
                                     </div>
                                 @endif
                             </div>

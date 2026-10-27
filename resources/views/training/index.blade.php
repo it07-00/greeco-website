@@ -1,15 +1,15 @@
 @php
     $pageNumber = max((int) request()->query('page', 1), 1);
     $hasFilters = filled($search) || filled($category);
-    $seoTitle = 'Đào tạo & Bồi dưỡng Chuyên môn Bền vững - Viện GREECO';
-    $seoDescription = 'Viện GREECO cung cấp các chương trình đào tạo và bồi dưỡng chuyên sâu, thực tiễn từ cơ bản đến nâng cao. Đội ngũ chuyên gia của chúng tôi hỗ trợ doanh nghiệp xây dựng năng lực nội tại, chuẩn hóa hệ thống quản lý và đáp ứng các tiêu chuẩn xuất khẩu khắt khe về phát triển bền vững và trung hòa carbon.';
+    $seoTitle = __('Đào tạo & Bồi dưỡng Chuyên môn Bền vững - Viện GREECO');
+    $seoDescription = __('Viện GREECO cung cấp các chương trình đào tạo và bồi dưỡng chuyên sâu, thực tiễn từ cơ bản đến nâng cao. Đội ngũ chuyên gia của chúng tôi hỗ trợ doanh nghiệp xây dựng năng lực nội tại, chuẩn hóa hệ thống quản lý và đáp ứng các tiêu chuẩn xuất khẩu khắt khe về phát triển bền vững và trung hòa carbon.');
     if ($pageNumber > 1) {
         $seoTitle .= ' - Trang ' . $pageNumber;
     }
 
     // Canonical always points to clean URL (no ?search= or ?category=) to avoid duplicate content.
     // Only ?page= is kept for paginated canonical.
-    $canonical = route('services.dao-tao', array_filter([
+    $canonical = website_route('services.dao-tao', array_filter([
         'page' => $pageNumber > 1 ? $pageNumber : null,
     ]));
 
@@ -21,19 +21,19 @@
     $firstCoursePosition = $programs->firstItem() ?? 1;
 
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Đào tạo & Bồi dưỡng', 'url' => route('services.dao-tao')],
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Đào tạo & Bồi dưỡng'), 'url' => website_route('services.dao-tao')],
     ];
 
     $courseListSchema = [
         '@context' => 'https://schema.org',
         '@type' => 'ItemList',
-        'name' => 'Chương trình đào tạo GREECO',
+        'name' => __('Chương trình đào tạo GREECO'),
         'itemListElement' => $programItems->values()->map(fn ($program, $index) => [
             '@type' => 'ListItem',
             'position' => $firstCoursePosition + $index,
             'name' => $program['title'],
-            'url' => route('slug.show', $program['slug']),
+            'url' => website_route('slug.show', $program['slug']),
         ])->all(),
     ];
 @endphp
@@ -579,26 +579,25 @@
         <!-- Hero Section -->
         <section class="academy-hero-banner">
             <div class="container">
-                <h1 class="academy-hero-title text-white mb-2">Nâng cao năng lực Phát triển bền vững</h1>
+                <h1 class="academy-hero-title text-white mb-2">{{ __('Nâng cao năng lực Phát triển bền vững') }}</h1>
                 <p class="academy-hero-copy text-white-50 max-width-600 mx-auto mb-3">
-                    Các khóa học chất lượng cao về ISO, HSE, ESG, Carbon giúp bạn và doanh nghiệp bứt phá trong kỷ nguyên
-                    xanh.
+                    {{ __('Các khóa học chất lượng cao về ISO, HSE, ESG, Carbon giúp bạn và doanh nghiệp bứt phá trong kỷ nguyên xanh.') }}
                 </p>
 
                 <!-- Course Categories -->
                 <div class="academy-category-panel my-3">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <h2 class="fw-bold fs-6 mb-0 text-white">Danh mục khóa học</h2>
-                        <a href="{{ route('services.dao-tao', array_filter(['search' => $search])) }}#chuong-trinh-dao-tao"
+                        <h2 class="fw-bold fs-6 mb-0 text-white">{{ __('Danh mục khóa học') }}</h2>
+                        <a href="{{ website_route('services.dao-tao', array_filter(['search' => $search])) }}#chuong-trinh-dao-tao"
                             id="clear-category-filter" class="text-white fw-bold text-decoration-none small">
-                            Xem tất cả
+                            {{ __('Xem tất cả') }}
                         </a>
                     </div>
 
                     <div class="row row-cols-2 row-cols-md-4 g-2">
                         @foreach ($categories as $cat)
                             <div class="col">
-                                <a href="{{ route('services.dao-tao', array_filter(['search' => $search, 'category' => $cat->slug])) }}#chuong-trinh-dao-tao"
+                                <a href="{{ website_route('services.dao-tao', array_filter(['search' => $search, 'category' => $cat->slug])) }}#chuong-trinh-dao-tao"
                                     class="category-box h-100 {{ $category === $cat->slug ? 'active' : '' }}"
                                     data-category="{{ $cat->slug }}"
                                     aria-pressed="{{ $category === $cat->slug ? 'true' : 'false' }}">
@@ -607,7 +606,7 @@
                                         <i class="fa-solid {{ $cat->icon }}"></i>
                                     </div>
                                     <strong class="academy-heading small text-dark" style="font-size: 0.78rem; line-height: 1.3;">{{ $cat->name }}</strong>
-                                    <span class="category-count">{{ $cat->courses_count }} khóa học</span>
+                                    <span class="category-count">{{ $cat->courses_count }} {{ __('khóa học') }}</span>
                                 </a>
                             </div>
                         @endforeach
@@ -616,16 +615,17 @@
 
                 <!-- Search box -->
                 <div class="search-box-wrapper">
-                    <form action="{{ route('services.dao-tao') }}" method="GET" id="search-courses-form" role="search">
-                        <input type="text" class="search-box-input" placeholder="Tìm khóa học bạn quan tâm..."
+                    <form action="{{ website_route('services.dao-tao') }}" method="GET" id="search-courses-form" role="search">
+                            @if(app()->getLocale() === 'en')<input type="hidden" name="lang" value="en">@endif
+                        <input type="text" class="search-box-input" placeholder="{{ __('Tìm khóa học bạn quan tâm...') }}"
                             id="search-input" name="search" value="{{ $search }}" maxlength="100" autocomplete="off"
                             aria-autocomplete="list" aria-controls="course-search-suggestions" aria-expanded="false">
                         <input type="hidden" name="category" id="active-category-input" value="{{ $category }}">
-                        <button type="submit" class="search-box-btn" aria-label="Tìm kiếm"><i
+                        <button type="submit" class="search-box-btn" aria-label="{{ __('Tìm kiếm') }}"><i
                                 class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                     <div id="course-search-suggestions" class="course-search-suggestions"
-                        role="listbox" aria-label="Gợi ý khóa học" aria-live="polite" hidden></div>
+                        role="listbox" aria-label="{{ __('Gợi ý khóa học') }}" aria-live="polite" hidden></div>
                 </div>
             </div>
         </section>
@@ -635,14 +635,14 @@
             <div class="container">
                 <div class="featured-courses-header">
                     <div>
-                        <h2 class="featured-courses-title">Khóa học nổi bật</h2>
-                        <span class="featured-courses-count" id="course-results-summary">{{ $programs->total() }} khóa học phù hợp</span>
+                        <h2 class="featured-courses-title">{{ __('Khóa học nổi bật') }}</h2>
+                        <span class="featured-courses-count" id="course-results-summary">{{ trans_choice('website.matching_courses', $programs->total()) }}</span>
                     </div>
                     <a
-                        href="{{ route('contact') }}?message={{ urlencode('Tôi muốn yêu cầu tư vấn thiết kế chương trình đào tạo riêng cho doanh nghiệp.') }}"
+                        href="{{ website_route('contact', ['message' => __('Tôi muốn yêu cầu tư vấn thiết kế chương trình đào tạo riêng cho doanh nghiệp.')]) }}"
                         class="featured-courses-request"
                     >
-                        Yêu cầu chương trình riêng
+                        {{ __('Yêu cầu chương trình riêng') }}
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -654,19 +654,18 @@
         <!-- Testimonials Section -->
         <section class="py-5 bg-white">
             <div class="container py-lg-4 max-width-800">
-                <h2 class="academy-heading fw-bold fs-4 text-center mb-5">Học viên nói gì về GREECO</h2>
+                <h2 class="academy-heading fw-bold fs-4 text-center mb-5">{{ __('Học viên nói gì về GREECO') }}</h2>
                 <div class="testimonial-bubble mx-auto mb-4">
                     <p class="text-dark italic mb-4">
-                        "Khóa học rất thực tế, giảng viên giàu kinh nghiệm, hỗ trợ nhiệt tình. Chứng chỉ của GREECO giúp ích
-                        rất nhiều cho công việc của tôi."
+                        {{ __('"Khóa học rất thực tế, giảng viên giàu kinh nghiệm, hỗ trợ nhiệt tình. Chứng chỉ của GREECO giúp ích rất nhiều cho công việc của tôi."') }}
                     </p>
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             <span class="academy-icon-sm" style="width: 40px; height: 40px;"><i
                                     class="fa-solid fa-user"></i></span>
                             <div class="text-start">
-                                <strong class="d-block academy-heading small">Nguyễn Hoàng Nam</strong>
-                                <small class="text-dark" style="font-size: 0.75rem;">Chuyên viên QHSE</small>
+                                <strong class="d-block academy-heading small">{{ __('Nguyễn Hoàng Nam') }}</strong>
+                                <small class="text-dark" style="font-size: 0.75rem;">{{ __('Chuyên viên QHSE') }}</small>
                             </div>
                         </div>
                         <div class="course-rating-stars">
@@ -715,7 +714,7 @@
                 showSearchSuggestions(
                     '<div class="course-search-suggestions-loading">' +
                         '<span class="spinner-border spinner-border-sm text-success" aria-hidden="true"></span>' +
-                        '<span>Đang tìm khóa học...</span>' +
+                        '<span>' + {{ \Illuminate\Support\Js::from(__('Đang tìm khóa học...')) }} + '</span>' +
                     '</div>'
                 );
             }
@@ -798,7 +797,7 @@
                             return;
                         }
                         currentResults.outerHTML = payload.html;
-                        resultsSummary.textContent = payload.count + ' khóa học phù hợp';
+                        resultsSummary.textContent = payload.summary;
                         updateBrowserUrl(url);
 
                         if (shouldShowSuggestions && suggestionsEnabled) {
@@ -827,7 +826,7 @@
                             if (shouldShowSuggestions && suggestionsEnabled) {
                                 showSearchSuggestions(
                                     '<div class="course-search-suggestions-empty">' +
-                                        '<span>Không thể tải gợi ý. Vui lòng thử lại.</span>' +
+                                        '<span>' + {{ \Illuminate\Support\Js::from(__('Không thể tải gợi ý. Vui lòng thử lại.')) }} + '</span>' +
                                     '</div>'
                                 );
                             }

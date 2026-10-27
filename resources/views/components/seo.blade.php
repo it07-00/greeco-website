@@ -15,7 +15,7 @@
     $title = trim($title ?? config('app.name'));
     $description = trim($description ?? '');
     // Always force canonical to HTTPS to prevent HTTP/HTTPS duplicate content issues.
-    $canonical = preg_replace('/^http:\/\//', 'https://', $canonical ?? url()->current());
+    $canonical = website_url(preg_replace('/^http:\/\//', 'https://', $canonical ?? url()->current()));
     $type = trim($type ?: 'website');
     $image = $image ?? null;
     $section = filled($section) ? trim($section) : null;
@@ -37,14 +37,16 @@
 <meta name="author" content="{{ setting('site_name', config('app.name')) }}">
 <meta name="theme-color" content="#008f79">
 <meta name="format-detection" content="telephone=no">
-<meta name="language" content="vi">
+<meta name="language" content="{{ app()->getLocale() }}">
 <link rel="canonical" href="{{ $canonical }}">
-<link rel="alternate" hreflang="vi-VN" href="{{ $canonical }}">
-<link rel="alternate" hreflang="x-default" href="{{ $canonical }}">
+<link rel="alternate" hreflang="vi-VN" href="{{ website_url($canonical, 'vi') }}">
+<link rel="alternate" hreflang="en" href="{{ website_url($canonical, 'en') }}">
+<link rel="alternate" hreflang="x-default" href="{{ website_url($canonical, 'vi') }}">
 <meta name="robots" content="{{ $robots }}">
 
 <meta property="og:site_name" content="{{ setting('site_name', config('app.name')) }}">
-<meta property="og:locale" content="vi_VN">
+<meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : 'vi_VN' }}">
+<meta property="og:locale:alternate" content="{{ app()->getLocale() === 'en' ? 'vi_VN' : 'en_US' }}">
 <meta property="og:title" content="{{ $title }}">
 @if($description !== '')
     <meta property="og:description" content="{{ $description }}">

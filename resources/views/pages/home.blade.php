@@ -1,7 +1,7 @@
 @php
-    $seoTitle = 'Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO';
-    $seoDescription = 'Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) - Đơn vị hàng đầu về chuyển giao công nghệ xanh, kinh tế tuần hoàn và ứng phó biến đổi khí hậu.';
-    $canonical = route('home');
+    $seoTitle = __('Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO');
+    $seoDescription = __('Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) - Đơn vị hàng đầu về chuyển giao công nghệ xanh, kinh tế tuần hoàn và ứng phó biến đổi khí hậu.');
+    $canonical = website_route('home');
     $lcpBannerImage = $banners->isNotEmpty()
         ? asset('storage/' . $banners->first()->image)
         : asset('assets/images/5.webp');
@@ -43,7 +43,7 @@
                                 <div class="swiper-slide banner-slide-{{ $loop->iteration }}">
                                     <div class="swiper-inner">
                                         @if($banner->url)
-                                            <a href="{{ $banner->url }}">
+                                            <a href="{{ website_url($banner->url) }}">
                                                 <img src="{{ asset('storage/' . $banner->image) }}" class="w-100 banner-img"
                                                     alt="GREECO Banner" width="2160" height="1215"
                                                     loading="{{ $loop->first ? 'eager' : 'lazy' }}"
@@ -92,30 +92,23 @@
                             <div class="rounded-1 bg-body w-90 overflow-hidden wow zoomIn">
                                 <img src="{{ asset('assets/images/misc/1.webp') }}" width="1024" height="1024" class="w-100 wow scaleIn"
                                     style="height: auto;" loading="lazy" decoding="async"
-                                    alt="Kinh tế xanh bền vững GREECO">
+                                    alt="{{ __('Kinh tế xanh bền vững GREECO') }}">
                              </div>
                              <div class="rounded-1 bg-body w-50 abs mb-min-50 end-0 bottom-0 z-2 overflow-hidden shadow-soft wow zoomIn"
                                  data-wow-delay=".2s">
                                  <img src="{{ asset('assets/images/misc/2.webp') }}" width="1024" height="1024" class="w-100 wow scaleIn"
                                      style="height: auto;" loading="lazy" decoding="async"
-                                     data-wow-delay=".2s" alt="Giải pháp năng lượng tái tạo GREECO">
+                                     data-wow-delay=".2s" alt="{{ __('Giải pháp năng lượng tái tạo GREECO') }}">
                              </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="ps-lg-5 position-relative z-3">
-                            <div class="subtitle id-color wow fadeInUp" data-wow-delay=".2s">Chào mừng đến với GREECO</div>
-                            <h1 class="text-uppercase wow fadeInUp h2 text-black" data-wow-delay=".4s">Nghiên&nbsp;cứu & Thúc&nbsp;đẩy <span
-                                    class="text-black">Kinh&nbsp;tế&nbsp;Xanh</span></h1>
-                            <p class="wow fadeInUp text-black" data-wow-delay=".6s">Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO)
-                                là tổ chức khoa học và công nghệ hoạt động trong lĩnh vực nghiên cứu, ứng dụng và chuyển
-                                giao các giải pháp phát triển bền vững, kinh tế xanh và công nghệ môi trường. Với đội ngũ
-                                chuyên gia đa ngành trong các lĩnh vực kỹ thuật hóa học, kỹ thuật môi trường, năng lượng tái
-                                tạo, viễn thám, địa kỹ thuật và quản trị phát triển bền vững, GREECO hướng đến việc kết nối
-                                nghiên cứu khoa học với thực tiễn, tạo ra các giải pháp đổi mới sáng tạo phục vụ doanh
-                                nghiệp, cộng đồng và cơ quan quản lý.</p>
-                            <a class="btn-main wow fadeInUp" href="{{ route('services.index') }}" data-wow-delay=".6s">Lĩnh
-                                vực hoạt động</a>
+                            <div class="subtitle id-color wow fadeInUp" data-wow-delay=".2s">{{ __('Chào mừng đến với GREECO') }}</div>
+                            <h1 class="text-uppercase wow fadeInUp h2 text-black" data-wow-delay=".4s">{{ __('Nghiên cứu & Thúc đẩy') }} <span
+                                    class="text-black">{{ __('Kinh tế Xanh') }}</span></h1>
+                            <p class="wow fadeInUp text-black" data-wow-delay=".6s">{{ __('Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) là tổ chức khoa học và công nghệ hoạt động trong lĩnh vực nghiên cứu, ứng dụng và chuyển giao các giải pháp phát triển bền vững, kinh tế xanh và công nghệ môi trường. Với đội ngũ chuyên gia đa ngành trong các lĩnh vực kỹ thuật hóa học, kỹ thuật môi trường, năng lượng tái tạo, viễn thám, địa kỹ thuật và quản trị phát triển bền vững, GREECO hướng đến việc kết nối nghiên cứu khoa học với thực tiễn, tạo ra các giải pháp đổi mới sáng tạo phục vụ doanh nghiệp, cộng đồng và cơ quan quản lý.') }}</p>
+                            <a class="btn-main wow fadeInUp" href="{{ website_route('services.index') }}" data-wow-delay=".6s">{{ __('Lĩnh vực hoạt động') }}</a>
                         </div>
                     </div>
                 </div>
@@ -126,12 +119,12 @@
         <section class="pt-2 pb-1 bg-light mt90">
             <div class="wow fadeInRight d-flex">
                 <div class="de-marquee-list relative wow">
-                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">01. Kinh tế Tuần hoàn</span>
-                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">02. Tư vấn Môi trường & Khí hậu</span>
-                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">03. Tín chỉ Carbon</span>
-                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">04. Năng lượng Tái tạo</span>
-                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">05. Chuyển giao Công nghệ Xanh</span>
-                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">06. Đào tạo Phát triển Bền vững</span>
+                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">{{ __('01. Kinh tế Tuần hoàn') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">{{ __('02. Tư vấn Môi trường & Khí hậu') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">{{ __('03. Tín chỉ Carbon') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">{{ __('04. Năng lượng Tái tạo') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">{{ __('05. Chuyển giao Công nghệ Xanh') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-uppercase title-font">{{ __('06. Đào tạo Phát triển Bền vững') }}</span>
                 </div>
             </div>
         </section>
@@ -141,14 +134,12 @@
         <section class="pt-2 pb-1 bg-color mb60">
             <div class="wow fadeInLeft d-flex">
                 <div class="de-marquee-list-2 relative wow">
-                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">01. Kinh tế Tuần hoàn</span>
-                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">02. Tư vấn Môi trường & Khí
-                        hậu</span>
-                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">03. Tín chỉ Carbon</span>
-                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">04. Năng lượng Tái tạo</span>
-                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">05. Chuyển giao Công nghệ Xanh</span>
-                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">06. Đào tạo Phát triển Bền
-                        vững</span>
+                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">{{ __('01. Kinh tế Tuần hoàn') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">{{ __('02. Tư vấn Môi trường & Khí hậu') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">{{ __('03. Tín chỉ Carbon') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">{{ __('04. Năng lượng Tái tạo') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">{{ __('05. Chuyển giao Công nghệ Xanh') }}</span>
+                    <span class="fs-36 lh-1 mx-4 text-white text-uppercase title-font">{{ __('06. Đào tạo Phát triển Bền vững') }}</span>
                 </div>
             </div>
         </section>
@@ -160,14 +151,14 @@
                     @foreach($serviceCategories as $category)
                         <div class="col-lg-4 col-sm-6 wow fadeInRight" data-wow-delay="{{ ($loop->index % 3) * 0.3 }}s">
                             <a class="featured-service-link" href="{{ $category['url'] }}"
-                                aria-label="Xem chi tiết {{ $category['name'] }}">
+                                aria-label="{{ __('Xem chi tiết') }} {{ $category['name'] }}">
                                 <div class="bg-color text-light rounded-1 overflow-hidden h-100 d-flex flex-column">
                                     <div class="hover relative overflow-hidden text-light text-center">
                                         <img src="{{ $category['image'] }}" width="1024" height="1024" class="hover-scale-1-1 w-100"
                                             style="height: auto;" loading="lazy" decoding="async"
                                             alt="{{ $category['name'] }}">
                                         <div class="abs w-100 px-4 hover-op-1 z-4 hover-mt-40 abs-centered">
-                                            <span class="btn-main">Xem chi tiết</span>
+                                            <span class="btn-main">{{ __('Xem chi tiết') }}</span>
                                         </div>
                                         <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="abs abs-centered w-20"
                                             style="height: auto;" loading="lazy" decoding="async"
@@ -193,17 +184,17 @@
         <section class="jarallax text-light relative">
             <img src="{{ asset('assets/images/background/8.webp') }}" width="1024" height="1024" class="jarallax-img"
                 loading="lazy" decoding="async"
-                alt="Hành trình phát triển GREECO">
+                alt="{{ __('Hành trình phát triển GREECO') }}">
             <div class="de-overlay" style="background: linear-gradient(90deg, rgba(30, 31, 34, 0.85) 0%, rgba(30, 31, 34, 0.45) 100%);"></div>
             <div class="container relative z-1">
                 <div class="row g-4 gx-5 align-items-center">
                     <div class="col-lg-6">
-                        <div class="subtitle wow fadeInUp mb-3">{{ setting('journey_subtitle', 'Định hướng phát triển') }}</div>
-                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">{{ setting('journey_title_1', 'Kiến tạo Giá trị Kinh tế Xanh') }} <span
-                                class="id-color-2">{{ setting('journey_title_2', 'từ những bước đầu') }}</span></h2>
-                        <p class="wow fadeInUp">{{ setting('journey_desc', 'Được thành lập bởi đội ngũ nhà khoa học, chuyên gia tâm huyết, Viện GREECO định hướng kết nối nghiên cứu với thực tiễn, đồng hành cùng doanh nghiệp và cộng đồng trong các giải pháp chuyển đổi xanh, phát triển bền vững.') }}</p>
-                        <a class="btn-main btn-line wow fadeInUp" href="{{ route('projects.index') }}"
-                            data-wow-delay=".6s">Dự án nghiên cứu</a>
+                        <div class="subtitle wow fadeInUp mb-3">{{ setting('journey_subtitle', __('Định hướng phát triển')) }}</div>
+                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">{{ setting('journey_title_1', __('Kiến tạo Giá trị Kinh tế Xanh')) }} <span
+                                class="id-color-2">{{ setting('journey_title_2', __('từ những bước đầu')) }}</span></h2>
+                        <p class="wow fadeInUp">{{ setting('journey_desc', __('Được thành lập bởi đội ngũ nhà khoa học, chuyên gia tâm huyết, Viện GREECO định hướng kết nối nghiên cứu với thực tiễn, đồng hành cùng doanh nghiệp và cộng đồng trong các giải pháp chuyển đổi xanh, phát triển bền vững.')) }}</p>
+                        <a class="btn-main btn-line wow fadeInUp" href="{{ website_route('projects.index') }}"
+                            data-wow-delay=".6s">{{ __('Dự án nghiên cứu') }}</a>
                     </div>
 
                     <div class="col-lg-6">
@@ -212,7 +203,7 @@
                                 <div class="row g-4">
                                     <div class="col-lg-12">
                                         <div class="text-center p-4 bg-blur rounded-1">
-                                            <h4 class="mb-1 fs-24">{{ setting('journey_box1_title', 'Uy tín & Khoa học') }}</h4>
+                                            <h4 class="mb-1 fs-24">{{ setting('journey_box1_title', __('Uy tín & Khoa học')) }}</h4>
                                             <div class="de-rating-ext fs-18">
                                                 <div class="d-stars">
                                                     <i class="fa fa-star"></i>
@@ -221,7 +212,7 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <div class="fs-15 mb-2">{{ setting('journey_box1_desc', 'Đánh giá từ đối tác chiến lược') }}</div>
+                                                <div class="fs-15 mb-2">{{ setting('journey_box1_desc', __('Đánh giá từ đối tác chiến lược')) }}</div>
                                                 <img src="{{ asset('assets/images/misc/trustpilot.webp') }}" width="600" height="148" class="w-120px"
                                                     style="height: auto;" loading="lazy" decoding="async"
                                                     alt="Trustpilot rating GREECO">
@@ -232,11 +223,11 @@
                                         <div class="rounded-1 relative bg-blur p-4">
                                             <img src="{{ setting('icon_journey_tree') ? asset('storage/' . setting('icon_journey_tree')) : asset('assets/images/icons/tree.png') }}"
                                                 width="512" height="512" loading="lazy" decoding="async"
-                                                class="abs abs-middle w-60px" alt="Dự án thành công icon">
+                                                class="abs abs-middle w-60px" alt="{{ __('Dự án thành công icon') }}">
                                             <div class="de_count ps-80 wow fadeInUp">
                                                 <h2 class="mb-0 fs-32"><span class="timer" data-to="{{ setting('journey_box2_count', '550') }}"
                                                         data-speed="3000"></span>+</h2>
-                                                <span class="op-7">{{ setting('journey_box2_desc', 'Dự án tư vấn thành công') }}</span>
+                                                <span class="op-7">{{ setting('journey_box2_desc', __('Dự án tư vấn thành công')) }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -249,17 +240,17 @@
                                         <div class="rounded-1 relative bg-blur p-4">
                                             <img src="{{ setting('icon_journey_happy') ? asset('storage/' . setting('icon_journey_happy')) : asset('assets/images/icons/happy.png') }}"
                                                 width="512" height="512" loading="lazy" decoding="async"
-                                                class="abs abs-middle w-60px" alt="Doanh nghiệp đồng hành icon">
+                                                class="abs abs-middle w-60px" alt="{{ __('Doanh nghiệp đồng hành icon') }}">
                                             <div class="de_count ps-80 wow fadeInUp">
                                                 <h2 class="mb-0 fs-32"><span class="timer" data-to="{{ setting('journey_box3_count', '850') }}"
                                                         data-speed="3000"></span>+</h2>
-                                                <span class="op-7">{{ setting('journey_box3_desc', 'Doanh nghiệp đồng hành') }}</span>
+                                                <span class="op-7">{{ setting('journey_box3_desc', __('Doanh nghiệp đồng hành')) }}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="text-center p-4 bg-blur rounded-1">
-                                            <h4 class="mb-1 fs-24">{{ setting('journey_box4_title', 'Xếp hạng 4.8/5') }}</h4>
+                                            <h4 class="mb-1 fs-24">{{ setting('journey_box4_title', __('Xếp hạng 4.8/5')) }}</h4>
                                             <div class="de-rating-ext fs-18">
                                                 <div class="d-stars">
                                                     <i class="fa fa-star"></i>
@@ -268,7 +259,7 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <div class="fs-15 mb-2">{{ setting('journey_box4_desc', 'Khảo sát chất lượng dịch vụ') }}</div>
+                                                <div class="fs-15 mb-2">{{ setting('journey_box4_desc', __('Khảo sát chất lượng dịch vụ')) }}</div>
                                                 <img src="{{ asset('assets/images/misc/google.webp') }}" width="600" height="148" class="w-120px"
                                                     style="height: auto;" loading="lazy" decoding="async"
                                                     alt="Google review GREECO">
@@ -285,15 +276,15 @@
 
 
     <section class="jarallax text-light relative">
-        <img src="{{ asset('assets/images/background/11.webp') }}" width="1024" height="1024" class="jarallax-img" alt="Dịch vụ khoa học GREECO"
+        <img src="{{ asset('assets/images/background/11.webp') }}" width="1024" height="1024" class="jarallax-img" alt="{{ __('Dịch vụ khoa học GREECO') }}"
             loading="lazy" decoding="async">
         <div class="de-overlay" style="background: rgba(30, 31, 34, 0.90);"></div>
         <div class="container relative z-2">
             <div class="row g-4">
                 <div class="row g-4 mb-3 align-items-center justify-content-center">
                     <div class="col-xl-6 text-center">
-                        <div class="subtitle wow fadeInUp">Dịch vụ khoa học</div>
-                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">Dịch vụ & <span class="id-color">Tư vấn</span></h2>
+                        <div class="subtitle wow fadeInUp">{{ __('Dịch vụ khoa học') }}</div>
+                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">{{ __('Dịch vụ &') }} <span class="id-color">{{ __('Tư vấn') }}</span></h2>
                     </div>
                 </div>
             </div>
@@ -301,67 +292,67 @@
                 <div class="col-xl-8">
                     <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
-                            <h5 class="mb-1 text-white">Tư vấn Kiểm kê Khí nhà kính</h5>
-                            <p class="mb-0 op-7 fs-14">Xác định phát thải carbon cấp cơ sở và xây dựng báo cáo giảm phát thải.</p>
+                            <h5 class="mb-1 text-white">{{ __('Tư vấn Kiểm kê Khí nhà kính') }}</h5>
+                            <p class="mb-0 op-7 fs-14">{{ __('Xác định phát thải carbon cấp cơ sở và xây dựng báo cáo giảm phát thải.') }}</p>
                         </div>
                         <div class="text-end">
-                            <h5 class="fw-500 mb-0"><a href="{{ route('contact') }}" class="id-color text-decoration-none">Liên hệ <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
+                            <h5 class="fw-500 mb-0"><a href="{{ website_route('contact') }}" class="id-color text-decoration-none">{{ __('Liên hệ') }} <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
-                            <h5 class="mb-1 text-white">Đánh giá tác động môi trường (ĐTM)</h5>
-                            <p class="mb-0 op-7 fs-14">Khảo sát hiện trạng và thực hiện hồ sơ pháp lý ĐTM toàn diện.</p>
+                            <h5 class="mb-1 text-white">{{ __('Đánh giá tác động môi trường (ĐTM)') }}</h5>
+                            <p class="mb-0 op-7 fs-14">{{ __('Khảo sát hiện trạng và thực hiện hồ sơ pháp lý ĐTM toàn diện.') }}</p>
                         </div>
                         <div class="text-end">
-                            <h5 class="fw-500 mb-0"><a href="{{ route('contact') }}" class="id-color text-decoration-none">Liên hệ <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
+                            <h5 class="fw-500 mb-0"><a href="{{ website_route('contact') }}" class="id-color text-decoration-none">{{ __('Liên hệ') }} <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
-                            <h5 class="mb-1 text-white">Tư vấn dự án Tín chỉ Carbon</h5>
-                            <p class="mb-0 op-7 fs-14">Khảo sát khả thi, đăng ký và theo dõi phát hành chứng chỉ carbon.</p>
+                            <h5 class="mb-1 text-white">{{ __('Tư vấn dự án Tín chỉ Carbon') }}</h5>
+                            <p class="mb-0 op-7 fs-14">{{ __('Khảo sát khả thi, đăng ký và theo dõi phát hành chứng chỉ carbon.') }}</p>
                         </div>
                         <div class="text-end">
-                            <h5 class="fw-500 mb-0"><a href="{{ route('contact') }}" class="id-color text-decoration-none">Liên hệ <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
+                            <h5 class="fw-500 mb-0"><a href="{{ website_route('contact') }}" class="id-color text-decoration-none">{{ __('Liên hệ') }} <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
-                            <h5 class="mb-1 text-white">Xây dựng Mô hình Kinh tế Tuần hoàn</h5>
-                            <p class="mb-0 op-7 fs-14">Tư vấn giải pháp giảm thiểu rác thải, tuần hoàn tài nguyên tối ưu.</p>
+                            <h5 class="mb-1 text-white">{{ __('Xây dựng Mô hình Kinh tế Tuần hoàn') }}</h5>
+                            <p class="mb-0 op-7 fs-14">{{ __('Tư vấn giải pháp giảm thiểu rác thải, tuần hoàn tài nguyên tối ưu.') }}</p>
                         </div>
                         <div class="text-end">
-                            <h5 class="fw-500 mb-0"><a href="{{ route('contact') }}" class="id-color text-decoration-none">Liên hệ <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
+                            <h5 class="fw-500 mb-0"><a href="{{ website_route('contact') }}" class="id-color text-decoration-none">{{ __('Liên hệ') }} <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
-                            <h5 class="mb-1 text-white">Đào tạo và lập báo cáo ESG</h5>
-                            <p class="mb-0 op-7 fs-14">Nâng cao năng lực và hướng dẫn lập báo cáo ESG chuẩn GRI cho doanh nghiệp.</p>
+                            <h5 class="mb-1 text-white">{{ __('Đào tạo và lập báo cáo ESG') }}</h5>
+                            <p class="mb-0 op-7 fs-14">{{ __('Nâng cao năng lực và hướng dẫn lập báo cáo ESG chuẩn GRI cho doanh nghiệp.') }}</p>
                         </div>
                         <div class="text-end">
-                            <h5 class="fw-500 mb-0"><a href="{{ route('contact') }}" class="id-color text-decoration-none">Liên hệ <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
+                            <h5 class="fw-500 mb-0"><a href="{{ website_route('contact') }}" class="id-color text-decoration-none">{{ __('Liên hệ') }} <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-between pb-3 mb-3 border-bottom border-white-op-1 align-items-center consult-item-row">
                         <div>
-                            <h5 class="mb-1 text-white">Chuyển giao công nghệ xử lý nước & rác</h5>
-                            <p class="mb-0 op-7 fs-14">Giải pháp kỹ thuật hiện đại cho xử lý nước thải và rác thải hữu cơ.</p>
+                            <h5 class="mb-1 text-white">{{ __('Chuyển giao công nghệ xử lý nước & rác') }}</h5>
+                            <p class="mb-0 op-7 fs-14">{{ __('Giải pháp kỹ thuật hiện đại cho xử lý nước thải và rác thải hữu cơ.') }}</p>
                         </div>
                         <div class="text-end">
-                            <h5 class="fw-500 mb-0"><a href="{{ route('contact') }}" class="id-color text-decoration-none">Liên hệ <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
+                            <h5 class="fw-500 mb-0"><a href="{{ website_route('contact') }}" class="id-color text-decoration-none">{{ __('Liên hệ') }} <i class="fa-solid fa-arrow-right ms-1 fs-12"></i></a></h5>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-12 text-center">
-                    <a class="btn-main wow fadeInUp" href="{{ route('services.tu-van') }}">Xem thêm dịch vụ</a>
+                    <a class="btn-main wow fadeInUp" href="{{ website_route('services.tu-van') }}">{{ __('Xem thêm dịch vụ') }}</a>
                 </div>
 
             </div>
@@ -374,9 +365,8 @@
             <div class="container">
                 <div class="row g-4 mb-3 align-items-center justify-content-center">
                     <div class="col-lg-6 text-center">
-                        <div class="subtitle wow fadeInUp">Tin tức mới nhất</div>
-                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">Tin tức & <span class="id-color-2">Sự
-                                kiện</span></h2>
+                        <div class="subtitle wow fadeInUp">{{ __('Tin tức mới nhất') }}</div>
+                        <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">{{ __('Tin tức &') }} <span class="id-color-2">{{ __('Sự kiện') }}</span></h2>
                     </div>
                 </div>
                 <div class="row g-4">
@@ -395,10 +385,10 @@
                                     </div>   
                                     <div class="col-sm-6 relative">
                                         <div class="p-30 pb-40">
-                                            <h4><a class="text-dark" href="{{ route('slug.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                                            <h4><a class="text-dark" href="{{ website_route('slug.show', $post->slug) }}">{{ $post->title }}</a></h4>
                                             <div class="post-card-meta mb-2">
                                                 <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                                <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>
+                                                <span>{{ number_format($post->views_count ?? 0) }} {{ __('lượt xem') }}</span>
                                             </div>
                                             <p class="mb-0 fs-14 text-muted">{{ Str::limit($post->excerpt, 120) }}</p>
                                         </div>
@@ -416,9 +406,9 @@
         <div class="container">
             <div class="row g-4 mb-3 align-items-center justify-content-center">
                 <div class="col-lg-6 text-center">
-                    <div class="subtitle wow fadeInUp">Tại sao chọn GREECO</div>
-                    <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">Cam kết Hành động vì <span
-                            class="id-color-2">Tương lai Xanh</span></h2>
+                    <div class="subtitle wow fadeInUp">{{ __('Tại sao chọn GREECO') }}</div>
+                    <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">{{ __('Cam kết Hành động vì') }} <span
+                            class="id-color-2">{{ __('Tương lai Xanh') }}</span></h2>
                 </div>
             </div>
             <div class="row g-4">
@@ -427,9 +417,8 @@
                         <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="w-50px mb-3" style="height: auto;" alt="GREECO Icon" loading="lazy" decoding="async">
                         <div class="abs m-3 top-0 end-0 p-2 rounded-2 mb-3">01</div>
                         <div>
-                            <h4>Đội ngũ chuyên gia đầu ngành</h4>
-                            <p class="mb-0">Quy tụ các nhà khoa học, giáo sư, tiến sĩ và chuyên gia giàu kinh nghiệm thực
-                                tiễn trong lĩnh vực môi trường và kinh tế.</p>
+                            <h4>{{ __('Đội ngũ chuyên gia đầu ngành') }}</h4>
+                            <p class="mb-0">{{ __('Quy tụ các nhà khoa học, giáo sư, tiến sĩ và chuyên gia giàu kinh nghiệm thực tiễn trong lĩnh vực môi trường và kinh tế.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -439,9 +428,8 @@
                         <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="w-50px mb-3" style="height: auto;" alt="GREECO Icon" loading="lazy" decoding="async">
                         <div class="abs m-3 top-0 end-0 p-2 rounded-2 mb-3">02</div>
                         <div>
-                            <h4>Giải pháp thiết thực & Tối ưu</h4>
-                            <p class="mb-0">Chúng tôi nghiên cứu và thiết kế các giải pháp tối ưu, phù hợp nhất với điều
-                                kiện đặc thù của từng địa phương và doanh nghiệp.</p>
+                            <h4>{{ __('Giải pháp thiết thực & Tối ưu') }}</h4>
+                            <p class="mb-0">{{ __('Chúng tôi nghiên cứu và thiết kế các giải pháp tối ưu, phù hợp nhất với điều kiện đặc thù của từng địa phương và doanh nghiệp.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -451,9 +439,8 @@
                         <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="w-50px mb-3" style="height: auto;" alt="GREECO Icon" loading="lazy" decoding="async">
                         <div class="abs m-3 top-0 end-0 p-2 rounded-2 mb-3">03</div>
                         <div>
-                            <h4>Dịch vụ khoa học toàn diện</h4>
-                            <p class="mb-0">Cung cấp trọn gói từ nghiên cứu lý thuyết, chuyển giao công nghệ đến hỗ trợ
-                                triển khai thực tế.</p>
+                            <h4>{{ __('Dịch vụ khoa học toàn diện') }}</h4>
+                            <p class="mb-0">{{ __('Cung cấp trọn gói từ nghiên cứu lý thuyết, chuyển giao công nghệ đến hỗ trợ triển khai thực tế.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -463,9 +450,8 @@
                         <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="w-50px mb-3" style="height: auto;" alt="GREECO Icon" loading="lazy" decoding="async">
                         <div class="abs m-3 top-0 end-0 p-2 rounded-2 mb-3">04</div>
                         <div>
-                            <h4>Bảo chứng chất lượng khoa học</h4>
-                            <p class="mb-0">Mọi sản phẩm tư vấn của GREECO đều dựa trên nền tảng nghiên cứu thực chứng và số
-                                liệu chính xác.</p>
+                            <h4>{{ __('Bảo chứng chất lượng khoa học') }}</h4>
+                            <p class="mb-0">{{ __('Mọi sản phẩm tư vấn của GREECO đều dựa trên nền tảng nghiên cứu thực chứng và số liệu chính xác.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -475,9 +461,8 @@
                         <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="w-50px mb-3" style="height: auto;" alt="GREECO Icon" loading="lazy" decoding="async">
                         <div class="abs m-3 top-0 end-0 p-2 rounded-2 mb-3">05</div>
                         <div>
-                            <h4>Mô hình phát triển bền vững</h4>
-                            <p class="mb-0">Thúc đẩy tăng trưởng xanh thông qua các mô hình thực tiễn giúp bảo vệ và phục
-                                hồi tài nguyên thiên nhiên.</p>
+                            <h4>{{ __('Mô hình phát triển bền vững') }}</h4>
+                            <p class="mb-0">{{ __('Thúc đẩy tăng trưởng xanh thông qua các mô hình thực tiễn giúp bảo vệ và phục hồi tài nguyên thiên nhiên.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -487,9 +472,8 @@
                         <img src="{{ setting('logo_icon') ? asset('storage/' . setting('logo_icon')) : asset('assets/images/logo-icon.webp') }}" width="166" height="166" class="w-50px mb-3" style="height: auto;" alt="GREECO Icon" loading="lazy" decoding="async">
                         <div class="abs m-3 top-0 end-0 p-2 rounded-2 mb-3">06</div>
                         <div>
-                            <h4>Cam kết chất lượng</h4>
-                            <p class="mb-0">Sự tin cậy và phát triển bền vững của đối tác là ưu tiên hàng đầu của chúng tôi.
-                                Những dự án thành công là minh chứng rõ nét cho năng lực và chất lượng dịch vụ của Viện.</p>
+                            <h4>{{ __('Cam kết chất lượng') }}</h4>
+                            <p class="mb-0">{{ __('Sự tin cậy và phát triển bền vững của đối tác là ưu tiên hàng đầu của chúng tôi. Những dự án thành công là minh chứng rõ nét cho năng lực và chất lượng dịch vụ của Viện.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -498,7 +482,7 @@
     </section>
 
     <section class="jarallax text-light relative">
-        <img src="{{ asset('assets/images/background/4.webp') }}" width="1024" height="1024" class="jarallax-img" alt="Đánh giá đối tác GREECO"
+        <img src="{{ asset('assets/images/background/4.webp') }}" width="1024" height="1024" class="jarallax-img" alt="{{ __('Đánh giá đối tác GREECO') }}"
             loading="lazy" decoding="async">
         <div class="de-overlay"></div>
         <div class="container relative z-2">
@@ -507,8 +491,8 @@
                     <div class="owl-single-dots owl-carousel owl-theme">
                         <div class="item">
                             <i class="icofont-quote-left fs-40 mb-4 wow fadeInUp id-color-2"></i>
-                            <h3 class="mb-4 wow fadeInUp fs-32">{{ setting('testimonial_content', 'Chúng tôi đánh giá rất cao sự chuyên nghiệp và kiến thức chuyên sâu của Viện GREECO trong việc tư vấn lộ trình Net Zero và ESG. Giải pháp của Viện rất thiết thực, hiệu quả và dễ dàng tích hợp vào hệ thống của chúng tôi.') }}</h3>
-                            <span>{{ setting('testimonial_author', 'ThS. Lê Hoàng Nam') }}</span>
+                            <h3 class="mb-4 wow fadeInUp fs-32">{{ setting('testimonial_content', __('Chúng tôi đánh giá rất cao sự chuyên nghiệp và kiến thức chuyên sâu của Viện GREECO trong việc tư vấn lộ trình Net Zero và ESG. Giải pháp của Viện rất thiết thực, hiệu quả và dễ dàng tích hợp vào hệ thống của chúng tôi.')) }}</h3>
+                            <span>{{ setting('testimonial_author', __('ThS. Lê Hoàng Nam')) }}</span>
                         </div>
                     </div>
                 </div>
@@ -520,9 +504,9 @@
         <div class="container">
             <div class="row g-4 align-items-center justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <div class="subtitle wow fadeInUp">Dự án & Công trình</div>
-                    <h2 class="text-uppercase mb-4 wow fadeInUp" data-wow-delay=".2s">Nghiên cứu & <span
-                            class="id-color-2">Dự án Mới</span></h2>
+                    <div class="subtitle wow fadeInUp">{{ __('Dự án & Công trình') }}</div>
+                    <h2 class="text-uppercase mb-4 wow fadeInUp" data-wow-delay=".2s">{{ __('Nghiên cứu &') }} <span
+                            class="id-color-2">{{ __('Dự án Mới') }}</span></h2>
                 </div>
             </div>
 
@@ -532,7 +516,7 @@
                         <div class="col-lg-6">
                             <div class="hover project-card-custom rounded-1 overflow-hidden relative text-light wow fadeInRight"
                                 data-wow-delay="{{ ($loop->index % 2) * 0.3 }}s">
-                                <a href="{{ route('slug.show', $project->slug) }}" class="abs w-100 h-100 z-5"></a>
+                                <a href="{{ website_route('slug.show', $project->slug) }}" class="abs w-100 h-100 z-5"></a>
                                 <img src="{{ $project->thumbnail ? asset('storage/' . $project->thumbnail) : asset('assets/images/projects/' . (($loop->index % 2) + 1) . '.jpg') }}"
                                      width="1024" height="1024" class="hover-scale-1-1 w-100" style="height: auto;" alt="{{ $project->title }}" loading="lazy" decoding="async">
                                 <div class="abs w-100 px-4 hover-op-1 z-4 hover-mt-40 abs-centered">
@@ -543,11 +527,11 @@
                                     <div class="bg-blur d-flex m-4 p-3 px-4 rounded-1 justify-content-between align-items-center">
                                         <div class="d-flex">
                                             <div class="me-5">
-                                                Dự án
+                                                {{ __('Dự án') }}
                                                 <h5>{{ $project->title }}</h5>
                                             </div>
                                             <div>
-                                                Địa điểm
+                                                {{ __('Địa điểm') }}
                                                 <h5>{{ $project->location ?: 'GREECO' }}</h5>
                                             </div>
                                         </div>
@@ -565,21 +549,21 @@
                     <!-- Fallback static projects -->
                     <div class="col-lg-6">
                         <div class="hover project-card-custom rounded-1 overflow-hidden relative text-light wow fadeInRight" data-wow-delay=".3s">
-                            <a href="{{ route('projects.index') }}" class="abs w-100 h-100 z-5"></a>
+                            <a href="{{ website_route('projects.index') }}" class="abs w-100 h-100 z-5"></a>
                             <img src="{{ asset('assets/images/projects/1.jpg') }}" width="1024" height="1024" class="hover-scale-1-1 w-100"
                                 style="height: auto;" loading="lazy" decoding="async"
-                                alt="Ứng dụng Kinh tế Tuần hoàn">
+                                alt="{{ __('Ứng dụng Kinh tế Tuần hoàn') }}">
                             <div class="abs bg-color z-2 top-0 w-100 h-100 hover-op-1"></div>
                             <div class="abs z-2 bottom-0 w-100 hover-op-0">
                                 <div class="bg-blur d-flex m-4 p-3 px-4 rounded-1 justify-content-between align-items-center">
                                     <div class="d-flex">
                                         <div class="me-5">
-                                            Dự án
-                                            <h5>Ứng dụng Kinh tế Tuần hoàn</h5>
+                                            {{ __('Dự án') }}
+                                            <h5>{{ __('Ứng dụng Kinh tế Tuần hoàn') }}</h5>
                                         </div>
                                         <div>
-                                            Địa điểm
-                                            <h5>Dự án Cát Lái, TP. HCM</h5>
+                                            {{ __('Địa điểm') }}
+                                            <h5>{{ __('Dự án Cát Lái, TP. HCM') }}</h5>
                                         </div>
                                     </div>
                                     <div class="w-40px">
@@ -592,7 +576,7 @@
                 @endif
 
                 <div class="col-lg-12 text-center">
-                    <a class="btn-main wow fadeInUp" href="{{ route('projects.index') }}">Xem tất cả dự án</a>
+                    <a class="btn-main wow fadeInUp" href="{{ website_route('projects.index') }}">{{ __('Xem tất cả dự án') }}</a>
                 </div>
 
             </div>
@@ -604,9 +588,9 @@
             <div class="container">
                 <div class="row g-4 mb-3 justify-content-center">
                     <div class="col-lg-6 text-center">
-                        <div class="subtitle wow fadeInUp">Hội đồng khoa học</div>
+                        <div class="subtitle wow fadeInUp">{{ __('Hội đồng khoa học') }}</div>
                         <h2 class="text-uppercase wow fadeInUp" data-wow-delay=".2s">
-                            Ban lãnh đạo & <span class="id-color-2">Chuyên gia</span>
+                            {{ __('Ban lãnh đạo &') }} <span class="id-color-2">{{ __('Chuyên gia') }}</span>
                         </h2>
                     </div>
                 </div>
@@ -621,7 +605,7 @@
                                             <h4 class="mb-0">{{ $member->name }}</h4>
                                             <p class="mb-0 team-member-summary">{{ $member->role }}</p>
                                         </div>
-                                        <div class="team-member-info" tabindex="0" aria-label="Xem chi tiết {{ $member->name }}">
+                                        <div class="team-member-info" tabindex="0" aria-label="{{ __('Xem chi tiết') }} {{ $member->name }}">
                                             <i class="fa-solid fa-circle-info"></i>
                                             <div class="team-member-detail">
                                                 <strong>{{ $member->name }}</strong>
@@ -640,7 +624,7 @@
                     @endforeach
                 </div>
                 <div class="text-center mt-5">
-                    <a class="btn-main wow fadeInUp" href="{{ route('team') }}">Xem tất cả</a>
+                    <a class="btn-main wow fadeInUp" href="{{ website_route('team') }}">{{ __('Xem tất cả') }}</a>
                 </div>
             </div>
         </section>
@@ -651,8 +635,8 @@
         <section class="py-5 bg-white border-top border-bottom partners-marquee-section">
             <div class="container-fluid px-0">
                 <div class="text-center mb-4 wow fadeInUp px-3">
-                    <div class="subtitle">Đối tác của Greeco</div>
-                    <h4 class="text-uppercase id-color-2 wow fadeInUp" data-wow-delay=".2s">Đối tác & Khách hàng đồng hành</h4>
+                    <div class="subtitle">{{ __('Đối tác của Greeco') }}</div>
+                    <h4 class="text-uppercase id-color-2 wow fadeInUp" data-wow-delay=".2s">{{ __('Đối tác & Khách hàng đồng hành') }}</h4>
                 </div>
                 <div class="partners-track-wrapper">
                     {{-- Render 3 lần để tạo vòng lặp liền mạch dù ít hay nhiều partners --}}
@@ -662,7 +646,7 @@
                                 <div class="partner-item">
                                     @if($partner->website_url)
                                         <a href="{{ $partner->website_url }}" target="_blank" rel="noopener noreferrer"
-                                            class="partner-logo-link" aria-label="Truy cập website {{ $partner->name }}" data-name="{{ $partner->name }}">
+                                            class="partner-logo-link" aria-label="{{ __('Truy cập website') }} {{ $partner->name }}" data-name="{{ $partner->name }}">
                                     @else
                                         <div class="partner-logo-link" data-name="{{ $partner->name }}">
                                     @endif

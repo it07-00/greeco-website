@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DocumentResource\Schemas;
 
+use App\Support\ContentTranslations;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -14,6 +15,7 @@ class DocumentForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('Document'),
                 Section::make('Thông tin văn bản / tài liệu')
                     ->schema([
                         TextInput::make('number')

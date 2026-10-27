@@ -1,10 +1,10 @@
 <div class="course-search-suggestions-header">
-    <span>Gợi ý khóa học</span>
-    <small>{{ $programs->total() }} kết quả</small>
+    <span>{{ __('Gợi ý khóa học') }}</span>
+    <small>{{ trans_choice('website.results', $programs->total()) }}</small>
 </div>
 
 @forelse($suggestionPrograms as $program)
-    <a href="{{ route('slug.show', $program['slug']) }}"
+    <a href="{{ website_route('slug.show', $program['slug']) }}"
         class="course-search-suggestion" role="option">
         <img src="{{ $program['image'] }}" width="56" height="56" alt="" loading="lazy" decoding="async">
         <span class="course-search-suggestion-content">
@@ -18,13 +18,13 @@
 @empty
     <div class="course-search-suggestions-empty">
         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-        <span>Chưa tìm thấy khóa học phù hợp.</span>
+        <span>{{ __('Chưa tìm thấy khóa học phù hợp.') }}</span>
     </div>
 @endforelse
 
 @if($programs->total() > $suggestionPrograms->count())
-    <a href="{{ route('services.dao-tao', array_filter(['search' => $search, 'category' => $category])) }}#chuong-trinh-dao-tao"
+    <a href="{{ website_route('services.dao-tao', array_filter(['search' => $search, 'category' => $category])) }}#chuong-trinh-dao-tao"
         class="course-search-suggestions-all">
-        Xem tất cả {{ $programs->total() }} kết quả
+        {{ __('Xem tất cả') }} {{ trans_choice('website.results', $programs->total()) }}
     </a>
 @endif

@@ -1,12 +1,12 @@
 @php
-    $seoTitle = 'Hồ sơ năng lực - Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO';
-    $seoDescription = 'Hồ sơ năng lực hoạt động, đội ngũ chuyên gia, cơ sở pháp lý và năng lực nghiên cứu, tư vấn của Viện GREECO.';
-    $canonical = route('capability-profile');
+    $seoTitle = __('Hồ sơ năng lực - Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO');
+    $seoDescription = __('Hồ sơ năng lực hoạt động, đội ngũ chuyên gia, cơ sở pháp lý và năng lực nghiên cứu, tư vấn của Viện GREECO.');
+    $canonical = website_route('capability-profile');
 
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Giới thiệu', 'url' => route('about')],
-        ['name' => 'Hồ sơ năng lực', 'url' => route('capability-profile')]
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Giới thiệu'), 'url' => website_route('about')],
+        ['name' => __('Hồ sơ năng lực'), 'url' => website_route('capability-profile')]
     ];
 
     $profilePdf = setting('capability_profile')
@@ -27,12 +27,12 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <ul class="crumb">
-                            <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                            <li><a href="{{ route('about') }}">Giới thiệu</a></li>
-                            <li class="active">Hồ sơ năng lực</li>
+                            <li><a href="{{ website_route('home') }}">{{ __('Trang chủ') }}</a></li>
+                            <li><a href="{{ website_route('about') }}">{{ __('Giới thiệu') }}</a></li>
+                            <li class="active">{{ __('Hồ sơ năng lực') }}</li>
                         </ul>
-                        <h1 class="text-uppercase">Hồ sơ năng lực</h1>
-                        <p class="col-lg-10 lead">Thông tin toàn diện về năng lực nghiên cứu, tư vấn và chuyển giao công nghệ của Viện GREECO.</p>
+                        <h1 class="text-uppercase">{{ __('Hồ sơ năng lực') }}</h1>
+                        <p class="col-lg-10 lead">{{ __('Thông tin toàn diện về năng lực nghiên cứu, tư vấn và chuyển giao công nghệ của Viện GREECO.') }}</p>
                     </div>
                 </div>
             </div>
@@ -45,30 +45,24 @@
             <div class="container relative z-1">
                 <div class="row g-4 gx-5 align-items-center">
                     <div class="col-lg-6">
-                        <div class="subtitle text-mint wow fadeInUp mb-3">Hồ sơ năng lực</div>
-                        <h2 class="text-uppercase text-white wow fadeInUp" data-wow-delay=".2s">Giới thiệu Năng lực
+                        <div class="subtitle text-mint wow fadeInUp mb-3">{{ __('Hồ sơ năng lực') }}</div>
+                        <h2 class="text-uppercase text-white wow fadeInUp" data-wow-delay=".2s">{{ __('Giới thiệu Năng lực') }}
                             <img src="{{ asset('assets/images/logo-text-white-cropped.png') }}"
                                  alt="GREECO"
                                  width="678"
                                  height="222"
                                  class="inline-logo-profile">
                             <span class="text-mint">Profile</span></h2>
-                        <p class="wow fadeInUp text-white-80">Hồ sơ năng lực (Capability Profile) của Viện Nghiên cứu và Phát triển Kinh
-                            tế Xanh tổng hợp đầy đủ thông tin pháp lý, cơ sở vật chất, trang thiết bị kỹ thuật hiện đại cùng
-                            danh sách các chuyên gia khoa học đầu ngành. Tài liệu này cung cấp cái nhìn toàn diện về năng
-                            lực triển khai các đề tài nghiên cứu, tư vấn chuyên sâu về ESG, kiểm kê khí nhà kính, chuyển
-                            giao công nghệ hóa học - môi trường xanh và phát triển dự án tín chỉ carbon.</p>
-                        <p class="wow fadeInUp text-white-80">Chúng tôi cam kết đồng hành cùng cơ quan quản lý và các doanh nghiệp trong
-                            lộ trình chuyển đổi xanh, thực thi trách nhiệm xã hội và hướng tới mục tiêu phát thải ròng bằng
-                            không (Net Zero).</p>
+                        <p class="wow fadeInUp text-white-80">{{ __('Hồ sơ năng lực (Capability Profile) của Viện Nghiên cứu và Phát triển Kinh tế Xanh tổng hợp đầy đủ thông tin pháp lý, cơ sở vật chất, trang thiết bị kỹ thuật hiện đại cùng danh sách các chuyên gia khoa học đầu ngành. Tài liệu này cung cấp cái nhìn toàn diện về năng lực triển khai các đề tài nghiên cứu, tư vấn chuyên sâu về ESG, kiểm kê khí nhà kính, chuyển giao công nghệ hóa học - môi trường xanh và phát triển dự án tín chỉ carbon.') }}</p>
+                        <p class="wow fadeInUp text-white-80">{{ __('Chúng tôi cam kết đồng hành cùng cơ quan quản lý và các doanh nghiệp trong lộ trình chuyển đổi xanh, thực thi trách nhiệm xã hội và hướng tới mục tiêu phát thải ròng bằng không (Net Zero).') }}</p>
                         <div class="spacer-20"></div>
                         <div class="d-flex flex-wrap gap-3">
                             <a href="#" class="_df_button btn-main btn-flipbook-premium wow fadeInUp"
                                 source="{{ $profilePdf }}"><i
-                                    class="fa-solid fa-book-open me-2"></i>Xem trực tuyến</a>
+                                    class="fa-solid fa-book-open me-2"></i>{{ __('Xem trực tuyến') }}</a>
                             <a class="btn-main btn-line-white wow fadeInUp"
                                 href="{{ $profilePdf }}" download><i
-                                    class="fa fa-download me-2"></i>Tải bản PDF</a>
+                                    class="fa fa-download me-2"></i>{{ __('Tải bản PDF') }}</a>
                         </div>
                     </div>
 
@@ -77,29 +71,29 @@
                             <div class="col-sm-6">
                                 <div class="glass-card p-4 rounded-3 h-100 relative overflow-hidden wow fadeInUp" data-wow-delay=".1s">
                                     <div class="glass-card-icon-wrap mb-3"><i class="fa fa-award fs-32 text-mint"></i></div>
-                                    <h4 class="text-white mb-2">Pháp lý vững chắc</h4>
-                                    <p class="text-white-70 mb-0">Giấy đăng ký hoạt động KH&CN do Sở Khoa học và Công nghệ TP.HCM cấp phép.</p>
+                                    <h4 class="text-white mb-2">{{ __('Pháp lý vững chắc') }}</h4>
+                                    <p class="text-white-70 mb-0">{{ __('Giấy đăng ký hoạt động KH&CN do Sở Khoa học và Công nghệ TP.HCM cấp phép.') }}</p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="glass-card p-4 rounded-3 h-100 relative overflow-hidden wow fadeInUp" data-wow-delay=".2s">
                                     <div class="glass-card-icon-wrap mb-3"><i class="fa fa-users fs-32 text-mint"></i></div>
-                                    <h4 class="text-white mb-2">Đội ngũ chuyên gia</h4>
-                                    <p class="text-white-70 mb-0">Hội đồng khoa học gồm các Giáo sư, Tiến sĩ đầu ngành Hóa học, Sinh học và Kỹ thuật Môi trường.</p>
+                                    <h4 class="text-white mb-2">{{ __('Đội ngũ chuyên gia') }}</h4>
+                                    <p class="text-white-70 mb-0">{{ __('Hội đồng khoa học gồm các Giáo sư, Tiến sĩ đầu ngành Hóa học, Sinh học và Kỹ thuật Môi trường.') }}</p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="glass-card p-4 rounded-3 h-100 relative overflow-hidden wow fadeInUp" data-wow-delay=".3s">
                                     <div class="glass-card-icon-wrap mb-3"><i class="fa fa-flask fs-32 text-mint"></i></div>
-                                    <h4 class="text-white mb-2">Phòng thí nghiệm</h4>
-                                    <p class="text-white-70 mb-0">Hợp tác chặt chẽ với các phòng thí nghiệm trọng điểm, trang thiết bị phân tích hiện đại bậc nhất.</p>
+                                    <h4 class="text-white mb-2">{{ __('Phòng thí nghiệm') }}</h4>
+                                    <p class="text-white-70 mb-0">{{ __('Hợp tác chặt chẽ với các phòng thí nghiệm trọng điểm, trang thiết bị phân tích hiện đại bậc nhất.') }}</p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="glass-card p-4 rounded-3 h-100 relative overflow-hidden wow fadeInUp" data-wow-delay=".4s">
                                     <div class="glass-card-icon-wrap mb-3"><i class="fa fa-handshake fs-32 text-mint"></i></div>
-                                    <h4 class="text-white mb-2">Đối tác toàn cầu</h4>
-                                    <p class="text-white-70 mb-0">Hành trình hợp tác khoa học rộng khắp với các tổ chức quốc tế.</p>
+                                    <h4 class="text-white mb-2">{{ __('Đối tác toàn cầu') }}</h4>
+                                    <p class="text-white-70 mb-0">{{ __('Hành trình hợp tác khoa học rộng khắp với các tổ chức quốc tế.') }}</p>
                                 </div>
                             </div>
                         </div>

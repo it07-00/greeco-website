@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Filament\Resources\Posts\Schemas\PostForm;
+use App\Models\Concerns\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     use HasFactory;
+    use HasTranslations;
 
     protected $fillable = [
         'post_category_id',

@@ -6,12 +6,12 @@
 ])
 
 @php
-    $pageUrl = $url ?? url()->current();
+    $pageUrl = website_url($url ?? url()->current());
     $collection = method_exists($items, 'items') ? collect($items->items()) : collect($items);
     $firstPosition = method_exists($items, 'firstItem') && $items->firstItem() ? $items->firstItem() : 1;
 
     $itemListElements = $collection->values()->map(function ($item, int $index) use ($firstPosition) {
-        $itemUrl = route('slug.show', $item->slug);
+        $itemUrl = website_route('slug.show', $item->slug);
         $imageUrl = $item->thumbnail
             ? asset('storage/' . $item->thumbnail)
             : asset('assets/images/og-default.jpg');
@@ -25,7 +25,7 @@
             'dateModified' => $item->updated_at?->toIso8601String(),
             'author' => [
                 '@type' => 'Organization',
-                'name' => 'Viện Nghiên cứu và Phát triển Kinh tế Xanh',
+                'name' => __('Viện Nghiên cứu và Phát triển Kinh tế Xanh'),
                 'alternateName' => 'GREECO Institute',
                 'url' => url('/'),
             ],
@@ -54,7 +54,7 @@
         'url' => $pageUrl,
         'name' => $name,
         'description' => $description,
-        'inLanguage' => 'vi-VN',
+        'inLanguage' => app()->getLocale() === 'en' ? 'en' : 'vi-VN',
         'isPartOf' => [
             '@type' => 'WebSite',
             '@id' => url('/') . '#website',

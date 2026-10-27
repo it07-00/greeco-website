@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đang bảo trì - Viện GREECO</title>
+    <title>{{ __('Đang bảo trì - Viện GREECO') }}</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,13 +58,13 @@
 <body>
     <div class="container">
         <div class="icon">🔧</div>
-        <h1>Đang bảo trì hệ thống</h1>
+        <h1>{{ __('Đang bảo trì hệ thống') }}</h1>
         <p>
-            Hệ thống đang được nâng cấp và bảo trì để phục vụ bạn tốt hơn.
-            <br>Vui lòng quay lại sau ít phút. Xin cảm ơn sự kiên nhẫn của bạn!
+            {{ __('Hệ thống đang được nâng cấp và bảo trì để phục vụ bạn tốt hơn.') }}
+            <br>{{ __('Vui lòng quay lại sau ít phút. Xin cảm ơn sự kiên nhẫn của bạn!') }}
         </p>
         <div class="retry-info">
-            Thời gian dự kiến: vài phút
+            {{ __('Thời gian dự kiến: vài phút') }}
         </div>
     </div>
 </body>

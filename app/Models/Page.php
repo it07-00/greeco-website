@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasTranslations;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Page extends Model
 {
     use HasFactory;
+    use HasTranslations;
 
     protected $fillable = [
         'title',
@@ -36,10 +40,10 @@ class Page extends Model
         return 'slug';
     }
 
-    protected function slug(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function slug(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
-            set: fn (?string $value) => \Illuminate\Support\Str::slug($value ?? ''),
+        return Attribute::make(
+            set: fn (?string $value) => Str::slug($value ?? ''),
         );
     }
 }

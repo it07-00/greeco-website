@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -30,8 +30,8 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
     @endphp
 
     <x-seo
-        :title="$seoTitle ?? 'Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO'"
-        :description="$seoDescription ?? 'Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) - Đơn vị hàng đầu về chuyển giao công nghệ xanh, kinh tế tuần hoàn và ứng phó biến đổi khí hậu.'"
+        :title="$seoTitle ?? __('Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO')"
+        :description="$seoDescription ?? __('Viện Nghiên cứu và Phát triển Kinh tế Xanh (GREECO) - Đơn vị hàng đầu về chuyển giao công nghệ xanh, kinh tế tuần hoàn và ứng phó biến đổi khí hậu.')"
         :canonical="$canonical ?? url()->current()"
         :image="$ogImage ?? $defaultSiteOgImage"
         :indexable="$indexable ?? true"
@@ -102,7 +102,7 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
 
 <body>
     <div id="wrapper">
-        <a href="#" id="back-to-top" aria-label="Cuộn lên đầu trang"></a>
+        <a href="#" id="back-to-top" aria-label="{{ __('Cuộn lên đầu trang') }}"></a>
 
         <!-- Floating Contact Buttons -->
         @php
@@ -144,7 +144,7 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
                 </svg>
             </a>
             @if($cleanPhone2)
-                <div class="contact-btn phone-btn multi-phone-btn" data-tooltip="Gọi điện thoại" aria-label="Gọi điện thoại" tabindex="0">
+                <div class="contact-btn phone-btn multi-phone-btn" data-tooltip="{{ __('Gọi điện thoại') }}" aria-label="{{ __('Gọi điện thoại') }}" tabindex="0">
                     <span class="pulse-ring"></span>
                     <i class="fa-solid fa-phone"></i>
                     <div class="phone-submenu">
@@ -157,8 +157,8 @@ $faviconVersion = is_file(public_path($faviconPath)) ? filemtime(public_path($fa
                     </div>
                 </div>
             @else
-                <a href="tel:{{ $cleanPhone }}" class="contact-btn phone-btn" data-tooltip="Gọi điện thoại"
-                    aria-label="Gọi điện thoại">
+                <a href="tel:{{ $cleanPhone }}" class="contact-btn phone-btn" data-tooltip="{{ __('Gọi điện thoại') }}"
+                    aria-label="{{ __('Gọi điện thoại') }}">
                     <span class="pulse-ring"></span>
                     <i class="fa-solid fa-phone"></i>
                 </a>

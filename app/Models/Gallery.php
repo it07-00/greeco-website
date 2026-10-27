@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'title',
         'image',

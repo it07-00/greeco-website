@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PostCategories\Schemas;
 
+use App\Support\ContentTranslations;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -15,6 +16,7 @@ class PostCategoryForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('PostCategory'),
                 Section::make('Thông tin danh mục bài viết')
                     ->schema([
                         TextInput::make('name')

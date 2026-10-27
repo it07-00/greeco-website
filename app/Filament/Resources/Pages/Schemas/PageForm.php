@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Pages\Schemas;
 
 use App\Models\Page;
+use App\Support\ContentTranslations;
 use App\Support\OptimizedImageUpload;
 use App\Support\PublicSlug;
 use Filament\Forms\Components\FileUpload;
@@ -21,6 +22,7 @@ class PageForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('Page'),
                 Tabs::make('PageTabs')
                     ->tabs([
                         Tab::make('Thông tin chính')

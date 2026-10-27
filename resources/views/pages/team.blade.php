@@ -1,11 +1,11 @@
 @php
-    $seoTitle = 'Hội đồng Khoa học & Đội ngũ Chuyên gia - Viện GREECO';
-    $seoDescription = 'Đội ngũ lãnh đạo và chuyên gia đầu ngành trong lĩnh vực phát triển kinh tế xanh, môi trường và hóa học của Viện GREECO.';
-    $canonical = route('team');
+    $seoTitle = __('Hội đồng Khoa học & Đội ngũ Chuyên gia - Viện GREECO');
+    $seoDescription = __('Đội ngũ lãnh đạo và chuyên gia đầu ngành trong lĩnh vực phát triển kinh tế xanh, môi trường và hóa học của Viện GREECO.');
+    $canonical = website_route('team');
     
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Hội đồng Khoa học', 'url' => route('team')]
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Hội đồng Khoa học'), 'url' => website_route('team')]
     ];
 @endphp
 
@@ -22,11 +22,11 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <ul class="crumb">
-                            <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                            <li class="active">Hội đồng Khoa học</li>
+                            <li><a href="{{ website_route('home') }}">{{ __('Trang chủ') }}</a></li>
+                            <li class="active">{{ __('Hội đồng Khoa học') }}</li>
                         </ul>
-                        <h1 class="text-uppercase">Hội đồng Khoa học & Đội ngũ Chuyên gia</h1>
-                        <p class="col-lg-10 lead">Đội ngũ lãnh đạo và chuyên gia đầu ngành trong lĩnh vực kinh tế xanh và phát triển bền vững.</p>
+                        <h1 class="text-uppercase">{{ __('Hội đồng Khoa học & Đội ngũ Chuyên gia') }}</h1>
+                        <p class="col-lg-10 lead">{{ __('Đội ngũ lãnh đạo và chuyên gia đầu ngành trong lĩnh vực kinh tế xanh và phát triển bền vững.') }}</p>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                                         <h4 class="mb-0">{{ $member->name }}</h4>
                                         <p class="mb-0 team-member-summary">{{ $member->role }}</p>
                                     </div>
-                                    <div class="team-member-info" tabindex="0" aria-label="Xem chi tiết {{ $member->name }}">
+                                    <div class="team-member-info" tabindex="0" aria-label="{{ __('Xem chi tiết') }} {{ $member->name }}">
                                         <i class="fa-solid fa-circle-info"></i>
                                         <div class="team-member-detail">
                                             <strong>{{ $member->name }}</strong>

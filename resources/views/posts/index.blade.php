@@ -2,19 +2,19 @@
     $pageNumber = max((int) request()->query('page', 1), 1);
     $hasActiveTag = filled($activeTag);
     $seoTitle = $hasActiveTag
-        ? 'Tin tức về ' . $activeTag . ' - Viện GREECO'
-        : 'Tin tức & Sự kiện - Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO';
+        ? __('Tin tức về') . ' ' . $activeTag . ' ' . __('- Viện GREECO')
+        : __('Tin tức & Sự kiện - Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO');
     $seoDescription = $hasActiveTag
-        ? 'Các bài viết, tin tức và góc nhìn chuyên gia của Viện GREECO về ' . $activeTag . '.'
-        : 'Cập nhật tin tức, sự kiện mới nhất về kinh tế xanh, biến đổi khí hậu và chuyển đổi phát triển bền vững tại Việt Nam.';
+        ? __('Các bài viết, tin tức và góc nhìn chuyên gia của Viện GREECO về') . ' ' . $activeTag . '.'
+        : __('Cập nhật tin tức, sự kiện mới nhất về kinh tế xanh, biến đổi khí hậu và chuyển đổi phát triển bền vững tại Việt Nam.');
 
     if ($pageNumber > 1) {
-        $seoTitle .= ' - Trang ' . $pageNumber;
+        $seoTitle .= __(' - Trang ') . $pageNumber;
     }
 
     // Canonical always points to clean URL (no ?tag=) to avoid duplicate content.
     // Only ?page= is kept for paginated canonical.
-    $canonical = route('posts.index', array_filter([
+    $canonical = website_route('posts.index', array_filter([
         'page' => $pageNumber > 1 ? $pageNumber : null,
     ]));
 
@@ -22,8 +22,8 @@
     $indexable = !$hasActiveTag;
 
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Tin tức', 'url' => route('posts.index')]
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Tin tức'), 'url' => website_route('posts.index')]
     ];
 @endphp
 
@@ -58,11 +58,11 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <ul class="crumb">
-                            <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                            <li class="active">Tin tức</li>
+                            <li><a href="{{ website_route('home') }}">{{ __('Trang chủ') }}</a></li>
+                            <li class="active">{{ __('Tin tức') }}</li>
                         </ul>
-                        <h1 class="text-uppercase">Tin tức</h1>
-                        <p class="col-lg-10 lead">Kiến tạo không gian xanh hướng tới tương lai bền vững!</p>
+                        <h1 class="text-uppercase">{{ __('Tin tức') }}</h1>
+                        <p class="col-lg-10 lead">{{ __('Kiến tạo không gian xanh hướng tới tương lai bền vững!') }}</p>
                     </div>
                 </div>
             </div>
@@ -87,10 +87,10 @@
                                         </div>   
                                         <div class="col-sm-6 relative">
                                             <div class="p-30 pb-40">
-                                                <h4><a class="text-dark" href="{{ route('slug.show', $post->slug) }}">{{ $post->title }}</a></h4>
+                                                <h4><a class="text-dark" href="{{ website_route('slug.show', $post->slug) }}">{{ $post->title }}</a></h4>
                                                 <div class="post-card-meta mb-2">
                                                     <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                                    <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>
+                                                    <span>{{ number_format($post->views_count ?? 0) }} {{ __('lượt xem') }}</span>
                                                 </div>
                                                 <p class="mb-0 fs-14 text-muted">{{ Str::limit($post->excerpt, 120) }}</p>
                                             </div>
@@ -101,7 +101,7 @@
                         @endforeach
                     @else
                         <div class="col-12 text-center py-5">
-                            <p class="text-muted">Đang cập nhật danh sách bài viết...</p>
+                            <p class="text-muted">{{ __('Đang cập nhật danh sách bài viết...') }}</p>
                         </div>
                     @endif
 

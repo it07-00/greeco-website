@@ -1,7 +1,7 @@
 @php
-    $seoTitle = 'Đăng ký khóa học ' . $course->title . ' - Viện nghiên cứu và phát triển kinh tế xanh - Greeco';
-    $seoDescription = 'Đăng ký tham gia khóa học ' . $course->title . ' tại Viện nghiên cứu và phát triển kinh tế xanh - Greeco.';
-    $canonical = route('course-registration.create', $course);
+    $seoTitle = __('Đăng ký khóa học') . ' ' . $course->title . ' ' . __('- Viện nghiên cứu và phát triển kinh tế xanh - Greeco');
+    $seoDescription = __('Đăng ký tham gia khóa học') . ' ' . $course->title . ' ' . __('tại Viện nghiên cứu và phát triển kinh tế xanh - Greeco.');
+    $canonical = website_route('course-registration.create', $course);
     $indexable = false;
     $oldAttendees = old('attendees', []);
     $initialAttendees = is_array($oldAttendees)
@@ -219,19 +219,19 @@
             <div class="row g-4 align-items-start" data-pin-container>
                 <div class="col-lg-8">
                     <div class="registration-card">
-                        <a href="{{ route('slug.show', $course->slug) }}" class="registration-back-link">
+                        <a href="{{ website_route('slug.show', $course->slug) }}" class="registration-back-link">
                             <i class="fa-solid fa-arrow-left mt-1"></i>
-                            Quay lại thông tin khóa học
+                            {{ __('Quay lại thông tin khóa học') }}
                         </a>
-                        <div class="registration-eyebrow">Thông tin đăng ký</div>
-                        <h1 class="registration-card-title">Đăng ký {{ $course->title }}</h1>
+                        <div class="registration-eyebrow">{{ __('Thông tin đăng ký') }}</div>
+                        <h1 class="registration-card-title">{{ __('Đăng ký') }} {{ $course->title }}</h1>
                         <p class="registration-card-intro mb-0">
-                            Hoàn tất thông tin doanh nghiệp và người tham dự. GREECO sẽ liên hệ để xác nhận lịch học, địa điểm và học phí. Các trường có dấu <span class="required-mark">*</span> là bắt buộc.
+                            {{ __('Hoàn tất thông tin doanh nghiệp và người tham dự. GREECO sẽ liên hệ để xác nhận lịch học, địa điểm và học phí. Các trường có dấu') }} <span class="required-mark">*</span> {{ __('là bắt buộc.') }}
                         </p>
 
                         @if ($errors->any())
                             <div class="alert alert-danger mt-4" role="alert">
-                                <div class="fw-bold mb-2">Vui lòng kiểm tra lại thông tin:</div>
+                                <div class="fw-bold mb-2">{{ __('Vui lòng kiểm tra lại thông tin:') }}</div>
                                 <ul class="mb-0 ps-3">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -240,16 +240,16 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('course-registration.store', $course) }}" class="mt-4" id="course-registration-form">
+                        <form method="POST" action="{{ website_route('course-registration.store', $course) }}" class="mt-4" id="course-registration-form">
                             @csrf
                             <input type="hidden" name="source" value="{{ request('source') === 'qr' ? 'qr' : 'website' }}">
                             <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" class="d-none">
 
-                            <h2 class="registration-section-title">Thông tin doanh nghiệp</h2>
+                            <h2 class="registration-section-title">{{ __('Thông tin doanh nghiệp') }}</h2>
 
                             <div class="mb-3">
                                 <label for="company_name" class="form-label fw-semibold">
-                                    Tên công ty <span class="required-mark">*</span>
+                                    {{ __('Tên công ty') }} <span class="required-mark">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -266,7 +266,7 @@
 
                             <div class="mb-3">
                                 <label for="company_address" class="form-label fw-semibold">
-                                    Địa chỉ <span class="required-mark">*</span>
+                                    {{ __('Địa chỉ') }} <span class="required-mark">*</span>
                                 </label>
                                 <textarea
                                     class="form-control @error('company_address') is-invalid @enderror"
@@ -283,7 +283,7 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="tax_code" class="form-label fw-semibold">
-                                        Mã số thuế <span class="required-mark">*</span>
+                                        {{ __('Mã số thuế') }} <span class="required-mark">*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -298,30 +298,30 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="attendee_count" class="form-label fw-semibold">
-                                        Số người tham dự <span class="required-mark">*</span>
+                                        {{ __('Số người tham dự') }} <span class="required-mark">*</span>
                                     </label>
                                     <select class="form-select" id="attendee_count" name="attendee_count" required>
                                         @for ($number = 1; $number <= 20; $number++)
                                             <option value="{{ $number }}" @selected($initialCount === $number)>
-                                                {{ $number }} người
+                                                {{ trans_choice('website.attendees', $number) }}
                                             </option>
                                         @endfor
                                     </select>
                                 </div>
                             </div>
 
-                            <h2 class="registration-section-title">Thông tin người tham dự</h2>
+                            <h2 class="registration-section-title">{{ __('Thông tin người tham dự') }}</h2>
                             <p class="text-secondary small">
-                                Người đầu tiên sẽ được sử dụng làm người liên hệ chính cho đăng ký này.
+                                {{ __('Người đầu tiên sẽ được sử dụng làm người liên hệ chính cho đăng ký này.') }}
                             </p>
 
                             <div id="attendees-container"></div>
 
-                            <h2 class="registration-section-title">Hóa đơn và nội dung cần tư vấn</h2>
+                            <h2 class="registration-section-title">{{ __('Hóa đơn và nội dung cần tư vấn') }}</h2>
 
                             <div class="mb-3">
                                 <label for="invoice_email" class="form-label fw-semibold">
-                                    Email nhận hóa đơn <span class="required-mark">*</span>
+                                    {{ __('Email nhận hóa đơn') }} <span class="required-mark">*</span>
                                 </label>
                                 <input
                                     type="email"
@@ -338,7 +338,7 @@
 
                             <div class="mb-3">
                                 <label for="consultation_question" class="form-label fw-semibold">
-                                    Câu hỏi cần giảng viên tư vấn và giải đáp
+                                    {{ __('Câu hỏi cần giảng viên tư vấn và giải đáp') }}
                                 </label>
                                 <textarea
                                     class="form-control @error('consultation_question') is-invalid @enderror"
@@ -361,13 +361,13 @@
                                     required
                                 >
                                 <label class="form-check-label" for="consent">
-                                    Tôi đồng ý cung cấp thông tin để GREECO liên hệ và xử lý đăng ký khóa học.
+                                    {{ __('Tôi đồng ý cung cấp thông tin để GREECO liên hệ và xử lý đăng ký khóa học.') }}
                                 </label>
                                 @error('consent')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
 
                             <button type="submit" class="btn btn-success registration-submit w-100">
-                                <i class="fa-solid fa-paper-plane me-2"></i>Gửi đăng ký khóa học
+                                <i class="fa-solid fa-paper-plane me-2"></i>{{ __('Gửi đăng ký khóa học') }}
                             </button>
                         </form>
                     </div>
@@ -386,36 +386,36 @@
                             <p class="text-secondary small">{{ \Illuminate\Support\Str::limit(strip_tags($course->description), 180) }}</p>
                         @endif
                         <div class="d-flex justify-content-between border-top pt-3 mt-3">
-                            <span class="text-secondary">Học phí</span>
-                            <strong class="text-success">{{ $course->price ?: 'Liên hệ' }}</strong>
+                            <span class="text-secondary">{{ __('Học phí') }}</span>
+                            <strong class="text-success">{{ $course->price ?: __('Liên hệ') }}</strong>
                         </div>
 
                         <div class="registration-guide">
                             <div class="registration-guide-item">
                                 <span class="registration-guide-number">1</span>
                                 <div>
-                                    <strong>Gửi thông tin</strong>
-                                    <span class="registration-guide-text">Điền doanh nghiệp và danh sách người tham dự.</span>
+                                    <strong>{{ __('Gửi thông tin') }}</strong>
+                                    <span class="registration-guide-text">{{ __('Điền doanh nghiệp và danh sách người tham dự.') }}</span>
                                 </div>
                             </div>
                             <div class="registration-guide-item">
                                 <span class="registration-guide-number">2</span>
                                 <div>
-                                    <strong>GREECO xác nhận</strong>
-                                    <span class="registration-guide-text">Nhân viên phụ trách liên hệ qua email hoặc điện thoại.</span>
+                                    <strong>{{ __('GREECO xác nhận') }}</strong>
+                                    <span class="registration-guide-text">{{ __('Nhân viên phụ trách liên hệ qua email hoặc điện thoại.') }}</span>
                                 </div>
                             </div>
                             <div class="registration-guide-item">
                                 <span class="registration-guide-number">3</span>
                                 <div>
-                                    <strong>Nhận thông tin lớp</strong>
-                                    <span class="registration-guide-text">Lịch học, địa điểm và hướng dẫn được gửi sau xác nhận.</span>
+                                    <strong>{{ __('Nhận thông tin lớp') }}</strong>
+                                    <span class="registration-guide-text">{{ __('Lịch học, địa điểm và hướng dẫn được gửi sau xác nhận.') }}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <a href="{{ route('slug.show', $course->slug) }}" class="btn btn-outline-success w-100 mt-4">
-                            <i class="fa-solid fa-arrow-left me-2"></i>Quay lại khóa học
+                        <a href="{{ website_route('slug.show', $course->slug) }}" class="btn btn-outline-success w-100 mt-4">
+                            <i class="fa-solid fa-arrow-left me-2"></i>{{ __('Quay lại khóa học') }}
                         </a>
                     </aside>
                 </div>
@@ -430,6 +430,13 @@
             const attendeeCount = document.getElementById('attendee_count');
             const attendeesContainer = document.getElementById('attendees-container');
             const initialAttendees = @json($initialAttendees);
+            const attendeeLabels = {{ \Illuminate\Support\Js::from([
+                'attendee' => __('Người tham dự'),
+                'primary' => __('Liên hệ chính'),
+                'name' => __('Họ và tên'),
+                'job' => __('Chức vụ'),
+                'phone' => __('Số điện thoại'),
+            ]) }};
 
             function escapeHtml(value) {
                 return String(value ?? '')
@@ -461,16 +468,16 @@
                     card.innerHTML = `
                         <div class="d-flex align-items-center gap-2 mb-3">
                             <span class="attendee-number">${index + 1}</span>
-                            <strong class="text-dark">Người tham dự ${index + 1}${index === 0 ? ' · Liên hệ chính' : ''}</strong>
+                            <strong class="text-dark">${escapeHtml(attendeeLabels.attendee)} ${index + 1}${index === 0 ? ' · ' + escapeHtml(attendeeLabels.primary) : ''}</strong>
                         </div>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Họ và tên <span class="required-mark">*</span></label>
+                                <label class="form-label fw-semibold">${escapeHtml(attendeeLabels.name)} <span class="required-mark">*</span></label>
                                 <input type="text" class="form-control" name="attendees[${index}][full_name]"
                                     data-field="full_name" value="${escapeHtml(attendee.full_name)}" maxlength="191" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Chức vụ</label>
+                                <label class="form-label fw-semibold">${escapeHtml(attendeeLabels.job)}</label>
                                 <input type="text" class="form-control" name="attendees[${index}][job_title]"
                                     data-field="job_title" value="${escapeHtml(attendee.job_title)}" maxlength="191">
                             </div>
@@ -480,7 +487,7 @@
                                     data-field="email" value="${escapeHtml(attendee.email)}" maxlength="191" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Số điện thoại <span class="required-mark">*</span></label>
+                                <label class="form-label fw-semibold">${escapeHtml(attendeeLabels.phone)} <span class="required-mark">*</span></label>
                                 <input type="tel" class="form-control" name="attendees[${index}][phone]"
                                     data-field="phone" value="${escapeHtml(attendee.phone)}" maxlength="50" required>
                             </div>

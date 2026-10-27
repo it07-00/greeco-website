@@ -1,7 +1,7 @@
 @php
-    $seoTitle = 'Đăng ký thành công - GREECO';
-    $seoDescription = 'GREECO đã nhận được thông tin đăng ký khóa học.';
-    $canonical = route('course-registration.success', $registration);
+    $seoTitle = __('Đăng ký thành công - GREECO');
+    $seoDescription = __('GREECO đã nhận được thông tin đăng ký khóa học.');
+    $canonical = website_route('course-registration.success', $registration);
     $indexable = false;
 @endphp
 
@@ -70,27 +70,27 @@
                 <span class="success-icon">
                     <i class="fa-solid fa-check"></i>
                 </span>
-                <h1 class="h2 fw-bold text-dark mt-4">Đăng ký thành công</h1>
+                <h1 class="h2 fw-bold text-dark mt-4">{{ __('Đăng ký thành công') }}</h1>
                 <p class="text-secondary">
-                    GREECO đã nhận được đăng ký của <strong>{{ $registration->company_name }}</strong>
-                    cho khóa học <strong>{{ $registration->course->title }}</strong>.
+                    {{ __('GREECO đã nhận được đăng ký của') }} <strong>{{ $registration->company_name }}</strong>
+                    {{ __('cho khóa học') }} <strong>{{ $registration->course->title }}</strong>.
                 </p>
 
-                <p class="small text-secondary mb-2">Mã đăng ký của bạn</p>
+                <p class="small text-secondary mb-2">{{ __('Mã đăng ký của bạn') }}</p>
                 <div class="registration-code mb-4">{{ $registration->code }}</div>
 
                 <p class="text-secondary">
-                    Ban tổ chức sẽ liên hệ qua số điện thoại
+                    {{ __('Ban tổ chức sẽ liên hệ qua số điện thoại') }}
                     <strong>{{ $registration->contact_phone }}</strong>
-                    hoặc email <strong>{{ $registration->contact_email }}</strong> để xác nhận.
+                    {{ __('hoặc email') }} <strong>{{ $registration->contact_email }}</strong> {{ __('để xác nhận.') }}
                 </p>
 
                 <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center mt-4">
-                    <a href="{{ route('slug.show', $registration->course->slug) }}" class="btn btn-success px-4">
-                        Xem lại khóa học
+                    <a href="{{ website_route('slug.show', $registration->course->slug) }}" class="btn btn-success px-4">
+                        {{ __('Xem lại khóa học') }}
                     </a>
-                    <a href="{{ route('services.dao-tao') }}" class="btn btn-outline-success px-4">
-                        Xem các khóa học khác
+                    <a href="{{ website_route('services.dao-tao') }}" class="btn btn-outline-success px-4">
+                        {{ __('Xem các khóa học khác') }}
                     </a>
                 </div>
             </div>

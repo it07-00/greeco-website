@@ -56,7 +56,7 @@ class StoreCourseRegistrationRequest extends FormRequest
                 ) {
                     $validator->errors()->add(
                         'attendees',
-                        'Số người tham dự không khớp với danh sách học viên.'
+                        __('Số người tham dự không khớp với danh sách học viên.')
                     );
                 }
             }
@@ -66,20 +66,20 @@ class StoreCourseRegistrationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'company_name.required' => 'Vui lòng nhập tên công ty.',
-            'company_address.required' => 'Vui lòng nhập địa chỉ công ty.',
-            'tax_code.required' => 'Vui lòng nhập mã số thuế.',
-            'attendee_count.required' => 'Vui lòng chọn số người tham dự.',
-            'attendee_count.max' => 'Mỗi lần chỉ có thể đăng ký tối đa 20 người.',
-            'attendees.required' => 'Vui lòng nhập thông tin người tham dự.',
-            'attendees.*.full_name.required' => 'Vui lòng nhập họ tên người tham dự.',
-            'attendees.*.email.required' => 'Vui lòng nhập email người tham dự.',
-            'attendees.*.email.email' => 'Email người tham dự không hợp lệ.',
-            'attendees.*.phone.required' => 'Vui lòng nhập số điện thoại người tham dự.',
-            'invoice_email.required' => 'Vui lòng nhập email nhận hóa đơn.',
-            'invoice_email.email' => 'Email nhận hóa đơn không hợp lệ.',
-            'consent.accepted' => 'Bạn cần đồng ý cung cấp thông tin để hoàn tất đăng ký.',
-            'website.prohibited' => 'Không thể gửi biểu mẫu này.',
+            'company_name.required' => __('Vui lòng nhập tên công ty.'),
+            'company_address.required' => __('Vui lòng nhập địa chỉ công ty.'),
+            'tax_code.required' => __('Vui lòng nhập mã số thuế.'),
+            'attendee_count.required' => __('Vui lòng chọn số người tham dự.'),
+            'attendee_count.max' => __('Mỗi lần chỉ có thể đăng ký tối đa 20 người.'),
+            'attendees.required' => __('Vui lòng nhập thông tin người tham dự.'),
+            'attendees.*.full_name.required' => __('Vui lòng nhập họ tên người tham dự.'),
+            'attendees.*.email.required' => __('Vui lòng nhập email người tham dự.'),
+            'attendees.*.email.email' => __('Email người tham dự không hợp lệ.'),
+            'attendees.*.phone.required' => __('Vui lòng nhập số điện thoại người tham dự.'),
+            'invoice_email.required' => __('Vui lòng nhập email nhận hóa đơn.'),
+            'invoice_email.email' => __('Email nhận hóa đơn không hợp lệ.'),
+            'consent.accepted' => __('Bạn cần đồng ý cung cấp thông tin để hoàn tất đăng ký.'),
+            'website.prohibited' => __('Không thể gửi biểu mẫu này.'),
         ];
     }
 }

@@ -10,7 +10,7 @@
 ])
 
 @php
-    $articleUrl = $url ?? url()->current();
+    $articleUrl = website_url($url ?? url()->current());
     $publishedAt = $publishDate ?? now()->toIso8601String();
     $imageUrl = $image ?? asset('assets/images/og-default.jpg');
     $tags = collect(is_iterable($tags) ? $tags : [])
@@ -27,7 +27,7 @@
             '@id' => $articleUrl,
         ],
         'url' => $articleUrl,
-        'inLanguage' => 'vi-VN',
+        'inLanguage' => app()->getLocale() === 'en' ? 'en' : 'vi-VN',
         'isPartOf' => [
             '@type' => 'WebSite',
             '@id' => url('/') . '#website',
@@ -45,13 +45,13 @@
         'dateModified' => $modifiedDate ?? $publishedAt,
         'author' => [
             '@type' => 'Organization',
-            'name' => 'Viện Nghiên cứu và Phát triển Kinh tế Xanh',
+            'name' => __('Viện Nghiên cứu và Phát triển Kinh tế Xanh'),
             'alternateName' => 'GREECO Institute',
             'url' => url('/'),
         ],
         'publisher' => [
             '@type' => 'Organization',
-            'name' => 'Viện Nghiên cứu và Phát triển Kinh tế Xanh',
+            'name' => __('Viện Nghiên cứu và Phát triển Kinh tế Xanh'),
             'alternateName' => 'GREECO Institute',
             'url' => url('/'),
             'logo' => [

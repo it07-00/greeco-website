@@ -1,16 +1,16 @@
 @php
     $seoTitle = $service->meta_title ?: $service->name . ' | ' . config('app.name');
     $seoDescription = $service->meta_description ?: $service->short_description;
-    $canonical = $service->canonical_url ?: route('slug.show', $service->slug);
+    $canonical = $service->canonical_url ?: website_route('slug.show', $service->slug);
     $ogImage = $service->og_image
         ? asset('storage/' . $service->og_image)
         : asset('assets/images/og-default.jpg');
     $indexable = $service->is_indexable;
 
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Lĩnh vực', 'url' => route('services.index')],
-        ['name' => $service->name, 'url' => route('slug.show', $service->slug)]
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Lĩnh vực'), 'url' => website_route('services.index')],
+        ['name' => $service->name, 'url' => website_route('slug.show', $service->slug)]
     ];
 @endphp
 
@@ -33,8 +33,8 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <ul class="crumb">
-                            <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                            <li><a href="{{ route('services.index') }}">Lĩnh vực</a></li>
+                            <li><a href="{{ website_route('home') }}">{{ __('Trang chủ') }}</a></li>
+                            <li><a href="{{ website_route('services.index') }}">{{ __('Lĩnh vực') }}</a></li>
                             <li class="active">{{ $service->name }}</li>
                         </ul>
                         <h1 class="text-uppercase">{{ $service->name }}</h1>
@@ -51,20 +51,20 @@
                     <div class="col-lg-3">
                         <div class="me-lg-3">
                             <div class="bg-color text-light p-3 px-4 rounded-10px mb-3">
-                                <h4 class="mb-0 text-white">Dịch vụ liên quan</h4>
+                                <h4 class="mb-0 text-white">{{ __('Dịch vụ liên quan') }}</h4>
                             </div>
                             @if($relatedServices->isNotEmpty())
                                 @foreach($relatedServices as $relService)
-                                    <a href="{{ route('slug.show', $relService->slug) }}" class="bg-light d-block p-3 px-4 rounded-10px mb-3 service-sidebar-link text-dark">
+                                    <a href="{{ website_route('slug.show', $relService->slug) }}" class="bg-light d-block p-3 px-4 rounded-10px mb-3 service-sidebar-link text-dark">
                                         <h4 class="mb-0 fs-16">{{ $relService->name }}</h4>
                                     </a>
                                 @endforeach
                             @else
-                                <p class="text-muted ps-3">Không có dịch vụ liên quan khác.</p>
+                                <p class="text-muted ps-3">{{ __('Không có dịch vụ liên quan khác.') }}</p>
                             @endif
                             
-                            <a href="{{ route('services.index') }}" class="btn-main d-block text-center mt-4">
-                                <i class="fa fa-arrow-left me-2"></i>Tất cả dịch vụ
+                            <a href="{{ website_route('services.index') }}" class="btn-main d-block text-center mt-4">
+                                <i class="fa fa-arrow-left me-2"></i>{{ __('Tất cả dịch vụ') }}
                             </a>
                         </div>
                     </div>
@@ -76,20 +76,20 @@
                         </div>
 
                         <div class="border-top pt-3 mt-4 d-flex align-items-center gap-3 flex-wrap">
-                            <span class="fw-bold text-dark"><i class="fa-solid fa-share-nodes me-2"></i>Chia sẻ dịch vụ:</span>
+                            <span class="fw-bold text-dark"><i class="fa-solid fa-share-nodes me-2"></i>{{ __('Chia sẻ dịch vụ:') }}</span>
                             <div class="d-flex gap-2">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-facebook" title="Chia sẻ lên Facebook">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-facebook" title="{{ __('Chia sẻ lên Facebook') }}">
                                     <i class="fa-brands fa-facebook-f"></i>
                                 </a>
-                                <a href="https://twitter.com/intent/tweet?url={{ urlencode($canonical) }}&text={{ urlencode($service->name) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-twitter" title="Chia sẻ lên Twitter / X">
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode($canonical) }}&text={{ urlencode($service->name) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-twitter" title="{{ __('Chia sẻ lên Twitter / X') }}">
                                     <i class="fa-brands fa-x-twitter"></i>
                                 </a>
-                                <a href="https://zalo.me/s/share?url={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-zalo" title="Chia sẻ lên Zalo">
+                                <a href="https://zalo.me/s/share?url={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-zalo" title="{{ __('Chia sẻ lên Zalo') }}">
                                     <span class="zalo-share-icon">Z</span>
                                 </a>
-                                <button class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-copy position-relative" id="copy-share-link" data-url="{{ $canonical }}" title="Sao chép liên kết">
+                                <button class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-copy position-relative" id="copy-share-link" data-url="{{ $canonical }}" title="{{ __('Sao chép liên kết') }}">
                                     <i class="fa-solid fa-link"></i>
-                                    <span class="copy-tooltip" id="copy-tooltip">Đã sao chép!</span>
+                                    <span class="copy-tooltip" id="copy-tooltip">{{ __('Đã sao chép!') }}</span>
                                 </button>
                             </div>
                         </div>

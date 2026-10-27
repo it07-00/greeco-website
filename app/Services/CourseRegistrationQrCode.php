@@ -15,12 +15,12 @@ class CourseRegistrationQrCode
 {
     public function selectionUrl(): string
     {
-        return rtrim((string) config('app.url'), '/').'/dang-ky-khoa-hoc/';
+        return website_url(rtrim((string) config('app.url'), '/').'/dang-ky-khoa-hoc/');
     }
 
     public function registrationUrl(Course $course): string
     {
-        return route('course-registration.create', [
+        return website_route('course-registration.create', [
             'course' => $course,
             'source' => 'qr',
         ]);

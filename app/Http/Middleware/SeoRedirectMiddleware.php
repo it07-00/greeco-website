@@ -28,7 +28,7 @@ class SeoRedirectMiddleware
             ->first();
 
         if ($redirect && in_array($redirect->status_code, [301, 302], true) && ! $this->hasCycle($request, $redirect)) {
-            return redirect($redirect->new_url, $redirect->status_code);
+            return redirect(website_url($redirect->new_url, $request->query('lang') === 'en' ? 'en' : 'vi'), $redirect->status_code);
         }
 
         return $next($request);

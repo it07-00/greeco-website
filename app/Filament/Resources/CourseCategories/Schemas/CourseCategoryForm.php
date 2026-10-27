@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CourseCategories\Schemas;
 
+use App\Support\ContentTranslations;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -14,6 +15,7 @@ class CourseCategoryForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('CourseCategory'),
                 TextInput::make('name')
                     ->maxLength(191)
                     ->label('Tên danh mục')

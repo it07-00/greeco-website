@@ -1,6 +1,6 @@
 @php
-    $seoTitle = 'Phiên đã hết hạn (419) - Viện GREECO';
-    $seoDescription = 'Phiên làm việc đã hết hạn. Vui lòng tải lại trang.';
+    $seoTitle = __('Phiên đã hết hạn (419) - Viện GREECO');
+    $seoDescription = __('Phiên làm việc đã hết hạn. Vui lòng tải lại trang.');
     $indexable = false;
 @endphp
 
@@ -17,9 +17,9 @@
                 <div class="row align-items-center justify-content-center text-center">
                     <div class="col-lg-8">
                         <h1 class="error-page-code mb-0 id-color">419</h1>
-                        <h2 class="error-page-title mb-3 text-uppercase">Phiên đã hết hạn</h2>
-                        <p class="lead mb-4">Phiên làm việc của bạn đã hết hạn do không hoạt động quá lâu. Vui lòng tải lại trang và thử lại.</p>
-                        <a href="javascript:location.reload()" class="btn-main">Tải lại trang</a>
+                        <h2 class="error-page-title mb-3 text-uppercase">{{ __('Phiên đã hết hạn') }}</h2>
+                        <p class="lead mb-4">{{ __('Phiên làm việc của bạn đã hết hạn do không hoạt động quá lâu. Vui lòng tải lại trang và thử lại.') }}</p>
+                        <a href="javascript:location.reload()" class="btn-main">{{ __('Tải lại trang') }}</a>
                     </div>
                 </div>
             </div>

@@ -23,11 +23,18 @@ class PostController extends Controller
                     ->orWhere('title', 'like', '%'.$activeTag.'%')
                     ->orWhere('excerpt', 'like', '%'.$activeTag.'%')
                     ->orWhere('content', 'like', '%'.$activeTag.'%')
-                    ->orWhere('meta_keywords', 'like', '%'.$activeTag.'%');
+                    ->orWhere('meta_keywords', 'like', '%'.$activeTag.'%')
+                    ->when(app()->getLocale() === 'en', function ($q) use ($activeTag) {
+                        $q->orWhereJsonContains('translations->en->tags', $activeTag)
+                            ->orWhere('translations->en->title', 'like', '%'.$activeTag.'%')
+                            ->orWhere('translations->en->excerpt', 'like', '%'.$activeTag.'%')
+                            ->orWhere('translations->en->content', 'like', '%'.$activeTag.'%')
+                            ->orWhere('translations->en->meta_keywords', 'like', '%'.$activeTag.'%');
+                    });
             });
         }
 
-        $posts = $query->latest('published_at')->paginate(9);
+        $posts = $query->latest('published_at')->paginate(9)->withQueryString();
 
         if ($activeTag !== '') {
             $posts->appends(['tag' => $activeTag]);

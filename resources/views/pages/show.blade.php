@@ -1,14 +1,14 @@
 @php
     $seoTitle = $page->meta_title ?: $page->title . ' | ' . config('app.name');
     $seoDescription = $page->meta_description ?: $page->excerpt;
-    $canonical = $page->canonical_url ?: route('slug.show', $page->slug);
+    $canonical = $page->canonical_url ?: website_route('slug.show', $page->slug);
     $ogImage = $page->og_image
         ? asset('storage/' . $page->og_image)
         : asset('assets/images/og-default.jpg');
     $indexable = $page->is_indexable;
 
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
         ['name' => $page->title, 'url' => $canonical],
     ];
 @endphp
@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <ul class="crumb">
-                            <li><a href="{{ route('home') }}">Trang chủ</a></li>
+                            <li><a href="{{ website_route('home') }}">{{ __('Trang chủ') }}</a></li>
                             <li class="active">{{ $page->title }}</li>
                         </ul>
                         <h1 class="text-uppercase">{{ $page->title }}</h1>

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Galleries\Schemas;
 
+use App\Support\ContentTranslations;
 use App\Support\OptimizedImageUpload;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
@@ -15,6 +16,7 @@ class GalleryForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('Gallery'),
                 Section::make('Cấu hình hình ảnh')
                     ->schema([
                         OptimizedImageUpload::configure(

@@ -18,6 +18,11 @@ class SettingForm
     {
         return $schema
             ->components([
+                Section::make('English / Tiếng Anh')
+                    ->description('Bản dịch tiếng Anh cho cấu hình văn bản. Để trống để dùng bản gốc.')
+                    ->schema([Textarea::make('value_en')->label('Giá trị (EN)')->rows(4)])
+                    ->visible(fn (callable $get) => in_array($get('type'), ['text', 'textarea', 'editor']))
+                    ->collapsible()->columnSpanFull(),
                 Section::make('Cấu hình hệ thống')
                     ->schema([
                         Placeholder::make('label_placeholder')

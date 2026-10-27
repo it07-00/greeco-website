@@ -16,6 +16,7 @@ class Setting extends Model
     protected $fillable = [
         'key',
         'value',
+        'value_en',
         'type',
         'group',
     ];
@@ -362,10 +363,17 @@ class Setting extends Model
     public static function getValue(string $key, $default = null)
     {
         if (self::$cachedSettings === null) {
-            self::$cachedSettings = self::pluck('value', 'key');
+            self::$cachedSettings = self::get(['key', 'value', 'value_en'])->keyBy('key');
         }
 
-        return self::$cachedSettings->get($key) ?? $default;
+        $record = self::$cachedSettings->get($key);
+        if (app()->getLocale() === 'en' && filled($record?->value_en)) {
+            return $record->value_en;
+        }
+
+        $value = $record?->value ?? $default;
+
+        return is_string($value) ? __($value) : $value;
     }
 
     public static function clearCache(): void

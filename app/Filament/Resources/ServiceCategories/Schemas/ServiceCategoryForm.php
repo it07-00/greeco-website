@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ServiceCategories\Schemas;
 
+use App\Support\ContentTranslations;
 use App\Support\OptimizedImageUpload;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
@@ -17,6 +18,7 @@ class ServiceCategoryForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('ServiceCategory'),
                 Section::make('Thông tin danh mục dịch vụ')
                     ->schema([
                         TextInput::make('name')

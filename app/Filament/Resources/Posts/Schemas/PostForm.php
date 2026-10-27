@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Posts\Schemas;
 
 use App\Models\Post;
+use App\Support\ContentTranslations;
 use App\Support\OptimizedImageUpload;
 use App\Support\PublicSlug;
 use Filament\Actions\Action;
@@ -30,6 +31,7 @@ class PostForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('Post'),
                 Tabs::make('PostTabs')
                     ->tabs([
                         self::mainInformationTab(),

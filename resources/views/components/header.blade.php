@@ -7,10 +7,10 @@
                     <div class="d-flex justify-content-between xs-hide">
                         <div class="d-flex">
                             <div class="topbar-widget me-3"><a href="#"><i
-                                        class="icofont-clock-time"></i>{{ setting('work_hours', 'Thứ 2 - Thứ 7: 08:00 - 17:00') }}</a>
+                                        class="icofont-clock-time"></i>{{ setting('work_hours', __('Thứ 2 - Thứ 7: 08:00 - 17:00')) }}</a>
                             </div>
                             <div class="topbar-widget me-3"><a href="#"><i
-                                        class="icofont-location-pin"></i>{{ setting('address', '150 Đường 38-CL, Phường Cát Lái, TP. HCM') }}</a>
+                                        class="icofont-location-pin"></i>{{ setting('address', __('150 Đường 38-CL, Phường Cát Lái, TP. HCM')) }}</a>
                             </div>
                             <div class="topbar-widget me-3"><a href="mailto:{{ setting('email', 'info@greeco.vn') }}"><i
                                         class="icofont-envelope"></i>{{ setting('email', 'info@greeco.vn') }}</a></div>
@@ -19,15 +19,15 @@
                         <div class="d-flex">
                             <div class="social-icons">
                                 <a href="{{ setting('facebook_url', 'https://www.facebook.com/greecoofficial?locale=vi_VN') }}"
-                                    aria-label="GREECO trên Facebook"><i class="fa-brands fa-facebook fa-lg"
+                                    aria-label="{{ __('GREECO trên Facebook') }}"><i class="fa-brands fa-facebook fa-lg"
                                         aria-hidden="true"></i></a>
-                                <a href="{{ setting('twitter_url', '#') }}" aria-label="GREECO trên X (Twitter)"><i
+                                <a href="{{ setting('twitter_url', '#') }}" aria-label="{{ __('GREECO trên X (Twitter)') }}"><i
                                         class="fa-brands fa-x-twitter fa-lg" aria-hidden="true"></i></a>
-                                <a href="{{ setting('youtube_url', '#') }}" aria-label="GREECO trên YouTube"><i
+                                <a href="{{ setting('youtube_url', '#') }}" aria-label="{{ __('GREECO trên YouTube') }}"><i
                                         class="fa-brands fa-youtube fa-lg" aria-hidden="true"></i></a>
-                                <a href="{{ setting('pinterest_url', '#') }}" aria-label="GREECO trên Pinterest"><i
+                                <a href="{{ setting('pinterest_url', '#') }}" aria-label="{{ __('GREECO trên Pinterest') }}"><i
                                         class="fa-brands fa-pinterest fa-lg" aria-hidden="true"></i></a>
-                                <a href="{{ setting('instagram_url', '#') }}" aria-label="GREECO trên Instagram"><i
+                                <a href="{{ setting('instagram_url', '#') }}" aria-label="{{ __('GREECO trên Instagram') }}"><i
                                         class="fa-brands fa-instagram fa-lg" aria-hidden="true"></i></a>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                 <div class="de-flex sm-pt10">
                     <div class="de-flex-col">
                         <div id="logo">
-                            <a href="{{ route('home') }}" class="logo-container">
+                            <a href="{{ website_route('home') }}" class="logo-container">
                                 <div class="logo-text-wrap">
                                     <img class="logo-main"
                                         src="{{ setting('logo_light') ? asset('storage/' . setting('logo_light')) : asset('assets/images/logo-text-white-cropped.png') }}"
@@ -61,35 +61,35 @@
                     <div class="de-flex-col header-col-mid">
                         <!-- mainmenu begin -->
                         <ul id="mainmenu">
-                            <li><a class="menu-item" href="{{ route('home') }}">Trang chủ</a></li>
-                            <li><a class="menu-item" href="{{ route('about') }}">Giới thiệu</a>
+                            <li><a class="menu-item" href="{{ website_route('home') }}">{{ __('Trang chủ') }}</a></li>
+                            <li><a class="menu-item" href="{{ website_route('about') }}">{{ __('Giới thiệu') }}</a>
                                 <ul>
-                                    <li><a href="{{ route('about') }}">Giới thiệu</a></li>
-                                    <li><a href="{{ route('team') }}">Ban lãnh đạo & Chuyên gia</a></li>
-                                    <li><a href="{{ route('capability-profile') }}">Hồ sơ năng lực</a></li>
-                                    <li><a href="{{ route('gallery') }}">Thư viện ảnh</a></li>
+                                    <li><a href="{{ website_route('about') }}">{{ __('Giới thiệu') }}</a></li>
+                                    <li><a href="{{ website_route('team') }}">{{ __('Ban lãnh đạo & Chuyên gia') }}</a></li>
+                                    <li><a href="{{ website_route('capability-profile') }}">{{ __('Hồ sơ năng lực') }}</a></li>
+                                    <li><a href="{{ website_route('gallery') }}">{{ __('Thư viện ảnh') }}</a></li>
                                 </ul>
                             </li>
-                            <li><a class="menu-item" href="{{ route('posts.index') }}">Tin tức</a></li>
-                            <li><a class="menu-item" href="{{ route('services.index') }}">Lĩnh vực hoạt động</a>
+                            <li><a class="menu-item" href="{{ website_route('posts.index') }}">{{ __('Tin tức') }}</a></li>
+                            <li><a class="menu-item" href="{{ website_route('services.index') }}">{{ __('Lĩnh vực hoạt động') }}</a>
                                 <ul>
-                                    <li><a href="{{ route('services.dao-tao') }}">Đào tạo & Bồi dưỡng</a></li>
-                                    <li><a href="{{ route('services.tu-van') }}">Dịch vụ Tư vấn</a></li>
-                                    <li><a href="{{ route('services.du-an') }}">Phát triển Dự án</a></li>
-                                    <li><a href="{{ route('services.nghien-cuu') }}">Nghiên cứu và Chuyển giao Công
-                                            nghệ</a></li>
-                                    <li><a href="{{ route('services.hoi-thao') }}">Hội thảo & Truyền thông</a></li>
+                                    <li><a href="{{ website_route('services.dao-tao') }}">{{ __('Đào tạo & Bồi dưỡng') }}</a></li>
+                                    <li><a href="{{ website_route('services.tu-van') }}">{{ __('Dịch vụ Tư vấn') }}</a></li>
+                                    <li><a href="{{ website_route('services.du-an') }}">{{ __('Phát triển Dự án') }}</a></li>
+                                    <li><a href="{{ website_route('services.nghien-cuu') }}">{{ __('Nghiên cứu và Chuyển giao Công nghệ') }}</a></li>
+                                    <li><a href="{{ website_route('services.hoi-thao') }}">{{ __('Hội thảo & Truyền thông') }}</a></li>
                                 </ul>
                             </li>
-                            <li><a class="menu-item" href="{{ route('library') }}">Văn bản pháp luật</a></li>
-                            <li><a class="menu-item" href="{{ route('projects.index') }}">Dự án & Nghiên cứu</a></li>
-                            <li><a class="menu-item" href="{{ route('contact') }}">Liên hệ</a></li>
+                            <li><a class="menu-item" href="{{ website_route('library') }}">{{ __('Văn bản pháp luật') }}</a></li>
+                            <li><a class="menu-item" href="{{ website_route('projects.index') }}">{{ __('Dự án & Nghiên cứu') }}</a></li>
+                            <li><a class="menu-item" href="{{ website_route('contact') }}">{{ __('Liên hệ') }}</a></li>
                         </ul>
                         <!-- mainmenu end -->
                     </div>
                     <div class="de-flex-col">
                         <div class="menu_side_area">
-                            <a href="{{ route('contact') }}" class="btn-main btn-line">Liên hệ ngay</a>
+                            <x-language-switcher />
+                            <a href="{{ website_route('contact') }}" class="btn-main btn-line">{{ __('Liên hệ ngay') }}</a>
                             <span id="menu-btn"></span>
                         </div>
 

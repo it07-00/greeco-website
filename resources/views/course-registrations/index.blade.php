@@ -1,7 +1,7 @@
 @php
-    $seoTitle = 'Đăng ký khóa học - Viện nghiên cứu và phát triển kinh tế xanh - Greeco';
-    $seoDescription = 'Chọn khóa học phù hợp và đăng ký tham gia tại Viện nghiên cứu và phát triển kinh tế xanh - Greeco.';
-    $canonical = route('course-registration.index');
+    $seoTitle = __('Đăng ký khóa học - Viện nghiên cứu và phát triển kinh tế xanh - Greeco');
+    $seoDescription = __('Chọn khóa học phù hợp và đăng ký tham gia tại Viện nghiên cứu và phát triển kinh tế xanh - Greeco.');
+    $canonical = website_route('course-registration.index');
     $indexable = false;
     $courseCategories = $courses
         ->pluck('category.name')
@@ -539,17 +539,17 @@
             <div class="course-picker-shell">
                 <div class="picker-hero-grid">
                     <div>
-                        <div class="picker-hero-kicker" data-picker-kicker>Đăng ký khóa học tại Viện nghiên cứu và phát triển kinh tế xanh - Greeco</div>
+                        <div class="picker-hero-kicker" data-picker-kicker>{{ __('Đăng ký khóa học tại Viện nghiên cứu và phát triển kinh tế xanh - Greeco') }}</div>
                         <h1 class="picker-hero-title" data-picker-title>
-                            Chọn khóa học bạn muốn đăng ký
+                            {{ __('Chọn khóa học bạn muốn đăng ký') }}
                         </h1>
                         <div class="picker-hero-actions" data-picker-actions>
                             <a class="picker-button picker-button-primary" href="#chon-khoa-hoc">
-                                Chọn khóa học
+                                {{ __('Chọn khóa học') }}
                                 <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
                             </a>
-                            <a class="picker-button picker-button-secondary" href="{{ route('services.dao-tao') }}">
-                                Xem nội dung đào tạo
+                            <a class="picker-button picker-button-secondary" href="{{ website_route('services.dao-tao') }}">
+                                {{ __('Xem nội dung đào tạo') }}
                             </a>
                         </div>
                     </div>
@@ -557,7 +557,7 @@
                     <figure class="picker-hero-visual" data-picker-visual>
                         <img
                             src="{{ asset('assets/images/services/iso-9001-course.png') }}"
-                            alt="Chương trình đào tạo chuyên nghiệp tại GREECO"
+                            alt="{{ __('Chương trình đào tạo chuyên nghiệp tại GREECO') }}"
                             width="900"
                             height="1125"
                             loading="eager"
@@ -569,7 +569,7 @@
         </section>
 
         @if ($courseCategories->isNotEmpty())
-            <div class="picker-marquee" aria-label="Các nhóm khóa học">
+            <div class="picker-marquee" aria-label="{{ __('Các nhóm khóa học') }}">
                 <div class="picker-marquee-track">
                     @foreach ([1, 2] as $group)
                         <div class="picker-marquee-group" @if ($group === 2) aria-hidden="true" @endif>
@@ -585,21 +585,22 @@
         <section class="picker-interest" id="chon-khoa-hoc">
             <div class="course-picker-shell">
                 <div class="picker-section-heading">
-                    <h2>Chọn chương trình đào tạo phù hợp</h2>
+                    <h2>{{ __('Chọn chương trình đào tạo phù hợp') }}</h2>
                 </div>
 
                 <div class="picker-bento" data-picker-panel>
                     <div class="picker-form-panel">
                         @if ($courses->isNotEmpty())
                             @php
-                                $groupedCourses = $courses->groupBy(fn ($c) => $c->category?->name ?: 'Khóa học khác');
+                                $groupedCourses = $courses->groupBy(fn ($c) => $c->category?->name ?: __('Khóa học khác'));
                             @endphp
-                            <form method="GET" action="{{ route('course-registration.index') }}">
+                            <form method="GET" action="{{ website_route('course-registration.index') }}">
+                            @if(app()->getLocale() === 'en')<input type="hidden" name="lang" value="en">@endif
                                 <label class="picker-form-label" for="course">
-                                    Khóa học <span class="text-danger" aria-hidden="true">*</span>
+                                    {{ __('Khóa học') }} <span class="text-danger" aria-hidden="true">*</span>
                                 </label>
                                 <select class="picker-select" id="course" name="course" required>
-                                    <option value="" selected disabled>-- Chọn khóa học --</option>
+                                    <option value="" selected disabled>{{ __('-- Chọn khóa học --') }}</option>
                                     @foreach ($groupedCourses as $categoryName => $group)
                                         <optgroup label="{{ $categoryName }}">
                                             @foreach ($group as $course)
@@ -612,13 +613,13 @@
                                 </select>
 
                                 <button class="picker-submit" type="submit">
-                                    Tiếp tục đăng ký
+                                    {{ __('Tiếp tục đăng ký') }}
                                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                                 </button>
                             </form>
                         @else
                             <div class="alert alert-info mb-0" role="status">
-                                Hiện chưa có khóa học nào đang mở đăng ký. Vui lòng quay lại sau.
+                                {{ __('Hiện chưa có khóa học nào đang mở đăng ký. Vui lòng quay lại sau.') }}
                             </div>
                         @endif
                     </div>
@@ -626,15 +627,15 @@
                     <aside class="picker-context-panel">
                         <div class="text-center text-md-start">
                             <div class="qr-code-box bg-white p-2 rounded-3 d-inline-block shadow-sm my-2">
-                                <img src="{{ route('course-registration.selection-qr', ['format' => 'png']) }}"
-                                     alt="Mã QR đăng ký khóa học"
+                                <img src="{{ website_route('course-registration.selection-qr', ['format' => 'png']) }}"
+                                     alt="{{ __('Mã QR đăng ký khóa học') }}"
                                      width="130"
                                      height="130"
                                      class="d-block rounded">
                             </div>
                         </div>
-                        <a class="picker-context-link" href="{{ route('services.dao-tao') }}">
-                            Khám phá toàn bộ khóa học
+                        <a class="picker-context-link" href="{{ website_route('services.dao-tao') }}">
+                            {{ __('Khám phá toàn bộ khóa học') }}
                             <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     </aside>
@@ -648,22 +649,22 @@
                     <article class="picker-step" data-picker-step>
                         <span class="picker-step-number">01</span>
                         <div>
-                            <h3>Chọn khóa học</h3>
-                            <p>Lựa chọn chương trình đào tạo phù hợp với nhu cầu.</p>
+                            <h3>{{ __('Chọn khóa học') }}</h3>
+                            <p>{{ __('Lựa chọn chương trình đào tạo phù hợp với nhu cầu.') }}</p>
                         </div>
                     </article>
                     <article class="picker-step" data-picker-step>
                         <span class="picker-step-number">02</span>
                         <div>
-                            <h3>Điền thông tin</h3>
-                            <p>Cung cấp thông tin đăng ký cho cá nhân hoặc doanh nghiệp.</p>
+                            <h3>{{ __('Điền thông tin') }}</h3>
+                            <p>{{ __('Cung cấp thông tin đăng ký cho cá nhân hoặc doanh nghiệp.') }}</p>
                         </div>
                     </article>
                     <article class="picker-step" data-picker-step>
                         <span class="picker-step-number">03</span>
                         <div>
-                            <h3>GREECO xác nhận</h3>
-                            <p>Đội ngũ GREECO liên hệ xác nhận lịch học & học phí.</p>
+                            <h3>{{ __('GREECO xác nhận') }}</h3>
+                            <p>{{ __('Đội ngũ GREECO liên hệ xác nhận lịch học & học phí.') }}</p>
                         </div>
                     </article>
                 </div>
@@ -673,9 +674,9 @@
         <section class="picker-action">
             <div class="course-picker-shell">
                 <div class="picker-action-inner">
-                    <h2>Sẵn sàng chọn khóa học phù hợp?</h2>
+                    <h2>{{ __('Sẵn sàng chọn khóa học phù hợp?') }}</h2>
                     <a class="picker-button" href="#chon-khoa-hoc">
-                        Bắt đầu đăng ký
+                        {{ __('Bắt đầu đăng ký') }}
                         <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
                     </a>
                 </div>

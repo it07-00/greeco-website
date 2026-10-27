@@ -1,7 +1,7 @@
 @php
     $seoTitle = $post->meta_title ?: $post->title . ' | ' . config('app.name');
     $seoDescription = $post->meta_description ?: $post->excerpt;
-    $canonical = $post->canonical_url ?: route('slug.show', $post->slug);
+    $canonical = $post->canonical_url ?: website_route('slug.show', $post->slug);
     $ogImage = $post->og_image
         ? asset('storage/' . $post->og_image)
         : asset('assets/images/og-default.jpg');
@@ -13,11 +13,11 @@
     $seoTags = $post->tags ?? [];
     
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Tin tức', 'url' => route('posts.index')],
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Tin tức'), 'url' => website_route('posts.index')],
         ['name' => $post->title, 'url' => $canonical]
     ];
-    $subheaderLabel = $post->category?->name ?? 'Tin tức';
+    $subheaderLabel = $post->category?->name ?? __('Tin tức');
     $wordCount = str_word_count(strip_tags($post->content ?? $post->excerpt ?? ''));
     $readTime = max(1, (int) ceil($wordCount / 200));
 @endphp
@@ -317,9 +317,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ul class="crumb">
-                            <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                            <li><a href="{{ route('posts.index') }}">Tin tức</a></li>
-                            <li class="active">Chi tiết bài viết</li>
+                            <li><a href="{{ website_route('home') }}">{{ __('Trang chủ') }}</a></li>
+                            <li><a href="{{ website_route('posts.index') }}">{{ __('Tin tức') }}</a></li>
+                            <li class="active">{{ __('Chi tiết bài viết') }}</li>
                         </ul>
                         <p class="text-uppercase h1 mb-0">{{ $subheaderLabel }}</p>
                     </div>
@@ -340,7 +340,7 @@
                             <div class="post-detail-meta mb-3">
                                 <span class="post-detail-meta__item">
                                     <i class="fa-solid fa-building me-1"></i>
-                                    <span class="fw-semibold text-dark">Viện GREECO</span>
+                                    <span class="fw-semibold text-dark">{{ __('Viện GREECO') }}</span>
                                 </span>
                                 @if($post->published_at)
                                     <span class="post-detail-meta__item">
@@ -350,11 +350,11 @@
                                 @endif
                                 <span class="post-detail-meta__item">
                                     <i class="fa-regular fa-eye me-1"></i>
-                                    <span>{{ number_format($post->views_count ?? 0) }} lượt xem</span>
+                                    <span>{{ number_format($post->views_count ?? 0) }} {{ __('lượt xem') }}</span>
                                 </span>
                                 <span class="post-detail-meta__item">
                                     <i class="fa-regular fa-clock me-1"></i>
-                                    <span>{{ $readTime }} phút đọc</span>
+                                    <span>{{ $readTime }} {{ __('phút đọc') }}</span>
                                 </span>
                             </div>
 
@@ -383,16 +383,16 @@
                                                     <i class="fa-regular fa-file-pdf fs-22"></i>
                                                 </div>
                                                 <div>
-                                                    <h5 class="mb-1 text-dark fw-bold">Tài liệu đính kèm bài viết</h5>
-                                                    <span class="text-muted fs-14">Tệp tin định dạng PDF</span>
+                                                    <h5 class="mb-1 text-dark fw-bold">{{ __('Tài liệu đính kèm bài viết') }}</h5>
+                                                    <span class="text-muted fs-14">{{ __('Tệp tin định dạng PDF') }}</span>
                                                 </div>
                                             </div>
                                             <div class="d-flex gap-2">
                                                 <a href="{{ Storage::url($post->pdf_path) }}" target="_blank" class="btn btn-outline-pdf-custom py-2 px-4 rounded-3 fw-bold d-flex align-items-center gap-2">
-                                                    <i class="fa-solid fa-up-right-from-square"></i> Mở tab mới
+                                                    <i class="fa-solid fa-up-right-from-square"></i> {{ __('Mở tab mới') }}
                                                 </a>
                                                 <a href="{{ Storage::url($post->pdf_path) }}" download class="btn btn-success text-white py-2 px-4 rounded-3 fw-bold d-flex align-items-center gap-2">
-                                                    <i class="fa-solid fa-download"></i> Tải bản PDF
+                                                    <i class="fa-solid fa-download"></i> {{ __('Tải bản PDF') }}
                                                 </a>
                                             </div>
                                         </div>
@@ -405,15 +405,15 @@
                                                 <div class="bg-success-subtle text-success p-3 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; background-color: rgba(25, 135, 84, 0.1);">
                                                     <i class="fa-regular fa-file-pdf fs-36 text-success"></i>
                                                 </div>
-                                                <h4 class="text-dark fw-bold mb-2">Tài liệu đính kèm</h4>
-                                                <p class="text-muted fs-14 mb-4">Bài viết này được trình bày dưới dạng tài liệu PDF. Để có trải nghiệm đọc tốt nhất trên thiết bị di động, vui lòng chọn một trong hai tùy chọn dưới đây.</p>
+                                                <h4 class="text-dark fw-bold mb-2">{{ __('Tài liệu đính kèm') }}</h4>
+                                                <p class="text-muted fs-14 mb-4">{{ __('Bài viết này được trình bày dưới dạng tài liệu PDF. Để có trải nghiệm đọc tốt nhất trên thiết bị di động, vui lòng chọn một trong hai tùy chọn dưới đây.') }}</p>
                                                 
                                                 <div class="d-grid gap-3">
                                                     <a href="{{ Storage::url($post->pdf_path) }}" target="_blank" class="btn btn-outline-pdf-custom py-3 rounded-3 fw-bold d-flex align-items-center justify-content-center gap-2">
-                                                        <i class="fa-solid fa-book-open fs-18"></i> Xem trực tuyến (Toàn màn hình)
+                                                        <i class="fa-solid fa-book-open fs-18"></i> {{ __('Xem trực tuyến (Toàn màn hình)') }}
                                                     </a>
                                                     <a href="{{ Storage::url($post->pdf_path) }}" download class="btn btn-success text-white py-3 rounded-3 fw-bold d-flex align-items-center justify-content-center gap-2">
-                                                        <i class="fa-solid fa-download fs-18"></i> Tải bản PDF về máy
+                                                        <i class="fa-solid fa-download fs-18"></i> {{ __('Tải bản PDF về máy') }}
                                                     </a>
                                                 </div>
                                             </div>
@@ -427,29 +427,29 @@
                             <!-- Article Tags -->
                             @if(!empty($post->tags))
                                 <div class="post-tags mt-4 pt-3 border-top">
-                                    <span class="fw-bold me-2 text-dark"><i class="fa-solid fa-tags me-1 text-success"></i>Thẻ bài viết:</span>
+                                    <span class="fw-bold me-2 text-dark"><i class="fa-solid fa-tags me-1 text-success"></i>{{ __('Thẻ bài viết:') }}</span>
                                     @foreach($post->tags as $tag)
-                                        <a href="{{ route('posts.index', ['tag' => $tag]) }}" rel="nofollow" class="tag-pill">{{ $tag }}</a>
+                                        <a href="{{ website_route('posts.index', ['tag' => $tag]) }}" rel="nofollow" class="tag-pill">{{ $tag }}</a>
                                     @endforeach
                                 </div>
                             @endif
 
                             <!-- Social Share Bar -->
                             <div class="share-bar-container">
-                                <span class="fw-bold text-dark"><i class="fa-solid fa-share-nodes me-2 text-success"></i>Chia sẻ bài viết:</span>
+                                <span class="fw-bold text-dark"><i class="fa-solid fa-share-nodes me-2 text-success"></i>{{ __('Chia sẻ bài viết:') }}</span>
                                 <div class="d-flex gap-2">
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-facebook" title="Chia sẻ lên Facebook">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-facebook" title="{{ __('Chia sẻ lên Facebook') }}">
                                         <i class="fa-brands fa-facebook-f"></i>
                                     </a>
-                                    <a href="https://twitter.com/intent/tweet?url={{ urlencode($canonical) }}&text={{ urlencode($post->title) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-twitter" title="Chia sẻ lên Twitter / X">
+                                    <a href="https://twitter.com/intent/tweet?url={{ urlencode($canonical) }}&text={{ urlencode($post->title) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-twitter" title="{{ __('Chia sẻ lên Twitter / X') }}">
                                         <i class="fa-brands fa-x-twitter"></i>
                                     </a>
-                                    <a href="https://zalo.me/s/share?url={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-zalo" title="Chia sẻ lên Zalo">
+                                    <a href="https://zalo.me/s/share?url={{ urlencode($canonical) }}" target="_blank" rel="noopener noreferrer" class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-zalo" title="{{ __('Chia sẻ lên Zalo') }}">
                                         <span class="zalo-share-icon">Z</span>
                                     </a>
-                                    <button class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-copy position-relative" id="copy-share-link" data-url="{{ $canonical }}" title="Sao chép liên kết">
+                                    <button class="btn btn-light rounded-circle d-inline-flex align-items-center justify-content-center p-0 share-btn share-copy position-relative" id="copy-share-link" data-url="{{ $canonical }}" title="{{ __('Sao chép liên kết') }}">
                                         <i class="fa-solid fa-link"></i>
-                                        <span class="copy-tooltip" id="copy-tooltip">Đã sao chép!</span>
+                                        <span class="copy-tooltip" id="copy-tooltip">{{ __('Đã sao chép!') }}</span>
                                     </button>
                                 </div>
                             </div>
@@ -460,47 +460,47 @@
                     <div class="col-lg-4">
                         <!-- Related Posts Card -->
                         <div class="sidebar-widget-card">
-                            <h4 class="sidebar-widget-title">Bài viết liên quan</h4>
+                            <h4 class="sidebar-widget-title">{{ __('Bài viết liên quan') }}</h4>
                             @if($relatedPosts->isNotEmpty())
                                 <div class="d-flex flex-column">
                                     @foreach($relatedPosts as $relPost)
                                         <div class="related-post-item">
                                             <img src="{{ $relPost->thumbnail ? asset('storage/' . $relPost->thumbnail) : asset('assets/images/blog-thumbnail/2.webp') }}" alt="{{ $relPost->title }}" class="related-post-img" loading="lazy" decoding="async">
                                             <div>
-                                                <a href="{{ route('slug.show', $relPost->slug) }}" class="related-post-title">{{ $relPost->title }}</a>
+                                                <a href="{{ website_route('slug.show', $relPost->slug) }}" class="related-post-title">{{ $relPost->title }}</a>
                                                 <small class="text-muted d-block mt-1">
-                                                    <i class="fa-regular fa-eye me-1"></i>{{ number_format($relPost->views_count ?? 0) }} lượt xem
+                                                    <i class="fa-regular fa-eye me-1"></i>{{ number_format($relPost->views_count ?? 0) }} {{ __('lượt xem') }}
                                                 </small>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
                             @else
-                                <p class="text-muted small mb-0">Không có bài viết liên quan khác.</p>
+                                <p class="text-muted small mb-0">{{ __('Không có bài viết liên quan khác.') }}</p>
                             @endif
                         </div>
                         
                         <!-- Popular Tags Card -->
                         <div class="sidebar-widget-card">
-                            <h4 class="sidebar-widget-title">Từ khóa phổ biến</h4>
+                            <h4 class="sidebar-widget-title">{{ __('Từ khóa phổ biến') }}</h4>
                             <div class="d-flex flex-wrap">
-                                <a href="{{ route('posts.index', ['tag' => 'Kinh tế xanh']) }}" rel="nofollow" class="tag-pill">Kinh tế xanh</a>
-                                <a href="{{ route('posts.index', ['tag' => 'ESG']) }}" rel="nofollow" class="tag-pill">ESG</a>
-                                <a href="{{ route('posts.index', ['tag' => 'Net Zero']) }}" rel="nofollow" class="tag-pill">Net Zero</a>
-                                <a href="{{ route('posts.index', ['tag' => 'Carbon']) }}" rel="nofollow" class="tag-pill">Carbon</a>
-                                <a href="{{ route('posts.index', ['tag' => 'Môi trường']) }}" rel="nofollow" class="tag-pill">Môi trường</a>
-                                <a href="{{ route('posts.index', ['tag' => 'Tái chế']) }}" rel="nofollow" class="tag-pill">Tái chế</a>
-                                <a href="{{ route('posts.index', ['tag' => 'Bền vững']) }}" rel="nofollow" class="tag-pill">Bền vững</a>
-                                <a href="{{ route('posts.index', ['tag' => 'Tuần hoàn']) }}" rel="nofollow" class="tag-pill">Tuần hoàn</a>
+                                <a href="{{ website_route('posts.index', ['tag' => __('Kinh tế xanh')]) }}" rel="nofollow" class="tag-pill">{{ __('Kinh tế xanh') }}</a>
+                                <a href="{{ website_route('posts.index', ['tag' => 'ESG']) }}" rel="nofollow" class="tag-pill">ESG</a>
+                                <a href="{{ website_route('posts.index', ['tag' => 'Net Zero']) }}" rel="nofollow" class="tag-pill">Net Zero</a>
+                                <a href="{{ website_route('posts.index', ['tag' => 'Carbon']) }}" rel="nofollow" class="tag-pill">Carbon</a>
+                                <a href="{{ website_route('posts.index', ['tag' => __('Môi trường')]) }}" rel="nofollow" class="tag-pill">{{ __('Môi trường') }}</a>
+                                <a href="{{ website_route('posts.index', ['tag' => __('Tái chế')]) }}" rel="nofollow" class="tag-pill">{{ __('Tái chế') }}</a>
+                                <a href="{{ website_route('posts.index', ['tag' => __('Bền vững')]) }}" rel="nofollow" class="tag-pill">{{ __('Bền vững') }}</a>
+                                <a href="{{ website_route('posts.index', ['tag' => __('Tuần hoàn')]) }}" rel="nofollow" class="tag-pill">{{ __('Tuần hoàn') }}</a>
                             </div>
                         </div>
 
                         <!-- Consultation CTA Card -->
                         <div class="sidebar-widget-card bg-light border-0 text-center py-4">
                             <i class="fa-solid fa-lightbulb text-success fs-1 mb-3"></i>
-                            <h5 class="fw-bold text-dark mb-2">Tư vấn Phát triển Bền vững</h5>
-                            <p class="text-secondary small mb-4">Liên hệ Viện GREECO để được tư vấn chuyên sâu về tín chỉ carbon, ESG và chuẩn hóa quốc tế.</p>
-                            <a href="{{ route('contact') }}" class="btn btn-success text-white rounded-pill px-4 py-2 fw-bold w-100 shadow-sm">Liên hệ ngay</a>
+                            <h5 class="fw-bold text-dark mb-2">{{ __('Tư vấn Phát triển Bền vững') }}</h5>
+                            <p class="text-secondary small mb-4">{{ __('Liên hệ Viện GREECO để được tư vấn chuyên sâu về tín chỉ carbon, ESG và chuẩn hóa quốc tế.') }}</p>
+                            <a href="{{ website_route('contact') }}" class="btn btn-success text-white rounded-pill px-4 py-2 fw-bold w-100 shadow-sm">{{ __('Liên hệ ngay') }}</a>
                         </div>
                     </div>
                 </div>

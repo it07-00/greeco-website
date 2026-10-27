@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
     use HasFactory;
+    use HasTranslations;
 
     protected $fillable = [
         'title',

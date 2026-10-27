@@ -1,15 +1,15 @@
 @php
-    $seoTitle = $course->meta_title ?: $course->title . ' - Viện GREECO';
-    $seoDescription = $course->meta_description ?: ($course->description ?: 'Thông tin chương trình đào tạo ' . $course->title . ' tại Viện GREECO.');
-    $canonical = $course->canonical_url ?: route('slug.show', $course->slug);
+    $seoTitle = $course->meta_title ?: $course->title . ' ' . __('- Viện GREECO');
+    $seoDescription = $course->meta_description ?: ($course->description ?: __('Thông tin chương trình đào tạo') . ' ' . $course->title . ' ' . __('tại Viện GREECO.'));
+    $canonical = $course->canonical_url ?: website_route('slug.show', $course->slug);
     $ogImage = $course->og_image
         ? asset('storage/' . $course->og_image)
         : ($course->image ? asset('storage/' . $course->image) : asset('assets/images/services/iso-9001-course.png'));
     $indexable = $course->is_indexable;
 
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Đào tạo & Bồi dưỡng', 'url' => route('services.dao-tao')],
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Đào tạo & Bồi dưỡng'), 'url' => website_route('services.dao-tao')],
         ['name' => $course->title, 'url' => $canonical],
     ];
 
@@ -570,7 +570,7 @@
             <div class="course-shell">
                 <div class="course-hero-grid">
                     <div>
-                        <ul class="course-breadcrumbs" aria-label="Đường dẫn">
+                        <ul class="course-breadcrumbs" aria-label="{{ __('Đường dẫn') }}">
                             @foreach ($breadcrumbs as $index => $crumb)
                                 <li>
                                     @if ($index === count($breadcrumbs) - 1)
@@ -589,20 +589,20 @@
                         @endif
 
                         <div class="course-hero-price">
-                            <span>Học phí</span>
-                            <strong>{{ $course->price ?: 'Liên hệ' }}</strong>
+                            <span>{{ __('Học phí') }}</span>
+                            <strong>{{ $course->price ?: __('Liên hệ') }}</strong>
                             @if ($course->original_price)
                                 <del>{{ $course->original_price }}</del>
                             @endif
                         </div>
 
                         <div class="course-hero-actions" data-course-hero-actions>
-                            <a href="{{ route('course-registration.create', $course) }}" class="course-button course-button-primary">
-                                Đăng ký khóa học
+                            <a href="{{ website_route('course-registration.create', $course) }}" class="course-button course-button-primary">
+                                {{ __('Đăng ký khóa học') }}
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
                             <a href="{{ ! empty($chapters) ? '#course-curriculum' : '#course-registration' }}" class="course-button course-button-secondary">
-                                Xem nội dung
+                                {{ __('Xem nội dung') }}
                             </a>
                         </div>
                     </div>
@@ -634,9 +634,9 @@
                 <div class="course-shell">
                     <div class="course-curriculum-grid" data-pin-container>
                         <div class="course-section-heading" data-pin-panel>
-                            <h2>Chương trình học</h2>
+                            <h2>{{ __('Chương trình học') }}</h2>
                             <p>
-                                Nội dung được chia thành từng phần để học viên dễ theo dõi, thực hành và áp dụng vào tình huống thực tế.
+                                {{ __('Nội dung được chia thành từng phần để học viên dễ theo dõi, thực hành và áp dụng vào tình huống thực tế.') }}
                             </p>
                         </div>
 
@@ -715,12 +715,12 @@
             <div class="course-shell">
                 <div class="course-action-panel">
                     <div class="course-action-copy">
-                        <h2>Sẵn sàng tham gia khóa học?</h2>
+                        <h2>{{ __('Sẵn sàng tham gia khóa học?') }}</h2>
                         <p>
-                            Đăng ký trực tiếp trên website hoặc quét mã QR bằng điện thoại. GREECO sẽ liên hệ xác nhận lịch học, địa điểm và học phí.
+                            {{ __('Đăng ký trực tiếp trên website hoặc quét mã QR bằng điện thoại. GREECO sẽ liên hệ xác nhận lịch học, địa điểm và học phí.') }}
                         </p>
-                        <a href="{{ route('course-registration.create', $course) }}" class="course-button course-button-primary">
-                            Đi đến form đăng ký
+                        <a href="{{ website_route('course-registration.create', $course) }}" class="course-button course-button-primary">
+                            {{ __('Đi đến form đăng ký') }}
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
@@ -728,8 +728,8 @@
                     <aside class="course-qr-card">
                         <div class="course-qr-frame">
                             <img
-                                src="{{ route('course-registration.qr', ['course' => $course, 'format' => 'png']) }}"
-                                alt="Mã QR đăng ký khóa học {{ $course->title }}"
+                                src="{{ website_route('course-registration.qr', ['course' => $course, 'format' => 'png']) }}"
+                                alt="{{ __('Mã QR đăng ký khóa học') }} {{ $course->title }}"
                                 width="240"
                                 height="240"
                                 class="course-qr-image"
@@ -737,7 +737,7 @@
                                 decoding="async"
                             >
                         </div>
-                        <h3 class="mb-0">Quét mã để đăng ký</h3>
+                        <h3 class="mb-0">{{ __('Quét mã để đăng ký') }}</h3>
                     </aside>
                 </div>
             </div>
@@ -745,8 +745,8 @@
     </main>
 
     <div class="course-mobile-action">
-        <a href="{{ route('course-registration.create', $course) }}" class="course-button course-button-primary">
-            Đăng ký khóa học
+        <a href="{{ website_route('course-registration.create', $course) }}" class="course-button course-button-primary">
+            {{ __('Đăng ký khóa học') }}
         </a>
     </div>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TeamMembers\Schemas;
 
+use App\Support\ContentTranslations;
 use App\Support\OptimizedImageUpload;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
@@ -16,6 +17,7 @@ class TeamMemberForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('TeamMember'),
                 Section::make('Thông tin chung')->schema([
                     TextInput::make('name')
                         ->label('Họ và tên')

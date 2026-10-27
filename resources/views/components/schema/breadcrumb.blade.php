@@ -8,7 +8,7 @@
             '@type' => 'ListItem',
             'position' => $index + 1,
             'name' => $item['name'],
-            'item' => $item['url'],
+            'item' => website_url($item['url']),
         ])->all(),
     ];
 @endphp

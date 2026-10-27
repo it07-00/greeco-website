@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Services\Schemas;
 
 use App\Models\Service;
+use App\Support\ContentTranslations;
 use App\Support\OptimizedImageUpload;
 use App\Support\PublicSlug;
 use Filament\Forms\Components\FileUpload;
@@ -22,6 +23,7 @@ class ServiceForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('Service'),
                 Tabs::make('ServiceTabs')
                     ->tabs([
                         Tab::make('Thông tin chính')

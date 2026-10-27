@@ -1,11 +1,11 @@
 @php
-    $seoTitle = 'Liên hệ - Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO';
-    $seoDescription = 'Thông tin liên hệ chính thức của Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO. Địa chỉ, số điện thoại, email và bản đồ hướng dẫn.';
-    $canonical = route('contact');
+    $seoTitle = __('Liên hệ - Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO');
+    $seoDescription = __('Thông tin liên hệ chính thức của Viện Nghiên cứu và Phát triển Kinh tế Xanh - GREECO. Địa chỉ, số điện thoại, email và bản đồ hướng dẫn.');
+    $canonical = website_route('contact');
 
     $breadcrumbs = [
-        ['name' => 'Trang chủ', 'url' => route('home')],
-        ['name' => 'Liên hệ', 'url' => route('contact')]
+        ['name' => __('Trang chủ'), 'url' => website_route('home')],
+        ['name' => __('Liên hệ'), 'url' => website_route('contact')]
     ];
 @endphp
 
@@ -21,11 +21,11 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <ul class="crumb">
-                            <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                            <li class="active">Liên hệ</li>
+                            <li><a href="{{ website_route('home') }}">{{ __('Trang chủ') }}</a></li>
+                            <li class="active">{{ __('Liên hệ') }}</li>
                         </ul>
-                        <h1 class="text-uppercase">Liên hệ</h1>
-                        <p class="col-lg-10 lead">Kết nối với GREECO để cùng kiến tạo tương lai xanh bền vững.</p>
+                        <h1 class="text-uppercase">{{ __('Liên hệ') }}</h1>
+                        <p class="col-lg-10 lead">{{ __('Kết nối với GREECO để cùng kiến tạo tương lai xanh bền vững.') }}</p>
                     </div>
                 </div>
             </div>
@@ -35,8 +35,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center mb-5">
-                        <h3 class="wow fadeInUp text-dark fw-bold">Gửi tin nhắn cho chúng tôi</h3>
-                        <p class="lead col-lg-8 mx-auto text-muted">Nếu bạn có bất kỳ câu hỏi, đề xuất hợp tác hoặc yêu cầu tư vấn nào, xin vui lòng điền vào biểu mẫu dưới đây. Đội ngũ chuyên gia của chúng tôi sẽ phản hồi trong thời gian sớm nhất.</p>
+                        <h3 class="wow fadeInUp text-dark fw-bold">{{ __('Gửi tin nhắn cho chúng tôi') }}</h3>
+                        <p class="lead col-lg-8 mx-auto text-muted">{{ __('Nếu bạn có bất kỳ câu hỏi, đề xuất hợp tác hoặc yêu cầu tư vấn nào, xin vui lòng điền vào biểu mẫu dưới đây. Đội ngũ chuyên gia của chúng tôi sẽ phản hồi trong thời gian sớm nhất.') }}</p>
                     </div>
                 </div>
 
@@ -57,8 +57,8 @@
                                                 <i class="fa-solid fa-clock"></i>
                                             </div>
                                             <div class="contact-text-group">
-                                                <span class="contact-label">Thời gian làm việc</span>
-                                                <span class="contact-value">{{ setting('work_hours', 'Thứ 2 - Thứ 7: 08:00 - 17:00') }}</span>
+                                                <span class="contact-label">{{ __('Thời gian làm việc') }}</span>
+                                                <span class="contact-value">{{ setting('work_hours', __('Thứ 2 - Thứ 7: 08:00 - 17:00')) }}</span>
                                             </div>
                                         </div>
 
@@ -68,8 +68,8 @@
                                                 <i class="fa-solid fa-location-dot"></i>
                                             </div>
                                             <div class="contact-text-group">
-                                                <span class="contact-label">Địa chỉ văn phòng</span>
-                                                <span class="contact-value">{{ setting('address', '150 Đường 38-CL, Phường Cát Lái, TP. HCM') }}</span>
+                                                <span class="contact-label">{{ __('Địa chỉ văn phòng') }}</span>
+                                                <span class="contact-value">{{ setting('address', __('150 Đường 38-CL, Phường Cát Lái, TP. HCM')) }}</span>
                                             </div>
                                         </div>
 
@@ -79,7 +79,7 @@
                                                 <i class="fa-solid fa-phone"></i>
                                             </div>
                                             <div class="contact-text-group">
-                                                <span class="contact-label">Điện thoại liên hệ</span>
+                                                <span class="contact-label">{{ __('Điện thoại liên hệ') }}</span>
                                                 @if(setting('phone_2'))
                                                     <a href="tel:{{ str_replace(' ', '', setting('phone_2')) }}" class="contact-value text-decoration-none hover-underline text-white d-block hotline-link">
                                                         <span>{{ setting('phone_2') }}</span>
@@ -103,7 +103,7 @@
                                                 <i class="fa-solid fa-envelope"></i>
                                             </div>
                                             <div class="contact-text-group">
-                                                <span class="contact-label">Email liên hệ</span>
+                                                <span class="contact-label">{{ __('Email liên hệ') }}</span>
                                                 <a href="mailto:{{ setting('email', 'info@greeco.vn') }}" class="contact-value text-decoration-none hover-underline text-white">{{ setting('email', 'info@greeco.vn') }}</a>
                                             </div>
                                         </div>
@@ -122,7 +122,7 @@
 
                         @if($errors->any())
                             <div class="alert alert-danger mb-4">
-                                <i class="icofont-warning-alt me-2"></i><strong>Có lỗi xảy ra:</strong>
+                                <i class="icofont-warning-alt me-2"></i><strong>{{ __('Có lỗi xảy ra:') }}</strong>
                                 <ul class="mb-0 mt-2">
                                     @foreach($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -133,31 +133,31 @@
 
                         <div class="contact-form-wrapper h-100 d-flex flex-column justify-content-center">
                             <form name="contactForm" id="contact_form" class="position-relative z1000" method="post"
-                                action="{{ route('contact.store') }}">
+                                action="{{ website_route('contact.store') }}">
                                 @csrf
                                 <div class="field-set mb-3">
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Họ và tên"
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="{{ __('Họ và tên') }}"
                                         value="{{ form_text(old('name')) }}" required>
                                 </div>
 
                                 <div class="field-set mb-3">
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="Địa chỉ Email"
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="{{ __('Địa chỉ Email') }}"
                                         value="{{ form_text(old('email')) }}">
                                 </div>
 
                                 <div class="field-set mb-3">
-                                    <input type="text" name="phone" id="phone" class="form-control" placeholder="Số điện thoại"
+                                    <input type="text" name="phone" id="phone" class="form-control" placeholder="{{ __('Số điện thoại') }}"
                                         value="{{ form_text(old('phone')) }}">
                                 </div>
 
                                 <div class="field-set mb-4">
                                     <textarea name="message" id="message" class="form-control"
-                                        placeholder="Nội dung tin nhắn / Yêu cầu tư vấn"
+                                        placeholder="{{ __('Nội dung tin nhắn / Yêu cầu tư vấn') }}"
                                         required>{{ form_text(old('message', request('message'))) }}</textarea>
                                 </div>
 
                                 <div id="submit" class="text-end">
-                                    <input type="submit" id="send_message" value="Gửi tin nhắn" class="btn-main w-100 w-sm-auto">
+                                    <input type="submit" id="send_message" value="{{ __('Gửi tin nhắn') }}" class="btn-main w-100 w-sm-auto">
                                 </div>
                             </form>
                         </div>
@@ -173,7 +173,7 @@
                     <div class="col-md-12">
                         <div class="contact-map-container">
                             <iframe 
-                                src="https://maps.google.com/maps?q={{ urlencode(setting('address', '150 Đường 38-CL, Phường Cát Lái, TP. HCM')) }}&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                src="https://maps.google.com/maps?q={{ urlencode(setting('address', __('150 Đường 38-CL, Phường Cát Lái, TP. HCM'))) }}&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                 allowfullscreen="" 
                                 loading="lazy" 
                                 referrerpolicy="no-referrer-when-downgrade">

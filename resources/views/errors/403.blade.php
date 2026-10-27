@@ -1,6 +1,6 @@
 @php
-    $seoTitle = 'Không có quyền truy cập (403) - Viện GREECO';
-    $seoDescription = 'Bạn không có quyền truy cập trang này.';
+    $seoTitle = __('Không có quyền truy cập (403) - Viện GREECO');
+    $seoDescription = __('Bạn không có quyền truy cập trang này.');
     $indexable = false;
 @endphp
 
@@ -17,9 +17,9 @@
                 <div class="row align-items-center justify-content-center text-center">
                     <div class="col-lg-8">
                         <h1 class="error-page-code mb-0 id-color">403</h1>
-                        <h2 class="error-page-title mb-3 text-uppercase">Không có quyền truy cập</h2>
-                        <p class="lead mb-4">Bạn không có quyền truy cập vào trang này. Nếu bạn cho rằng đây là nhầm lẫn, vui lòng liên hệ quản trị viên.</p>
-                        <a href="{{ route('home') }}" class="btn-main">Quay về trang chủ</a>
+                        <h2 class="error-page-title mb-3 text-uppercase">{{ __('Không có quyền truy cập') }}</h2>
+                        <p class="lead mb-4">{{ __('Bạn không có quyền truy cập vào trang này. Nếu bạn cho rằng đây là nhầm lẫn, vui lòng liên hệ quản trị viên.') }}</p>
+                        <a href="{{ website_route('home') }}" class="btn-main">{{ __('Quay về trang chủ') }}</a>
                     </div>
                 </div>
             </div>

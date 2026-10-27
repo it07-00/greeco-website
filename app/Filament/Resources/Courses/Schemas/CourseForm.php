@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Courses\Schemas;
 
 use App\Models\Course;
+use App\Support\ContentTranslations;
 use App\Support\OptimizedImageUpload;
 use App\Support\PublicSlug;
 use Filament\Forms\Components\FileUpload;
@@ -25,6 +26,7 @@ class CourseForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('Course'),
                 Tabs::make('CourseTabs')
                     ->tabs([
                         Tab::make('Thông tin chung')

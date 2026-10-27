@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Projects\Schemas;
 
 use App\Models\Project;
+use App\Support\ContentTranslations;
 use App\Support\OptimizedImageUpload;
 use App\Support\PublicSlug;
 use Filament\Forms\Components\DatePicker;
@@ -22,6 +23,7 @@ class ProjectForm
     {
         return $schema
             ->components([
+                ContentTranslations::section('Project'),
                 Tabs::make('ProjectTabs')
                     ->tabs([
                         Tab::make('Thông tin chính')

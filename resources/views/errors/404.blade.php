@@ -1,6 +1,6 @@
 @php
-    $seoTitle = 'Không tìm thấy trang (404) - Viện GREECO';
-    $seoDescription = 'Trang bạn yêu cầu không tồn tại hoặc đã được di chuyển.';
+    $seoTitle = __('Không tìm thấy trang (404) - Viện GREECO');
+    $seoDescription = __('Trang bạn yêu cầu không tồn tại hoặc đã được di chuyển.');
     $indexable = false;
 @endphp
 
@@ -17,9 +17,9 @@
                 <div class="row align-items-center justify-content-center text-center">
                     <div class="col-lg-8">
                         <h1 class="error-page-code mb-0 id-color">404</h1>
-                        <h2 class="error-page-title mb-3 text-uppercase">Không tìm thấy trang</h2>
-                        <p class="lead mb-4">Xin lỗi, trang bạn đang tìm kiếm không tồn tại, đã bị xóa hoặc đã được di chuyển sang một địa chỉ khác.</p>
-                        <a href="{{ route('home') }}" class="btn-main">Quay về trang chủ</a>
+                        <h2 class="error-page-title mb-3 text-uppercase">{{ __('Không tìm thấy trang') }}</h2>
+                        <p class="lead mb-4">{{ __('Xin lỗi, trang bạn đang tìm kiếm không tồn tại, đã bị xóa hoặc đã được di chuyển sang một địa chỉ khác.') }}</p>
+                        <a href="{{ website_route('home') }}" class="btn-main">{{ __('Quay về trang chủ') }}</a>
                     </div>
                 </div>
             </div>

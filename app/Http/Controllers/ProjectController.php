@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -12,7 +11,7 @@ class ProjectController extends Controller
         $projects = Project::query()
             ->where('is_active', true)
             ->orderBy('sort_order')
-            ->paginate(9);
+            ->paginate(9)->withQueryString();
 
         return view('projects.index', compact('projects'));
     }

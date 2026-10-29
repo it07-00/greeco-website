@@ -30,15 +30,21 @@ class CourseController extends Controller
             ->orderBy('sort_order')
             ->get();
 
+        // Include names resolved through Laravel's catalog, not only stored CMS translations.
+        $matchingCategoryIds = app()->getLocale() === 'en' && $search !== ''
+            ? $categories->filter(fn (CourseCategory $item) => mb_stripos($item->name, $search) !== false)->modelKeys()
+            : [];
+
         $courses = Course::query()
             ->with('category')
             ->where('is_active', true)
-            ->when($search !== '', function ($query) use ($search) {
-                $query->where(function ($query) use ($search) {
+            ->when($search !== '', function ($query) use ($search, $matchingCategoryIds) {
+                $query->where(function ($query) use ($search, $matchingCategoryIds) {
                     $query
                         ->where('title', 'like', "%{$search}%")
                         ->orWhere('description', 'like', "%{$search}%")
                         ->orWhere('tag', 'like', "%{$search}%")
+                        ->when($matchingCategoryIds !== [], fn ($q) => $q->orWhereIn('course_category_id', $matchingCategoryIds))
                         ->orWhereHas('category', fn ($categoryQuery) => $categoryQuery->where('name', 'like', "%{$search}%")
                             ->when(app()->getLocale() === 'en', fn ($q) => $q->orWhere('translations->en->name', 'like', "%{$search}%")))
                         ->when(app()->getLocale() === 'en', function ($q) use ($search) {

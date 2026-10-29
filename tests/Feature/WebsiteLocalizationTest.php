@@ -3,11 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\Course;
+use App\Models\CourseCategory;
 use App\Models\CourseRegistration;
 use App\Models\Page;
 use App\Models\Service;
 use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class WebsiteLocalizationTest extends TestCase
@@ -76,6 +78,57 @@ class WebsiteLocalizationTest extends TestCase
         $response = $this->getJson($url)->assertOk()->assertJsonPath('count', 10);
         $this->assertStringContainsString('I18nSearchToken course', $response->json('html'));
         $this->assertStringContainsString('lang=en', $response->json('html'));
+    }
+
+    public function test_existing_course_categories_have_english_names_without_cms_translations(): void
+    {
+        $names = [
+            'Đào tạo AI' => 'AI Training',
+            'Quản lý năng lượng và giảm phát thải khí nhà kính' => 'Energy Management and Greenhouse Gas Emission Reduction',
+            'Hệ thống quản lý ISO và cải tiến doanh nghiệp' => 'ISO Management Systems and Business Improvement',
+            'An toàn – Sức khỏe – Môi trường (HSE)' => 'Health, Safety and Environment (HSE)',
+            'Kiểm kê khí nhà kính và quản lý carbon' => 'Greenhouse Gas Inventory and Carbon Management',
+            'ESG và phát triển bền vững' => 'ESG and sustainability',
+            'Chuỗi cung ứng bền vững và kinh tế tuần hoàn' => 'Sustainable Supply Chains and Circular Economy',
+            'Công trình xanh và sản phẩm bền vững' => 'Green Buildings and Sustainable Products',
+            'Workshop' => 'Workshop',
+        ];
+        foreach ($names as $original => $english) {
+            CourseCategory::create(['name' => $original, 'slug' => 'i18n-'.Str::slug($original)]);
+        }
+
+        $response = $this->get(route('services.dao-tao', ['lang' => 'en']))->assertOk();
+        foreach ($names as $original => $english) {
+            $response->assertSee($english);
+            if ($original !== $english) {
+                $response->assertDontSee($original);
+            }
+        }
+
+        $response = $this->get(route('services.dao-tao'))->assertOk();
+        foreach (array_keys($names) as $original) {
+            $response->assertSee($original);
+        }
+    }
+
+    public function test_english_category_names_work_in_search_cards_and_course_metadata(): void
+    {
+        $category = CourseCategory::create(['name' => 'Đào tạo AI', 'slug' => 'dao-tao-ai']);
+        $course = Course::create([
+            'course_category_id' => $category->id, 'title' => 'Example course',
+            'slug' => 'ai-example', 'price' => 'Liên hệ', 'is_active' => true,
+        ]);
+        $url = route('services.dao-tao', ['lang' => 'en', 'search' => 'AI Training']);
+        $this->get($url)->assertOk()->assertSee('Example course')->assertSee('AI Training');
+        $response = $this->getJson($url)->assertOk()->assertJsonPath('count', 1);
+        $this->assertStringContainsString('Example course', $response->json('html'));
+        $this->assertStringContainsString('AI Training', $response->json('suggestions_html'));
+        $this->get(route('slug.show', [$course->slug, 'lang' => 'en']))->assertOk()
+            ->assertSee('AI Training')->assertDontSee('Đào tạo AI');
+
+        $category->update(['translations' => ['en' => ['name' => 'Custom AI Academy']]]);
+        $this->get(route('services.dao-tao', ['lang' => 'en', 'search' => 'Custom AI Academy']))
+            ->assertOk()->assertSee('Example course')->assertSee('Custom AI Academy');
     }
 
     public function test_validation_registration_redirects_and_success_stay_in_english(): void

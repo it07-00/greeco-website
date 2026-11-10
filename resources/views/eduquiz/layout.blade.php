@@ -19,9 +19,7 @@
     <div class="page-width header-inner">
         <a class="brand" href="{{ route($staff ? 'eduquiz.staff.index' : 'eduquiz.join') }}">
             <span class="brand-mark">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                    <path d="m2 9 10-5 10 5-10 5L2 9Zm4 2v5c3 4 9 4 12 0v-5m4-2v7" stroke-linejoin="round" stroke-linecap="round"/>
-                </svg>
+                <img src="{{ asset('assets/images/logo-emblem-cropped.png') }}" width="42" height="42" alt="Logo Viện GREECO">
             </span>
             <span class="brand-text">
                 <span class="brand-title">GREECO <strong>EduQuiz</strong></span>

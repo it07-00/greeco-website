@@ -170,15 +170,14 @@ svg {
     place-items: center;
     width: 42px;
     height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--green) 0%, var(--navy) 100%);
-    color: white;
-    box-shadow: 0 4px 10px rgba(10, 123, 92, 0.25);
+    flex-shrink: 0;
 }
 
-.brand-mark svg {
-    width: 22px;
-    height: 22px;
+.brand-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .brand-text {
@@ -323,14 +322,15 @@ main {
     transition: all 0.15s ease;
 }
 
-.module-nav a:hover {
+.module-nav a:hover:not([aria-current]) {
     background: var(--soft);
     color: var(--navy);
 }
 
-.module-nav [aria-current] {
+.module-nav a[aria-current],
+.module-nav a[aria-current]:hover {
     background: var(--navy);
-    color: white !important;
+    color: white;
     font-weight: 700;
     box-shadow: 0 4px 10px rgba(15, 37, 68, 0.2);
 }
@@ -578,7 +578,6 @@ legend {
 .option-field .checkbox:has(input:checked) {
     background: var(--green-soft);
     color: var(--green-dark);
-    border: 1px solid var(--green-border);
 }
 
 /* Buttons */
@@ -631,14 +630,20 @@ legend {
 }
 
 .button.danger {
-    border-color: var(--danger-border);
     color: var(--danger);
     background: var(--danger-soft);
 }
 
 .button.danger:hover:not(:disabled) {
+    color: var(--danger);
     background: #ffe4e6;
-    border-color: #fda4af;
+}
+
+.button.quiet[aria-expanded="true"],
+.button.quiet[aria-expanded="true"]:hover:not(:disabled) {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: white;
 }
 
 .button.block {
@@ -655,7 +660,6 @@ legend {
 
 /* Notices & Alerts */
 .notice {
-    border: 1px solid var(--green-border);
     background: var(--green-soft);
     color: var(--green-dark);
     padding: 12px 16px;
@@ -672,7 +676,6 @@ legend {
 
 .notice.error {
     background: var(--danger-soft);
-    border-color: var(--danger-border);
     color: var(--danger);
 }
 
@@ -876,13 +879,14 @@ tbody tr:hover {
     transition: all 0.15s ease;
 }
 
-.view-switch [aria-current] {
+.view-switch [aria-current],
+.view-switch [aria-current]:hover {
     background: white;
     color: var(--navy);
     box-shadow: var(--shadow-xs);
 }
 
-.view-switch a:hover {
+.view-switch a:hover:not([aria-current]) {
     background: rgba(255, 255, 255, 0.6);
     color: var(--navy);
 }
@@ -948,7 +952,7 @@ tbody tr:hover {
 [data-timer][data-urgent="true"] {
     background: var(--danger-soft);
     color: var(--danger);
-    border-color: var(--danger-border);
+    border-color: transparent;
     animation: pulse-urgent 1s infinite alternate;
 }
 
@@ -976,7 +980,6 @@ tbody tr:hover {
 .quiz-feedback[data-error] {
     color: var(--danger);
     background: var(--danger-soft);
-    border: 1px solid var(--danger-border);
     padding: 8px 12px;
     border-radius: var(--radius-sm);
     font-weight: 700;

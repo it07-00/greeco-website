@@ -86,6 +86,7 @@ function startArena(root) {
             time = 'Còn ' + Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2, '0');
         }
         if (timer.textContent !== time) timer.textContent = time;
+        timer.toggleAttribute('data-urgent', Boolean(seconds !== null && seconds <= 10 && state.phase === 'open'));
         if (state.phase === 'open' && !host) {
             board.querySelectorAll('[data-choice], [data-send]').forEach((node) => {
                 node.disabled = seconds === 0 || busy || node.dataset.locked === 'true';
@@ -93,18 +94,23 @@ function startArena(root) {
         }
     }
 
-    function placeholder(title, detail) {
+    function placeholder(title, detail, badgeText) {
         const panel = element('div', 'arena placeholder');
+        if (badgeText) {
+            panel.append(element('div', 'score-pill', badgeText));
+        }
         panel.append(element('h2', '', title), element('p', '', detail));
         return panel;
     }
 
     function questionPanel(question) {
         const panel = element('section', 'arena');
-        panel.append(
-            element('span', 'question-count', 'Câu hỏi ' + (question.position + 1) + '/' + state.total),
-            element('h2', '', question.prompt),
-        );
+        const top = element('div', 'arena-top');
+        top.append(element('span', 'question-count', 'Câu hỏi ' + (question.position + 1) + '/' + state.total));
+        if (!host) {
+            top.append(element('span', 'question-type-badge', question.multiple ? 'Nhiều đáp án' : 'Một đáp án'));
+        }
+        panel.append(top, element('h2', '', question.prompt));
         if (question.image) {
             const image = element('img', 'question-image');
             image.src = question.image;
@@ -132,7 +138,10 @@ function startArena(root) {
                 input.dataset.locked = locked;
                 choice.append(input);
             }
-            choice.append(element('span', '', letter(index) + '. ' + option));
+            choice.append(
+                element('span', 'option-key', letter(index)),
+                element('span', '', letter(index) + '. ' + option),
+            );
             if (question.correct?.includes(index)) {
                 choice.dataset.correct = '';
                 choice.append(element('span', 'choice-status', 'Đáp án đúng'));
@@ -165,9 +174,13 @@ function startArena(root) {
 
         if (state.phase === 'finished') {
             const result = state.result;
-            board.append(placeholder('Đã hoàn thành', result
-                ? 'Bạn trả lời đúng ' + result.score + '/' + result.total + ' câu.'
-                : 'Kết quả đã được ghi nhận.'));
+            board.append(placeholder(
+                'Đã hoàn thành',
+                result
+                    ? 'Bạn trả lời đúng ' + result.score + '/' + result.total + ' câu.'
+                    : 'Kết quả đã được ghi nhận.',
+                result ? result.score + '/' + result.total + ' điểm' : undefined,
+            ));
             if (host && state.mode === 'live') actions.append(button('Bảng xếp hạng', 'leaders'));
             if (state.retry) actions.append(button('Làm lại (' + (state.attemptLimit - state.attempt) + ' lượt còn lại)', 'retry', 'primary'));
             return;
@@ -453,4 +466,3 @@ document.querySelectorAll('[data-copy]').forEach((target) => {
         }
     });
 });
-

@@ -19,11 +19,14 @@
     <div class="page-width header-inner">
         <a class="brand" href="{{ route($staff ? 'eduquiz.staff.index' : 'eduquiz.join') }}">
             <span class="brand-mark">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                     <path d="m2 9 10-5 10 5-10 5L2 9Zm4 2v5c3 4 9 4 12 0v-5m4-2v7" stroke-linejoin="round" stroke-linecap="round"/>
                 </svg>
             </span>
-            <span>GREECO <strong>EduQuiz</strong></span>
+            <span class="brand-text">
+                <span class="brand-title">GREECO <strong>EduQuiz</strong></span>
+                <span class="brand-sub">{{ $staff ? 'Quản trị đào tạo & trắc nghiệm' : 'Nền tảng trắc nghiệm trực tuyến' }}</span>
+            </span>
         </a>
         @if ($staff)
             <form method="post" action="{{ route($instructor ? 'filament.instructor.auth.logout' : 'filament.admin.auth.logout') }}">
@@ -34,7 +37,7 @@
                 <button class="button quiet" type="submit">Đăng xuất</button>
             </form>
         @else
-            <a class="header-link" href="{{ route('home') }}">Về GREECO</a>
+            <a class="header-link" href="{{ route('home') }}">← Về GREECO</a>
         @endif
     </div>
 </header>
@@ -68,7 +71,11 @@
     @endif
     @yield('content')
 </main>
-<footer class="page-width site-footer">Viện Nghiên cứu và Phát triển Kinh tế Xanh · GREECO</footer>
+<footer class="site-footer">
+    <div class="page-width footer-inner">
+        <span>Viện Nghiên cứu và Phát triển Kinh tế Xanh · GREECO</span>
+        <span class="muted">Hệ thống đánh giá & kiểm tra đào tạo trực tuyến</span>
+    </div>
+</footer>
 </body>
 </html>
-

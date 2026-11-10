@@ -22,7 +22,7 @@ class ReportController
 
     public function index(Request $request, string $section = 'results')
     {
-        $rooms = Access::scope(Room::query(), $request->user());
+        $rooms = Access::scope(Room::withTrashed(), $request->user());
         $courses = Course::whereIn('id', (clone $rooms)->select('course_id'))->orderBy('title')->get(['id', 'title']);
         $query = $this->query($request);
         $stats = null;
@@ -40,7 +40,7 @@ class ReportController
         return view('eduquiz.admin.results', [
             'section' => $section,
             'rows' => $query->paginate(25)->withQueryString(),
-            'rooms' => $rooms->latest('id')->get(['id', 'title', 'pin']),
+            'rooms' => $rooms->latest('id')->get(['id', 'title', 'pin', 'deleted_at']),
             'courses' => $courses,
             'stats' => $stats,
         ]);
@@ -54,7 +54,7 @@ class ReportController
     public function detail(Request $request, Attempt $attempt)
     {
         $attempt->load(['participant', 'result', 'answers']);
-        $room = Room::findOrFail($attempt->participant->session_id);
+        $room = Room::withTrashed()->findOrFail($attempt->participant->session_id);
         Access::authorize($room, $request->user());
 
         return view('eduquiz.admin.attempt', compact('attempt', 'room'));

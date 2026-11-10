@@ -181,9 +181,7 @@ class Play
             abort_if($room->version !== $version || $room->finished_at, 409, 'Trạng thái đã thay đổi. Vui lòng thử lại.');
 
             if ($action === 'finish') {
-                $now = now();
-                $room->update(['status' => 'finished', 'deadline' => null, 'finished_at' => $now, 'version' => $version + 1]);
-                $this->attempts($room)->whereNull('finished_at')->eachById(fn (Attempt $attempt) => $this->finishAttempt($attempt, $room, $now));
+                $this->finishRoom($room);
 
                 return;
             }
@@ -211,6 +209,29 @@ class Play
             abort_unless($attributes, 409, 'Thao tác chưa phù hợp với trạng thái phiên.');
             $room->update([...$attributes, 'version' => $version + 1]);
         }, 3);
+    }
+
+    public function deleteRoom(Room $room): bool
+    {
+        return DB::transaction(function () use ($room) {
+            $room = Room::lockForUpdate()->find($room->id);
+            if (! $room) {
+                return false;
+            }
+
+            if (! $room->finished_at) {
+                $this->finishRoom($room);
+            }
+
+            return $room->delete();
+        }, 3);
+    }
+
+    private function finishRoom(Room $room): void
+    {
+        $now = now();
+        $room->update(['status' => 'finished', 'deadline' => null, 'finished_at' => $now, 'version' => $room->version + 1]);
+        $this->attempts($room)->whereNull('finished_at')->eachById(fn (Attempt $attempt) => $this->finishAttempt($attempt, $room, $now));
     }
 
     public function attempts(Room $room): Builder

@@ -10,6 +10,7 @@
 - Phiên trực tiếp có một lượt cho mỗi thông tin liên hệ đã chuẩn hóa. Phiên tự làm cho phép số lượt do giảng viên cấu hình. Học viên dùng lại trình duyệt đã tham gia để tiếp tục hoặc làm lại. Đồng hồ tự làm bắt đầu khi vào phòng hoặc bắt đầu lượt mới.
 - Báo cáo hỗ trợ tìm học viên, lọc theo khóa, phiên và ngày tạo phiên theo giờ Việt Nam. PDF hỗ trợ tối đa 500 dòng mỗi lần xuất. Excel dùng chung bộ lọc.
 - Khi tổ chức xong, giảng viên chọn **Kết thúc phiên** để đóng liên kết, chốt các lượt còn mở và bắt đầu tính thời hạn lưu giữ. Mặc định sau 365 ngày, tác vụ định kỳ xóa họ tên, thông tin liên hệ và mã mời, thu hồi cookie tham gia, giữ lại điểm và đáp án đã ẩn danh. Admin có thể ẩn danh sớm từng phiên đã kết thúc.
+- Trong **Phòng thi**, có thể xóa từng phòng hoặc xóa tất cả phòng trong phạm vi quản lý. Xóa phòng vô hiệu hóa PIN và liên kết. Lượt đang làm được chốt từ đáp án đã lưu, kết quả vẫn xem được trong báo cáo, và thời hạn lưu giữ vẫn áp dụng.
 
 ## Triển khai thử
 

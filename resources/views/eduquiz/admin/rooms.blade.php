@@ -38,13 +38,34 @@
     <h2>Các phiên đã tạo</h2>
     <ul class="record-list">
         @forelse ($rooms as $room)
-            <li><div><a href="{{ route('eduquiz.staff.rooms.show', $room) }}">{{ $room->title }}</a><br><span class="muted small">PIN {{ $room->pin }} · {{ $room->mode === 'live' ? 'Trực tiếp' : 'Tự làm' }}</span></div>
-                <span class="status-badge">{{ $room->finished_at ? 'Đã kết thúc' : 'Đang mở' }}</span></li>
+            <li>
+                <div><a href="{{ route('eduquiz.staff.rooms.show', $room) }}">{{ $room->title }}</a><br><span class="muted small">PIN {{ $room->pin }} · {{ $room->mode === 'live' ? 'Trực tiếp' : 'Tự làm' }}</span></div>
+                <div class="actions">
+                    <span class="status-badge">{{ $room->finished_at ? 'Đã kết thúc' : 'Đang mở' }}</span>
+                    <form method="post" action="{{ route('eduquiz.staff.rooms.delete', $room) }}"
+                        data-confirm="Xóa phòng thi này? PIN và liên kết sẽ hết hiệu lực. Bài làm được chốt từ các đáp án đã lưu và vẫn xem được trong báo cáo.">
+                        @csrf
+                        @method('DELETE')
+                        <button class="button danger">Xóa phòng thi</button>
+                    </form>
+                </div>
+            </li>
         @empty
             <li>Chưa có phiên thi.</li>
         @endforelse
     </ul>
     @include('eduquiz.admin.pagination', ['page' => $rooms])
 </section>
+@if ($rooms->total())
+    <details class="card">
+        <summary>Xóa tất cả phòng thi</summary>
+        <p>Xóa mọi phòng thi bạn có quyền quản lý, kể cả phòng đang mở. PIN và liên kết sẽ hết hiệu lực. Các lượt đang làm sẽ được chốt từ đáp án đã lưu; bài làm và điểm vẫn xem được trong báo cáo.</p>
+        <form method="post" action="{{ route('eduquiz.staff.rooms.delete-all') }}" data-confirm="Bạn có chắc muốn xóa tất cả phòng thi trong phạm vi quản lý, kể cả phòng đang mở?">
+            @csrf
+            @method('DELETE')
+            <button class="button danger">Xác nhận xóa tất cả phòng thi</button>
+        </form>
+    </details>
+@endif
 @endsection
 

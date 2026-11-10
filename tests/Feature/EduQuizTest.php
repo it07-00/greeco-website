@@ -142,6 +142,50 @@ class EduQuizTest extends TestCase
         $this->assertSame($question->prompt, $room->fresh()->questions[0]['prompt']);
     }
 
+    public function test_deleting_an_open_room_disables_its_pin_and_preserves_scored_answers_and_privacy_retention(): void
+    {
+        $admin = User::factory()->create();
+        $room = $this->room($admin, 'self', ['title' => 'Phòng cần xóa']);
+        $this->join($room);
+        $this->postJson(route('eduquiz.answer', $room->pin), ['position' => 0, 'choices' => [1]])->assertNoContent();
+
+        $this->actingAs($admin)->post('/quan-ly-eduquiz/phong/'.$room->id, ['_method' => 'DELETE'])
+            ->assertRedirect(route('eduquiz.staff.rooms'));
+        $this->get(route('eduquiz.staff.rooms'))->assertOk()->assertDontSee($room->title);
+        $this->get(route('eduquiz.staff.rooms.show', $room))->assertNotFound();
+        $this->get(route('eduquiz.room', $room->pin))->assertNotFound();
+        $this->post(route('eduquiz.join.store'), $this->joinData($room, []))->assertSessionHasErrors('pin');
+        $this->postJson(route('eduquiz.submit', $room->pin))->assertNotFound();
+        $this->assertDatabaseHas('eduquiz_results', ['score' => 1, 'total' => 1]);
+        $this->assertDatabaseHas('eduquiz_quizzes', ['id' => $room->quiz_id, 'deleted_at' => null]);
+
+        $this->get(route('eduquiz.staff.results', ['session' => $room->id]))->assertOk()
+            ->assertSee($room->title.' · '.$room->pin.' (đã xóa)')->assertSee('1/1');
+        $this->get(route('eduquiz.staff.results.detail', Attempt::sole()))->assertOk()->assertSee('1/1 điểm');
+        $this->travel(366)->days();
+        app(Privacy::class)->anonymizeDue();
+        $this->assertDatabaseHas('eduquiz_participants', ['session_id' => $room->id, 'email' => null]);
+        $this->assertDatabaseHas('eduquiz_results', ['score' => 1, 'total' => 1]);
+    }
+
+    public function test_deleting_all_rooms_respects_staff_scope_and_covers_open_and_finished_rooms(): void
+    {
+        $admin = User::factory()->create();
+        $instructor = User::factory()->create();
+        DB::table('eduquiz_instructors')->insert(['user_id' => $instructor->id]);
+        $other = $this->room($admin);
+        $this->room($instructor);
+        $this->room($instructor, 'live', ['status' => 'finished', 'finished_at' => now()]);
+
+        $this->actingAs($instructor)->delete('/quan-ly-eduquiz/phong/'.$other->id)->assertForbidden();
+        $this->get(route('eduquiz.staff.rooms'))->assertOk()->assertSee('Xóa tất cả phòng thi');
+        $this->post('/quan-ly-eduquiz/phong', ['_method' => 'DELETE'])->assertRedirect(route('eduquiz.staff.rooms'));
+        $this->assertSame([$other->id], Room::pluck('id')->all());
+
+        $this->actingAs($admin)->delete('/quan-ly-eduquiz/phong')->assertRedirect(route('eduquiz.staff.rooms'));
+        $this->assertSame(0, Room::count());
+    }
+
     public function test_deleting_all_library_items_ignores_filters_and_respects_staff_scope(): void
     {
         $admin = User::factory()->create();

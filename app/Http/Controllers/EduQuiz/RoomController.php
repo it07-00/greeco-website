@@ -79,6 +79,26 @@ class RoomController
         ]);
     }
 
+    public function delete(Request $request, Room $room)
+    {
+        Access::authorize($room, $request->user());
+        $this->play->deleteRoom($room);
+
+        return redirect()->route('eduquiz.staff.rooms')->with('notice', 'Đã xóa phòng thi.');
+    }
+
+    public function deleteAll(Request $request)
+    {
+        $count = 0;
+        Access::scope(Room::query(), $request->user())->select('id')->eachById(function (Room $room) use (&$count) {
+            if ($this->play->deleteRoom($room)) {
+                $count++;
+            }
+        });
+
+        return redirect()->route('eduquiz.staff.rooms')->with('notice', "Đã xóa {$count} phòng thi.");
+    }
+
     public function qr(Request $request, Room $room, CourseRegistrationQrCode $qr)
     {
         Access::authorize($room, $request->user());

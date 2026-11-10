@@ -281,6 +281,18 @@ function startArena(root) {
             if (!busy) await refresh();
             if (pending.size && !busy && state.phase === 'open') void flush();
         } catch (error) {
+            if (error.status === 404) {
+                serial++;
+                state = undefined;
+                pending.clear();
+                meta.hidden = true;
+                phase.textContent = 'Đã đóng';
+                board.replaceChildren(placeholder('Phòng thi không còn khả dụng', 'Mã PIN và liên kết của phòng này không còn sử dụng được.'));
+                actions.replaceChildren();
+                if (host) chart.hidden = leaders.hidden = true;
+                message('');
+                return;
+            }
             disconnected = true;
             message(error.status === 403 ? error.message : 'Đang kết nối lại với phòng thi…', true);
             if (error.status === 403) return;

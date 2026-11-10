@@ -49,8 +49,10 @@ Route::prefix('quan-ly-eduquiz')->name('eduquiz.staff.')->middleware(Access::cla
 
     Route::get('/phong', [RoomController::class, 'index'])->name('rooms');
     Route::post('/phong', [RoomController::class, 'create'])->name('rooms.create');
+    Route::delete('/phong', [RoomController::class, 'deleteAll'])->name('rooms.delete-all');
     Route::prefix('phong/{room}')->whereNumber('room')->name('rooms.')->group(function () {
         Route::get('/', [RoomController::class, 'show'])->name('show');
+        Route::delete('/', [RoomController::class, 'delete'])->name('delete');
         Route::get('/state', [RoomController::class, 'state'])->middleware('throttle:120,1')->name('state');
         Route::post('/control', [RoomController::class, 'control'])->name('control');
         Route::get('/qr.svg', [RoomController::class, 'qr'])->name('qr');

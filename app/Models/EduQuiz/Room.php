@@ -4,9 +4,12 @@ namespace App\Models\EduQuiz;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'eduquiz_sessions';
 
     protected $guarded = ['id'];

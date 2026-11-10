@@ -18,7 +18,7 @@
                 @foreach ($courses as $course)<option value="{{ $course->id }}" @selected(request('course') == $course->id)>{{ $course->title }}</option>@endforeach
             </select></label>
             <label>Phiên thi<select name="session"><option value="">Tất cả</option>
-                @foreach ($rooms as $room)<option value="{{ $room->id }}" @selected(request('session') == $room->id)>{{ $room->title }} · {{ $room->pin }}</option>@endforeach
+                @foreach ($rooms as $room)<option value="{{ $room->id }}" @selected(request('session') == $room->id)>{{ $room->title }} · {{ $room->pin }}{{ $room->trashed() ? ' (đã xóa)' : '' }}</option>@endforeach
             </select></label>
             <label>Ngày tạo phiên từ<input type="date" name="from" value="{{ request('from') }}"></label>
             <label>Đến ngày<input type="date" name="to" value="{{ request('to') }}"></label>

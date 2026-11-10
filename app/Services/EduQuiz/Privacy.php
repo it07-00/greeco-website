@@ -16,7 +16,7 @@ class Privacy
     public function anonymize(Room $room): void
     {
         DB::transaction(function () use ($room) {
-            $room = Room::lockForUpdate()->findOrFail($room->id);
+            $room = Room::withTrashed()->lockForUpdate()->findOrFail($room->id);
             abort_unless($room->finished_at, 409, 'Hãy kết thúc phiên thi trước khi ẩn danh.');
             if ($room->anonymized_at) {
                 return;
@@ -31,7 +31,7 @@ class Privacy
 
     public function anonymizeDue(): void
     {
-        Room::whereNull('anonymized_at')->where('finished_at', '<=', now()->subDays($this->days()))
+        Room::withTrashed()->whereNull('anonymized_at')->where('finished_at', '<=', now()->subDays($this->days()))
             ->eachById(fn (Room $room) => $this->anonymize($room));
     }
 }

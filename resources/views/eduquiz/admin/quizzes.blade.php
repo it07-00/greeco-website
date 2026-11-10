@@ -9,12 +9,31 @@
     @if (request('course'))<a href="{{ route('eduquiz.staff.quizzes') }}">Hiện tất cả bộ đề</a>@endif
     <ul class="record-list">
         @forelse ($quizzes as $quiz)
-            <li><a href="{{ route('eduquiz.staff.quizzes.edit', $quiz) }}">{{ $quiz->title }}</a><span class="muted">{{ $quiz->questions_count }} câu · {{ $quiz->course?->title ?? 'Chưa gán khóa' }}</span></li>
+            <li>
+                <div><a href="{{ route('eduquiz.staff.quizzes.edit', $quiz) }}">{{ $quiz->title }}</a><br><span class="muted small">{{ $quiz->questions_count }} câu · {{ $quiz->course?->title ?? 'Chưa gán khóa' }}</span></div>
+                <form method="post" action="{{ route('eduquiz.staff.quizzes.delete', $quiz) }}"
+                    data-confirm="Xóa bộ đề này? Ngân hàng câu hỏi, các phiên thi đã tạo và kết quả vẫn được giữ.">
+                    @csrf
+                    @method('DELETE')
+                    <button class="button danger">Xóa bộ đề</button>
+                </form>
+            </li>
         @empty
             <li>Chưa có bộ đề.</li>
         @endforelse
     </ul>
     @include('eduquiz.admin.pagination', ['page' => $quizzes])
 </section>
+@if ($quizzes->total())
+    <details class="card">
+        <summary>Xóa tất cả bộ đề</summary>
+        <p>Xóa mọi bộ đề bạn có quyền quản lý, kể cả ngoài khóa đang lọc. Ngân hàng câu hỏi, các phiên thi đã tạo và kết quả vẫn được giữ.</p>
+        <form method="post" action="{{ route('eduquiz.staff.quizzes.delete-all') }}" data-confirm="Bạn có chắc muốn xóa tất cả bộ đề trong phạm vi quản lý, kể cả ngoài khóa đang lọc?">
+            @csrf
+            @method('DELETE')
+            <button class="button danger">Xác nhận xóa tất cả bộ đề</button>
+        </form>
+    </details>
+@endif
 @endsection
 

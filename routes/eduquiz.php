@@ -37,10 +37,14 @@ Route::prefix('quan-ly-eduquiz')->name('eduquiz.staff.')->middleware(Access::cla
     Route::post('/cau-hoi/soan/{question?}', [LibraryController::class, 'saveQuestion'])->whereNumber('question')->name('questions.save');
     Route::post('/cau-hoi/{question}/nhan-ban', [LibraryController::class, 'duplicate'])->whereNumber('question')->name('questions.copy');
     Route::get('/cau-hoi/{question}/anh', [LibraryController::class, 'image'])->whereNumber('question')->name('questions.image');
+    Route::delete('/cau-hoi', [LibraryController::class, 'deleteAllQuestions'])->name('questions.delete-all');
+    Route::delete('/cau-hoi/{question}', [LibraryController::class, 'deleteQuestion'])->whereNumber('question')->name('questions.delete');
 
     Route::get('/bo-de', [LibraryController::class, 'quizzes'])->name('quizzes');
     Route::get('/bo-de/soan/{quiz?}', [LibraryController::class, 'editQuiz'])->whereNumber('quiz')->name('quizzes.edit');
     Route::post('/bo-de/soan/{quiz?}', [LibraryController::class, 'saveQuiz'])->whereNumber('quiz')->name('quizzes.save');
+    Route::delete('/bo-de', [LibraryController::class, 'deleteAllQuizzes'])->name('quizzes.delete-all');
+    Route::delete('/bo-de/{quiz}', [LibraryController::class, 'deleteQuiz'])->whereNumber('quiz')->name('quizzes.delete');
     Route::get('/khoa-dao-tao', [LibraryController::class, 'courses'])->name('courses');
 
     Route::get('/phong', [RoomController::class, 'index'])->name('rooms');

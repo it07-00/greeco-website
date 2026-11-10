@@ -30,7 +30,7 @@
         @if ($quizzes->isNotEmpty())
             <button class="button primary">Tạo phiên thi</button>
         @else
-            <a class="button primary" href="{{ route('eduquiz.staff.quizzes.edit') }}">Tạo bộ đề trước</a>
+            <a class="button primary" href="{{ route('eduquiz.staff.quizzes') }}">Chuẩn bị bộ đề có câu hỏi</a>
         @endif
     </div>
 </form>

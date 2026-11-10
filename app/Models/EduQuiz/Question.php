@@ -4,10 +4,13 @@ namespace App\Models\EduQuiz;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Question extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'eduquiz_questions';
 
     protected $fillable = ['owner_id', 'prompt', 'explanation', 'image', 'seconds'];

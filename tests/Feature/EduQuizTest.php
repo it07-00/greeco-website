@@ -92,6 +92,88 @@ class EduQuizTest extends TestCase
         $this->assertDatabaseCount('eduquiz_results', 1);
     }
 
+    public function test_deleting_a_quiz_keeps_its_room_and_result_and_removes_it_from_new_room_choices(): void
+    {
+        $admin = User::factory()->create();
+        $room = $this->room($admin, 'self');
+        $quiz = Quiz::findOrFail($room->quiz_id);
+        $this->actingAs($admin);
+        $question = $this->question($room->questions[0]['prompt']);
+        $quiz->questions()->attach($question, ['position' => 0]);
+        $this->join($room);
+        $this->postJson(route('eduquiz.submit', $room->pin))->assertNoContent();
+
+        $this->actingAs($admin)->get(route('eduquiz.staff.quizzes'))->assertOk()->assertSee('Xóa bộ đề');
+        $this->get(route('eduquiz.staff.rooms'))->assertOk()->assertSee('<option value="'.$quiz->id.'"', false);
+        $this->delete(route('eduquiz.staff.quizzes.delete', $quiz))->assertRedirect(route('eduquiz.staff.quizzes'));
+
+        $this->get(route('eduquiz.staff.quizzes'))->assertOk()->assertDontSee($quiz->title);
+        $this->get(route('eduquiz.staff.questions'))->assertOk()->assertSee($question->prompt);
+        $this->get(route('eduquiz.staff.quizzes.edit', $quiz))->assertNotFound();
+        $this->get(route('eduquiz.staff.rooms'))->assertOk()->assertDontSee('<option value="'.$quiz->id.'"', false);
+        $this->post(route('eduquiz.staff.rooms.create'), ['quiz_id' => $quiz->id, 'mode' => 'live'])->assertNotFound();
+        $this->get(route('eduquiz.staff.rooms.show', $room))->assertOk()->assertSee($room->pin);
+        $this->get(route('eduquiz.staff.results.detail', Attempt::sole()))->assertOk();
+        $this->assertDatabaseCount('eduquiz_results', 1);
+    }
+
+    public function test_deleting_a_used_question_requires_ownership_and_keeps_existing_room_content(): void
+    {
+        $owner = User::factory()->create();
+        $other = User::factory()->create();
+        DB::table('eduquiz_instructors')->insert([['user_id' => $owner->id], ['user_id' => $other->id]]);
+        $this->actingAs($owner);
+        $question = $this->question('Câu hỏi cần xóa');
+        $room = $this->room($owner, 'self', ['questions' => [$question->snapshot()]]);
+        $quiz = Quiz::findOrFail($room->quiz_id);
+        $quiz->questions()->attach($question, ['position' => 0]);
+
+        $this->actingAs($other)->delete(route('eduquiz.staff.questions.delete', $question))->assertForbidden();
+        $this->delete(route('eduquiz.staff.quizzes.delete', $quiz))->assertForbidden();
+        $this->actingAs($owner)->get(route('eduquiz.staff.questions'))->assertOk()->assertSee('Xóa câu hỏi');
+        $this->delete(route('eduquiz.staff.questions.delete', $question))->assertRedirect(route('eduquiz.staff.questions'));
+        $this->get(route('eduquiz.staff.questions'))->assertOk()->assertDontSee($question->prompt);
+        $this->get(route('eduquiz.staff.questions.edit', $question))->assertNotFound();
+        $this->get(route('eduquiz.staff.quizzes.edit', $quiz))->assertOk()->assertDontSee($question->prompt);
+        $this->get(route('eduquiz.staff.rooms'))->assertOk()->assertDontSee('<option value="'.$quiz->id.'"', false);
+        $this->post(route('eduquiz.staff.rooms.create'), ['quiz_id' => $quiz->id, 'mode' => 'live'])->assertSessionHasErrors('quiz_id');
+        $this->post(route('eduquiz.staff.quizzes.save'), ['title' => 'Đề mới', 'questions' => [$question->id]])
+            ->assertSessionHasErrors('questions');
+        $this->assertSame($question->prompt, $room->fresh()->questions[0]['prompt']);
+    }
+
+    public function test_deleting_all_library_items_ignores_filters_and_respects_staff_scope(): void
+    {
+        $admin = User::factory()->create();
+        $instructor = User::factory()->create();
+        DB::table('eduquiz_instructors')->insert(['user_id' => $instructor->id]);
+        $this->actingAs($admin);
+        $otherQuestion = $this->question('Câu hỏi quản trị viên');
+        $otherQuiz = Quiz::create(['owner_id' => $admin->id, 'title' => 'Đề của quản trị viên']);
+        $this->actingAs($instructor);
+        $this->question('Câu hỏi tìm thấy');
+        $this->question('Câu hỏi ngoài bộ lọc');
+        $room = $this->room($instructor);
+        Quiz::create(['owner_id' => $instructor->id, 'title' => 'Đề thứ hai']);
+
+        $questions = route('eduquiz.staff.questions', ['q' => 'tìm thấy']);
+        $this->get($questions)->assertOk()->assertSee('Xóa tất cả câu hỏi')->assertDontSee('Câu hỏi ngoài bộ lọc');
+        $this->get(route('eduquiz.staff.quizzes'))->assertOk()->assertSee('Xóa tất cả bộ đề');
+        $this->post(route('eduquiz.staff.quizzes.delete-all', ['course' => 999999]), ['_method' => 'DELETE'])
+            ->assertRedirect(route('eduquiz.staff.quizzes'));
+        $this->assertSame([$otherQuiz->id], Quiz::pluck('id')->all());
+        $this->assertSame(3, Question::count());
+        $this->from($questions)->post(route('eduquiz.staff.questions.delete-all', ['q' => 'tìm thấy']), ['_method' => 'DELETE'])
+            ->assertRedirect(route('eduquiz.staff.questions'));
+        $this->assertSame([$otherQuestion->id], Question::pluck('id')->all());
+        $this->get(route('eduquiz.staff.rooms.show', $room))->assertOk()->assertSee($room->pin);
+
+        $this->actingAs($admin)->delete(route('eduquiz.staff.questions.delete-all'))->assertRedirect();
+        $this->delete(route('eduquiz.staff.quizzes.delete-all'))->assertRedirect();
+        $this->assertSame(0, Question::count());
+        $this->assertSame(0, Quiz::count());
+    }
+
     public function test_contact_normalization_prevents_duplicate_participation_without_restoring_unverified_access(): void
     {
         $room = $this->room(User::factory()->create());

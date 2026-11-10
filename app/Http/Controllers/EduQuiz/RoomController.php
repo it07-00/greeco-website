@@ -24,7 +24,7 @@ class RoomController
     public function index(Request $request)
     {
         return view('eduquiz.admin.rooms', [
-            'quizzes' => Access::scope(Quiz::query(), $request->user())->orderBy('title')->get(['id', 'title']),
+            'quizzes' => Access::scope(Quiz::query(), $request->user())->whereHas('questions')->orderBy('title')->get(['id', 'title']),
             'rooms' => Access::scope(Room::query(), $request->user())->latest('id')->paginate(20),
         ]);
     }

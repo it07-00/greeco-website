@@ -84,6 +84,21 @@ class LibraryController
         return redirect()->route('eduquiz.staff.questions.edit', $copy)->with('notice', 'Đã nhân bản câu hỏi.');
     }
 
+    public function deleteQuestion(Request $request, Question $question)
+    {
+        Access::authorize($question, $request->user());
+        $question->delete();
+
+        return redirect()->route('eduquiz.staff.questions')->with('notice', 'Đã xóa câu hỏi.');
+    }
+
+    public function deleteAllQuestions(Request $request)
+    {
+        $count = Access::scope(Question::query(), $request->user())->delete();
+
+        return redirect()->route('eduquiz.staff.questions')->with('notice', "Đã xóa {$count} câu hỏi.");
+    }
+
     public function image(Request $request, Question $question)
     {
         Access::authorize($question, $request->user());
@@ -158,14 +173,15 @@ class LibraryController
             'questions.*' => ['required', 'integer', 'distinct'],
         ]);
         $ids = array_values($data['questions']);
-        if (Access::scope(Question::query(), $this->quizOwner($request, $quiz))->whereKey($ids)->count() !== count($ids)) {
-            throw ValidationException::withMessages(['questions' => 'Có câu hỏi không còn khả dụng.']);
-        }
+        $questions = Access::scope(Question::query(), $this->quizOwner($request, $quiz))
+            ->whereKey($ids)->orderBy('id')->lockForUpdate();
 
-        $quiz ??= new Quiz(['owner_id' => $request->user()->id]);
-        DB::transaction(function () use ($data, $ids, $quiz) {
-            if ($quiz->exists) {
-                Quiz::lockForUpdate()->findOrFail($quiz->id);
+        $ownerId = $request->user()->id;
+        $quiz = DB::transaction(function () use ($data, $ids, $quiz, $questions, $ownerId) {
+            $quiz = $quiz ? Quiz::lockForUpdate()->findOrFail($quiz->id) : new Quiz(['owner_id' => $ownerId]);
+            // Keep question validation and attachment atomic against deletion from the bank.
+            if ($questions->get(['id'])->count() !== count($ids)) {
+                throw ValidationException::withMessages(['questions' => 'Có câu hỏi không còn khả dụng.']);
             }
             $quiz->fill(['title' => $data['title'], 'course_id' => $data['course_id'] ?? null])->save();
             $positions = [];
@@ -176,9 +192,26 @@ class LibraryController
             // Rebuild positions together to support swaps under the unique index.
             $quiz->questions()->detach();
             $quiz->questions()->attach($positions);
+
+            return $quiz;
         }, 3);
 
         return redirect()->route('eduquiz.staff.quizzes.edit', $quiz)->with('notice', 'Đã lưu bộ đề.');
+    }
+
+    public function deleteQuiz(Request $request, Quiz $quiz)
+    {
+        Access::authorize($quiz, $request->user());
+        $quiz->delete();
+
+        return redirect()->route('eduquiz.staff.quizzes')->with('notice', 'Đã xóa bộ đề.');
+    }
+
+    public function deleteAllQuizzes(Request $request)
+    {
+        $count = Access::scope(Quiz::query(), $request->user())->delete();
+
+        return redirect()->route('eduquiz.staff.quizzes')->with('notice', "Đã xóa {$count} bộ đề.");
     }
 
     private function quizOwner(Request $request, ?Quiz $quiz): User

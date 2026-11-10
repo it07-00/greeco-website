@@ -24,7 +24,15 @@
         @forelse ($questions as $question)
             <li>
                 <div><a href="{{ route('eduquiz.staff.questions.edit', $question) }}">{{ Str::limit($question->prompt, 160) }}</a><br><span class="muted small">{{ $question->options_count }} đáp án · {{ $question->seconds }} giây</span></div>
-                <form method="post" action="{{ route('eduquiz.staff.questions.copy', $question) }}">@csrf<button class="button quiet">Nhân bản</button></form>
+                <div class="actions">
+                    <form method="post" action="{{ route('eduquiz.staff.questions.copy', $question) }}">@csrf<button class="button quiet">Nhân bản</button></form>
+                    <form method="post" action="{{ route('eduquiz.staff.questions.delete', $question) }}"
+                        data-confirm="Xóa câu hỏi này khỏi ngân hàng và các bộ đề? Các phiên thi đã tạo vẫn giữ nguyên.">
+                        @csrf
+                        @method('DELETE')
+                        <button class="button danger">Xóa câu hỏi</button>
+                    </form>
+                </div>
             </li>
         @empty
             <li>Chưa có câu hỏi phù hợp.</li>
@@ -32,5 +40,16 @@
     </ul>
     @include('eduquiz.admin.pagination', ['page' => $questions])
 </section>
+@if ($questions->total())
+    <details class="card">
+        <summary>Xóa tất cả câu hỏi</summary>
+        <p>Xóa mọi câu hỏi bạn có quyền quản lý, kể cả ngoài kết quả tìm kiếm. Các bộ đề sẽ mất những câu đã xóa; các phiên thi đã tạo và kết quả vẫn được giữ.</p>
+        <form method="post" action="{{ route('eduquiz.staff.questions.delete-all') }}" data-confirm="Bạn có chắc muốn xóa tất cả câu hỏi trong phạm vi quản lý, kể cả ngoài kết quả tìm kiếm?">
+            @csrf
+            @method('DELETE')
+            <button class="button danger">Xác nhận xóa tất cả câu hỏi</button>
+        </form>
+    </details>
+@endif
 @endsection
 

@@ -59,8 +59,10 @@ function startArena(root) {
         closed: 'Đã khóa câu hỏi', revealed: 'Đã hiện đáp án', finished: 'Đã kết thúc',
     };
     const pending = new Map();
+    const selfChoices = new Map();
     let state;
     let renderKey;
+    let questionIndex = 0;
     let deadline;
     let saving = false;
     let busy = false;
@@ -120,7 +122,7 @@ function startArena(root) {
         const form = element('form');
         form.dataset.position = question.position;
         const options = element('div', 'options');
-        const selected = pending.get(question.position) ?? question.choices ?? [];
+        const selected = selfChoices.get(question.position) ?? question.choices ?? [];
         const locked = state.phase !== 'open' || (state.mode === 'live' && question.choices !== null);
         if (!host) {
             form.append(element('p', 'question-help', question.multiple ? 'Chọn nhiều đáp án.' : 'Chọn một đáp án.'));
@@ -166,7 +168,9 @@ function startArena(root) {
     }
 
     function render() {
-        const signature = JSON.stringify([state.phase, state.version, state.attempt, state.questions, state.result]);
+        const selfPaced = !host && state.mode === 'self';
+        const signature = JSON.stringify([state.phase, state.version, state.attempt,
+            selfPaced ? questionIndex : state.questions, state.result]);
         if (signature === renderKey) return;
         renderKey = signature;
         board.replaceChildren();
@@ -192,7 +196,8 @@ function startArena(root) {
                     : host ? 'Chia sẻ mã QR hoặc mã PIN để học viên tham gia.' : 'Bài thi sẽ xuất hiện khi giảng viên bắt đầu.'));
             if (host && !self) actions.append(button('Bắt đầu', 'start', 'primary'));
         } else {
-            for (const question of state.questions) board.append(questionPanel(question));
+            const questions = selfPaced ? state.questions.slice(questionIndex, questionIndex + 1) : state.questions;
+            for (const question of questions) board.append(questionPanel(question));
         }
 
         if (host) {
@@ -204,8 +209,11 @@ function startArena(root) {
                 if (state.questions[0].position + 1 < state.total) actions.append(button('Chuyển câu', 'next', 'primary'));
             }
             actions.append(button('Kết thúc phiên', 'finish', 'danger'));
-        } else if (state.mode === 'self') {
-            actions.append(button('Nộp bài', 'submit', 'primary'));
+        } else if (selfPaced && state.phase === 'open') {
+            const hasNext = questionIndex + 1 < state.questions.length;
+            if (questionIndex > 0) actions.append(button('Quay lại', 'previous-question'));
+            if (hasNext) actions.append(button('Tiếp theo', 'next-question', 'primary'));
+            actions.append(button('Nộp bài', 'submit', hasNext ? 'quiet' : 'primary'));
         }
     }
 
@@ -248,6 +256,11 @@ function startArena(root) {
         const incoming = await request(root.dataset.state);
         if (id !== serial) return;
         if (state?.questions[0]?.position !== incoming.questions[0]?.position) chartOpen = false;
+        if (state?.attempt !== incoming.attempt) {
+            questionIndex = 0;
+            selfChoices.clear();
+            pending.clear();
+        }
         state = incoming;
         deadline = state.deadline ? (started + performance.now()) / 2 + Date.parse(state.deadline) - Date.parse(state.now) : null;
         phase.textContent = phases[state.phase] ?? state.phase;
@@ -258,11 +271,6 @@ function startArena(root) {
         if (disconnected) message('Đã kết nối lại.');
         disconnected = false;
 
-        // While editing a self-paced attempt, preserve focused controls and local selections.
-        if (state.mode === 'self' && !host && state.phase === 'open' && board.querySelector('[data-choice]')) {
-            clock();
-            return;
-        }
         render();
         drawStats();
         clock();
@@ -320,7 +328,11 @@ function startArena(root) {
     }
 
     function save(form) {
-        pending.set(Number(form.dataset.position), formChoices(form));
+        const position = Number(form.dataset.position);
+        const choices = formChoices(form);
+        // Keep the last local selection even after autosave removes it from the queue.
+        selfChoices.set(position, choices);
+        pending.set(position, choices);
         message('Đang lưu lựa chọn…');
         void flush();
     }
@@ -341,9 +353,7 @@ function startArena(root) {
             }
             const endpoint = host ? 'control' : action;
             await request(root.dataset[endpoint], host ? {action, version: state.version} : data);
-            if (action === 'retry') pending.clear();
             message(action === 'answer' ? 'Đã gửi đáp án.' : '');
-            if (action === 'retry') board.replaceChildren();
             await refresh();
         } catch (error) {
             await refresh().catch(() => {});
@@ -370,6 +380,16 @@ function startArena(root) {
         if (!target) return;
         const action = target.dataset.action;
         if (action === 'send') return;
+        if (action === 'previous-question' || action === 'next-question') {
+            if (busy) return;
+            questionIndex += action === 'next-question' ? 1 : -1;
+            render();
+            clock();
+            const heading = board.querySelector('h2');
+            heading.tabIndex = -1;
+            heading.focus();
+            return;
+        }
         if (action === 'clear') {
             if (secondsLeft() === 0 || busy) return;
             const form = target.closest('form');

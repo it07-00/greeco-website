@@ -3,7 +3,10 @@
 @section('content')
 <header class="section-head">
     <div><p class="eyebrow">NỘI DUNG ĐÀO TẠO</p><h1>Bộ đề thi</h1></div>
-    <a class="button primary" href="{{ route('eduquiz.staff.quizzes.edit', ['course' => request('course')]) }}">Tạo bộ đề</a>
+    <div class="actions">
+        <a class="button quiet" href="{{ route('eduquiz.staff.guide') }}">Quy trình</a>
+        <a class="button primary" href="{{ route('eduquiz.staff.quizzes.edit', ['course' => request('course')]) }}">Tạo bộ đề</a>
+    </div>
 </header>
 <section class="card">
     @if (request('course'))<a href="{{ route('eduquiz.staff.quizzes') }}">Hiện tất cả bộ đề</a>@endif

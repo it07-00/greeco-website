@@ -45,6 +45,7 @@
         <nav class="module-nav" aria-label="Quản lý trắc nghiệm">
             @foreach ([
                 'index' => 'Tổng quan',
+                'guide' => 'Quy trình',
                 'questions' => 'Ngân hàng câu hỏi',
                 'quizzes' => 'Bộ đề thi',
                 'courses' => 'Khóa đào tạo',

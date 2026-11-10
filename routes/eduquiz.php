@@ -27,6 +27,7 @@ Route::prefix('eduquiz')->name('eduquiz.')->group(function () {
 
 Route::prefix('quan-ly-eduquiz')->name('eduquiz.staff.')->middleware(Access::class)->group(function () {
     Route::get('/', [StaffController::class, 'index'])->name('index');
+    Route::view('/quy-trinh', 'eduquiz.admin.guide')->name('guide');
     Route::get('/cai-dat', [StaffController::class, 'settings'])->name('settings');
     Route::post('/cai-dat', [StaffController::class, 'saveSettings'])->name('settings.save');
 

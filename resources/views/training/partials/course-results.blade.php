@@ -3,14 +3,14 @@
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="courses-catalog-grid">
             @foreach ($programs as $program)
                 @php
-                    $displayTitle = (string) \Illuminate\Support\Str::of($program['title'])
+                    $displayTitle = app()->getLocale() === 'en' ? $program['title'] : (string) \Illuminate\Support\Str::of($program['title'])
                         ->lower()
                         ->ucfirst()
                         ->replace(
                             ['iso', 'hse', 'esg', 'qhse', 'psm', 'pdca'],
                             ['ISO', 'HSE', 'ESG', 'QHSE', 'PSM', 'PDCA']
                         );
-                    $displayDescription = (string) \Illuminate\Support\Str::of(strip_tags($program['description']))
+                    $displayDescription = app()->getLocale() === 'en' ? strip_tags($program['description'] ?? '') : (string) \Illuminate\Support\Str::of(strip_tags($program['description']))
                         ->lower()
                         ->ucfirst()
                         ->replace(

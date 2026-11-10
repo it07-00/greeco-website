@@ -36,7 +36,7 @@ class CourseRegistrationQrCode
         return $this->renderUrl($this->selectionUrl(), $format);
     }
 
-    private function renderUrl(string $url, string $format): ResultInterface
+    public function renderUrl(string $url, string $format): ResultInterface
     {
         $qrCode = new QrCode(
             data: $url,

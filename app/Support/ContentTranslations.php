@@ -45,7 +45,7 @@ class ContentTranslations
                         ]),
                     ])->columnSpanFull(),
                     'excerpt', 'description', 'meta_description', 'instructor_description' => Textarea::make($name)->label($label)->rows(4),
-                    default => TextInput::make($name)->label($label)->maxLength(191),
+                    default => TextInput::make($name)->label($label)->maxLength(in_array($field, ['title', 'name', 'meta_title', 'meta_keywords', 'tag', 'instructor_role'], true) ? 500 : 191),
                 };
             }, self::FIELDS[$model]))
             ->collapsible()->collapsed()->columnSpanFull();

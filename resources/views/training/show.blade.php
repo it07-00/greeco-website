@@ -14,7 +14,7 @@
     ];
 
     $plainDescription = trim(strip_tags($course->description ?: ''));
-    $heroDescription = (string) \Illuminate\Support\Str::of($plainDescription)
+    $heroDescription = app()->getLocale() === 'en' ? \Illuminate\Support\Str::limit($plainDescription, 230) : (string) \Illuminate\Support\Str::of($plainDescription)
         ->lower()
         ->ucfirst()
         ->replace(['iso', 'pdca'], ['ISO', 'PDCA'])

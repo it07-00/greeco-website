@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $title }} · GREECO EduQuiz</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <link rel="stylesheet" href="{{ versioned_asset('assets/eduquiz/eduquiz.css') }}">
+    <script type="module" src="{{ versioned_asset('assets/eduquiz/eduquiz.js') }}"></script>
+</head>
+<body>
+@php
+    $staff = $staff ?? false;
+    $instructor = $staff && \App\Services\EduQuiz\Access::instructor(auth()->user());
+@endphp
+<header class="site-header">
+    <div class="page-width header-inner">
+        <a class="brand" href="{{ route($staff ? 'eduquiz.staff.index' : 'eduquiz.join') }}">
+            <span class="brand-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                    <path d="m2 9 10-5 10 5-10 5L2 9Zm4 2v5c3 4 9 4 12 0v-5m4-2v7" stroke-linejoin="round" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span>GREECO <strong>EduQuiz</strong></span>
+        </a>
+        @if ($staff)
+            <form method="post" action="{{ route($instructor ? 'filament.instructor.auth.logout' : 'filament.admin.auth.logout') }}">
+                @csrf
+                @unless ($instructor)
+                    <a class="header-link" href="{{ route('filament.admin.pages.dashboard') }}">GREECO Admin</a>
+                @endunless
+                <button class="button quiet" type="submit">Đăng xuất</button>
+            </form>
+        @else
+            <a class="header-link" href="{{ route('home') }}">Về GREECO</a>
+        @endif
+    </div>
+</header>
+
+<main class="page-width {{ $staff ? 'staff' : '' }}" id="main">
+    @if ($staff)
+        <nav class="module-nav" aria-label="Quản lý trắc nghiệm">
+            @foreach ([
+                'index' => 'Tổng quan',
+                'questions' => 'Ngân hàng câu hỏi',
+                'quizzes' => 'Bộ đề thi',
+                'courses' => 'Khóa đào tạo',
+                'rooms' => 'Phòng thi',
+                'participants' => 'Học viên',
+                'results' => 'Kết quả và thống kê',
+                ...($instructor ? [] : ['settings' => 'Cài đặt']),
+            ] as $item => $label)
+                @php($active = request()->routeIs('eduquiz.staff.'.$item, 'eduquiz.staff.'.$item.'.*'))
+                <a href="{{ route('eduquiz.staff.'.$item) }}" @if($active) aria-current="page" @endif>{{ $label }}</a>
+            @endforeach
+        </nav>
+    @endif
+    @if (session('notice'))
+        <p class="notice" role="status">{{ session('notice') }}</p>
+    @endif
+    @if ($errors->any())
+        <div class="notice error" role="alert">
+            <strong>Vui lòng kiểm tra thông tin</strong>
+            <ul>@foreach ($errors->all() as $message)<li>{{ $message }}</li>@endforeach</ul>
+        </div>
+    @endif
+    @yield('content')
+</main>
+<footer class="page-width site-footer">Viện Nghiên cứu và Phát triển Kinh tế Xanh · GREECO</footer>
+</body>
+</html>
+

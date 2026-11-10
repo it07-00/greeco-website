@@ -6,6 +6,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -32,6 +33,11 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('GREECO Admin')
             ->font('Outfit')
             ->sidebarCollapsibleOnDesktop()
+            ->navigationItems([
+                NavigationItem::make('Quản lý trắc nghiệm')
+                    ->url(fn () => route('eduquiz.staff.index'))
+                    ->icon('heroicon-o-academic-cap'),
+            ])
             ->colors([
                 'primary' => Color::Emerald,
             ])

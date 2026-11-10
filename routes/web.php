@@ -89,6 +89,8 @@ Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.stor
 // Sitemap.xml
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
+require __DIR__.'/eduquiz.php';
+
 // Universal slug resolver — MUST be last so explicit routes keep priority.
 // Resolves slugs across all content types: Post → Course → Project → Service → Page.
 Route::get('/{slug}', [SlugController::class, 'show'])

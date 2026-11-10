@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\EduQuiz\Access;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
@@ -21,8 +22,11 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // User accounts belong to administrators; public registrations use CourseRegistration.
-        return $panel->getId() === 'admin';
+        return match ($panel->getId()) {
+            'admin' => ! Access::instructor($this),
+            'instructor' => Access::instructor($this),
+            default => false,
+        };
     }
 
     /**

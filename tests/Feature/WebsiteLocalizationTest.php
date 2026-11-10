@@ -9,6 +9,7 @@ use App\Models\Page;
 use App\Models\Service;
 use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -64,6 +65,23 @@ class WebsiteLocalizationTest extends TestCase
         $this->assertSame('English service', $service->name);
         $this->assertSame('English summary', $service->short_description);
         $this->assertNull($service->slug);
+    }
+
+    public function test_english_course_cards_and_details_keep_acronyms_from_saved_translations(): void
+    {
+        Http::fake();
+        $course = Course::create([
+            'title' => 'Khóa đào tạo', 'slug' => 'esg-ai-training', 'price' => 'Liên hệ', 'is_active' => true,
+            'translations' => ['en' => [
+                'title' => 'ESG and AI Training', 'description' => 'ISO and ESG for Businesses',
+            ]],
+        ]);
+
+        $this->get(route('services.dao-tao', ['lang' => 'en', 'search' => 'ESG and AI Training']))
+            ->assertOk()->assertSee('ESG and AI Training')->assertSee('ISO and ESG for Businesses');
+        $this->get(route('slug.show', [$course->slug, 'lang' => 'en']))
+            ->assertOk()->assertSee('ISO and ESG for Businesses');
+        Http::assertNothingSent();
     }
 
     public function test_english_search_ajax_and_pagination_keep_the_selected_locale(): void

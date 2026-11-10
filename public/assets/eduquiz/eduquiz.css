@@ -245,7 +245,6 @@ main {
     gap: 6px;
     color: var(--green);
     background: var(--green-soft);
-    border: 1px solid var(--green-border);
     padding: 4px 11px;
     border-radius: 999px;
     font-size: 0.73rem;
@@ -373,7 +372,6 @@ main {
     margin-inline: auto;
     position: relative;
     overflow: hidden;
-    border-top: 4px solid var(--green);
     box-shadow: var(--shadow-md);
 }
 
@@ -442,16 +440,7 @@ main {
     gap: 8px;
     position: relative;
     overflow: hidden;
-    border-left: 4px solid var(--green);
     margin-bottom: 0;
-}
-
-.metric:nth-child(2) {
-    border-left-color: var(--a);
-}
-
-.metric:nth-child(3) {
-    border-left-color: var(--amber);
 }
 
 .metric span.muted {
@@ -853,7 +842,6 @@ tbody tr:hover {
 .arena-shell {
     max-width: 960px;
     margin-inline: auto;
-    border-top: 4px solid var(--navy);
     box-shadow: var(--shadow-md);
 }
 
@@ -906,7 +894,6 @@ tbody tr:hover {
     padding: 6px 14px;
     border-radius: 999px;
     background: var(--green-soft);
-    border: 1px solid var(--green-border);
     color: var(--green-dark);
     font-weight: 700;
     font-size: 0.8rem;
@@ -1113,7 +1100,6 @@ tbody tr:hover {
     border-radius: 999px;
     padding: 4px 11px;
     background: rgba(16, 185, 129, 0.2);
-    border: 1px solid rgba(52, 211, 153, 0.35);
     color: #a7f3d0;
     font-size: 0.76rem;
     font-weight: 700;
@@ -1146,7 +1132,7 @@ tbody tr:hover {
     min-height: 74px;
     position: relative;
     padding: 14px 16px;
-    border: 2.5px solid rgba(255, 255, 255, 0.18);
+    border: 2px solid transparent;
     border-radius: 16px;
     background: var(--choice-color);
     color: white;
@@ -1203,8 +1189,8 @@ label.option:has(input:checked) {
 }
 
 .option[data-correct] {
-    border-color: #6ee7b7;
-    box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.45), 0 6px 18px rgba(0, 0, 0, 0.25);
+    border-color: #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .option input {
@@ -1242,7 +1228,6 @@ label.option:has(input:checked) {
     border-radius: var(--radius-md);
     margin-top: 14px;
     background: rgba(255, 255, 255, 0.12);
-    border-left: 4px solid #34d399;
     color: #f8fafc;
     font-size: 0.92rem;
     white-space: pre-line;

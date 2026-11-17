@@ -2,11 +2,15 @@
 
 namespace App\Filament\Resources\Contacts\Tables;
 
+use App\Models\Contact;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class ContactsTable
@@ -22,14 +26,19 @@ class ContactsTable
                 TextColumn::make('name')
                     ->label('Họ tên')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('bold'),
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->copyable()
+                    ->copyMessage('Đã sao chép email'),
                 TextColumn::make('phone')
                     ->label('Số điện thoại')
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Đã sao chép số điện thoại'),
                 TextColumn::make('subject')
                     ->label('Tiêu đề')
                     ->searchable(),
@@ -43,9 +52,18 @@ class ContactsTable
                     ->sortable(),
             ])
             ->filters([
-                //
+                TernaryFilter::make('is_read')
+                    ->label('Trạng thái đọc')
+                    ->trueLabel('Đã đọc')
+                    ->falseLabel('Chưa đọc'),
             ])
             ->recordActions([
+                Action::make('mark_read')
+                    ->label('Đã đọc')
+                    ->icon(Heroicon::OutlinedCheck)
+                    ->color('success')
+                    ->visible(fn (Contact $record): bool => ! $record->is_read)
+                    ->action(fn (Contact $record) => $record->update(['is_read' => true])),
                 EditAction::make(),
             ])
             ->toolbarActions([

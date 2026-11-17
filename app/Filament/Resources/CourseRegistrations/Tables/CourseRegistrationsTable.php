@@ -3,10 +3,13 @@
 namespace App\Filament\Resources\CourseRegistrations\Tables;
 
 use App\Models\CourseRegistration;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class CourseRegistrationsTable
@@ -19,7 +22,10 @@ class CourseRegistrationsTable
                 TextColumn::make('code')
                     ->label('Mã đăng ký')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('bold')
+                    ->copyable()
+                    ->copyMessage('Đã sao chép mã đăng ký'),
                 TextColumn::make('course.title')
                     ->label('Khóa học')
                     ->searchable()
@@ -34,7 +40,9 @@ class CourseRegistrationsTable
                     ->searchable(),
                 TextColumn::make('contact_phone')
                     ->label('Điện thoại')
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Đã sao chép số điện thoại'),
                 TextColumn::make('attendee_count')
                     ->label('Học viên')
                     ->numeric()
@@ -82,8 +90,25 @@ class CourseRegistrationsTable
                         'website' => 'Website',
                         'qr' => 'QR',
                     ]),
+                TernaryFilter::make('is_read')
+                    ->label('Trạng thái xem')
+                    ->trueLabel('Đã xem')
+                    ->falseLabel('Chưa xem'),
             ])
             ->recordActions([
+                Action::make('mark_read')
+                    ->label('Đã xem')
+                    ->icon(Heroicon::OutlinedEye)
+                    ->color('gray')
+                    ->visible(fn (CourseRegistration $record): bool => ! $record->is_read)
+                    ->action(fn (CourseRegistration $record) => $record->update(['is_read' => true])),
+                Action::make('confirm')
+                    ->label('Xác nhận')
+                    ->icon(Heroicon::OutlinedCheckCircle)
+                    ->color('success')
+                    ->visible(fn (CourseRegistration $record): bool => $record->status !== 'confirmed')
+                    ->requiresConfirmation()
+                    ->action(fn (CourseRegistration $record) => $record->update(['status' => 'confirmed', 'is_read' => true])),
                 EditAction::make(),
             ]);
     }

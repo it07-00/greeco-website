@@ -2,8 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\ActivityChartWidget;
 use App\Filament\Widgets\DetailedActivityBreakdownWidget;
 use App\Filament\Widgets\StatsOverview;
+use App\Models\EduQuiz\Room;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -32,12 +34,18 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->profile()
             ->brandName('GREECO Admin')
+            ->favicon(asset('assets/images/logo-emblem-cropped.png'))
             ->font('Outfit')
             ->sidebarCollapsibleOnDesktop()
             ->navigationItems([
                 NavigationItem::make('Quản lý trắc nghiệm')
                     ->url(fn () => route('eduquiz.staff.index'))
-                    ->icon('heroicon-o-academic-cap'),
+                    ->icon('heroicon-o-academic-cap')
+                    ->badge(function (): ?string {
+                        $open = Room::whereNull('finished_at')->count();
+
+                        return $open > 0 ? (string) $open : null;
+                    }, color: 'success'),
             ])
             ->colors([
                 'primary' => Color::Emerald,
@@ -51,6 +59,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 StatsOverview::class,
                 DetailedActivityBreakdownWidget::class,
+                ActivityChartWidget::class,
                 AccountWidget::class,
             ])
             ->middleware([

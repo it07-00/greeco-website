@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Filament\Resources\Contacts\Pages\ListContacts;
 use App\Filament\Resources\CourseRegistrations\Pages\ListCourseRegistrations;
+use App\Filament\Resources\Users\Pages\ListUsers;
+use App\Filament\Widgets\ActivityChartWidget;
 use App\Filament\Widgets\DetailedActivityBreakdownWidget;
 use App\Models\Contact;
 use App\Models\Course;
@@ -68,6 +70,7 @@ class AdminDashboardExcelTest extends TestCase
             ->assertSee('Đăng ký khóa học mới')
             ->assertSee('Liên hệ chưa đọc')
             ->assertSee('Thống kê chi tiết hoạt động theo Ngày / Tuần / Tháng / Năm')
+            ->assertSee('Biểu đồ Hoạt động Đào tạo, Trắc nghiệm &amp; Liên hệ', false)
             ->assertSee('Xuất Excel (.xlsx)');
 
         $response = app(ActivityStatsExcelExport::class)->download();
@@ -107,13 +110,26 @@ class AdminDashboardExcelTest extends TestCase
             ->call('exportExcel')
             ->assertFileDownloaded();
 
+        Livewire::test(ActivityChartWidget::class)
+            ->set('filter', 'month')
+            ->assertOk();
+
         Livewire::test(ListCourseRegistrations::class)
             ->callAction('export_excel')
             ->assertFileDownloaded();
 
+        Livewire::test(ListCourseRegistrations::class)
+            ->callTableAction('confirm', $registration);
+        $this->assertSame('confirmed', $registration->fresh()->status);
+        $this->assertTrue($registration->fresh()->is_read);
+
         Livewire::test(ListContacts::class)
             ->callAction('export_excel')
             ->assertFileDownloaded();
+
+        Livewire::test(ListUsers::class)
+            ->assertOk()
+            ->assertSee($admin->email);
     }
 
     public function test_instructor_cannot_export_admin_excel(): void

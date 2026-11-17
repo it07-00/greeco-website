@@ -1,6 +1,19 @@
 @font-face {
     font-family: "Be Vietnam Pro";
     src: url("../fonts/be-vietnam-pro/BeVietnamPro-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Be Vietnam Pro";
+    src: url("../fonts/be-vietnam-pro/BeVietnamPro-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Be Vietnam Pro";
+    src: url("../fonts/be-vietnam-pro/BeVietnamPro-SemiBold.ttf") format("truetype");
+    font-weight: 600;
     font-display: swap;
 }
 @font-face {
@@ -1423,9 +1436,117 @@ label.option:has(input:checked) {
     border-top: 1px solid var(--line);
 }
 
+/* Guide Steps (/quan-ly-eduquiz/quy-trinh) */
+.guide-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+}
+
+.guide-step {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px 18px;
+    padding: 18px 20px;
+    background: #fafcfe;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guide-step:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+    background: white;
+}
+
+.guide-step-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1 1 360px;
+    min-width: 0;
+}
+
+.guide-step-num {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--green) 0%, var(--navy) 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(10, 123, 92, 0.2);
+}
+
+.guide-step-body {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.guide-step-body h3 {
+    font-size: 1.04rem;
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.guide-modes {
+    display: grid;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.guide-mode {
+    padding: 10px 14px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+.guide-mode strong {
+    color: var(--green-dark);
+}
+
+/* SweetAlert2 Font & Theme Consistency */
+.swal2-popup {
+    font-family: "Be Vietnam Pro", system-ui, -apple-system, sans-serif !important;
+    border-radius: var(--radius) !important;
+}
+
+.swal2-title {
+    color: var(--navy) !important;
+    font-weight: 700 !important;
+}
+
+.swal2-html-container {
+    color: var(--ink-secondary) !important;
+}
+
+.swal2-styled.swal2-confirm {
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    padding: 10px 22px !important;
+}
+
+.swal2-styled.swal2-cancel {
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    padding: 10px 22px !important;
+}
+
 @media (min-width: 690px) {
     .field-grid,
-    .options {
+    .options,
+    .guide-modes {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .field-grid.three,

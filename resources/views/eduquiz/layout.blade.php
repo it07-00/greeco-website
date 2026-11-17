@@ -8,9 +8,13 @@
     <title>{{ $title }} · GREECO EduQuiz</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ versioned_asset('assets/eduquiz/eduquiz.css') }}">
+    <script defer src="{{ versioned_asset('assets/eduquiz/sweetalert2.all.min.js') }}"></script>
     <script type="module" src="{{ versioned_asset('assets/eduquiz/eduquiz.js') }}"></script>
 </head>
-<body>
+<body
+    @if (session('notice')) data-flash-notice="{{ session('notice') }}" @endif
+    @if ($errors->any()) data-flash-error="{{ implode("\n", $errors->all()) }}" @endif
+>
 @php
     $staff = $staff ?? false;
     $instructor = $staff && \App\Services\EduQuiz\Access::instructor(auth()->user());

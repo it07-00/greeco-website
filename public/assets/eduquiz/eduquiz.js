@@ -1,6 +1,35 @@
 const csrf = document.querySelector('meta[name="csrf-token"]').content;
 const letter = (index) => 'ABCDEF'[index];
 
+function toast(title, icon = 'success') {
+    if (!window.Swal || !title) return;
+    window.Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon,
+        title,
+        showConfirmButton: false,
+        timer: icon === 'error' ? 4200 : 2800,
+        timerProgressBar: true,
+    });
+}
+
+async function confirmDialog(text, {title = 'Xác nhận thao tác', confirmText = 'Đồng ý', danger = false} = {}) {
+    if (!window.Swal) return window.confirm(text);
+    const result = await window.Swal.fire({
+        icon: danger ? 'warning' : 'question',
+        title,
+        text,
+        showCancelButton: true,
+        confirmButtonText: confirmText,
+        cancelButtonText: 'Hủy',
+        confirmButtonColor: danger ? '#be123c' : '#0a7b5c',
+        cancelButtonColor: '#64748b',
+        reverseButtons: true,
+    });
+    return result.isConfirmed;
+}
+
 function element(tag, className, label) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -358,6 +387,7 @@ function startArena(root) {
         } catch (error) {
             await refresh().catch(() => {});
             message(error.message, true);
+            toast(error.message, 'error');
         } finally {
             busy = false;
             actions.querySelectorAll('button').forEach((node) => { node.disabled = false; });
@@ -372,10 +402,13 @@ function startArena(root) {
         event.preventDefault();
         if (host || state.mode !== 'live') return;
         const choices = formChoices(event.target);
-        if (!choices.length) return message('Chọn đáp án trước khi gửi.', true);
+        if (!choices.length) {
+            toast('Chọn đáp án trước khi gửi.', 'warning');
+            return message('Chọn đáp án trước khi gửi.', true);
+        }
         void perform('answer', {position: Number(event.target.dataset.position), choices});
     });
-    root.addEventListener('click', (event) => {
+    root.addEventListener('click', async (event) => {
         const target = event.target.closest('[data-action]');
         if (!target) return;
         const action = target.dataset.action;
@@ -403,9 +436,9 @@ function startArena(root) {
             drawStats();
             return;
         }
-        if (action === 'finish' && !confirm('Kết thúc phiên và chốt kết quả cho tất cả học viên?')) return;
-        if (action === 'submit' && !confirm('Nộp và chấm điểm bài làm hiện tại?')) return;
-        if (action === 'retry' && !confirm('Bắt đầu lượt làm bài mới ngay bây giờ?')) return;
+        if (action === 'finish' && !(await confirmDialog('Kết thúc phiên và chốt kết quả cho tất cả học viên?', {title: 'Kết thúc phiên thi', confirmText: 'Kết thúc', danger: true}))) return;
+        if (action === 'submit' && !(await confirmDialog('Nộp và chấm điểm bài làm hiện tại?', {title: 'Nộp bài thi', confirmText: 'Nộp bài'}))) return;
+        if (action === 'retry' && !(await confirmDialog('Bắt đầu lượt làm bài mới ngay bây giờ?', {title: 'Làm lại bài thi', confirmText: 'Bắt đầu'}))) return;
         void perform(action);
     });
     window.setInterval(clock, 250);
@@ -421,10 +454,12 @@ function startBuilder(builder) {
         if (target.matches('[data-add-question]')) {
             if (!picker.value) {
                 feedback.textContent = 'Chọn câu hỏi cần thêm.';
+                toast('Chọn câu hỏi cần thêm.', 'warning');
                 return;
             }
             if ([...list.querySelectorAll('input')].some((input) => input.value === picker.value)) {
                 feedback.textContent = 'Câu hỏi đã có trong bộ đề.';
+                toast('Câu hỏi đã có trong bộ đề.', 'info');
                 return;
             }
             const item = element('li');
@@ -442,6 +477,7 @@ function startBuilder(builder) {
             list.append(item);
             picker.value = '';
             feedback.textContent = 'Đã thêm câu hỏi.';
+            toast('Đã thêm câu hỏi vào bộ đề.', 'success');
         }
         if (!target.matches('[data-order]')) return;
         const item = target.closest('li');
@@ -472,8 +508,16 @@ document.querySelectorAll('[data-room-form]').forEach((form) => {
     sync();
 });
 document.querySelectorAll('form[data-confirm]').forEach((form) => {
-    form.addEventListener('submit', (event) => {
-        if (!confirm(form.dataset.confirm)) event.preventDefault();
+    form.addEventListener('submit', async (event) => {
+        if (form.dataset.confirmed === 'true') {
+            form.dataset.confirmed = '';
+            return;
+        }
+        event.preventDefault();
+        if (await confirmDialog(form.dataset.confirm, {title: 'Xác nhận xóa / thực hiện', confirmText: 'Xác nhận', danger: true})) {
+            form.dataset.confirmed = 'true';
+            form.submit();
+        }
     });
 });
 document.querySelectorAll('[data-copy]').forEach((target) => {
@@ -481,8 +525,23 @@ document.querySelectorAll('[data-copy]').forEach((target) => {
         try {
             await navigator.clipboard.writeText(target.dataset.copy);
             target.textContent = 'Đã sao chép';
+            toast('Đã sao chép liên kết phòng thi.', 'success');
         } catch {
             target.textContent = 'Hãy chọn và sao chép liên kết bên trên';
+            toast('Không thể tự động sao chép. Hãy chọn và sao chép liên kết.', 'warning');
         }
     });
 });
+
+if (document.body.dataset.flashNotice) {
+    toast(document.body.dataset.flashNotice, 'success');
+}
+if (document.body.dataset.flashError && window.Swal) {
+    window.Swal.fire({
+        icon: 'error',
+        title: 'Vui lòng kiểm tra thông tin',
+        text: document.body.dataset.flashError,
+        confirmButtonColor: '#0a7b5c',
+        confirmButtonText: 'Đã hiểu',
+    });
+}
